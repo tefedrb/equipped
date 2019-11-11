@@ -4,7 +4,9 @@ import com.example.equippedbackend.Model.Company;
 import com.example.equippedbackend.Repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
