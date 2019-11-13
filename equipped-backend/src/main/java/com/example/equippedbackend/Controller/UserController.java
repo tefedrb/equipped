@@ -7,15 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/create")
-    public HttpStatus createUser(@RequestBody User user) {
-        userService.createUser(user);
-        return HttpStatus.OK;
+    @PostMapping("/signup")
+    public String createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 
     @GetMapping("/listall")

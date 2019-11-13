@@ -14,15 +14,18 @@ public class User {
     private long id;
 
     @Column(unique = true, nullable = false)
-    private String fullName;
+    private String username;
 
     @Column(nullable = false)
     private String title;
 
+    @Column
+    private String password;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH})
     @JsonBackReference
-    @JoinColumn(name = "user_role_id", nullable = false)
+    @JoinColumn(name = "user_rolename_id", nullable = false)
     private UserRole userRole;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -32,9 +35,9 @@ public class User {
 
     public User() {}
 
-    public User(long id, String fullName, String title){
+    public User(long id, String username, String title){
         this.id = id;
-        this.fullName = fullName;
+        this.username = username;
         this.title = title;
     }
 
@@ -46,12 +49,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFullName(){
-        return fullName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFullName(String fullName){
-        this.fullName = fullName;
+    public void setUsername(String username){
+        this.username = username;
     }
 
     public String getTitle(){
@@ -60,6 +63,14 @@ public class User {
 
     public void setTitle(String title){
         this.title = title;
+    }
+
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Company getCompany(){

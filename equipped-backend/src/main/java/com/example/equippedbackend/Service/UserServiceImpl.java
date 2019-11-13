@@ -1,12 +1,22 @@
 package com.example.equippedbackend.Service;
 
+import com.example.equippedbackend.Config.JwtUtil;
 import com.example.equippedbackend.Model.User;
 import com.example.equippedbackend.Model.UserRole;
 import com.example.equippedbackend.Repository.UserRepository;
 import com.example.equippedbackend.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -19,10 +29,17 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRoleService userRoleService;
+
+    @Autowired
+    JwtUtil jwtutil;
 //    @Override
 //    public User getUserByName(String name) {
 //        return userRepository.findByUserName();
 //    }
+
+    @Autowired
+    @Qualifier("encoder")
+    PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public Iterable<User> listUsers() {
@@ -30,16 +47,53 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public HttpStatus createUser(User newUser) {
+    public String createUser(User newUser) {
         UserRole userRole = userRoleService.getRole(newUser.getUserRole().getRoleType());
         newUser.setUserRole(userRole);
-        userRepository.save(newUser);
-        return HttpStatus.OK;
+        newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+        if(userRepository.save(newUser) != null){
+            UserDetails userDetails = loadUserByUsername(newUser.getUsername());
+            return jwtutil.generateToken(userDetails);
+        };
+        return null;
     }
 
     @Override
     public HttpStatus deleteUserById(long id) {
         userRepository.deleteById(id);
         return HttpStatus.OK;
+    }
+
+    @Override
+    public User getUser(String username) {
+        return userRepository.findByUserName(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = getUser(username);
+
+        if(user==null)
+            throw new UsernameNotFoundException("User null");
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
+                true, true, true, true, getGrantedAuthorities(user));
+    }
+
+    @Override
+    public String login(User user){
+        User newUser = userRepository.findByUserName(user.getUsername());
+
+        if(newUser != null && bCryptPasswordEncoder.matches(user.getPassword(), user.getPassword())){
+            UserDetails userDetails = loadUserByUsername(newUser.getUsername());
+            return jwtutil.generateToken(userDetails);
+        }
+        return null;
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(User user){
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add( new SimpleGrantedAuthority(user.getUserRole().getRoleType()));
+
+        return authorities;
     }
 }
