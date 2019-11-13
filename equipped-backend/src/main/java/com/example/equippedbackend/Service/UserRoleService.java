@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public interface UserRoleService {
     public Iterable<UserRole> listRoles();
-    public HttpStatus createRole(UserRole newRole);
+    public UserRole createRole(UserRole newRole);
     public HttpStatus deleteRoleById(long id);
+    public UserRole getRole(String roleName);
 }

@@ -11,7 +11,11 @@ public class Company {
     @Id
     @GeneratedValue
     private long company_id;
+
+    @Column(unique = true)
     private String name;
+
+    @Column
     private String type;
 
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,

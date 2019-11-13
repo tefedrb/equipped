@@ -18,14 +18,19 @@ public class UserRoleServiceImpl implements UserRoleService{
     }
 
     @Override
-    public HttpStatus createRole(UserRole newRole) {
-        userRoleRepository.save(newRole);
-        return HttpStatus.OK;
+    public UserRole createRole(UserRole newRole) {
+        return userRoleRepository.save(newRole);
     }
 
     @Override
     public HttpStatus deleteRoleById(long id) {
         userRoleRepository.deleteById(id);
         return HttpStatus.OK;
+    }
+
+    @Override
+    public UserRole getRole(String roleName){
+        System.out.println(userRoleRepository.findByName(roleName) + " Here we are!!!");
+        return userRoleRepository.findByName(roleName);
     }
 }

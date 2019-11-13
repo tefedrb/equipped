@@ -23,4 +23,5 @@ public class CompanyController {
     public Iterable<Company> getAllCompanies(){
         return companyService.getAllCompanies();
     }
+
 }
