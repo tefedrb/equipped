@@ -8,6 +8,7 @@ import com.example.equippedbackend.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -81,10 +83,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String login(User user){
-        User newUser = userRepository.findByUserName(user.getUsername());
+        User returnUser = userRepository.findByUserName(user.getUsername());
 
-        if(newUser != null && bCryptPasswordEncoder.matches(user.getPassword(), user.getPassword())){
-            UserDetails userDetails = loadUserByUsername(newUser.getUsername());
+        if(returnUser != null && bCryptPasswordEncoder.matches(user.getPassword(), user.getPassword())){
+            UserDetails userDetails = loadUserByUsername(returnUser.getUsername());
             return jwtutil.generateToken(userDetails);
         }
         return null;
@@ -96,4 +98,22 @@ public class UserServiceImpl implements UserService{
 
         return authorities;
     }
+
+    @Override
+    public ResponseEntity<?> updateUser(long id, User userReq){
+            User user = userRepository.findById(id).get();
+            user.setTitle(userReq.getTitle());
+            user.setCompany(userReq.getCompany());
+            user.setUsername(userReq.getUsername());
+            user.setPassword(user.getPassword());
+            userRepository.save(user);
+        return ResponseEntity.ok("updated");
+    }
+
+//    @Override
+//    public User returnUser(long id, Object reqObj){
+//        User user = userRepository.findById(id).get();
+//        if(reqObj)
+//    }
+
 }
