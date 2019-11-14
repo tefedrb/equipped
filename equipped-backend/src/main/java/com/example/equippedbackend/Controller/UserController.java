@@ -1,5 +1,6 @@
 package com.example.equippedbackend.Controller;
 
+import com.example.equippedbackend.Model.JwtResponse;
 import com.example.equippedbackend.Model.User;
 import com.example.equippedbackend.Repository.UserRepository;
 import com.example.equippedbackend.Service.UserService;
@@ -20,8 +21,13 @@ public class UserController {
     UserRepository userRepository;
 
     @PostMapping("/signup")
-    public String createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity createUser(@RequestBody User user) {
+        return ResponseEntity.ok(new JwtResponse(userService.createUser(user)));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user){
+        return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
 
     @GetMapping("/listall")
