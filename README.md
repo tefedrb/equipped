@@ -22,6 +22,7 @@
 
 # General Approach
 ![Entity-Relationship-Diagram](/readmeImgs/erd_UI.png)
+![UI-brainstorm](/readmeImgs/erd_UI.png)
 - I sketched out a very basic ERD with the expectation that I was definitely going to appreciate working on executing a simple design.
 - I knew I wanted to start by focusing on the backend, in particular spending time dissecting the security features of the app and build a stronger understanding of things were working before beginning the UI.
 - Once I realized I wasn't going to have enough time to do what I wanted to do before the deadline, I mad sure to focus on working with React.
