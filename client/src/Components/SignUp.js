@@ -29,7 +29,7 @@ class SignUp extends Component {
         username: this.state.username,
         password: this.state.password,
         title: this.state.title,
-        userRole : {
+        userRole: {
           roleType: "BASIC"
         }
       })

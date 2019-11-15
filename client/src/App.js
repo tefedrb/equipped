@@ -3,18 +3,16 @@ import './App.css';
 import SignUp from './Components/SignUp';
 import LogIn from './Components/LogIn';
 import Home from './Components/Home';
-import styled from 'styled-components';
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      jwt: null,
+      jwt: null
     }
     this.updateJwt = this.updateJwt.bind(this);
   }
