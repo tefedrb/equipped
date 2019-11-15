@@ -73,7 +73,7 @@ class SignUp extends Component {
       <Button onClick={this.toggleForm}>Sign Up</Button>
         <form className={`signup ${this.state.isFormVisible ? "" : "hide"}`} onSubmit={this.handleSubmit}>
             <input name="title"
-              type="text" value={this.state.email}
+              type="text" value={this.state.title}
               placeholder="title..."
               onChange={this.handleChange}
             />

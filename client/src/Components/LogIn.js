@@ -27,11 +27,7 @@ class LogIn extends Component {
       },
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.password,
-        title: this.state.title,
-        userRole : {
-          roleType: "BASIC"
-        }
+        password: this.state.password
       })
     })
     .then(res => res.json())
@@ -72,11 +68,6 @@ class LogIn extends Component {
       <div>
       <Button onClick={this.toggleForm}>Sign Up</Button>
         <form className={`signup ${this.state.isFormVisible ? "" : "hide"}`} onSubmit={this.handleSubmit}>
-            <input name="title"
-              type="text" value={this.state.email}
-              placeholder="title..."
-              onChange={this.handleChange}
-            />
             <input name="username"
               type="text"
               value={this.state.username}
