@@ -27,7 +27,7 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
 
-    @GetMapping("/listall")
+    @GetMapping("/user/listall")
     public Iterable<User> listUsers(){
        return userService.listUsers();
     }
