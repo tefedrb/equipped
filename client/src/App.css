@@ -7,7 +7,10 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-image: url('./pictures/gear-layout.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,4 +35,10 @@
 
 .signup input {
   margin: 20px;
+  opacity: 1;
+  transition: all .5s ease;
+}
+
+.hide {
+  opacity: 0;
 }

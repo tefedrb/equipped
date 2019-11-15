@@ -3,7 +3,7 @@ import '../App.css';
 import {Redirect} from 'react-router-dom';
 import styled from 'styled-components';
 
-class SignUp extends Component {
+class LogIn extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -19,7 +19,7 @@ class SignUp extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-    fetch("http://localhost:8082/signup", {
+    fetch("http://localhost:8082/login", {
       method: 'post',
       headers: {
         "Accept" : 'application/json, text/plain, */*',
@@ -95,5 +95,3 @@ class SignUp extends Component {
     );
   }
 }
-
-export default SignUp;

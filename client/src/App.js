@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import SignUp from './Components/SignUp';
 import Home from './Components/Home';
+import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,7 +22,6 @@ class App extends Component {
     this.setState({
       jwt: token
     })
-    console.log(token, '<--- WEEEEEE')
   }
 
   render(){
@@ -29,13 +29,15 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <Router>
-            <Route exact path="/"
+            <Route
+              exact path="/"
               component={() => <SignUp updateJwt={this.updateJwt}
-              jwt={this.state.jwt}/>}
+                jwt={this.state.jwt} />}
               test="stuff"
             />
-            <Route path="/home"
-              component={() => <Home jwt={this.state.jwt}/>}
+            <Route
+              path="/home"
+              component={() => <Home jwt={this.state.jwt} />}
             />
           </Router>
         </header>
