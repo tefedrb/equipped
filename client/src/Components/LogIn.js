@@ -62,12 +62,15 @@ class LogIn extends Component {
       font-size: calc(10px + 2vmin);
       margin: 0 1em;
       padding: 0.25em 1em;
-    `
+      &:hover{
+        background-color: rgba(37, 208, 125, 1)
+      }
+    `;
 
     return (
       <div>
-      <Button onClick={this.toggleForm}>Sign Up</Button>
-        <form className={`signup ${this.state.isFormVisible ? "" : "hide"}`} onSubmit={this.handleSubmit}>
+      <Button onClick={this.toggleForm}>Log In</Button>
+        <form className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} onSubmit={this.handleSubmit}>
             <input name="username"
               type="text"
               value={this.state.username}
@@ -86,3 +89,5 @@ class LogIn extends Component {
     );
   }
 }
+
+export default LogIn;

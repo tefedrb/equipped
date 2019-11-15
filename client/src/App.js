@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import SignUp from './Components/SignUp';
+import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 import styled from 'styled-components';
 import {
@@ -27,20 +28,22 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-        <header className="App-header">
           <Router>
             <Route
               exact path="/"
               component={() => <SignUp updateJwt={this.updateJwt}
                 jwt={this.state.jwt} />}
-              test="stuff"
+            />
+            <Route
+              exact path="/"
+              component={() => <LogIn updateJwt={this.updateJwt}
+                jwt={this.state.jwt} />}
             />
             <Route
               path="/home"
               component={() => <Home jwt={this.state.jwt} />}
             />
           </Router>
-        </header>
       </div>
     );
   }

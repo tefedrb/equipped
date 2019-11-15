@@ -1,0 +1,90 @@
+package com.example.usersapi.Model;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column
+    private String password;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH})
+    @JsonBackReference
+    @JoinColumn(name = "user_rolename_id", nullable = false)
+    private com.example.usersapi.Model.UserRole userRole;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH})
+    @JoinColumn(name = "user_company")
+    private com.example.usersapi.Model.Company company;
+
+    public User() {}
+
+    public User(long id, String username, String title){
+        this.id = id;
+        this.username = username;
+        this.title = title;
+    }
+
+    public long getId(){
+        return id;
+    }
+
+    public void setId(long id){
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+    public String getTitle(){
+        return title;
+    }
+
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public com.example.usersapi.Model.Company getCompany(){
+        return company;
+    }
+
+    public void setCompany(com.example.usersapi.Model.Company company) {
+        this.company = company;
+    }
+
+    public com.example.usersapi.Model.UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(com.example.usersapi.Model.UserRole userRole) {
+        this.userRole = userRole;
+    }
+}
