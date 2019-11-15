@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
+import '../App.css';
+import {Redirect} from 'react-router-dom';
 
 class SignUp extends Component {
   constructor(props){
     super(props);
     this.state = {
-      jwt: '',
       title: '',
       username: '',
       password: ''
@@ -17,6 +13,10 @@ class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+
+  // componentDidMount(){
+  //   console.log(this.props, "<---- PROPS")
+  // }
 
   handleSubmit(event){
     event.preventDefault();
@@ -36,7 +36,10 @@ class SignUp extends Component {
       })
     })
     .then(res => res.json())
-    .then(res => this.setState({jwt: res.token}))
+    .then(res => {
+        this.props.updateJwt(res.token)
+      }
+    )
   }
 
   handleChange(event){
@@ -48,11 +51,14 @@ class SignUp extends Component {
   }
 
   render(){
+    if(this.props.jwt) return <Redirect to="/home" />;
+    if(this.props.jwt) console.log('Eh?', this.props.jwt)
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form className="signup" onSubmit={this.handleSubmit}>
           <label>
             Sign Up
+          </label>
             <input name="title"
               type="text" value={this.state.email}
               placeholder="title..."
@@ -70,7 +76,6 @@ class SignUp extends Component {
               onChange={this.handleChange}
               placeholder="password..."
             />
-          </label>
           <input type="submit" value="Submit" />
         </form>
       </div>

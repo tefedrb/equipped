@@ -20,3 +20,16 @@
 .App-link {
   color: #09d3ac;
 }
+
+.signup {
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all .5s ease;
+}
+
+.signup input {
+  margin: 20px;
+}
