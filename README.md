@@ -20,6 +20,13 @@
   - I should have asked for help more often. Dealing with errors in the backend slowed me down.
   - I should have allowed myself more time to complete each step of the process.
 
+# What's left to do?
+- To finish the API, maybe redesign the models and relationships a bit.
+- Finish the UI - adding a company inventory & personal inventory section - be able to have a change in inventory reflected throughout the company, for instance if a piece of equipment is being used for a shoot.
+- Figure out a way to incorporate the Google Calendar API for reservations etc.
+- A simplification of the scope of this project might be necessary -
+a reassessment.
+
 # General Approach
 ![Schedule](/readmeImgs/schedule.png)
 ![Entity-Relationship-Diagram](/readmeImgs/erd.png)
