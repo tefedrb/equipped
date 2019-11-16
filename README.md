@@ -21,6 +21,7 @@
   - I should have allowed myself more time to complete each step of the process.
 
 # General Approach
+![Schedule](/readmeImgs/schedule.png)
 ![Entity-Relationship-Diagram](/readmeImgs/erd.png)
 ![UI-brainstorm](/readmeImgs/erd_UI.png)
 - I sketched out a very basic ERD with the expectation that I was definitely going to appreciate working on executing a simple design.
