@@ -73,7 +73,6 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getUser(username);
-
         if(user==null)
             throw new UsernameNotFoundException("User null");
         return new org.springframework.security.core.userdetails.User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
@@ -104,7 +103,8 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
             user.setTitle(userReq.getTitle());
             user.setCompany(userReq.getCompany());
             user.setUsername(userReq.getUsername());
-            user.setPassword(user.getPassword());
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//            user.setPassword(user.getPassword());
             userRepository.save(user);
         return ResponseEntity.ok("updated");
     }

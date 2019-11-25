@@ -2,8 +2,10 @@ package com.example.usersapi.Controller;
 
 
 import com.example.usersapi.Model.Company;
+import com.example.usersapi.Model.User;
 import com.example.usersapi.Service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,4 +25,11 @@ public class CompanyController {
         return companyService.getAllCompanies();
     }
 
+    // Need a create company method
+//    @PutMapping("/add")
+//    public HttpStatus addCompany(Company company){
+//        // Get user
+//
+//        // Add Company to user
+//    }
 }

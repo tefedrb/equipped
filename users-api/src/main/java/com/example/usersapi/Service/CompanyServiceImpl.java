@@ -29,6 +29,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companyRepository.findById(id).get();
         company.setName(companyReq.getName());
         company.setType(companyReq.getName());
+
         companyRepository.save(company);
         return HttpStatus.OK;
     }

@@ -18,10 +18,21 @@ public class Company {
     @Column
     private String type;
 
+    @Column
+    private String password;
+
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
     private List<User> users;
+
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
 
     public long getCompany_id() {
         return company_id;
