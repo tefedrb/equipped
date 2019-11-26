@@ -21,7 +21,7 @@ public class UserRole {
             cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonIgnore
-    private List<com.example.usersapi.Model.User> users;
+    private List<User> users;
 
     public UserRole(){}
 

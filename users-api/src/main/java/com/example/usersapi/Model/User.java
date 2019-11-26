@@ -25,12 +25,12 @@ public class User {
             CascadeType.REFRESH})
     @JsonBackReference
     @JoinColumn(name = "user_rolename_id", nullable = false)
-    private com.example.usersapi.Model.UserRole userRole;
+    private UserRole userRole;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH})
     @JoinColumn(name = "user_company")
-    private com.example.usersapi.Model.Company company;
+    private Company company;
 
     public User() {}
 
@@ -72,19 +72,19 @@ public class User {
         this.password = password;
     }
 
-    public com.example.usersapi.Model.Company getCompany(){
+    public Company getCompany(){
         return company;
     }
 
-    public void setCompany(com.example.usersapi.Model.Company company) {
+    public void setCompany(Company company) {
         this.company = company;
     }
 
-    public com.example.usersapi.Model.UserRole getUserRole() {
+    public UserRole getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(com.example.usersapi.Model.UserRole userRole) {
+    public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
 }

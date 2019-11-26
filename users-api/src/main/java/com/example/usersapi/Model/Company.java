@@ -57,4 +57,12 @@ public class Company {
     public void setType(String type){
         this.type = type;
     }
+
+    public List<User> getUsers(){
+        return this.users;
+    }
+
+    public void setUsers(List<User> users){
+        this.users = users;
+    }
 }

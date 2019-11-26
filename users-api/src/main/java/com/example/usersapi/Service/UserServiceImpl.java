@@ -29,7 +29,7 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
     UserRoleRepository userRoleRepository;
 
     @Autowired
-    com.example.usersapi.Service.UserRoleService userRoleService;
+    UserRoleService userRoleService;
 
     @Autowired
     JwtUtil jwtutil;
@@ -93,7 +93,6 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add( new SimpleGrantedAuthority(user.getUserRole().getRoleType()));
-
         return authorities;
     }
 
@@ -104,7 +103,6 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
             user.setCompany(userReq.getCompany());
             user.setUsername(userReq.getUsername());
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//            user.setPassword(user.getPassword());
             userRepository.save(user);
         return ResponseEntity.ok("updated");
     }
