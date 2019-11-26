@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 //    @Query("FROM User u WHERE u.username = ?1")
-    @Query("FROM User u WHERE u.username = ?1")
-    public User findByUserName(String username);
+//    @Query("FROM User u WHERE u.username = ?1")
+    public User findByUsername(String username);
 }

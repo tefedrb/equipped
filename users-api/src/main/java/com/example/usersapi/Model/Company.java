@@ -3,16 +3,18 @@ package com.example.usersapi.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "companies")
 public class Company {
     @Id
-    @GeneratedValue
-    private long company_id;
+    @Column(name="company_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Column
@@ -34,12 +36,12 @@ public class Company {
         this.password = password;
     }
 
-    public long getCompany_id() {
-        return company_id;
+    public Long getCompany_id() {
+        return id;
     }
 
-    public void setCompany_id(long company_id){
-        this.company_id = company_id;
+    public void setCompany_id(Long company_id){
+        this.id = company_id;
     }
 
     public String getName(){
@@ -59,10 +61,17 @@ public class Company {
     }
 
     public List<User> getUsers(){
-        return this.users;
+        return users;
     }
 
     public void setUsers(List<User> users){
         this.users = users;
+    }
+
+    public void addUsers(User user){
+        if(users == null){
+            users = new ArrayList<>();
+        }
+        users.add(user);
     }
 }

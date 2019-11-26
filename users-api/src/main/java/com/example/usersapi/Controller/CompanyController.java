@@ -27,6 +27,7 @@ public class CompanyController {
 
     @PostMapping("/create")
     public HttpStatus createCompany(@RequestBody Company company){
+        System.out.println("here");
         companyService.createCompany(company);
         return HttpStatus.OK;
     }

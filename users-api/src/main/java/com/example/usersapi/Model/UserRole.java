@@ -41,11 +41,11 @@ public class UserRole {
         this.roleType = roleType;
     }
 
-    public List<com.example.usersapi.Model.User> getUser(){
+    public List<User> getUser(){
         return users;
     }
 
-    public void setUsers(List<com.example.usersapi.Model.User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 }

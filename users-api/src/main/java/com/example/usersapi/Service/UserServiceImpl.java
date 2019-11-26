@@ -67,7 +67,7 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
 
     @Override
     public User getUser(String username) {
-        return userRepository.findByUserName(username);
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
 
     @Override
     public String login(User user){
-        User returnUser = userRepository.findByUserName(user.getUsername());
+        User returnUser = userRepository.findByUsername(user.getUsername());
 
         if(returnUser != null && bCryptPasswordEncoder.matches(user.getPassword(), returnUser.getPassword())){
             UserDetails userDetails = loadUserByUsername(returnUser.getUsername());
