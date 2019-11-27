@@ -30,7 +30,6 @@ public class UserRoleServiceImpl implements com.example.usersapi.Service.UserRol
 
     @Override
     public UserRole getRole(String roleName){
-        System.out.println(userRoleRepository.findByName(roleName) + " Here we are!!!");
-        return userRoleRepository.findByName(roleName);
+        return userRoleRepository.findByRoleType(roleName);
     }
 }

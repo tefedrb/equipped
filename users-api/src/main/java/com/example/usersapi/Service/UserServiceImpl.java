@@ -1,16 +1,20 @@
 package com.example.usersapi.Service;
 
 import com.example.usersapi.Config.JwtUtil;
+import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.User;
 import com.example.usersapi.Model.UserRole;
+import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
 import com.example.usersapi.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements com.example.usersapi.Service.UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -37,6 +41,9 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
 //    public User getUserByName(String name) {
 //        return userRepository.findByUserName();
 //    }
+
+    @Autowired
+    CompanyRepository companyRepository;
 
     @Autowired
     @Qualifier("encoder")
@@ -113,4 +120,20 @@ public class UserServiceImpl implements com.example.usersapi.Service.UserService
 //        if(reqObj)
 //    }
 
+    @Override
+    public HttpStatus joinCompany(Company company){
+        // Checking for user authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Getting the username associated with the jwt
+        String userName = authentication.getName();
+        //  Find user by username
+        User authUser = userRepository.findByUsername(userName);
+        Company targetCompany = companyRepository.findByName(company.getName());
+        if(company.getPassword() == targetCompany.getPassword()){
+            targetCompany.addUsers(authUser);
+            companyRepository.save(targetCompany);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.NOT_ACCEPTABLE;
+    }
 }

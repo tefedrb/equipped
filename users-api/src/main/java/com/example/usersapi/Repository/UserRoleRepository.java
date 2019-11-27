@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRoleRepository extends CrudRepository<UserRole, Long> {
     // I should be able to use findByRoleType here
-    @Query("From UserRole r WHERE r.roleType = ?1")
-    public UserRole findByName(String name);
+//    @Query("From UserRole r WHERE r.roleType = ?1")
+    public UserRole findByRoleType(String roleType);
 }

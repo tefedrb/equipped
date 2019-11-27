@@ -34,8 +34,9 @@ public class CompanyServiceImpl implements CompanyService {
         // is to get the user attached to the newCompany request
 //        User user = userService.getUser(newCompany.getUsers().get());
         newCompany.addUsers(authUser);
+        authUser.setCompany(newCompany);
         companyRepository.save(newCompany);
-        System.out.println("here!!!1");
+
         return HttpStatus.OK;
     }
 

@@ -1,5 +1,6 @@
 package com.example.usersapi.Controller;
 
+import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
 import com.example.usersapi.Repository.UserRepository;
@@ -40,5 +41,10 @@ public class UserController {
     @PutMapping("/user/update/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable long userId, @RequestBody User userReq){
         return userService.updateUser(userId, userReq);
+    }
+
+    @PutMapping("/user/joinCompany")
+    public HttpStatus joinCompany(@RequestBody Company company){
+        return userService.joinCompany(company);
     }
 }
