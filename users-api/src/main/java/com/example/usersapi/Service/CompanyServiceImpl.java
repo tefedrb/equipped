@@ -24,8 +24,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public HttpStatus createCompany(Company newCompany) {
-        // Supposedly I should be able to grab the authenticated user creating
-        // said company
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
 //        System.out.println(userName);
@@ -65,4 +63,21 @@ public class CompanyServiceImpl implements CompanyService {
 //    public Iterable<Company> findCompanyByPerson(long id) {
 //        return null;
 //    }
+    @Override
+    public HttpStatus verifyUser(Integer userId, Company company){
+        // Get authorization (from alleged admin)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authUser = userRepository.findByUsername(userName);
+        // Check userRole if admin continue, otherwise return bad request
+        if(authUser.getUserRole().equals("ADMIN")){
+            // Find user from company waitList (trying from repository first)
+            User targetUser = userRepository.findById(userId);
+            // Add user to company
+            company.addUsers(targetUser);
+            company.getWaitList().remove(targetUser);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.FORBIDDEN;
+    }
 }

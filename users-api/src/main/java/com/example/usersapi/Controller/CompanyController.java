@@ -27,9 +27,14 @@ public class CompanyController {
 
     @PostMapping("/create")
     public HttpStatus createCompany(@RequestBody Company company){
-        companyService.createCompany(company);
-        return HttpStatus.OK;
+        return companyService.createCompany(company);
     }
 
-    // Need to create a verify user method
+    // Need to create a verifyUser method - @PathVariable for user-to-verify (needs to be on list)
+    // Send in company object - add user to company
+
+     @PutMapping("/verify/{userId}")
+     public HttpStatus verifyUser(@PathVariable int userId, @RequestBody Company company){
+        return companyService.verifyUser(userId, company);
+     }
 }

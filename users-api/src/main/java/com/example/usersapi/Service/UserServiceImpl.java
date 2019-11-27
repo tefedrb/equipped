@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
         User authUser = userRepository.findByUsername(userName);
         Company targetCompany = companyRepository.findByName(companyName);
         if(password == targetCompany.getPassword()){
-            targetCompany.addUsers(authUser);
+            targetCompany.addToWaitList(authUser);
             companyRepository.save(targetCompany);
             return HttpStatus.OK;
         }
