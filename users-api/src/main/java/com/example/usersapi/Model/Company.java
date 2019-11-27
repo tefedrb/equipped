@@ -28,6 +28,19 @@ public class Company {
     @JsonIgnore
     private List<User> users;
 
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH})
+    @JsonIgnore
+    private List<User> waitList;
+
+    public List<User> getWaitList(){
+        return this.waitList;
+    }
+
+    public void setWaitList(List<User> waitList) {
+        this.waitList = waitList;
+    }
+
     public String getPassword(){
         return password;
     }

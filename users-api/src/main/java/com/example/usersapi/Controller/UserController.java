@@ -43,8 +43,8 @@ public class UserController {
         return userService.updateUser(userId, userReq);
     }
 
-    @PutMapping("/user/joinCompany")
-    public HttpStatus joinCompany(@RequestBody Company company){
-        return userService.joinCompany(company);
+    @PutMapping("/user/joinCompany/{companyId}")
+    public HttpStatus joinCompany(@PathVariable String companyName, String password){
+        return userService.joinCompany(companyName, password);
     }
 }

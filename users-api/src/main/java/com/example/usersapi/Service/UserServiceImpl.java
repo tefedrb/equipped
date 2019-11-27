@@ -121,15 +121,16 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public HttpStatus joinCompany(Company company){
+    public HttpStatus joinCompany(String companyName, String password){
         // Checking for user authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Getting the username associated with the jwt
         String userName = authentication.getName();
         //  Find user by username
+        // I might need to recreate the company before I save it?
         User authUser = userRepository.findByUsername(userName);
-        Company targetCompany = companyRepository.findByName(company.getName());
-        if(company.getPassword() == targetCompany.getPassword()){
+        Company targetCompany = companyRepository.findByName(companyName);
+        if(password == targetCompany.getPassword()){
             targetCompany.addUsers(authUser);
             companyRepository.save(targetCompany);
             return HttpStatus.OK;

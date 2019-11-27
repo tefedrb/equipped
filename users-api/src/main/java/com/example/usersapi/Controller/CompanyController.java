@@ -30,4 +30,6 @@ public class CompanyController {
         companyService.createCompany(company);
         return HttpStatus.OK;
     }
+
+    // Need to create a verify user method
 }
