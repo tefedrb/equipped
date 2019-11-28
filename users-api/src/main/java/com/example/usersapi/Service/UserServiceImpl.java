@@ -7,6 +7,7 @@ import com.example.usersapi.Model.UserRole;
 import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
 import com.example.usersapi.Repository.UserRoleRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public HttpStatus joinCompany(String companyName, String password){
+    public HttpStatus joinCompany(Long id, JSONObject password){
         // Checking for user authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Getting the username associated with the jwt
@@ -129,8 +130,9 @@ public class UserServiceImpl implements UserService {
         //  Find user by username
         // I might need to recreate the company before I save it?
         User authUser = userRepository.findByUsername(userName);
-        Company targetCompany = companyRepository.findByName(companyName);
-        if(password == targetCompany.getPassword()){
+
+        Company targetCompany = companyRepository.findById(id).get();
+        if(password.get("password").equals(targetCompany.getPassword())){
             targetCompany.addToWaitList(authUser);
             companyRepository.save(targetCompany);
             return HttpStatus.OK;

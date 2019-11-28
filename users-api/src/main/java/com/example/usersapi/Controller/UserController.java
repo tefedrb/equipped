@@ -5,6 +5,7 @@ import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
 import com.example.usersapi.Repository.UserRepository;
 import com.example.usersapi.Service.UserService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,8 @@ public class UserController {
     }
 
     @PutMapping("/user/joinCompany/{companyId}")
-    public HttpStatus joinCompany(@PathVariable String companyName, String password){
-        return userService.joinCompany(companyName, password);
+    public HttpStatus joinCompany(@PathVariable Long companyId, @RequestBody String password){
+        JSONObject passwordObj = new JSONObject(password);
+        return userService.joinCompany(companyId, passwordObj);
     }
 }
