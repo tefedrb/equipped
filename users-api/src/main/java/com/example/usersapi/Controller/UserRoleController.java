@@ -1,5 +1,6 @@
 package com.example.usersapi.Controller;
 
+import com.example.usersapi.Model.User;
 import com.example.usersapi.Model.UserRole;
 import com.example.usersapi.Service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,14 @@ public class UserRoleController {
 
    @GetMapping("/listall")
        public Iterable<UserRole> listRoles(){
-           return userRoleService.listRoles();
+           Iterable<UserRole> userRoles = userRoleService.listRoles();
+           /* Iterating over each instance of a userRole, then grabbing
+             each associated user, and setting that role to null before
+             returning to avoid Jackson recursion */
+           for(UserRole r: userRoles){
+               for(User u: r.getUser())
+                   u.setUserRole(null);
+           }
+           return userRoles;
        }
 }

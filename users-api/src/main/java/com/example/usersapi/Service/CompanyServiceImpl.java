@@ -80,4 +80,10 @@ public class CompanyServiceImpl implements CompanyService {
         }
         return HttpStatus.FORBIDDEN;
     }
+
+//    @Override
+//    public HttpStatus findCompany(Long id){
+//        Company targetCompany = companyRepository.findById(id).get();
+//
+//    }
 }

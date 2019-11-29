@@ -25,6 +25,9 @@ public class CompanyController {
         return companyService.getAllCompanies();
     }
 
+//    @GetMapping("/find")
+
+
     @PostMapping("/create")
     public HttpStatus createCompany(@RequestBody Company company){
         return companyService.createCompany(company);

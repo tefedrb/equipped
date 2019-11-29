@@ -3,6 +3,7 @@ package com.example.usersapi.Controller;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
+import com.example.usersapi.Model.UserRole;
 import com.example.usersapi.Repository.UserRepository;
 import com.example.usersapi.Service.UserService;
 import org.json.JSONObject;
@@ -31,7 +32,11 @@ public class UserController {
 
     @GetMapping("/user/listall")
     public Iterable<User> listUsers(){
-       return userService.listUsers();
+        Iterable<User> allUsers = userService.listUsers();
+        for(User u: allUsers){
+            u.setUserRole(null);
+        }
+       return allUsers;
     }
 
     @DeleteMapping("/user/{userId}")

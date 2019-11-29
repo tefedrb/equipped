@@ -1,6 +1,8 @@
 package com.example.usersapi.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
@@ -21,9 +23,9 @@ public class User {
     @Column
     private String password;
 
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH})
-    @JsonBackReference
     @JoinColumn(name = "user_rolename_id", nullable = false)
     private UserRole userRole;
 
