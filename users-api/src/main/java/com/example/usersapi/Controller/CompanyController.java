@@ -2,7 +2,6 @@ package com.example.usersapi.Controller;
 
 
 import com.example.usersapi.Model.Company;
-import com.example.usersapi.Model.User;
 import com.example.usersapi.Service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +21,12 @@ public class CompanyController {
 
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
-        return companyService.getAllCompanies();
+        Iterable<Company> allCompanies = companyService.getAllCompanies();
+        for(Company c : allCompanies){
+            c.setUsers(null);
+        }
+        return allCompanies;
     }
-
-//    @GetMapping("/find")
-
 
     @PostMapping("/create")
     public HttpStatus createCompany(@RequestBody Company company){

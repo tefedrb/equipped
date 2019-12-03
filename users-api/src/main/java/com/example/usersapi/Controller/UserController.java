@@ -34,7 +34,9 @@ public class UserController {
     public Iterable<User> listUsers(){
         Iterable<User> allUsers = userService.listUsers();
         for(User u: allUsers){
-            u.setUserRole(null);
+              u.getUserRole().setUsers(null);
+              u.getCompany().setUsers(null);
+              u.getCompany().setWaitList(null);
         }
        return allUsers;
     }
