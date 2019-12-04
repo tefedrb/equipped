@@ -53,7 +53,7 @@ public class UserController {
 
     @PutMapping("/user/joinCompany/{companyId}")
     public HttpStatus joinCompany(@PathVariable Long companyId, @RequestBody String password){
-        JSONObject passwordObj = new JSONObject(password);
-        return userService.joinCompany(companyId, passwordObj);
+//        JSONObject passwordObj = new JSONObject(password);
+        return userService.joinCompany(companyId, password);
     }
 }

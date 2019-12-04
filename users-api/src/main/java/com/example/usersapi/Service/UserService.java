@@ -16,7 +16,7 @@ public interface UserService extends UserDetailsService {
     public User getUser(String username);
     public String login(User user);
     public ResponseEntity<?> updateUser(long id, User user);
-    public HttpStatus joinCompany(Long companyName, JSONObject password);
+    public HttpStatus joinCompany(Long companyName, String password);
     // I'm working on creating a patch request that takes an object and iterates through
     // it and patches just the new information
 //    public User returnUser(long id, Object requestObj);

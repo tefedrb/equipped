@@ -24,6 +24,7 @@ public class CompanyController {
         Iterable<Company> allCompanies = companyService.getAllCompanies();
         for(Company c : allCompanies){
             c.setUsers(null);
+    // c.setWaitList(null);
         }
         return allCompanies;
     }

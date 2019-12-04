@@ -26,15 +26,15 @@ public class CompanyServiceImpl implements CompanyService {
     public HttpStatus createCompany(Company newCompany) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-//        System.out.println(userName);
         User authUser = userRepository.findByUsername(userName);
-        // So the whole point of getting the userName of the user creating the company
-        // is to get the user attached to the newCompany request
+        /* So the whole point of getting the userName of the user creating the company,
+         is to get the user attached to the newCompany request */
+
 //        User user = userService.getUser(newCompany.getUsers().get());
         newCompany.addUsers(authUser);
         authUser.setCompany(newCompany);
+        newCompany.setWaitList(null);
         companyRepository.save(newCompany);
-
         return HttpStatus.OK;
     }
 

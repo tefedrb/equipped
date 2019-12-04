@@ -28,15 +28,18 @@ public class Company {
             CascadeType.MERGE, CascadeType.REFRESH})
     private List<User> users;
 
-    @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH})
-    private List<User> waitList;
+    // Need to determine how to have this persist and relate to users?
 
-    public List<User> getWaitList(){
+    @OneToOne(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "company_waitlist")
+    private Waitlist waitList;
+
+    public Waitlist getWaitList(){
         return this.waitList;
     }
 
-    public void setWaitList(List<User> waitList) {
+    public void setWaitList(Waitlist waitList) {
         this.waitList = waitList;
     }
 
@@ -87,10 +90,10 @@ public class Company {
         users.add(user);
     }
 
-    public void addToWaitList(User user){
-        if(waitList == null){
-            waitList = new ArrayList<>();
-        }
-        waitList.add(user);
-    }
+//    public void addToWaitList(User user){
+//        if(waitList == null){
+//            waitList = new ArrayList<>();
+//        }
+//        waitList.add(user);
+//    }
 }

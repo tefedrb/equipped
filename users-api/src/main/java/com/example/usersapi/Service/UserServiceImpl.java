@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public HttpStatus joinCompany(Long id, JSONObject password){
+    public HttpStatus joinCompany(Long id, String password){
         // Checking for user authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Getting the username associated with the jwt
@@ -132,7 +132,8 @@ public class UserServiceImpl implements UserService {
         User authUser = userRepository.findByUsername(userName);
 
         Company targetCompany = companyRepository.findById(id).get();
-        if(password.get("password").equals(targetCompany.getPassword())){
+
+        if(password.equals(targetCompany.getPassword())){
             targetCompany.addToWaitList(authUser);
             companyRepository.save(targetCompany);
             return HttpStatus.OK;
