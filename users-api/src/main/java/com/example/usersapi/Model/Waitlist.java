@@ -15,12 +15,16 @@ public class Waitlist {
     @Id
     @Column(name="waitlist_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @OneToOne(mappedBy = "waitlist", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "associated_company")
     private Company company;
+
+    @OneToMany(mappedBy = "waitlist", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH})
+    public List<User> users;
 
     public void setId(Long id){
         this.id = id;

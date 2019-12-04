@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRoleServiceImpl implements com.example.usersapi.Service.UserRoleService {
+public class UserRoleServiceImpl implements UserRoleService {
 
     @Autowired
     UserRoleRepository userRoleRepository;

@@ -33,6 +33,10 @@ public class User {
     @JoinColumn(name = "user_company")
     private Company company;
 
+//    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+//            CascadeType.REFRESH})
+//    private Waitlist waitlist;
+
     public User() {}
 
     public User(Long id, String username, String title){
