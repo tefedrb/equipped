@@ -37,8 +37,8 @@ public class CompanyController {
     // Need to create a verifyUser method - @PathVariable for user-to-verify (needs to be on list)
     // Send in company object - add user to company
 
-     @PutMapping("/verify/{userId}")
-     public HttpStatus verifyUser(@PathVariable int userId, @RequestBody Company company){
-        return companyService.verifyUser(userId, company);
-     }
+//     @PutMapping("/verify/{userId}")
+//     public HttpStatus verifyUser(@PathVariable int userId, @RequestBody Company company){
+//        return companyService.verifyUser(userId, company);
+//     }
 }

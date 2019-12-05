@@ -1,10 +1,10 @@
 package com.example.usersapi.Repository;
 
-import com.example.usersapi.Model.Waitlist;
+import com.example.usersapi.Model.WaitList;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WaitlistRepository extends CrudRepository<Waitlist, Long> {
-    public Waitlist findByName(String name);
+public interface WaitListRepository extends CrudRepository<WaitList, Long> {
+
 }

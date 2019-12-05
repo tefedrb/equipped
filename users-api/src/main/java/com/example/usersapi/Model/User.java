@@ -7,7 +7,7 @@ package com.example.usersapi.Model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name="users")
 public class User {
     @Id
     @Column(name="user_id")
@@ -24,18 +24,18 @@ public class User {
     private String password;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH})
+            CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_rolename_id", nullable = false)
     private UserRole userRole;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH})
+            CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_company")
     private Company company;
 
-//    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-//            CascadeType.REFRESH})
-//    private Waitlist waitlist;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    private WaitList waitList;
 
     public User() {}
 
@@ -43,6 +43,14 @@ public class User {
         this.id = id;
         this.username = username;
         this.title = title;
+    }
+
+    public void setWaitList(WaitList waitList){
+        this.waitList = waitList;
+    }
+
+    public WaitList getWaitList(){
+        return waitList;
     }
 
     public Long getId(){

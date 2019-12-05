@@ -10,21 +10,28 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="waitlists")
-public class Waitlist {
+@Table(name="waitList")
+public class WaitList {
     @Id
     @Column(name="waitlist_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne(mappedBy = "waitlist", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "associated_company")
     private Company company;
 
-    @OneToMany(mappedBy = "waitlist", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+    @OneToMany(mappedBy = "waitList", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH})
     public List<User> users;
+
+    public void setUsers(List<User> users){
+        this.users = users;
+    }
+
+    public List<User> getUsers(){
+        return users;
+    }
 
     public void setId(Long id){
         this.id = id;

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "companies")
 public class Company {
     @Id
-    @Column(name="company_id")
+    @Column(name ="company_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -24,22 +24,22 @@ public class Company {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH})
+    // Removed mappedBy in the relationship because this side isn't the owning side.
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
     private List<User> users;
 
     // Need to determine how to have this persist and relate to users?
+    // Need to determine where the join table will be - waitlist or company
 
-    @OneToOne(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "company_waitlist")
-    private Waitlist waitList;
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private WaitList waitList;
 
-    public Waitlist getWaitList(){
+    public WaitList getWaitList(){
         return this.waitList;
     }
 
-    public void setWaitList(Waitlist waitList) {
+    public void setWaitList(WaitList waitList) {
         this.waitList = waitList;
     }
 
