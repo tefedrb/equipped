@@ -24,7 +24,7 @@ public class User {
     private String password;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH}, fetch = FetchType.LAZY)
+            CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_rolename_id", nullable = false)
     private UserRole userRole;
 
