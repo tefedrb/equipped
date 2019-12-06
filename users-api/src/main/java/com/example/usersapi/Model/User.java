@@ -4,6 +4,9 @@ package com.example.usersapi.Model;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import com.example.usersapi.JSONviews.CompanyViews;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,15 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonView(CompanyViews.Normal.class)
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonView(CompanyViews.Normal.class)
     @Column(nullable = false)
     private String title;
 
     @Column
     private String password;
-
+    
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_rolename_id", nullable = false)
