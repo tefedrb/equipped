@@ -1,11 +1,13 @@
 package com.example.usersapi.Controller;
 
+import com.example.usersapi.JSONviews.CompanyViews;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
 import com.example.usersapi.Model.UserRole;
 import com.example.usersapi.Repository.UserRepository;
 import com.example.usersapi.Service.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,14 +32,15 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
 
+    @JsonView(CompanyViews.Normal.class)
     @GetMapping("/user/listall")
     public Iterable<User> listUsers(){
         Iterable<User> allUsers = userService.listUsers();
-        for(User u: allUsers){
-              u.getUserRole().setUsers(null);
-              u.getCompany().setUsers(null);
-              u.getCompany().setWaitList(null);
-        }
+//        for(User u: allUsers){
+//              u.getUserRole().setUsers(null);
+//              u.getCompany().setUsers(null);
+//              u.getCompany().setWaitList(null);
+//        }
        return allUsers;
     }
 
