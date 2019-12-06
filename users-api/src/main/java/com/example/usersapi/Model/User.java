@@ -5,6 +5,7 @@ package com.example.usersapi.Model;
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import com.example.usersapi.JSONviews.CompanyViews;
+import com.example.usersapi.JSONviews.UserRoleViews;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -27,7 +28,8 @@ public class User {
 
     @Column
     private String password;
-    
+
+    @JsonView(CompanyViews.Normal.class)
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_rolename_id", nullable = false)

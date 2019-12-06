@@ -1,6 +1,7 @@
 package com.example.usersapi.Controller;
 
 import com.example.usersapi.JSONviews.CompanyViews;
+import com.example.usersapi.JSONviews.UserRoleViews;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
