@@ -2,6 +2,7 @@ package com.example.usersapi.Controller;
 
 import com.example.usersapi.JSONviews.CompanyViews;
 import com.example.usersapi.JSONviews.UserRoleViews;
+import com.example.usersapi.JSONviews.UserViews;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
@@ -32,8 +33,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
-
-    @JsonView(CompanyViews.Normal.class)
+    
     @GetMapping("/user/listall")
     public Iterable<User> listUsers(){
         Iterable<User> allUsers = userService.listUsers();

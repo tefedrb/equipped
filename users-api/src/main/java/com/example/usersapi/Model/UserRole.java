@@ -8,6 +8,9 @@ package com.example.usersapi.Model;
 
 import com.example.usersapi.JSONviews.CompanyViews;
 import com.example.usersapi.JSONviews.UserRoleViews;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -24,6 +27,7 @@ public class UserRole {
     @Column(unique = true)
     private String roleType;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "userRole",
             cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<User> users;
@@ -46,11 +50,11 @@ public class UserRole {
         this.roleType = roleType;
     }
 
-    public List<User> getUser(){
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+//    public List<User> getUser(){
+//        return users;
+//    }
+//
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 }

@@ -25,12 +25,12 @@ public class UserRoleController {
        /* Iterating over each instance of a userRole, then grabbing
          each associated user, and setting that role to null before
          returning to avoid Jackson recursion */
-       for(UserRole r: userRoles){
-           for(User u: r.getUser()) {
-               u.setUserRole(null);
-               u.setCompany(null);
-           }
-       }
+//       for(UserRole r: userRoles){
+//           for(User u: r.getUser()) {
+//               u.setUserRole(null);
+//               u.setCompany(null);
+//           }
+//       }
        return userRoles;
    }
 }
