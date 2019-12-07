@@ -1,8 +1,10 @@
 package com.example.usersapi.Controller;
 
 
+import com.example.usersapi.JSONviews.CompanyViews;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Service.CompanyService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,10 @@ public class CompanyController {
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
         Iterable<Company> allCompanies = companyService.getAllCompanies();
-        for(Company c : allCompanies){
-            c.setUsers(null);
-    // c.setWaitList(null);
-        }
+//        for(Company c : allCompanies){
+//            c.setUsers(null);
+//    // c.setWaitList(null);
+//        }
         return allCompanies;
     }
 

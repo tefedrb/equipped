@@ -6,6 +6,9 @@ package com.example.usersapi.Model;
 
 import com.example.usersapi.JSONviews.CompanyViews;
 import com.example.usersapi.JSONviews.UserRoleViews;
+import com.example.usersapi.JSONviews.UserViews;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -18,23 +21,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonView(CompanyViews.Normal.class)
     @Column(unique = true, nullable = false)
     private String username;
 
-    @JsonView(CompanyViews.Normal.class)
     @Column(nullable = false)
     private String title;
 
     @Column
     private String password;
 
-    @JsonView(CompanyViews.Normal.class)
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_rolename_id", nullable = false)
     private UserRole userRole;
 
+    @JsonBackReference
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_company")
