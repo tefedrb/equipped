@@ -2,6 +2,7 @@ package com.example.usersapi.Controller;
 
 
 import com.example.usersapi.JSONviews.CompanyViews;
+import com.example.usersapi.JSONviews.WaitListViews;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Service.CompanyService;
 import com.fasterxml.jackson.annotation.JsonView;

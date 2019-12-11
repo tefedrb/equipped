@@ -1,6 +1,13 @@
 package com.example.usersapi.Model;
 
+import com.example.usersapi.JSONviews.WaitListViews;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -8,7 +15,6 @@ import java.util.List;
     will be associated with a company. The admins of the company will then be able to
     approve those on the waitlist (to get into the company)
  */
-
 @Entity
 @Table(name="waitList")
 public class WaitList {
@@ -17,6 +23,7 @@ public class WaitList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonIgnore
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "associated_company")
     private Company company;
@@ -51,5 +58,12 @@ public class WaitList {
 
     public Company getCompany(){
         return this.company;
+    }
+
+    public void addUsers(User user){
+        if(users == null){
+            users = new ArrayList<>();
+        }
+        users.add(user);
     }
 }

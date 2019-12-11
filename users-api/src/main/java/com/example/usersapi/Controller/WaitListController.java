@@ -1,9 +1,13 @@
 package com.example.usersapi.Controller;
 
+import com.example.usersapi.Model.Company;
+import com.example.usersapi.Model.WaitList;
+import com.example.usersapi.Repository.CompanyRepository;
+import com.example.usersapi.Repository.WaitListRepository;
 import com.example.usersapi.Service.WaitListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/waitlist")
@@ -12,10 +16,25 @@ public class WaitListController {
     @Autowired
     WaitListService waitlistService;
 
-    // Need to add admin privileges
-//    @GetMapping("/list/{companyId}")
-//    public Iterable<WaitList> getCompanyWaitlist(){
-//
-//    }
+    @Autowired
+    WaitListRepository waitListRepository;
 
+    @Autowired
+    CompanyRepository companyRepository;
+
+     // Need to add admin privileges
+    @GetMapping("/list/{companyId}")
+    public WaitList getCompanyWaitList(@PathVariable long companyId){
+        // Get company
+        Company targetCompany = companyRepository.findById(companyId).get();
+        // Get waitList id from company
+        Long targetListId = targetCompany.getWaitList().getId();
+        // Search WaitList repo
+        return waitListRepository.findById(targetListId).get();
+    }
+
+    @GetMapping("/list")
+    public Iterable<WaitList> getAllWaitLists(){
+        return waitListRepository.findAll();
+    }
 }

@@ -4,12 +4,8 @@ package com.example.usersapi.Model;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import com.example.usersapi.JSONviews.CompanyViews;
-import com.example.usersapi.JSONviews.UserRoleViews;
-import com.example.usersapi.JSONviews.UserViews;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -41,6 +37,7 @@ public class User {
     @JoinColumn(name = "user_company")
     private Company company;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private WaitList waitList;

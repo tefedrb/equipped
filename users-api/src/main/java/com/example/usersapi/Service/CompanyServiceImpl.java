@@ -2,6 +2,7 @@ package com.example.usersapi.Service;
 
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.User;
+import com.example.usersapi.Model.WaitList;
 import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,12 @@ public class CompanyServiceImpl implements CompanyService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);
-        /* So the whole point of getting the userName of the user creating the company,
-         is to get the user attached to the newCompany request */
-
-//        User user = userService.getUser(newCompany.getUsers().get());
+        // Create a wait list as soon as a new company is created
+        WaitList newWaitList = new WaitList();
         newCompany.addUsers(authUser);
         authUser.setCompany(newCompany);
-        newCompany.setWaitList(null);
+        newCompany.setWaitList(newWaitList);
+        newWaitList.setCompany(newCompany);
         companyRepository.save(newCompany);
         return HttpStatus.OK;
     }
