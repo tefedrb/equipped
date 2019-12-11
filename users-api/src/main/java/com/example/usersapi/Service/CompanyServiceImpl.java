@@ -28,15 +28,12 @@ public class CompanyServiceImpl implements CompanyService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);
-        /* So the whole point of getting the userName of the user creating the company,
-         is to get the user attached to the newCompany request */
-
-//        User user = userService.getUser(newCompany.getUsers().get());
+        // Create a wait list as soon as a new company is created
         WaitList newWaitList = new WaitList();
         newCompany.addUsers(authUser);
         authUser.setCompany(newCompany);
         newCompany.setWaitList(newWaitList);
-        // Can we create a waitlist here
+        newWaitList.setCompany(newCompany);
         companyRepository.save(newCompany);
         return HttpStatus.OK;
     }
