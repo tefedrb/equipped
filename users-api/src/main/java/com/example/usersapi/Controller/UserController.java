@@ -7,8 +7,11 @@ import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
 import com.example.usersapi.Model.UserRole;
+import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
+import com.example.usersapi.Service.CompanyService;
 import com.example.usersapi.Service.UserService;
+import com.example.usersapi.Service.WaitListService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,15 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CompanyService companyService;
+
+    @Autowired
+    CompanyRepository companyRepository;
+
+    @Autowired
+    WaitListService waitListService;
 
     @PostMapping("/signup")
     public ResponseEntity createUser(@RequestBody User user) {
@@ -58,6 +70,12 @@ public class UserController {
 //    @PutMapping("/user/joinCompany/{companyId}")
 //    public HttpStatus joinCompany(@PathVariable Long companyId, @RequestBody String password){
 ////        JSONObject passwordObj = new JSONObject(password);
+//        companyRepository.findById(companyId);
 //        return userService.joinCompany(companyId, password);
 //    }
+
+    @PutMapping("/add/{waitListId}")
+    public HttpStatus joinWaitList(@PathVariable long waitListId, User user){
+        return waitListService.joinWaitList(waitListId, user);
+    }
 }

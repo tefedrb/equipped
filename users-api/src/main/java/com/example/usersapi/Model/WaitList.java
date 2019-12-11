@@ -1,6 +1,7 @@
 package com.example.usersapi.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -51,5 +52,12 @@ public class WaitList {
 
     public Company getCompany(){
         return this.company;
+    }
+
+    public void addUsers(User user){
+        if(users == null){
+            users = new ArrayList<>();
+        }
+        users.add(user);
     }
 }

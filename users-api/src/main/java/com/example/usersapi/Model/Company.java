@@ -94,11 +94,4 @@ public class Company {
         }
         users.add(user);
     }
-
-//    public void addToWaitList(User user){
-//        if(waitList == null){
-//            waitList = new ArrayList<>();
-//        }
-//        waitList.add(user);
-//    }
 }
