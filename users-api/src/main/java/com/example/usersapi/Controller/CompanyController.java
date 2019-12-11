@@ -2,6 +2,7 @@ package com.example.usersapi.Controller;
 
 
 import com.example.usersapi.JSONviews.CompanyViews;
+import com.example.usersapi.JSONviews.WaitListViews;
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Service.CompanyService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -20,7 +21,7 @@ public class CompanyController {
     public String test(){
         return "Testing...";
     }
-
+    
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
         Iterable<Company> allCompanies = companyService.getAllCompanies();

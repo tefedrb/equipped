@@ -1,6 +1,10 @@
 package com.example.usersapi.Model;
 
+import com.example.usersapi.JSONviews.WaitListViews;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +15,6 @@ import java.util.List;
     will be associated with a company. The admins of the company will then be able to
     approve those on the waitlist (to get into the company)
  */
-
 @Entity
 @Table(name="waitList")
 public class WaitList {

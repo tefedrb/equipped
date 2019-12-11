@@ -4,6 +4,7 @@ package com.example.usersapi.Model;
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import com.example.usersapi.JSONviews.CompanyViews;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -37,6 +38,7 @@ public class Company {
     // Need to determine how to have this persist and relate to users?
     // Need to determine where the join table will be - waitlist or company
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private WaitList waitList;
 

@@ -1,19 +1,12 @@
 package com.example.usersapi.Controller;
 
-import com.example.usersapi.JSONviews.CompanyViews;
-import com.example.usersapi.JSONviews.UserRoleViews;
-import com.example.usersapi.JSONviews.UserViews;
-import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
-import com.example.usersapi.Model.UserRole;
 import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
 import com.example.usersapi.Service.CompanyService;
 import com.example.usersapi.Service.UserService;
 import com.example.usersapi.Service.WaitListService;
-import com.fasterxml.jackson.annotation.JsonView;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
