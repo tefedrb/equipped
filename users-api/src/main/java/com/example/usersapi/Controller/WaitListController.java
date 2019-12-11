@@ -33,4 +33,8 @@ public class WaitListController {
         return waitListRepository.findById(targetListId).get();
     }
 
+    @GetMapping("/list")
+    public Iterable<WaitList> getAllWaitLists(){
+        return waitListRepository.findAll();
+    }
 }

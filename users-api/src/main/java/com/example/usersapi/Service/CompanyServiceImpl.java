@@ -2,6 +2,7 @@ package com.example.usersapi.Service;
 
 import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.User;
+import com.example.usersapi.Model.WaitList;
 import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,11 @@ public class CompanyServiceImpl implements CompanyService {
          is to get the user attached to the newCompany request */
 
 //        User user = userService.getUser(newCompany.getUsers().get());
+        WaitList newWaitList = new WaitList();
         newCompany.addUsers(authUser);
         authUser.setCompany(newCompany);
-        newCompany.setWaitList(null);
+        newCompany.setWaitList(newWaitList);
+        // Can we create a waitlist here
         companyRepository.save(newCompany);
         return HttpStatus.OK;
     }
