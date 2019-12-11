@@ -21,7 +21,7 @@ public class CompanyController {
     public String test(){
         return "Testing...";
     }
-    
+
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
         Iterable<Company> allCompanies = companyService.getAllCompanies();
