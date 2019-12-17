@@ -37,4 +37,10 @@ public class WaitListController {
     public Iterable<WaitList> getAllWaitLists(){
         return waitListRepository.findAll();
     }
+
+    @PutMapping("/verify/{waitListId}/{userId}")
+    public HttpStatus confirmAddUser(@PathVariable long waitListId, @PathVariable long userId){
+        // Need to make sure the auth user is an admin of company via waitlistId
+        return waitlistService.confirmUser(waitListId, userId);
+    }
 }
