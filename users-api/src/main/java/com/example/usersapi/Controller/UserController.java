@@ -70,7 +70,7 @@ public class UserController {
 //        return userService.joinCompany(companyId, password);
 //    }
 
-    @PutMapping("/add/{waitListId}")
+    @PutMapping("/user/join/{waitListId}")
     public HttpStatus joinWaitList(@PathVariable long waitListId){
         // Get auth user and add
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

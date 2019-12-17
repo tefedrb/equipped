@@ -66,4 +66,8 @@ public class WaitList {
         }
         users.add(user);
     }
+
+    public void removeUser(User user){
+        users.remove(user);
+    }
 }
