@@ -83,8 +83,11 @@ public class CompanyController {
 
         if(targetCompany.getUsers().contains(authUser) && authUser.getUserRole().equals("ADMIN")){
             // Add a "remove user to wait list" function to WaitListModel
+            targetWaitList.removeUser(targetUser);
             // Add user to company user list
+            targetCompany.addUsers(targetUser);
+            return HttpStatus.OK;
         }
-        return HttpStatus.OK;
+        return HttpStatus.FORBIDDEN;
     }
 }
