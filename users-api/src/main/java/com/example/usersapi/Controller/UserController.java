@@ -1,5 +1,6 @@
 package com.example.usersapi.Controller;
 
+import com.example.usersapi.Model.Company;
 import com.example.usersapi.Model.JwtResponse;
 import com.example.usersapi.Model.User;
 import com.example.usersapi.Repository.CompanyRepository;
@@ -75,6 +76,11 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);
+        // if user exists in company user list dont add to wait list
+        Company companyOfWaitList = companyRepository.findById(waitListId).get();
+        if(companyOfWaitList.getUsers().contains(authUser)){
+            return HttpStatus.FORBIDDEN;
+        }
         return waitListService.joinWaitList(waitListId, authUser);
     }
 }
