@@ -51,12 +51,13 @@ public class WaitListServiceImpl implements WaitListService {
                 .reduce((a,b) -> b)
                 .get();
 
-        if(targetCompany.getUsers().contains(authUser) && authUser.getUserRole().equals("ADMIN")){
+        if(targetCompany.getUsers().contains(authUser) && authUser.getUserRole().getRoleType().equals("ADMIN")){
             // Add a "remove user to wait list" function to WaitListModel
             targetWaitList.removeUser(targetUser);
             // Add user to company user list
             targetCompany.addUsers(targetUser);
             companyRepository.save(targetCompany);
+            waitListRepository.save(targetWaitList);
             return HttpStatus.OK;
         }
         return HttpStatus.FORBIDDEN;

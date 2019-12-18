@@ -39,8 +39,7 @@ public class WaitListController {
     }
 
     @PutMapping("/verify/{waitListId}/{userId}")
-    public HttpStatus confirmAddUser(@PathVariable long waitListId, @PathVariable long userId){
-        // Need to make sure the auth user is an admin of company via waitlistId
+    public HttpStatus confirmUser(@PathVariable long waitListId, @PathVariable long userId){
         return waitlistService.confirmUser(waitListId, userId);
     }
 }
