@@ -37,4 +37,9 @@ public class WaitListController {
     public Iterable<WaitList> getAllWaitLists(){
         return waitListRepository.findAll();
     }
+
+    @PutMapping("/verify/{waitListId}/{userId}")
+    public HttpStatus confirmUser(@PathVariable long waitListId, @PathVariable long userId){
+        return waitlistService.confirmUser(waitListId, userId);
+    }
 }

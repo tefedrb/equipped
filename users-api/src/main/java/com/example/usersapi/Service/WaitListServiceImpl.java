@@ -9,6 +9,8 @@ import com.example.usersapi.Repository.WaitListRepository;
 import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,5 +33,33 @@ public class WaitListServiceImpl implements WaitListService {
         userRepository.save(user);
         waitListRepository.save(targetList);
         return HttpStatus.OK;
+    }
+
+    @Override
+    public HttpStatus confirmUser(long waitListId, long userId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authUser = userRepository.findByUsername(userName);
+
+        WaitList targetWaitList = waitListRepository.findById(waitListId).get();
+        Company targetCompany = companyRepository.findById(waitListId).get();
+        // Get target user
+        User targetUser = targetWaitList
+                .getUsers()
+                .stream()
+                .filter(user -> user.getId().equals(userId))
+                .reduce((a,b) -> b)
+                .get();
+
+        if(targetCompany.getUsers().contains(authUser) && authUser.getUserRole().getRoleType().equals("ADMIN")){
+            // Add a "remove user to wait list" function to WaitListModel
+            targetWaitList.removeUser(targetUser);
+            // Add user to company user list
+            targetCompany.addUsers(targetUser);
+            companyRepository.save(targetCompany);
+            waitListRepository.save(targetWaitList);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.FORBIDDEN;
     }
 }
