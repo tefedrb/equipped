@@ -4,21 +4,18 @@
   - In later versions, users will be able to share their production kits with the rest of the App and get feedback and ratings.
   - Renting out items based on location and reputation could be a future addition.
   - This is a full stack application deployed to AWS.
+  ![Schedule](/readmeImgs/Equipped_GUI_MockUp_v1.png)
 
 # Technologies Used
   - React for the front end.
   - Java (The Spring Framework) for the back end.
-  - PostgreSQL for the database.
+  - Postgres for the database.
   - Docker used to create a platform for a microservice environment.
   - Postman for testing end-points.
 
-
 # Struggles
-  - THIS WAS RUSHED.
-  - I came up with an idea and pursued it without properly looking for an API or doing the right amount of research.
-  - I kept running into errors while using using docker-compose. Eureka wasn't registering my API among other things, and I still don't know why reverting back to an older version of spring-boot-starter-parent fixed these issues.
-  - I should have asked for help more often. Dealing with errors in the backend slowed me down.
-  - I should have allowed myself more time to complete each step of the process.
+  - I should have spent more time looking for an outside API that would compliment this project.
+  - I kept running into errors while trying to spin up my docker container. Eureka wasn't registering my API among other things, and I still don't know why reverting back to an older version of spring-boot-starter-parent fixed these issues.
 
 # What's left to do?
 - To finish the API, maybe redesign the models and relationships a bit.
@@ -31,9 +28,8 @@ a reassessment.
 ![Schedule](/readmeImgs/schedule.png)
 ![Entity-Relationship-Diagram](/readmeImgs/erd.png)
 ![UI-brainstorm](/readmeImgs/erd_UI.png)
-- I sketched out a very basic ERD with the expectation that I was definitely going to appreciate working on executing a simple design.
+- I sketched out an ERD with the aim to keep the database schema complexity down.
 - I knew I wanted to start by focusing on the backend, in particular spending time dissecting the security features of the app and build a stronger understanding of things were working before beginning the UI.
-- Once I realized I wasn't going to have enough time to do what I wanted to do before the deadline, I mad sure to focus on working with React.
 
 # User stories
 - I need a system that keeps track of when/what pieces of equipment are leaving the office building and for what shoots, in order for me and my team to share accountability of our company property. I should be able to know what we need to change or alter in our gear to make our productions work better for us and the client.
