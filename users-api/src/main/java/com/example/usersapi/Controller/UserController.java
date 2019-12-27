@@ -76,7 +76,7 @@ public class UserController {
         User authUser = userRepository.findByUsername(userName);
         return authUser;
     }
-    
+
 
     @PutMapping("/user/join/{waitListId}")
     public HttpStatus joinWaitList(@PathVariable long waitListId){

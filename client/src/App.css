@@ -68,3 +68,11 @@ footer {
   width: 100%;
   background: black;
 }
+
+.company-list {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 500px;
+  background-color: rgba(142,201,80,0.4);
+}
