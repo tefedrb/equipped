@@ -12,12 +12,12 @@ class LogIn extends Component {
       password: '',
       isFormVisible: false
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.toggleForm = this.toggleForm.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.toggleForm = this.toggleForm.bind(this);
   }
 
-  handleSubmit(event){
+  handleSubmit = (event) => {
     event.preventDefault();
     fetch("http://localhost:8082/login", {
       method: 'post',
@@ -37,13 +37,13 @@ class LogIn extends Component {
     )
   }
 
-  handleChange(event){
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
 
-  toggleForm(e){
+  toggleForm = (e) => {
     this.setState(prevState => ({
       isFormVisible: !prevState.isFormVisible
     }));

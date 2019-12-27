@@ -3,6 +3,7 @@ import './App.css';
 import SignUp from './Components/SignUp';
 import LogIn from './Components/LogIn';
 import Home from './Components/Home';
+// import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Route
@@ -14,10 +15,10 @@ class App extends Component {
     this.state = {
       jwt: null
     }
-    this.updateJwt = this.updateJwt.bind(this);
+    // this.updateJwt = this.updateJwt.bind(this);
   }
 
-  updateJwt(token){
+  updateJwt = (token) => {
     this.setState({
       jwt: token
     })
@@ -25,23 +26,27 @@ class App extends Component {
 
   render(){
     return (
-      <div className="App">
-          <Router>
-            <Route
-              exact path="/"
-              component={() => <SignUp updateJwt={this.updateJwt}
-                jwt={this.state.jwt} />}
-            />
-            <Route
-              exact path="/"
-              component={() => <LogIn updateJwt={this.updateJwt}
-                jwt={this.state.jwt} />}
-            />
-            <Route
-              path="/home"
-              component={() => <Home jwt={this.state.jwt} />}
-            />
-          </Router>
+      <div className="testing">
+        <header></header>
+          <main>
+            <Router>
+              <Route
+                exact path="/"
+                component={() => <SignUp updateJwt={this.updateJwt}
+                  jwt={this.state.jwt} />}
+              />
+              <Route
+                exact path="/"
+                component={() => <LogIn updateJwt={this.updateJwt}
+                  jwt={this.state.jwt} />}
+              />
+              <Route
+                path="/home"
+                component={() => <Home jwt={this.state.jwt} />}
+              />
+            </Router>
+          </main>
+          <footer></footer>
       </div>
     );
   }

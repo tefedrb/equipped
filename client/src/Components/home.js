@@ -11,7 +11,19 @@ class Home extends Component {
   }
 
   componentDidMount(){
-
+    const myHeader = new Headers();
+    myHeader.append('Content-Type', 'application/json');
+    myHeader.append('Authorization', `Bearer ${this.props.jwt}`);
+    console.log(this.props.jwt);
+    fetch("http://localhost:8082/user/retrieve", {
+      method: 'get',
+      headers: myHeader
+    })
+    .then(res => res.json())
+    .then(res => {
+        console.log("Jeah! =>", res);
+      }
+    )
   }
 
   render(){

@@ -12,12 +12,12 @@ class SignUp extends Component {
       password: '',
       isFormVisible: false
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.toggleForm = this.toggleForm.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.toggleForm = this.toggleForm.bind(this);
   }
 
-  handleSubmit(event){
+  handleSubmit = (event) => {
     event.preventDefault();
     fetch("http://localhost:8082/signup", {
       method: 'post',
@@ -36,28 +36,33 @@ class SignUp extends Component {
     })
     .then(res => res.json())
     .then(res => {
-        this.props.updateJwt(res.token)
+        if(!res.token){
+          alert("Looks like someone already has that username");
+        } else {
+          this.props.updateJwt(res.token);
+        }
       }
     )
   }
 
-  handleChange(event){
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
-  }
+  };
 
-  toggleForm(e){
+  toggleForm = (e) => {
     this.setState(prevState => ({
       isFormVisible: !prevState.isFormVisible
     }));
   };
 
-
   render(){
+    // Here is where we decide whether to redirect to homepage
     if(this.props.jwt){
       return <Redirect to="/home" />
     }
+
     const Button = styled.button`
       background: rgba(37, 208, 125, 0.52);
       border-radius: 2px;

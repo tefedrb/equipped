@@ -1,4 +1,4 @@
-.App {
+/* .App {
   min-height: 100vh;
   text-align: center;
   background-image: url('./pictures/gear-layout.png');
@@ -13,13 +13,10 @@
   color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
 .App-link {
   color: #09d3ac;
 }
+*/
 
 .enterApp {
   height: 150px;
@@ -39,4 +36,35 @@
 
 .hide {
   opacity: 0;
+}
+
+.testing {
+  min-height: 100vh;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-content: space-between;
+  background-image: url('./pictures/gear-layout.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header {
+  width: 100%;
+  background: black;
+  height: 2.5em;
+}
+
+footer {
+  height: 2.5em;
+  width: 100%;
+  background: black;
 }
