@@ -1,42 +1,51 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import CompanyList from './CompanyList';
 
 class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user: null,
-      title: null
+      user: null
     }
   }
 
   componentDidMount(){
+    // Get user info
     const myHeader = new Headers();
     myHeader.append('Content-Type', 'application/json');
     myHeader.append('Authorization', `Bearer ${this.props.jwt}`);
-    console.log(this.props.jwt);
     fetch("http://localhost:8082/user/retrieve", {
       method: 'get',
       headers: myHeader
     })
     .then(res => res.json())
     .then(res => {
-        console.log("Jeah! =>", res);
+        this.setState(prevState => ({
+          user: res
+        }))
+        console.log(this.state.user)
       }
     )
   }
 
+  /*
+    If user doesn't belong to company - Redirect
+    to company select page / inventory
+  */
+
+  /*
+    Create a user page / -> this will render whether
+    the user has a company or not
+   */
+
   render(){
-    if(!this.props.jwt){
-      return (
-        <Redirect to="/" />
-      )
-    }
-    return(
-        <div>
-          Welcome...
-        </div>
-    );
+    return (
+      <div>
+      {!this.props.jwt && <Redirect to="/"/>}
+        <CompanyList jwt={this.props.jwt}/>
+      </div>
+    )
   }
 }
 
