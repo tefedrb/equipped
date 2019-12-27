@@ -17,6 +17,7 @@
   color: #09d3ac;
 }
 */
+@import url('https://fonts.googleapis.com/css?family=Anton&display=swap');
 
 .enterApp {
   height: 150px;
@@ -61,18 +62,57 @@ header {
   width: 100%;
   background: black;
   height: 2.5em;
+  font-family: 'Anton', sans-serif;
+  /* text-align: left; */
+  color: #69cb42;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  padding: .5em;
+  height: 75%;
+  filter: brightness(0) invert(1);
 }
 
 footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 2.5em;
   width: 100%;
   background: black;
+  overflow: hidden;
+}
+
+footer img {
+  padding: .5em;
+  height: 75%;
+  filter: brightness(0) invert(1);
+}
+
+.user-inventory {
+  display: flex;
+  flex-grow: 5;
+  flex-direction: column;
+  margin: 3%;
+  background-color: rgba(255,255,255,0.4);
 }
 
 .company-list {
   display: flex;
+  flex-grow: 1;
+  margin: 3%;
+  height: auto%;
   flex-direction: column;
-  width: 500px;
-  height: 500px;
+  background-color: rgba(255,255,255,0.4);
+}
+
+.home {
+  display: flex;
+  width: 95%;
+  height: 80vh;
   background-color: rgba(142,201,80,0.4);
+  border: 10px solid rgba(255,255,255,0.2);
 }

@@ -27,7 +27,10 @@ class App extends Component {
   render(){
     return (
       <div className="testing">
-        <header></header>
+        <header>
+          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+          <span>Equipped</span>
+        </header>
           <main>
             <Router>
               <Route
@@ -46,7 +49,9 @@ class App extends Component {
               />
             </Router>
           </main>
-          <footer></footer>
+          <footer>
+          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+          </footer>
       </div>
     );
   }
