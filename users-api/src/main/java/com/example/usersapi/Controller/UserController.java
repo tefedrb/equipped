@@ -69,6 +69,14 @@ public class UserController {
 //        companyRepository.findById(companyId);
 //        return userService.joinCompany(companyId, password);
 //    }
+    @GetMapping("/user/retrieve")
+    public User getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authUser = userRepository.findByUsername(userName);
+        return authUser;
+    }
+    
 
     @PutMapping("/user/join/{waitListId}")
     public HttpStatus joinWaitList(@PathVariable long waitListId){
