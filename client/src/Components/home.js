@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import '../App.css';
 import CompanyList from './CompanyList';
+import Inventory from './Inventory';
 
 class Home extends Component {
   constructor(props){
@@ -41,8 +43,9 @@ class Home extends Component {
 
   render(){
     return (
-      <div>
+      <div className="home">
       {!this.props.jwt && <Redirect to="/"/>}
+        <Inventory jwt={this.props.jwt}/>
         <CompanyList jwt={this.props.jwt}/>
       </div>
     )

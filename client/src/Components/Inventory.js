@@ -15,8 +15,8 @@ class Inventory extends Component {
 
   render(){
     return (
-      <div>
-        
+      <div className="user-inventory">
+        <h1>Inventory</h1>
       </div>
     );
   }

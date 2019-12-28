@@ -33,6 +33,7 @@ class CompanyList extends Component {
     }) : "Loading...";
     return (
       <div className="company-list">
+        <h1>Company List</h1>
         <ul>
           {companies}
         </ul>
