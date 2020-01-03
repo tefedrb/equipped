@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import '../App.css';
+import CompanyListItem from './CompanyListItem';
 
 class CompanyList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      companies: null
+      companies: null,
+      displayCreateMenu: false
     }
   }
+
   componentDidMount(){
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -23,20 +26,27 @@ class CompanyList extends Component {
       })
     })
   }
+
+  createCompany(){
+    
+  }
+
   render(){
-    const companies = this.state.companies ? this.state.companies.map((company, index) => {
+    const companies = this.state.companies ?
+    this.state.companies.map((company, index) => {
       return (
-        <li key={index}>
-          {company.name}
-        </li>
+        <CompanyListItem company={company} key={index} />
       )
     }) : "Loading...";
     return (
       <div className="company-list">
         <h1>Company List</h1>
-        <ul>
+        <div>
           {companies}
-        </ul>
+        </div>
+        <button>
+        Create Company
+        </button>
       </div>
     );
   }

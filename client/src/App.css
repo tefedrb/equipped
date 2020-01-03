@@ -19,6 +19,10 @@
 */
 @import url('https://fonts.googleapis.com/css?family=Anton&display=swap');
 
+* {
+  font-family: 'Anton', sans-serif;
+}
+
 .enterApp {
   height: 150px;
   flex-wrap: wrap;
@@ -101,12 +105,41 @@ footer img {
 }
 
 .company-list {
+  position: relative;
   display: flex;
   flex-grow: 1;
   margin: 3%;
-  height: auto%;
+  height: auto;
   flex-direction: column;
   background-color: rgba(255,255,255,0.4);
+}
+
+.company-list button {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  width: 75px;
+  height: 25px;
+  font-size: .2em;
+}
+
+.company-list div {
+
+}
+
+.company-list-item {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  text-align: center;
+  color: white;
+  background-color: rgba(0,0,0,0.4);
+  border: 2px black solid;
+  padding: .2em;
+}
+
+.company-list-item span:nth-child(2){
+  font-size: .75em;
 }
 
 .home {
