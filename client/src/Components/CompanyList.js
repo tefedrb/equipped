@@ -17,7 +17,7 @@ class CompanyList extends Component {
     myHeaders.append('Authorization', `Bearer ${this.props.jwt}`);
     fetch("http://localhost:8082/company/list", {
       method: 'get',
-      headers: myHeaders
+      headers: myHeaders,
     })
     .then(res => res.json())
     .then(res => {
