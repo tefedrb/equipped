@@ -75,7 +75,7 @@ header {
   align-items: center;
 }
 
-header img {
+header img:first-child {
   padding: .5em;
   height: 75%;
   filter: brightness(0) invert(1);
@@ -144,9 +144,17 @@ footer img {
 }
 
 .home {
+  position: relative;
   display: flex;
   width: 95%;
   height: 80vh;
   background-color: rgba(142,201,80,0.4);
   border: 10px solid rgba(255,255,255,0.2);
+}
+
+.inner-header {
+  position: absolute;
+  width: 100%;
+  height: 25px;
+  background-color: rgba(57, 57, 57, 0.2)
 }

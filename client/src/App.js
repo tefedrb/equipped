@@ -4,6 +4,7 @@ import SignUp from './Components/SignUp';
 import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 // import styled from 'styled-components';
+import UserHeader from './Components/UserHeader';
 import {
   BrowserRouter as Router,
   Route
@@ -13,6 +14,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      user: null,
       jwt: null
     }
     // this.updateJwt = this.updateJwt.bind(this);
@@ -38,12 +40,30 @@ class App extends Component {
     })
   }
 
+  getUser = () => {
+    const myHeader = new Headers();
+    myHeader.append('Content-Type', 'application/json');
+    myHeader.append('Authorization', `Bearer ${this.state.jwt}`);
+    fetch("http://localhost:8082/user/retrieve", {
+      method: 'get',
+      headers: myHeader
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        user: res
+      })
+      console.log(this.state.user)
+    })
+  }
+
   render(){
     return (
       <div className="testing">
         <header>
           <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
           <span>Equipped</span>
+          <UserHeader user={this.state.user}/>
         </header>
           <main>
             <Router>
@@ -59,7 +79,10 @@ class App extends Component {
               />
               <Route
                 path="/home"
-                component={() => <Home jwt={this.state.jwt} />}
+                component={() => 
+                <Home jwt={this.state.jwt} 
+                  getUser={this.getUser} user={this.state.user}
+                />}
               />
             </Router>
           </main>
