@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "company")
 public class Company {
     @Id
-    @Column(name ="company_id")
+    @Column(name = "company_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -32,7 +32,7 @@ public class Company {
     // Removed mappedBy in the relationship because this side isn't the owning side.
     @JsonManagedReference
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
+            CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
     private List<User> users;
 
     // Need to determine how to have this persist and relate to users?
