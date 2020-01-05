@@ -20,20 +20,25 @@ class UserHeader extends Component {
     constructor(props){
         super(props);
         this.state = {
-            settingsDisplay: false
+            userDisplay: false
         }
     }
 
     render(){
         const user = this.props.user ? 
         this.props.user.username : "Loading...";
+        const defaultView = this.props.user ? (
+        <Div>
+            <span>{user}</span>
+            <Img src="https://img.icons8.com/android/24/000000/settings.png" 
+                alt="settings-wheel"
+            />
+        </Div>
+        ) 
+        : 
+        <Div></Div>
         return (
-            <Div>
-                <span>{user}</span>
-                <Img src="https://img.icons8.com/android/24/000000/settings.png" 
-                    alt="settings-wheel"
-                />
-            </Div>
+            defaultView
         )
     }
 }
