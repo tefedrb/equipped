@@ -6,9 +6,11 @@ import com.example.usersapi.Model.WaitList;
 import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +25,10 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     UserService userService;
 
+    @Autowired
+    @Qualifier("encoder")
+    PasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public HttpStatus createCompany(Company newCompany) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,6 +40,8 @@ public class CompanyServiceImpl implements CompanyService {
         authUser.setCompany(newCompany);
         newCompany.setWaitList(newWaitList);
         newWaitList.setCompany(newCompany);
+        // Encrypting company password
+        newCompany.setPassword(bCryptPasswordEncoder.encode(newCompany.getPassword()));
         companyRepository.save(newCompany);
         return HttpStatus.OK;
     }

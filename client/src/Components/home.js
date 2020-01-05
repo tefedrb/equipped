@@ -32,7 +32,18 @@ class Home extends Component {
       }
     )
     // Make a call to user company based off userID or Name
-    // fetch("http://localhost:8082/")
+    fetch("http://localhost:8082/company/userCompany", {
+      method: 'get',
+      headers: myHeader
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        company: res
+      })
+      console.log(res, " <--- company baby")
+    })
+
   }
 
   /*
