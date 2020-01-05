@@ -92,6 +92,7 @@ public class CompanyServiceImpl implements CompanyService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);
-        return authUser.getCompany();
+        long userCompanyId = authUser.getCompany().getId();
+        return companyRepository.findById(userCompanyId).get();
     }
 }
