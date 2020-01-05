@@ -25,15 +25,16 @@ public class CompanyController {
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
         Iterable<Company> allCompanies = companyService.getAllCompanies();
-//        for(Company c : allCompanies){
-//            c.setUsers(null);
-//    // c.setWaitList(null);
-//        }
         return allCompanies;
     }
 
     @PostMapping("/create")
     public HttpStatus createCompany(@RequestBody Company company){
         return companyService.createCompany(company);
+    }
+
+    @GetMapping("/userCompany")
+    public Company getUserCompany(){
+        return companyService.findByUser();
     }
 }

@@ -27,7 +27,7 @@ class App extends Component {
   componentDidMount(){
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
-    fetch("http://localhost:8082/company/list", {
+    fetch("http://localhost:8082/userRole/create", {
       method: 'post',
       headers: myHeaders,
       body: JSON.stringify(

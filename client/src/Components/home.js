@@ -9,7 +9,8 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user: null
+      user: null,
+      company: null
     }
   }
 
@@ -24,12 +25,14 @@ class Home extends Component {
     })
     .then(res => res.json())
     .then(res => {
-        this.setState(prevState => ({
+        this.setState({
           user: res
-        }))
+        })
         console.log(this.state.user)
       }
     )
+    // Make a call to user company based off userID or Name
+    // fetch("http://localhost:8082/")
   }
 
   /*
