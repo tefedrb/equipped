@@ -58,11 +58,11 @@ public class Company {
         this.password = password;
     }
 
-    public Long getCompany_id() {
+    public Long getId() {
         return id;
     }
 
-    public void setCompany_id(Long company_id){
+    public void setId(Long company_id){
         this.id = company_id;
     }
 

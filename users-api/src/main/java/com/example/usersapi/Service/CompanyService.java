@@ -12,4 +12,5 @@ public interface CompanyService {
 //    public Iterable<Company> findCompanyByPerson(long id);
 //    public HttpStatus verifyUser(Integer userId, Company company);
 //    public HttpStatus findCompany(Long id);
+    public Company findByUser();
 }

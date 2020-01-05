@@ -3,12 +3,14 @@ import {Redirect} from 'react-router-dom';
 import '../App.css';
 import CompanyList from './CompanyList';
 import Inventory from './Inventory';
+import UserHeader from './UserHeader';
 
 class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user: null
+      user: null,
+      company: null
     }
   }
 
@@ -23,12 +25,14 @@ class Home extends Component {
     })
     .then(res => res.json())
     .then(res => {
-        this.setState(prevState => ({
+        this.setState({
           user: res
-        }))
+        })
         console.log(this.state.user)
       }
     )
+    // Make a call to user company based off userID or Name
+    // fetch("http://localhost:8082/")
   }
 
   /*
@@ -44,6 +48,7 @@ class Home extends Component {
   render(){
     return (
       <div className="home">
+        <UserHeader user={this.state.user} />
       {!this.props.jwt && <Redirect to="/"/>}
         <Inventory jwt={this.props.jwt}/>
         <CompanyList jwt={this.props.jwt}/>

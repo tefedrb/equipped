@@ -63,6 +63,7 @@ main {
 }
 
 header {
+  position: relative;
   width: 100%;
   background: black;
   height: 2.5em;
