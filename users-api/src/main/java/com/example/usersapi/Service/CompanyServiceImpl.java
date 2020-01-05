@@ -93,6 +93,7 @@ public class CompanyServiceImpl implements CompanyService {
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);
         long userCompanyId = authUser.getCompany().getId();
+        System.out.println(userCompanyId + " <-- HERE IS THE COMPANY ID!!!!!");
         return companyRepository.findById(userCompanyId).get();
     }
 }
