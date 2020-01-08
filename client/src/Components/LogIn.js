@@ -32,6 +32,7 @@ class LogIn extends Component {
     })
     .then(res => res.json())
     .then(res => {
+      console.log(res, "<-- From login");
         this.props.updateJwt(res.token)
       }
     )

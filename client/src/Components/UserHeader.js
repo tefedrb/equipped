@@ -16,6 +16,7 @@ const Img = styled.img `
     padding-left: .5em;
 `
 
+
 class UserHeader extends Component {
     constructor(props){
         super(props);
@@ -23,7 +24,11 @@ class UserHeader extends Component {
             userDisplay: false
         }
     }
-
+    
+    componentWillUnmount(){
+        console.log("WHAT?!?!?!?!?!? UserHeader");
+    }
+    
     render(){
         const user = this.props.user ? 
         this.props.user.username : "Loading...";

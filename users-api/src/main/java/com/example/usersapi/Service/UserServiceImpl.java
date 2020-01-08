@@ -38,10 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     JwtUtil jwtutil;
-//    @Override
-//    public User getUserByName(String name) {
-//        return userRepository.findByUserName();
-//    }
 
     @Autowired
     CompanyRepository companyRepository;

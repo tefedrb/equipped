@@ -28,16 +28,33 @@ class App extends Component {
 
   componentDidMount(){
     const myHeaders = new Headers();
+    // Get userRoles - if one doesn't exist create one - this is temp
     myHeaders.append('Content-Type', 'application/json');
-    fetch("http://localhost:8082/userRole/create", {
-      method: 'post',
-      headers: myHeaders,
-      body: JSON.stringify(
-        {
-          roleType: "BASIC"
-        }
-      )
+    fetch("http://localhost:8082/userRole/listall", {
+      method: 'get',
+      headers: myHeaders
     })
+    .then(res => res.json())
+    .then(res => {
+      const findBasic = res.find(item => {
+        return item.roleType === "BASIC";
+      })
+      if(!findBasic || findBasic.roleType !== "BASIC"){
+        fetch("http://localhost:8082/userRole/create", {
+          method: 'post',
+          headers: myHeaders,
+          body: JSON.stringify(
+            {
+              roleType: "BASIC"
+            }
+          )
+        })
+      }
+    })
+  }
+
+  componentWillUnmount(){
+    console.log("WHAT?!?!?!?!?!? App");
   }
 
   getUser = () => {
@@ -53,7 +70,6 @@ class App extends Component {
       this.setState({
         user: res
       })
-      console.log(this.state.user)
     })
   }
 

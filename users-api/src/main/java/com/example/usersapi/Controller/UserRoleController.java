@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/userRole")
 public class UserRoleController {
+
    @Autowired
    UserRoleService userRoleService;
 

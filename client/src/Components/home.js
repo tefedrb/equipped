@@ -15,25 +15,23 @@ class Home extends Component {
 
   componentDidMount(){
     // Get user info
-    // console.log(this.state.user, "<---- CURRENT SITUATION HOPEFULLY NOT ALWAYS NULL")
     // if(!this.state.user){
     if(!this.props.user){
       const myHeader = new Headers();
       myHeader.append('Content-Type', 'application/json');
       myHeader.append('Authorization', `Bearer ${this.props.jwt}`);
-    //   fetch("http://localhost:8082/user/retrieve", {
-    //     method: 'get',
-    //     headers: myHeader
-    //   })
-    //   .then(res => res.json())
-    //   .then(res => {
-    //       this.setState({
-    //         user: res
-    //       })
-    //       this.props.getUser(res);
-    //       console.log(this.state.user)
-    //     }
-    //   )
+        // fetch("http://localhost:8082/company/userCompany", {
+        //   method: 'get',
+        //   headers: myHeader
+        // })
+        // .then(res => res.json())
+        // .then(res => {
+        //     console.log(res, "<-- user company")
+        //     // this.props.getUser(res);
+        //   }
+        // ).catch(err => {
+        //   console.log(err, "<-- FOUND ERROR?!");
+        // })
       // Make a call to user company based off userID or Name
       fetch("http://localhost:8082/company/userCompany", {
         method: 'get',
@@ -41,15 +39,21 @@ class Home extends Component {
       })
       .then(res => res.json())
       .then(res => {
-        this.setState({
-          company: res
-        })
-        console.log(res, " <--- company baby")
-      })
+        if(res.name !== "Null"){
+          this.setState({
+            company: res
+          })
+        }
+        /* This is a method created in App.js that updates parent 
+        state in order for UserHeader to work properly */
         this.props.getUser();
-      }
+      })
+    }
   }
 
+  componentWillUnmount(){
+    console.log("WHAT?!?!?!?!?!? Home");
+  }
   /*
     If user doesn't belong to company - Redirect
     to company select page / inventory
