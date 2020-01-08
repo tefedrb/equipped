@@ -1,16 +1,11 @@
 package com.example.usersapi.Controller;
 
 import com.example.usersapi.Model.Company;
-import com.example.usersapi.Model.User;
 import com.example.usersapi.Repository.CompanyRepository;
 import com.example.usersapi.Repository.UserRepository;
-import com.example.usersapi.Repository.WaitListRepository;
 import com.example.usersapi.Service.CompanyService;
-import com.example.usersapi.Service.WaitListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,6 +39,13 @@ public class CompanyController {
 
     @GetMapping("/userCompany")
     public Company getUserCompany(){
-       return companyService.findByUser();
+        try {
+            Company userComp = companyService.findByUser();
+            return userComp;
+        } catch (NullPointerException e){
+            Company dummyComp = new Company();
+            dummyComp.setName("Null");
+            return dummyComp;
+        }
     }
 }

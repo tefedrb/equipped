@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/userRole")
 public class UserRoleController {
+
    @Autowired
    UserRoleService userRoleService;
 
@@ -22,15 +23,6 @@ public class UserRoleController {
    @GetMapping("/listall")
    public Iterable<UserRole> listRoles(){
        Iterable<UserRole> userRoles = userRoleService.listRoles();
-       /* Iterating over each instance of a userRole, then grabbing
-         each associated user, and setting that role to null before
-         returning to avoid Jackson recursion */
-//       for(UserRole r: userRoles){
-//           for(User u: r.getUser()) {
-//               u.setUserRole(null);
-//               u.setCompany(null);
-//           }
-//       }
        return userRoles;
    }
 }
