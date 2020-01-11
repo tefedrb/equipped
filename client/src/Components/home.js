@@ -3,13 +3,16 @@ import {Redirect} from 'react-router-dom';
 import '../App.css';
 import CompanyList from './CompanyList';
 import Inventory from './Inventory';
+import CreateCompany from './CreateCompany';
 // import UserHeader from './UserHeader';
+// import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      company: null
+      company: null,
+      showCreateMenu: false
     }
   }
 
@@ -51,9 +54,12 @@ class Home extends Component {
     }
   }
 
-  componentWillUnmount(){
-    console.log("WHAT?!?!?!?!?!? Home");
-  }
+  // createCompany = () => {
+  //   fetch("http://localhost:8082/company/create", {
+  //     method: ''
+  //   })
+  // }
+
   /*
     If user doesn't belong to company - Redirect
     to company select page / inventory
@@ -63,14 +69,28 @@ class Home extends Component {
     Create a user page / -> this will render whether
     the user has a company or not
    */
+  clickCreateCompany = () => {
+    /* Might want to create a conditional here that checks
+     to see if the user already has a company?? */
+    this.setState( prevState => ({
+      showCreateMenu: !prevState.showCreateMenu
+    }))
+  }
+
 
   render(){
     return (
       <div className="home">
         <div className="inner-header"></div>
-      {!this.props.jwt && <Redirect to="/"/>}
-        <Inventory jwt={this.props.jwt}/>
-        <CompanyList jwt={this.props.jwt}/>
+        <CreateCompany showCreateMenu={this.state.showCreateMenu}/>
+        <main className="home-main">
+          {!this.props.jwt && <Redirect to="/"/>}
+          <Inventory showCreateMenu={this.state.showCreateMenu} jwt={this.props.jwt}/>
+          <CompanyList 
+            createCompany={this.clickCreateCompany} 
+            jwt={this.props.jwt}
+          />
+        </main>
       </div>
     )
   }

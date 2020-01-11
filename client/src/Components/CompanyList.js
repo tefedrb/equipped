@@ -27,10 +27,6 @@ class CompanyList extends Component {
     })
   }
 
-  createCompany(){
-    
-  }
-
   render(){
     const companies = this.state.companies ?
     this.state.companies.map((company, index) => {
@@ -44,7 +40,7 @@ class CompanyList extends Component {
         <div>
           {companies}
         </div>
-        <button>
+        <button onClick={this.props.createCompany}>
         Create Company
         </button>
       </div>
@@ -52,4 +48,4 @@ class CompanyList extends Component {
   }
 }
 
-export default CompanyList
+export default CompanyList;

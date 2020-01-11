@@ -99,29 +99,38 @@ footer img {
 
 .user-inventory {
   display: flex;
+  height: 90%;
   flex-grow: 5;
   flex-direction: column;
   margin: 3%;
   background-color: rgba(255,255,255,0.4);
+  transition: all .2s ease-in-out;
 }
 
 .company-list {
   position: relative;
   display: flex;
+  height: 90%;
   flex-grow: 1;
   margin: 3%;
-  height: auto;
   flex-direction: column;
   background-color: rgba(255,255,255,0.4);
 }
 
+.company-list div {
+  height: 85%;
+  width: 95%;
+  margin: 0 auto;
+}
+
 .company-list button {
-  position: absolute;
+  /* position: absolute;
   right: 1em;
-  bottom: 1em;
+  bottom: 1em; */
   width: 75px;
   height: 25px;
   font-size: .2em;
+  margin: 5px auto;
 }
 
 .company-list div {
@@ -146,6 +155,7 @@ footer img {
 .home {
   position: relative;
   display: flex;
+  flex-direction: column;
   width: 95%;
   height: 80vh;
   background-color: rgba(142,201,80,0.4);
@@ -153,8 +163,30 @@ footer img {
 }
 
 .inner-header {
-  position: absolute;
   width: 100%;
-  height: 25px;
-  background-color: rgba(57, 57, 57, 0.2)
+  height: 40px;
+  background-color: rgba(57, 57, 57, 0.8)
+}
+
+.home-main {
+  display: flex;
+}
+
+.create-company-menu {
+  background-color: rgba(57, 57, 57, 0.8);
+  position: absolute;
+  left: 0;
+  top: 40px;
+  height: 0;
+  width: 100%;
+  opacity: 1;
+  transition: all .2s ease-in-out;
+}
+
+.show-menu {
+  height: 94.6%;
+}
+
+.dull-area {
+  opacity: .1;
 }
