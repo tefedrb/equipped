@@ -34,8 +34,9 @@ class CompanyList extends Component {
         <CompanyListItem company={company} key={index} />
       )
     }) : "Loading...";
+    const createMenuDisplayed = this.props.showCreateMenu ? "dull-area" : null;
     return (
-      <div className="company-list">
+      <div className={`company-list ${createMenuDisplayed}`}>
         <h1>Company List</h1>
         <div>
           {companies}

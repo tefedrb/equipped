@@ -82,11 +82,17 @@ class Home extends Component {
     return (
       <div className="home">
         <div className="inner-header"></div>
-        <CreateCompany showCreateMenu={this.state.showCreateMenu}/>
+        <CreateCompany 
+          showCreateMenu={this.state.showCreateMenu}
+        />
         <main className="home-main">
           {!this.props.jwt && <Redirect to="/"/>}
-          <Inventory showCreateMenu={this.state.showCreateMenu} jwt={this.props.jwt}/>
+          <Inventory 
+            showCreateMenu={this.state.showCreateMenu} 
+            jwt={this.props.jwt}
+          />
           <CompanyList 
+            showCreateMenu={this.state.showCreateMenu}
             createCompany={this.clickCreateCompany} 
             jwt={this.props.jwt}
           />
