@@ -7,7 +7,179 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+} */
+
+
+* {
+  font-family: 'Anton', sans-serif;
+}
+
+.enterApp {
+  height: 150px;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all .5s ease;
+}
+
+.enterApp input {
+  margin: 0.7em;
+  opacity: 1;
+  transition: all .5s ease;
+}
+
+.hide {
+  opacity: 0;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header {
+  position: relative;
+  width: 100%;
+  background: black;
+  height: 2.5em;
+  font-family: 'Anton', sans-serif;
+  /* text-align: left; */
+  color: #69cb42;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+}
+
+header img:first-child {
+  padding: .5em;
+  height: 75%;
+  filter: brightness(0) invert(1);
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.5em;
+  width: 100%;
+  background: black;
+  overflow: hidden;
+}
+
+footer img {
+  padding: .5em;
+  height: 75%;
+  filter: brightness(0) invert(1);
+}
+
+.user-inventory {
+  display: flex;
+  height: 90%;
+  flex-grow: 5;
+  flex-direction: column;
+  margin: 3%;
+  background-color: rgba(255,255,255,0.4);
+  transition: all .2s ease-in-out;
+}
+
+.company-list {
+  position: relative;
+  display: flex;
+  height: 90%;
+  flex-grow: 1;
+  margin: 3%;
+  flex-direction: column;
+  background-color: rgba(255,255,255,0.4);
+  transition: all .2s ease-in-out;
+}
+
+.company-list div {
+  height: 85%;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.company-list button {
+  /* position: absolute;
+  right: 1em;
+  bottom: 1em; */
+  width: 75px;
+  height: 25px;
+  font-size: .2em;
+  margin: 5px auto;
+}
+
+.company-list div {
+  
+}
+
+label {
+  margin-bottom: .5em;
+  margin-top: 1em;
+}
+
+.company-list-item {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  text-align: center;
+  color: white;
+  background-color: rgba(0,0,0,0.4);
+  border: 2px black solid;
+  padding: .2em;
+}
+
+.company-list-item span:nth-child(2){
+  font-size: .75em;
+}
+
+.home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  height: 80vh;
+  background-color: rgba(142,201,80,0.4);
+  border: 10px solid rgba(255,255,255,0.2);
+}
+
+.inner-header {
+  width: 100%;
+  height: 40px;
+  background-color: rgba(57, 57, 57, 0.8)
+}
+
+.home-main {
+  display: flex;
+}
+
+.create-company-menu {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(57, 57, 57, 0.8);
+  clip-path: inset(40px 0px 0px 0px);
+  left: 0;
+  top: 0;
+  height: 0;
+  width: 100%;
+  opacity: 1;
+  transition: all .2s ease-in-out;
+}
+
+.show-menu {
+  height: 100%;
+}
+
+.dull-area {
+  opacity: 0;
+  height: 0;
 }

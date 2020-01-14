@@ -16,7 +16,6 @@ const Img = styled.img `
     padding-left: .5em;
 `
 
-
 class UserHeader extends Component {
     constructor(props){
         super(props);

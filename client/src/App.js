@@ -21,6 +21,8 @@ class App extends Component {
   }
 
   updateJwt = (token) => {
+    // Saves token to local storage & component state
+    localStorage.setItem('jwt', token);
     this.setState({
       jwt: token
     })

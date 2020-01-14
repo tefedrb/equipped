@@ -41,9 +41,9 @@ class CompanyList extends Component {
         <div>
           {companies}
         </div>
-        <button onClick={this.props.createCompany}>
+        {!createMenuDisplayed && <button onClick={this.props.toggleCreateCompany}>
         Create Company
-        </button>
+        </button>}
       </div>
     );
   }
