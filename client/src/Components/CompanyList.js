@@ -13,18 +13,24 @@ class CompanyList extends Component {
 
   componentDidMount(){
     const myHeaders = new Headers();
+    console.log("Company List MOUNTED");
     myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${this.props.jwt}`);
+    myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
     fetch("http://localhost:8082/company/list", {
       method: 'get',
       headers: myHeaders,
     })
     .then(res => res.json())
     .then(res => {
+      console.log('CompanyList FETCH')
       this.setState({
         companies: res
       })
     })
+  }
+
+  componentWillUnmount(){
+    console.log("CompanyList UNMOUNTED");
   }
 
   render(){

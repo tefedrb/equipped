@@ -59,7 +59,7 @@ class SignUp extends Component {
 
   render(){
     // Here is where we decide whether to redirect to homepage
-    if(this.props.jwt){
+    if(localStorage.getItem('jwt')){
       return <Redirect to="/home" />
     }
 

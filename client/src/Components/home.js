@@ -12,7 +12,7 @@ class Home extends Component {
     super(props);
     this.state = {
       company: null,
-      showCreateMenu: false
+      showCreateMenu: false,
     }
   }
   /*
@@ -54,6 +54,15 @@ class Home extends Component {
     }
   }
 
+  componentDidMount(){
+    console.log("Home Component Mounted");
+    console.log(localStorage.getItem('user'))
+  }
+
+  componentWillUnmount(){
+    console.log("HOME COMPONENT UNMOUNT")
+  }
+
   render(){
     return (
       <div className="home">
@@ -64,15 +73,13 @@ class Home extends Component {
           createCompany={this.createCompany}
         />
         <main className="home-main">
-          {!this.props.jwt && <Redirect to="/"/>}
+          {!localStorage.getItem('jwt') && <Redirect to="/"/>}
           <Inventory 
             showCreateMenu={this.state.showCreateMenu} 
-            jwt={this.props.jwt}
           />
           <CompanyList 
             showCreateMenu={this.state.showCreateMenu}
             toggleCreateCompany={this.toggleCreateCompany} 
-            jwt={this.props.jwt}
           />
         </main>
       </div>
