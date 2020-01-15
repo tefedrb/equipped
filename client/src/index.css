@@ -100,7 +100,7 @@ footer img {
   transition: all .2s ease-in-out;
 }
 
-.company-list div {
+.company-list-container {
   height: 85%;
   width: 95%;
   margin: 0 auto;

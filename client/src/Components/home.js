@@ -32,28 +32,6 @@ class Home extends Component {
     }))
   }
 
-  createCompany = (event) => {
-    console.log(event, "<--- create company")
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${this.props.jwt}`);
-    try {
-        fetch("http://localhost:8082/company/create", {
-        method: 'post',
-        headers: myHeaders,
-        body: JSON.stringify({
-          name: event.target.name,
-          password: event.target.password,
-          type: event.target.type
-        }).then(res => {
-          console.log(res);
-        })
-      })
-    } catch(error) {
-      console.log(`Error: ${error}`);
-    }
-  }
-
   componentDidMount(){
     console.log("Home Component Mounted");
     console.log(localStorage.getItem('user'))

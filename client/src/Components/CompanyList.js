@@ -44,7 +44,7 @@ class CompanyList extends Component {
     return (
       <div className={`company-list ${createMenuDisplayed}`}>
         <h1>Company List</h1>
-        <div>
+        <div className='company-list-container'>
           {companies}
         </div>
         {!createMenuDisplayed && <button onClick={this.props.toggleCreateCompany}>
