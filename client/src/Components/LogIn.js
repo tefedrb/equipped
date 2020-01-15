@@ -32,11 +32,37 @@ class LogIn extends Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res, "<-- From login");
-        this.props.updateJwt(res.token)
-      }
-    )
-  }
+        console.log(res, "<-- From login");
+        // saves jwt in local storage
+          this.props.updateJwt(res.token)
+          try {
+            // Make a call to user company based off userID or Name
+            fetch("http://localhost:8082/company/userCompany", {
+              method: 'get',
+              headers: {
+                'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(res => res.json())
+            .then(res => {
+              if(res.name !== "Null"){
+                // This will direct user to company home page if they have a company
+                // this.setState /* ({ */
+                //   company: res
+                /*  }) */
+              }
+              /* This is a method created in App.js that updates parent 
+              state in order for UserHeader to work properly */
+              this.props.getUser();
+              console.log(res, "<-- COMPANY RES")
+            })
+          } catch(error){
+            console.log(`Error for /company/userCompany: ${error}`);
+          }
+        }
+      )
+    }
 
   handleChange = (event) => {
     this.setState({
@@ -50,11 +76,19 @@ class LogIn extends Component {
     }));
   };
 
+  componentWillUnmount(){
+    console.log("LOGIN COMPONENT UNMOUNT")
+  }
+
+  componentDidMount (){
+    console.log("Login Component did mount")
+  }
 
   render(){
-    if(this.props.jwt){
+    if(localStorage.getItem('jwt')) {
       return <Redirect to="/home" />
     }
+    
     const Button = styled.button`
       background: rgba(37, 208, 125, 0.52);
       border-radius: 2px;
@@ -71,7 +105,9 @@ class LogIn extends Component {
     return (
       <div>
       <Button onClick={this.toggleForm}>Log In</Button>
-        <form className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} onSubmit={this.handleSubmit}>
+        <form 
+          className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} 
+          onSubmit={this.handleSubmit}>
             <input name="username"
               type="text"
               value={this.state.username}

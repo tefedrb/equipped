@@ -7,7 +7,9 @@ import Home from './Components/Home';
 import UserHeader from './Components/UserHeader';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch,
+  Redirect
 } from 'react-router-dom';
 
 class App extends Component {
@@ -15,15 +17,14 @@ class App extends Component {
     super(props);
     this.state = {
       user: null,
-      jwt: null
+      userLoggedIn: false
     }
     // this.updateJwt = this.updateJwt.bind(this);
   }
 
   updateJwt = (token) => {
-    this.setState({
-      jwt: token
-    })
+    // Saves token to local storage & component state
+    localStorage.setItem('jwt', token);
   }
 
   componentDidMount(){
@@ -54,28 +55,31 @@ class App extends Component {
   }
 
   componentWillUnmount(){
-    console.log("WHAT?!?!?!?!?!? App");
+    console.log("APP COMPONENT UNMOUNT");
   }
 
   getUser = () => {
     const myHeader = new Headers();
     myHeader.append('Content-Type', 'application/json');
-    myHeader.append('Authorization', `Bearer ${this.state.jwt}`);
+    myHeader.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
     fetch("http://localhost:8082/user/retrieve", {
       method: 'get',
       headers: myHeader
     })
     .then(res => res.json())
     .then(res => {
+      // Adds logged in user to local storage
+      localStorage.setItem('user', JSON.stringify(res));
       this.setState({
-        user: res
+        userLoggedIn: true
       })
     })
   }
 
   render(){
+    const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
-      <div className="testing">
+      <div className="main-container">
         <header>
           <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
           <span>Equipped</span>
@@ -83,23 +87,21 @@ class App extends Component {
         </header>
           <main>
             <Router>
-              <Route
-                exact path="/"
-                component={() => <SignUp updateJwt={this.updateJwt}
-                  jwt={this.state.jwt} />}
-              />
-              <Route
-                exact path="/"
-                component={() => <LogIn updateJwt={this.updateJwt}
-                  jwt={this.state.jwt} />}
-              />
-              <Route
-                path="/home"
-                component={() => 
-                <Home jwt={this.state.jwt} 
-                  getUser={this.getUser} user={this.state.user}
-                />}
-              />
+                <SignUp exact path="/" updateJwt={this.updateJwt}
+                    />
+                
+                <LogIn exact path="/" updateJwt={this.updateJwt}
+                    getUser={this.getUser}
+                    />
+                    
+                <Route
+                  path="/home"
+                  component={() =>
+                  <Home
+                    user={this.state.user}
+                  />}
+                /> 
+                {loggedIn}
             </Router>
           </main>
           <footer>

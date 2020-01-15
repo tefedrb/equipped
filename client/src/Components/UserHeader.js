@@ -16,7 +16,6 @@ const Img = styled.img `
     padding-left: .5em;
 `
 
-
 class UserHeader extends Component {
     constructor(props){
         super(props);
@@ -30,9 +29,10 @@ class UserHeader extends Component {
     }
     
     render(){
-        const user = this.props.user ? 
-        this.props.user.username : "Loading...";
-        const defaultView = this.props.user ? (
+        const user = localStorage.getItem('user') ? 
+        JSON.parse(localStorage.getItem('user')).username : "Loading...";
+
+        const defaultView = localStorage.getItem('user') ? (
         <Div>
             <span>{user}</span>
             <Img src="https://img.icons8.com/android/24/000000/settings.png" 

@@ -14,8 +14,9 @@ class Inventory extends Component {
   }
 
   render(){
+    const createMenuDisplayed = this.props.showCreateMenu ? "dull-area" : null;
     return (
-      <div className="user-inventory">
+      <div className={`user-inventory ${createMenuDisplayed}`}>
         <h1>Inventory</h1>
       </div>
     );
