@@ -32,11 +32,34 @@ class LogIn extends Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res, "<-- From login");
-        this.props.updateJwt(res.token)
-      }
-    )
-  }
+        console.log(res, "<-- From login");
+          this.props.updateJwt(res.token)
+          try {
+            // Make a call to user company based off userID or Name
+            fetch("http://localhost:8082/company/userCompany", {
+              method: 'get',
+              headers: {
+                'Authorization' : 'Bearer ' + this.props.jwt,
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(res => res.json())
+            .then(res => {
+              if(res.name !== "Null"){
+                this.setState({
+                  company: res
+                })
+              }
+              /* This is a method created in App.js that updates parent 
+              state in order for UserHeader to work properly */
+              this.props.getUser();
+            })
+          } catch(error){
+            console.log(`Error for /company/userCompany: ${error}`);
+          }
+        }
+      )
+    }
 
   handleChange = (event) => {
     this.setState({
@@ -52,9 +75,10 @@ class LogIn extends Component {
 
 
   render(){
-    if(this.props.jwt){
+    if(this.props.jwt) {
       return <Redirect to="/home" />
     }
+    
     const Button = styled.button`
       background: rgba(37, 208, 125, 0.52);
       border-radius: 2px;

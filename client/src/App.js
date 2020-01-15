@@ -7,7 +7,8 @@ import Home from './Components/Home';
 import UserHeader from './Components/UserHeader';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 
 class App extends Component {
@@ -85,23 +86,22 @@ class App extends Component {
         </header>
           <main>
             <Router>
-              <Route
-                exact path="/"
-                component={() => <SignUp updateJwt={this.updateJwt}
-                  jwt={this.state.jwt} />}
-              />
-              <Route
-                exact path="/"
-                component={() => <LogIn updateJwt={this.updateJwt}
-                  jwt={this.state.jwt} />}
-              />
-              <Route
-                path="/home"
-                component={() => 
-                <Home jwt={this.state.jwt} 
-                  getUser={this.getUser} user={this.state.user}
-                />}
-              />
+                <SignUp updateJwt={this.updateJwt}
+                    jwt={this.state.jwt} 
+                    />
+                
+                <LogIn updateJwt={this.updateJwt}
+                    jwt={this.state.jwt} 
+                    getUser={this.getUser}
+                    />
+                    
+                <Route
+                  path="/home"
+                  component={() =>
+                  <Home jwt={this.state.jwt} 
+                    user={this.state.user}
+                  />}
+                /> 
             </Router>
           </main>
           <footer>

@@ -15,39 +15,6 @@ class Home extends Component {
       showCreateMenu: false
     }
   }
-
-  componentDidMount(){
-    // Get user info
-
-    // This is mounting twice
-    console.log(this.props.user, "<-- why?")
-    if(!this.props.user){
-      try {
-        // Make a call to user company based off userID or Name
-        fetch("http://localhost:8082/company/userCompany", {
-          method: 'get',
-          headers: {
-            'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(res => res.json())
-        .then(res => {
-          if(res.name !== "Null"){
-            this.setState({
-              company: res
-            })
-          }
-          /* This is a method created in App.js that updates parent 
-          state in order for UserHeader to work properly */
-          this.props.getUser();
-        })
-      } catch(error){
-        console.log(`Error for /company/userCompany: ${error}`);
-      }
-    }
-  }
-
   /*
     If user doesn't belong to company - Redirect
     to company select page / inventory
