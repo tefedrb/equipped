@@ -52,7 +52,7 @@ class LogIn extends Component {
                 //   company: res
                 /*  }) */
               }
-              /* This is a method created in App.js that updates parent 
+              /* This is a method created in App.js updates parent 
               state in order for UserHeader to work properly */
               this.props.getUser();
               console.log(res, "<-- COMPANY RES")

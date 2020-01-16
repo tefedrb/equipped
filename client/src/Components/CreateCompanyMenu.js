@@ -36,7 +36,8 @@ class CreateCompanyMenu extends Component{
         super(props);
         this.state = {
             name: '',
-            password: ''
+            password: '',
+            type: 'Media'
         }
     }
 
@@ -47,12 +48,36 @@ class CreateCompanyMenu extends Component{
         })
     }
 
+    createCompany = (event) => {
+        event.preventDefault();
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
+        fetch("http://localhost:8082/company/create", {
+            method: 'post',
+            headers: myHeaders,
+            body: JSON.stringify({
+              name: this.state.name,
+              password: this.state.password,
+              type: this.state.type
+            })
+        })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res, "<-- create company response");
+            this.props.toggleCreateCompany();
+        })
+        .catch(error =>{
+        console.log(error);
+        })
+    }
+
     render(){
     const showCreateMenu = this.props.showCreateMenu ? "show-menu" : null;
         return  (
             <div className={`create-company-menu ${showCreateMenu}`}>
                 <Div>
-                    <Form id="create-comp" onSubmit={this.props.createCompany}>
+                    <Form id="create-comp" onSubmit={this.createCompany}>
                         <Label>Company Name
                             <input 
                                 value={this.state.name}
@@ -75,7 +100,7 @@ class CreateCompanyMenu extends Component{
                         </Label>
                         
                         <Label>Company Type
-                            <select required name="type">
+                            <select required name="type" value={this.state.type} onChange={this.handleChange}>
                                 <option value="media">Media</option>
                                 <option value="photography">Photography</option>
                                 <option value="film/video">Film/Video</option>

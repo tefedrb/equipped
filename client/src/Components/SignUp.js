@@ -40,6 +40,7 @@ class SignUp extends Component {
           alert("Looks like someone already has that username");
         } else {
           this.props.updateJwt(res.token);
+          this.props.getUser();
         }
       }
     )

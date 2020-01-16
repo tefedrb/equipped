@@ -88,11 +88,12 @@ class App extends Component {
           <main>
             <Router>
                 <SignUp exact path="/" updateJwt={this.updateJwt}
-                    />
+                  getUser={this.getUser}
+                />
                 
                 <LogIn exact path="/" updateJwt={this.updateJwt}
-                    getUser={this.getUser}
-                    />
+                  getUser={this.getUser}
+                />
                     
                 <Route
                   path="/home"
