@@ -37,7 +37,7 @@ class CreateCompanyMenu extends Component{
         this.state = {
             name: '',
             password: '',
-            type: ''
+            type: 'Media'
         }
     }
 

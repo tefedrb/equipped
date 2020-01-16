@@ -14,19 +14,30 @@ class CompanyList extends Component {
   componentDidMount(){
     const myHeaders = new Headers();
     console.log("Company List MOUNTED");
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
-    fetch("http://localhost:8082/company/list", {
-      method: 'get',
-      headers: myHeaders,
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log('CompanyList FETCH')
-      this.setState({
-        companies: res
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
+      fetch("http://localhost:8082/company/list", {
+        method: 'get',
+        headers: myHeaders
       })
-    })
+      .then(res => res.json())
+      .then(res => {
+        console.log('CompanyList FETCH')
+        console.log(res, '<-companies')
+        if(res.error === "Unauthorized"){
+          alert("You have been logged out.")
+          localStorage.clear();
+          window.location.reload();
+        } else {
+          this.setState({
+            companies: res
+          })
+        }
+      })
+      .catch(error => {
+        // if(this.state.companies = )
+      })
+    
   }
 
   componentWillUnmount(){
