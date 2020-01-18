@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import '../App.css';
 import styled from 'styled-components';
+import Settings from './Settings';
 
 const Div = styled.div`
     display: flex;
@@ -11,23 +11,29 @@ const Div = styled.div`
     top: .5em;
 `
 
-const Img = styled.img `
+const Img = styled.img`
     filter: brightness(0) invert(1);
     padding-left: .5em;
+    &:hover{
+        cursor: pointer
+    }
 `
 
 class UserHeader extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userDisplay: false
+            userDisplay: false,
+            settingsDisplay: false
         }
     }
     
-    componentWillUnmount(){
-        console.log("WHAT?!?!?!?!?!? UserHeader");
+    handleClick = () => {
+        this.setState({
+            settingsDisplay: !this.state.settingsDisplay
+        })
     }
-    
+
     render(){
         const user = localStorage.getItem('user') ? 
         JSON.parse(localStorage.getItem('user')).username : "Loading...";
@@ -35,9 +41,9 @@ class UserHeader extends Component {
         const defaultView = localStorage.getItem('user') ? (
         <Div>
             <span>{user}</span>
-            <Img src="https://img.icons8.com/android/24/000000/settings.png" 
+            <Img onClick={this.handleClick} src="https://img.icons8.com/android/24/000000/settings.png" 
                 alt="settings-wheel"
-            />
+            /> 
         </Div>
         ) 
         : 
@@ -45,7 +51,10 @@ class UserHeader extends Component {
             
         </Div>
         return (
-            defaultView
+            <div>
+                {defaultView}
+                <Settings display={this.state.settingsDisplay} />
+            </div>
         )
     }
 }

@@ -16,6 +16,21 @@ class CompanyView extends Component{
   constructor(props){
     super(props);
   }
+
+  componentDidMount(){
+    fetch("http://localhost:8082/user/userCompany", {
+      method: 'get',
+      headers:{
+        'Content-Type' : 'application/json',
+        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
+    })
+    .then(res => res.json())
+    .then(res =>{
+      console.log(res, "<User company")
+    })
+  }
+
   render(){
     return(
       <Div>
