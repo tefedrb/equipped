@@ -151,9 +151,13 @@ label {
 }
 
 .inner-header {
+  display: flex;
+  align-items: center;
+  flex-direction: row; 
+  justify-content: space-around; 
   width: 100%;
   height: 40px;
-  background-color: rgba(57, 57, 57, 0.8)
+  background-color: rgba(57, 57, 57, 0.8);
 }
 
 .home-main {

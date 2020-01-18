@@ -5,6 +5,7 @@ import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader';
+import AccessAccount from './Components/AccessAccount';
 import {
   BrowserRouter as Router,
   Route,
@@ -80,34 +81,32 @@ class App extends Component {
     const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
       <div className="main-container">
+        
         <header>
           <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
           <span>Equipped</span>
           <UserHeader user={this.state.user}/>
         </header>
-          <main>
-            <Router>
-                <SignUp exact path="/" updateJwt={this.updateJwt}
-                  getUser={this.getUser}
-                />
-                
-                <LogIn exact path="/" updateJwt={this.updateJwt}
-                  getUser={this.getUser}
-                />
-                    
-                <Route
-                  path="/home"
-                  component={() =>
-                  <Home
-                    user={this.state.user}
-                  />}
-                /> 
-                {loggedIn}
-            </Router>
-          </main>
-          <footer>
-          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
-          </footer>
+        <main>
+          <Router>   
+             <AccessAccount 
+                exact path="/"
+                updateJwt={this.updateJwt}
+                getUser={this.getUser}
+             />     
+             {loggedIn}
+              <Route
+                path="/home"
+                component={() =>
+                <Home
+                  user={this.state.user}
+                />}
+              /> 
+          </Router>
+        </main>
+        <footer>
+        <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+        </footer>
       </div>
     );
   }
