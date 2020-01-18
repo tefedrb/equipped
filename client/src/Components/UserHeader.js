@@ -41,7 +41,9 @@ class UserHeader extends Component {
         </Div>
         ) 
         : 
-        <Div></Div>
+        <Div>
+            
+        </Div>
         return (
             defaultView
         )
