@@ -9,7 +9,6 @@ import AccessAccount from './Components/AccessAccount';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
   Redirect
 } from 'react-router-dom';
 
@@ -104,7 +103,7 @@ class App extends Component {
           </Router>
         </main>
         <footer>
-        <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
         </footer>
       </div>
     );

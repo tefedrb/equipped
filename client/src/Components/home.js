@@ -4,7 +4,7 @@ import '../App.css';
 import CompanyList from './CompanyList';
 import Inventory from './Inventory';
 import CreateCompanyMenu from './CreateCompanyMenu';
-import {Route, NavLink} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import CompanyView from './CompanyView';
 import InnerNav from './InnerNav/InnerNav';
 
@@ -25,6 +25,7 @@ class Home extends Component {
     }))
   }
 
+  // Move create company menu into company list?
   render(){
     return (
       <div className="home">

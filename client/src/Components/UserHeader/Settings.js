@@ -19,7 +19,8 @@ const Settings = (props) =>{
         top: "40px",
         width: "25vw",
         height: "50vh",
-        zIndex: 2
+        zIndex: 2,
+        boxShadow: "5px 2px 10px black"
     }
 
     return (
