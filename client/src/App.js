@@ -4,12 +4,11 @@ import SignUp from './Components/SignUp';
 import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 // import styled from 'styled-components';
-import UserHeader from './Components/UserHeader';
+import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccessAccount';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
   Redirect
 } from 'react-router-dom';
 
@@ -69,7 +68,7 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(res => {
-      // Adds logged in user to local storage
+      // Adds user to local storage
       localStorage.setItem('user', JSON.stringify(res));
       this.setState({
         userLoggedIn: true
@@ -81,7 +80,6 @@ class App extends Component {
     const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
       <div className="main-container">
-        
         <header>
           <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
           <span>Equipped</span>
@@ -105,7 +103,7 @@ class App extends Component {
           </Router>
         </main>
         <footer>
-        <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
         </footer>
       </div>
     );

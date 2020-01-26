@@ -10,6 +10,7 @@ const LinkBtns = (props) => {
         padding: "0 2em",
         backgroundColor: props.activeLink === props.linkName ? "black" : "transparent"
     }
+    
     return (
         <div style={linkStyle} onClick={() => props.activateLink(props.linkName)}>
             {props.linkName}

@@ -17,7 +17,7 @@ class InnerNav extends Component {
     constructor(props){
         super(props);
         this.state = {
-            activeLink: ''
+            activeLink: 'Home'
         }
     }
 
@@ -32,7 +32,7 @@ class InnerNav extends Component {
             <Div>
                 <NavLink to="/home">
                     <LinkBtns 
-                        linkName={"Home"} 
+                        linkName={"Main"} 
                         activeLink={this.state.activeLink} 
                         activateLink={this.activateLink} 
                     />
