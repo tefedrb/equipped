@@ -10,10 +10,13 @@ import React from 'react';
 //     z-index: 2;
 // `
 const Settings = (props) =>{
-    console.log(props.display, "<--------")
+    // Might be able to use sass here to nest settingsStyle section {} css
     let settingsStyle = {
         position: "absolute",
         display: props.display ? "flex" : "none",
+        justifyContent: "space-around",
+        alignItems: "center",
+        flexDirection: "column",
         backgroundColor: "rgba(0, 0, 0, 0.8)",
         right: 0,
         top: "40px",
@@ -23,9 +26,24 @@ const Settings = (props) =>{
         boxShadow: "5px 2px 10px black"
     }
 
+    let flexBox = {
+        display: "flex",
+        flexDirection: "column",
+        height: "4em"
+    }
+
+    const {title, username} = props.user;
+   
     return (
         <div style={settingsStyle}>
-            OH
+            <section style={flexBox}>
+                <div><span style={{color: "white"}}>Username:</span>{username}</div>
+                <div><span style={{color: "white"}}>Title:</span>{title}</div>
+                <div><span style={{color: "white"}}>Company:</span></div>
+            </section>
+            <section>
+                <button>LOGOUT</button>
+            </section>
         </div>
     )
 }

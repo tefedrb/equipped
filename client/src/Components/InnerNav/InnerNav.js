@@ -32,7 +32,7 @@ class InnerNav extends Component {
             <Div>
                 <NavLink to="/home">
                     <LinkBtns 
-                        linkName={"Home"} 
+                        linkName={"Main"} 
                         activeLink={this.state.activeLink} 
                         activateLink={this.activateLink} 
                     />

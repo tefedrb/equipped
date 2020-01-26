@@ -23,11 +23,19 @@ class UserHeader extends Component {
     constructor(props){
         super(props);
         this.state = {
+            user: '',
             userDisplay: false,
             settingsDisplay: false
         }
     }
     
+    componentDidMount(){
+        const loggedInUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+        this.setState({
+            user: loggedInUser
+        })
+    }
+
     handleClick = () => {
         this.setState({
             settingsDisplay: !this.state.settingsDisplay
@@ -53,7 +61,7 @@ class UserHeader extends Component {
         return (
             <div>
                 {defaultView}
-                <Settings display={this.state.settingsDisplay} />
+                <Settings user={this.state.user} display={this.state.settingsDisplay} />
             </div>
         )
     }
