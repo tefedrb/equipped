@@ -33,7 +33,7 @@ class LogIn extends Component {
     .then(res => res.json())
     .then(res => {
         // saves jwt in local storage
-          this.props.updateJwt(res.token)
+          localStorage.setItem('jwt', res.token);
           try {
             // Make a call to user company based off userID or Name
             fetch("http://localhost:8082/company/userCompany", {

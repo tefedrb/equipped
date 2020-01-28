@@ -34,9 +34,9 @@ class CompanyList extends Component {
           })
         }
       })
-      .catch(error => {
-        // if(this.state.companies = )
-      })
+    .catch(error => {
+      // if(this.state.companies = )
+    })
     
   }
 
@@ -59,8 +59,7 @@ class CompanyList extends Component {
           {companies}
         </div>
         {!createMenuDisplayed && <button onClick={this.props.toggleCreateCompany}>
-        Create Company
-        </button>}
+        Create Company</button>}
       </div>
     );
   }

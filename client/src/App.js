@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import SignUp from './Components/SignUp';
-import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
@@ -19,12 +17,6 @@ class App extends Component {
       user: null,
       userLoggedIn: false
     }
-    // this.updateJwt = this.updateJwt.bind(this);
-  }
-
-  updateJwt = (token) => {
-    // Saves token to local storage & component state
-    localStorage.setItem('jwt', token);
   }
 
   componentDidMount(){
@@ -52,13 +44,21 @@ class App extends Component {
         })
       }
     })
+    /* Trying to rehydrate state with user data after browser
+     refresh */
+    if(localStorage.getItem('user')){
+      this.setState({
+       user: JSON.parse(localStorage.getItem('user')),
+       userLoggedIn: true
+      })
+    }
   }
 
   componentWillUnmount(){
     console.log("APP COMPONENT UNMOUNT");
   }
 
-  getUser = () => {
+  getUser = (company) => {
     const myHeader = new Headers();
     myHeader.append('Content-Type', 'application/json');
     myHeader.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
@@ -69,8 +69,8 @@ class App extends Component {
     .then(res => res.json())
     .then(res => {
       // Adds user to local storage
-      console.log("getUser used")
       localStorage.setItem('user', JSON.stringify(res));
+      if(company) res.company = company;
       this.setState({
         userLoggedIn: true,
         user: res
@@ -89,19 +89,19 @@ class App extends Component {
         </header>
         <main>
           <Router>   
-             <AccessAccount 
-                exact path="/"
-                updateJwt={this.updateJwt}
-                getUser={this.getUser}
-             />     
-             {loggedIn}
-              <Route
-                path="/home"
-                component={() =>
-                <Home
-                  user={this.state.user}
-                />}
-              /> 
+            <AccessAccount 
+              exact path="/"
+              updateJwt={this.updateJwt}
+              getUser={this.getUser}
+            />     
+            {loggedIn}
+            <Route
+              path="/home"
+              component={() =>
+              <Home
+                user={this.state.user}
+              />}
+            /> 
           </Router>
         </main>
         <footer>
