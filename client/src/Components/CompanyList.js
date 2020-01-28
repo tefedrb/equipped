@@ -3,17 +3,21 @@ import '../App.css';
 import CompanyListItem from './CompanyListItem';
 
 class CompanyList extends Component {
+  // This sets up a flag that stops setState from 
+  // being executed on an unmounted component
+  _isMounted = false;
+
   constructor(props){
     super(props);
     this.state = {
-      companies: null,
-      displayCreateMenu: false
+      companies: null
     }
   }
 
   componentDidMount(){
-    const myHeaders = new Headers();
-    console.log("Company List MOUNTED");
+    this._isMounted = true;
+    if(this.state.companies == null){
+      const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
       fetch("http://localhost:8082/company/list", {
@@ -22,26 +26,24 @@ class CompanyList extends Component {
       })
       .then(res => res.json())
       .then(res => {
-        console.log('CompanyList FETCH')
-        console.log(res, '<-companies')
         if(res.error === "Unauthorized"){
           alert("You have been logged out.")
           localStorage.clear();
           window.location.reload();
-        } else {
+        } else if(this._isMounted){
           this.setState({
             companies: res
           })
         }
       })
-    .catch(error => {
-      // if(this.state.companies = )
-    })
-    
+      .catch(error => {
+        console.log(error);
+      })
+    }
   }
 
   componentWillUnmount(){
-    console.log("CompanyList UNMOUNTED");
+    this._isMounted = false;
   }
 
   render(){

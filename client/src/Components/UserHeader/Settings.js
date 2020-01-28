@@ -1,14 +1,5 @@
 import React from 'react';
-// const Aside = styled.aside `
-//     position: absolute;
-//     display: flex;
-//     background-color: black;
-//     right: 0;
-//     top: 40px;
-//     width: 100px;
-//     height: 200px;
-//     z-index: 2;
-// `
+
 const Settings = (props) =>{
     // Might be able to use sass here to nest settingsStyle section {} css
     let settingsStyle = {
@@ -35,7 +26,6 @@ const Settings = (props) =>{
     let userDisplay;
     if(props.user){
         const {title, username} = props.user;
-        console.log(props.user, "<--here we go")
         userDisplay =
         <section style={flexBox}>
             <div><span style={{color: "white"}}>Username:</span>{username}</div>
@@ -43,7 +33,6 @@ const Settings = (props) =>{
             <div><span style={{color: "white"}}>Company:</span></div>
         </section>
     } else {
-        console.log("USER DISPLAY FAIL??", props.user)
         userDisplay = <div></div>
     }
    

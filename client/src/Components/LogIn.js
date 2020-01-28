@@ -74,14 +74,6 @@ class LogIn extends Component {
     }));
   };
 
-  componentWillUnmount(){
-    console.log("LOGIN COMPONENT UNMOUNT")
-  }
-
-  componentDidMount (){
-    console.log("Login Component did mount")
-  }
-
   render(){
     if(localStorage.getItem('jwt')) {
       return <Redirect to="/home" />

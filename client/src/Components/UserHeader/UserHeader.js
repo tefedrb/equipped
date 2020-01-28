@@ -28,14 +28,6 @@ class UserHeader extends Component {
             settingsDisplay: false
         }
     }
-    
-    componentDidMount(){
-        const loggedInUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-        console.log(this.props.user, "<USER HEAD PROPS");
-        this.setState({
-            user: loggedInUser
-        })
-    }
 
     componentDidUpdate(){
         // This condition is here in order to get userHeader to properly display
