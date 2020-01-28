@@ -31,16 +31,25 @@ const Settings = (props) =>{
         flexDirection: "column",
         height: "4em"
     }
-
-    const {title, username} = props.user;
+    
+    let userDisplay;
+    if(props.user){
+        const {title, username} = props.user;
+        console.log(props.user, "<--here we go")
+        userDisplay =
+        <section style={flexBox}>
+            <div><span style={{color: "white"}}>Username:</span>{username}</div>
+            <div><span style={{color: "white"}}>Title:</span>{title}</div>
+            <div><span style={{color: "white"}}>Company:</span></div>
+        </section>
+    } else {
+        console.log("USER DISPLAY FAIL??", props.user)
+        userDisplay = <div></div>
+    }
    
     return (
         <div style={settingsStyle}>
-            <section style={flexBox}>
-                <div><span style={{color: "white"}}>Username:</span>{username}</div>
-                <div><span style={{color: "white"}}>Title:</span>{title}</div>
-                <div><span style={{color: "white"}}>Company:</span></div>
-            </section>
+            {userDisplay}
             <section>
                 <button>LOGOUT</button>
             </section>
