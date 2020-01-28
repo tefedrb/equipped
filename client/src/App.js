@@ -69,9 +69,11 @@ class App extends Component {
     .then(res => res.json())
     .then(res => {
       // Adds user to local storage
+      console.log("getUser used")
       localStorage.setItem('user', JSON.stringify(res));
       this.setState({
-        userLoggedIn: true
+        userLoggedIn: true,
+        user: res
       })
     })
   }

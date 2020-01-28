@@ -23,7 +23,7 @@ class UserHeader extends Component {
     constructor(props){
         super(props);
         this.state = {
-            user: '',
+            user: this.props.user,
             userDisplay: false,
             settingsDisplay: false
         }
@@ -33,6 +33,12 @@ class UserHeader extends Component {
         const loggedInUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
         this.setState({
             user: loggedInUser
+        })
+    }
+
+    componentWillReceiveProps(){
+        this.setState({
+            user: this.props.user
         })
     }
 
