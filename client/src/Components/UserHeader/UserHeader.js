@@ -23,47 +23,44 @@ class UserHeader extends Component {
     constructor(props){
         super(props);
         this.state = {
-            user: this.props.user,
+            user: null,
             userDisplay: false,
             settingsDisplay: false
         }
     }
-    
-    componentDidMount(){
-        const loggedInUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-        this.setState({
-            user: loggedInUser
-        })
-    }
 
-    componentWillReceiveProps(){
-        this.setState({
-            user: this.props.user
-        })
+    componentDidUpdate(){
+        // This condition is here in order to get userHeader to properly display
+        // itself and pass down user data to settings after the asynchronous call from
+        // the getUser method (in app.js) which is invoked during an initial login or
+        // signup
+        if(this.props.user && this.state.user == null){
+            this.setState({
+                user: this.props.user,
+                userDisplay: true
+            })
+        }
     }
 
     handleClick = () => {
-        this.setState({
-            settingsDisplay: !this.state.settingsDisplay
-        })
+        this.setState(prev => ({
+            settingsDisplay: !prev.settingsDisplay
+        }))
     }
 
     render(){
-        const user = localStorage.getItem('user') ? 
-        JSON.parse(localStorage.getItem('user')).username : "Loading...";
+        const user = this.state.user ? 
+        this.state.user.username : "Loading...";
 
-        const defaultView = localStorage.getItem('user') ? (
-        <Div>
-            <span>{user}</span>
-            <Img onClick={this.handleClick} src="https://img.icons8.com/android/24/000000/settings.png" 
-                alt="settings-wheel"
-            /> 
-        </Div>
-        ) 
-        : 
-        <Div>
-            
-        </Div>
+        const defaultView = this.state.user ? (
+            <Div>
+                <span>{user}</span>
+                <Img onClick={this.handleClick} src="https://img.icons8.com/android/24/000000/settings.png" 
+                    alt="settings-wheel"
+                /> 
+            </Div>
+            ) 
+            : null
         return (
             <div>
                 {defaultView}

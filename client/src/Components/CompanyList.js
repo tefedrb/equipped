@@ -1,19 +1,25 @@
 import React, {Component} from 'react';
 import '../App.css';
 import CompanyListItem from './CompanyListItem';
+import {Redirect} from 'react-router-dom';
+
 
 class CompanyList extends Component {
+  // This sets up a flag that stops setState from 
+  // being executed on an unmounted component
+  _isMounted = false;
+
   constructor(props){
     super(props);
     this.state = {
-      companies: null,
-      displayCreateMenu: false
+      companies: null
     }
   }
 
   componentDidMount(){
-    const myHeaders = new Headers();
-    console.log("Company List MOUNTED");
+    this._isMounted = true;
+    if(this.state.companies == null && localStorage.getItem('jwt') !== 'null'){
+      const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
       fetch("http://localhost:8082/company/list", {
@@ -22,26 +28,27 @@ class CompanyList extends Component {
       })
       .then(res => res.json())
       .then(res => {
-        console.log('CompanyList FETCH')
-        console.log(res, '<-companies')
         if(res.error === "Unauthorized"){
-          alert("You have been logged out.")
+          alert("You have been logged out.");
           localStorage.clear();
           window.location.reload();
-        } else {
+        } else if(this._isMounted){
           this.setState({
             companies: res
           })
         }
       })
       .catch(error => {
-        // if(this.state.companies = )
+        console.log(error);
       })
-    
+    } else {
+      // localStorage.clear();
+      // return <Redirect to="/" />
+    }
   }
 
   componentWillUnmount(){
-    console.log("CompanyList UNMOUNTED");
+    this._isMounted = false;
   }
 
   render(){
@@ -59,8 +66,7 @@ class CompanyList extends Component {
           {companies}
         </div>
         {!createMenuDisplayed && <button onClick={this.props.toggleCreateCompany}>
-        Create Company
-        </button>}
+        Create Company</button>}
       </div>
     );
   }
