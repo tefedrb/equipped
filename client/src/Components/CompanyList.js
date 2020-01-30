@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import '../App.css';
 import CompanyListItem from './CompanyListItem';
+import {Redirect} from 'react-router-dom';
+
 
 class CompanyList extends Component {
   // This sets up a flag that stops setState from 
@@ -16,7 +18,7 @@ class CompanyList extends Component {
 
   componentDidMount(){
     this._isMounted = true;
-    if(this.state.companies == null){
+    if(this.state.companies == null && localStorage.getItem('jwt') !== 'null'){
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
@@ -27,7 +29,7 @@ class CompanyList extends Component {
       .then(res => res.json())
       .then(res => {
         if(res.error === "Unauthorized"){
-          alert("You have been logged out.")
+          alert("You have been logged out.");
           localStorage.clear();
           window.location.reload();
         } else if(this._isMounted){
@@ -39,6 +41,9 @@ class CompanyList extends Component {
       .catch(error => {
         console.log(error);
       })
+    } else {
+      // localStorage.clear();
+      // return <Redirect to="/" />
     }
   }
 

@@ -32,31 +32,35 @@ class LogIn extends Component {
     })
     .then(res => res.json())
     .then(res => {
-        // saves jwt in local storage
-          localStorage.setItem('jwt', res.token);
-          try {
-            // Make a call to user company based off userID or Name
-            fetch("http://localhost:8082/company/userCompany", {
-              method: 'get',
-              headers: {
-                'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),
-                'Content-Type': 'application/json'
-              }
-            })
-            .then(res => res.json())
-            .then(res => {
-              if(res.name !== "Null"){
-                // This will direct user to company home page if they have a company
-                // this.setState /* ({ */
-                //   company: res
-                /*  }) */
-              }
-              /* This is a method created in App.js updates parent 
-              state in order for UserHeader to work properly */
-              this.props.getUser();
-            })
-          } catch(error){
-            console.log(`Error for /company/userCompany: ${error}`);
+          if(res.token){
+            localStorage.setItem('jwt', res.token)
+            try {
+              // Make a call to user company based off userID or Name
+              fetch("http://localhost:8082/company/userCompany", {
+                method: 'get',
+                headers: {
+                  'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),
+                  'Content-Type': 'application/json'
+                }
+              })
+              .then(res => res.json())
+              .then(res => {
+                if(res.name !== "Null"){
+                  // This will direct user to company home page if they have a company
+                  // this.setState /* ({ */
+                  //   company: res
+                  /*  }) */
+                }
+                /* This is a method created in App.js updates parent 
+                state in order for UserHeader to work properly */
+                this.props.getUser();
+              })
+            } catch(error){
+              console.log(`Error for /company/userCompany: ${error}`);
+            }
+          }
+          else {
+            alert("Invalid User/Pass Combination");
           }
         }
       )
