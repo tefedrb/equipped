@@ -33,7 +33,10 @@ class LogIn extends Component {
     .then(res => res.json())
     .then(res => {
           if(res.token){
-            localStorage.setItem('jwt', res.token)
+            localStorage.setItem('jwt', res.token);
+            /* This is a method created in App.js updates parent 
+                state in order for UserHeader to work properly */
+            this.props.getUser();
             try {
               // Make a call to user company based off userID or Name
               fetch("http://localhost:8082/company/userCompany", {
@@ -51,9 +54,8 @@ class LogIn extends Component {
                   //   company: res
                   /*  }) */
                 }
-                /* This is a method created in App.js updates parent 
-                state in order for UserHeader to work properly */
-                this.props.getUser();
+                
+                // this.props.getUser();
               })
             } catch(error){
               console.log(`Error for /company/userCompany: ${error}`);
@@ -98,7 +100,7 @@ class LogIn extends Component {
 
     return (
       <div>
-      <Button onClick={this.toggleForm}>Log In</Button>
+        <Button onClick={this.toggleForm}>Log In</Button>
         <form 
           className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} 
           onSubmit={this.handleSubmit}>
