@@ -29,9 +29,7 @@ class CompanyList extends Component {
       .then(res => res.json())
       .then(res => {
         if(res.error === "Unauthorized"){
-          alert("You have been logged out.");
-          localStorage.clear();
-          window.location.reload();
+          this.props.logout();
         } else if(this._isMounted){
           this.setState({
             companies: res
@@ -39,7 +37,7 @@ class CompanyList extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log(error, "ERROR!");
       })
     } else {
       // localStorage.clear();

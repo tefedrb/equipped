@@ -58,6 +58,12 @@ class App extends Component {
     console.log("APP COMPONENT UNMOUNT");
   }
 
+  logOut = () => {
+    alert("You have been logged out.");
+    localStorage.clear();
+    window.location.reload();
+  }
+
   getUser = (company) => {
     const myHeader = new Headers();
     myHeader.append('Content-Type', 'application/json');
@@ -85,13 +91,15 @@ class App extends Component {
         <header>
           <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
           <span>Equipped</span>
-          <UserHeader user={this.state.user}/>
+          <UserHeader 
+            logout={this.logOut} 
+            user={this.state.user}
+          />
         </header>
         <main>
           <Router>   
             <AccessAccount 
               exact path="/"
-              updateJwt={this.updateJwt}
               getUser={this.getUser}
             />     
             {loggedIn}
@@ -100,6 +108,7 @@ class App extends Component {
               component={() =>
               <Home
                 user={this.state.user}
+                logOut={this.logOut}
               />}
             /> 
           </Router>

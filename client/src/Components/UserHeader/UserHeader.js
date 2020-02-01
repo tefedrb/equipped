@@ -64,7 +64,7 @@ class UserHeader extends Component {
         return (
             <div>
                 {defaultView}
-                <Settings user={this.state.user} display={this.state.settingsDisplay} />
+                <Settings logout={this.props.logout} user={this.state.user} display={this.state.settingsDisplay} />
             </div>
         )
     }

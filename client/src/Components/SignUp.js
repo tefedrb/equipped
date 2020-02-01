@@ -12,9 +12,6 @@ class SignUp extends Component {
       password: '',
       isFormVisible: false
     }
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.toggleForm = this.toggleForm.bind(this);
   }
 
   handleSubmit = (event) => {
