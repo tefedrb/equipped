@@ -54,10 +54,6 @@ class App extends Component {
     }
   }
 
-  componentWillUnmount(){
-    console.log("APP COMPONENT UNMOUNT");
-  }
-
   logOut = () => {
     alert("You have been logged out.");
     localStorage.clear();
@@ -84,6 +80,20 @@ class App extends Component {
     })
   }
 
+  getUserCompany = (res) => {
+    // grab response and add to user object in state and in local 
+    const {id, name, type} = res;
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    loggedInUser.userCompany = {id,name,type};
+    localStorage.setItem('user', JSON.stringify(loggedInUser));
+    this.setState(prevState => ({
+      user: {
+          ...prevState.user, 
+          loggedInUser
+      }
+    }))
+  }
+
   render(){
     const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
@@ -107,6 +117,7 @@ class App extends Component {
               path="/home"
               component={() =>
               <Home
+                getUserCompany={this.getUserCompany}
                 user={this.state.user}
                 logOut={this.logOut}
               />}

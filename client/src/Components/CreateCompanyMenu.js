@@ -50,6 +50,7 @@ class CreateCompanyMenu extends Component{
 
     createCompany = (event) => {
         event.preventDefault();
+        // Check if user has company else continue
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
@@ -64,8 +65,19 @@ class CreateCompanyMenu extends Component{
         })
         .then(res => res.json())
         .then(res => {
-            console.log(res, "<-- create company response");
+            console.log(res);
             this.props.toggleCreateCompany();
+            // Insert company information into user
+            fetch("http://localhost:8082/company/userCompany", {
+                method: 'get',
+                headers: myHeaders
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res, "retrieve user company");
+                // Reach in and add to user
+                this.props.getUserCompany(res);
+            })
         })
         .catch(error =>{
         console.log(error);
