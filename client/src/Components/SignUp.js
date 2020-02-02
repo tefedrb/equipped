@@ -12,9 +12,6 @@ class SignUp extends Component {
       password: '',
       isFormVisible: false
     }
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.toggleForm = this.toggleForm.bind(this);
   }
 
   handleSubmit = (event) => {
@@ -39,7 +36,8 @@ class SignUp extends Component {
         if(!res.token){
           alert("Looks like someone already has that username");
         } else {
-          this.props.updateJwt(res.token);
+          // this.props.updateJwt(res.token);
+          localStorage.setItem('jwt', res.token);
           this.props.getUser();
         }
       }
@@ -79,8 +77,10 @@ class SignUp extends Component {
 
     return (
       <div>
-      <Button onClick={this.toggleForm}>Sign Up</Button>
-        <form className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} onSubmit={this.handleSubmit}>
+        <Button onClick={this.toggleForm}>Sign Up</Button>
+        <form 
+          className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} 
+          onSubmit={this.handleSubmit}>
             <input name="title"
               type="text" value={this.state.title}
               placeholder="title..."

@@ -40,7 +40,7 @@ const Settings = (props) =>{
         <div style={settingsStyle}>
             {userDisplay}
             <section>
-                <button>LOGOUT</button>
+                <button onClick={() => props.logout()}>LOGOUT</button>
             </section>
         </div>
     )

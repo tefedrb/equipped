@@ -11,10 +11,10 @@ const Div = styled.div `
 function AccessAccount(props){
     return (
         <Div>
-            <SignUp updateJwt={props.updateJwt}
+            <SignUp 
                 getUser={props.getUser}
             />  
-            <LogIn updateJwt={props.updateJwt}
+            <LogIn
                 getUser={props.getUser}
             />
         </Div>
