@@ -3,7 +3,7 @@ import './App.css';
 import Home from './Components/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
-import AccessAccount from './Components/AccessAccount';
+import AccessAccount from './Components/AccountAccess/AccessAccount';
 import {
   BrowserRouter as Router,
   Route,

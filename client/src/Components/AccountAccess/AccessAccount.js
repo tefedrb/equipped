@@ -6,6 +6,7 @@ import styled from 'styled-components';
 const Div = styled.div `
     display: flex;
     flex-direction: row;
+    height: 200px;
 `
 
 function AccessAccount(props){

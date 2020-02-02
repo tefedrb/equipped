@@ -7,17 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
-
-
 * {
   font-family: 'Anton', sans-serif;
 }
 
 .enterApp {
+  margin-top: .5em;
   height: 150px;
   flex-wrap: wrap;
   display: flex;
@@ -34,7 +29,7 @@ body {
 }
 
 .hide {
-  opacity: 0;
+  display: none;
 }
 
 main {
