@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import '../App.css';
 import {Redirect} from 'react-router-dom';
 import styled from 'styled-components';
 
-class SignUp extends Component {
+class LogIn extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -12,11 +11,14 @@ class SignUp extends Component {
       password: '',
       isFormVisible: false
     }
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.toggleForm = this.toggleForm.bind(this);
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8082/signup", {
+    fetch("http://localhost:8082/login", {
       method: 'post',
       headers: {
         "Accept" : 'application/json, text/plain, */*',
@@ -24,44 +26,64 @@ class SignUp extends Component {
       },
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.password,
-        title: this.state.title,
-        userRole: {
-          roleType: "BASIC"
-        }
+        password: this.state.password
       })
     })
     .then(res => res.json())
     .then(res => {
-        if(!res.token){
-          alert("Looks like someone already has that username");
-        } else {
-          // this.props.updateJwt(res.token);
-          localStorage.setItem('jwt', res.token);
-          this.props.getUser();
+          if(res.token){
+            localStorage.setItem('jwt', res.token);
+            /* This is a method created in App.js updates parent 
+                state in order for UserHeader to work properly */
+            this.props.getUser();
+            try {
+              // Make a call to user company based off userID or Name
+              fetch("http://localhost:8082/company/userCompany", {
+                method: 'get',
+                headers: {
+                  'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),
+                  'Content-Type': 'application/json'
+                }
+              })
+              .then(res => res.json())
+              .then(res => {
+                if(res.name !== "Null"){
+                  // This will direct user to company home page if they have a company
+                  // this.setState /* ({ */
+                  //   company: res
+                  /*  }) */
+                }
+                
+                // this.props.getUser();
+              })
+            } catch(error){
+              console.log(`Error for /company/userCompany: ${error}`);
+            }
+          }
+          else {
+            alert("Invalid User/Pass Combination");
+          }
         }
-      }
-    )
-  }
+      )
+    }
 
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
-  };
+  }
 
-  toggleForm = (e) => {
+  toggleForm = () => {
     this.setState(prevState => ({
       isFormVisible: !prevState.isFormVisible
     }));
   };
 
   render(){
-    // Here is where we decide whether to redirect to homepage
-    if(localStorage.getItem('jwt')){
+    if(localStorage.getItem('jwt')) {
       return <Redirect to="/home" />
     }
-
+    
     const Button = styled.button`
       background: rgba(37, 208, 125, 0.52);
       border-radius: 2px;
@@ -77,15 +99,10 @@ class SignUp extends Component {
 
     return (
       <div>
-        <Button onClick={this.toggleForm}>Sign Up</Button>
+        <Button onClick={this.toggleForm}>Log In</Button>
         <form 
           className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} 
           onSubmit={this.handleSubmit}>
-            <input name="title"
-              type="text" value={this.state.title}
-              placeholder="title..."
-              onChange={this.handleChange}
-            />
             <input name="username"
               type="text"
               value={this.state.username}
@@ -105,4 +122,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default LogIn;

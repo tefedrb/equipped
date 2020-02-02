@@ -7,17 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-} */
-
-
 * {
   font-family: 'Anton', sans-serif;
 }
 
 .enterApp {
+  margin-top: .5em;
   height: 150px;
   flex-wrap: wrap;
   display: flex;
@@ -34,10 +29,11 @@ body {
 }
 
 .hide {
-  opacity: 0;
+  display: none;
 }
 
 main {
+  height: 70vh;
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -104,6 +100,7 @@ footer img {
   height: 85%;
   width: 95%;
   margin: 0 auto;
+  overflow: auto;
 }
 
 .company-list button {
@@ -137,13 +134,15 @@ label {
 }
 
 .home {
+  min-height: 75vh;
   position: relative;
   display: flex;
   flex-direction: column;
   width: 95%;
-  height: 80vh;
+  max-height: 80vh;
   background-color: rgba(142,201,80,0.4);
-  border: 10px solid rgba(255,255,255,0.2);
+  border: 10px inset rgba(193, 193, 193, 0.5);
+  overflow: auto;
 }
 
 .inner-header {

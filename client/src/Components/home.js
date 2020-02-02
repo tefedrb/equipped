@@ -25,12 +25,6 @@ class Home extends Component {
     }))
   }
 
-  // logOut = () => {
-  //   alert("You have been logged out.");
-  //   localStorage.clear();
-  //   window.location.reload();
-  // }
-
   // Move create company menu into company list?
   render(){
     return (
@@ -41,6 +35,7 @@ class Home extends Component {
           toggleCreateCompany={this.toggleCreateCompany} 
           showCreateMenu={this.state.showCreateMenu}
           createCompany={this.createCompany}
+          getUserCompany={this.props.getUserCompany}
         />
         <main className="home-main">
           <Route exact path="/home">
