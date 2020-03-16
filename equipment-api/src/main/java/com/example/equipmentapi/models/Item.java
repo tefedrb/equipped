@@ -2,30 +2,36 @@ package com.example.equipmentapi.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "inventory")
+@Table(name = "items")
 public class Item {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String prodLink;
+
+    @Column
+    private String image;
+
     @Column(unique = true)
-    private String name;
+    private String product;
 
     @Column
-    private String price;
+    private String value;
 
-    @Column
-    private String category;
+    @ManyToOne(cascade = {CascadeType.DETACH,
+        CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    @Column
-    private String subCategory;
+    @ManyToOne(cascade = {CascadeType.DETACH,
+        CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "sub_category_id")
+    private SubCategory subCategory;
 
-    @Column
-    private String imgLink;
 
-    @Column
-    private String itemLink;
 
     public Item(){};
 
@@ -37,51 +43,51 @@ public class Item {
         this.id = id;
     }
 
-    public String getName(){
-        return name;
+    public String getProduct(){
+        return product;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setProduct(String name){
+        this.product = name;
     }
 
-    public String getPrice(){
-        return price;
+    public String getValue(){
+        return value;
     }
 
-    public void setPrice(String price){
-        this.price = price;
+    public void setValue(String value){
+        this.value = value;
     }
 
-    public String getCategory(){
+    public Category getCategory(){
         return category;
     }
 
-    public void setCategory(String category){
+    public void setCategory(Category category){
         this.category = category;
     }
 
-    public String getSubCategory(){
+    public SubCategory getSubCategory(){
         return subCategory;
     }
 
-    public void setSubCategory(String category){
-        this.category = category;
+    public void setSubCategory(SubCategory subCategory){
+        this.subCategory = subCategory;
     }
 
-    public String getImgLink(){
-        return imgLink;
+    public String getImage(){
+        return image;
     }
 
-    public void setImgLink(String imgLink){
-        this.imgLink = imgLink;
+    public void setImage(String image){
+        this.image = image;
     }
 
-    public String getItemLink(){
-        return itemLink;
+    public String getProdLink(){
+        return prodLink;
     }
 
-    public void setItemLink(String itemLink){
-        this.itemLink = itemLink;
+    public void setProdLink(String prodLink){
+        this.prodLink = prodLink;
     }
 }

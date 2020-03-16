@@ -14,4 +14,13 @@ public class ItemServiceImpl implements ItemService{
     public Iterable<Item> listItems() {
         return itemRepository.findAll();
     }
+
+    @Override
+    public Item save(Item item){
+        return itemRepository.save(item);
+    }
+
+//    public Iterable<Item> save(Iterable<Item> items){
+//        return itemRepository.save(items);
+//    }
 }
