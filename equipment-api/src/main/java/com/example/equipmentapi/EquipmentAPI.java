@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Consumer;
 
 @SpringBootApplication
 public class EquipmentAPI {
@@ -38,48 +37,34 @@ public class EquipmentAPI {
 	@Bean
 	CommandLineRunner runner(){
 		return args -> {
-
 			ObjectMapper objectMapper = new ObjectMapper();
-
 			try {
-				// Data binding - JSON to Map via ObjectMapper
+				// Data binding - JSON to JsonNode Tree via ObjectMapper
 				JsonNode scrapeTree = objectMapper.readTree(new FileInputStream("src/main/resources/json/adoramaScrape.json"));
-
-				// Loop -> grab main category.
-				// Loop -> grab sub-category.
-				// Loop -> grab items.
-
-				// Also map to get all main category names - insert as path - and iterate the rest
-//				for(JsonNode nodes : scrapeTree){
-					ArrayNode items1 = (ArrayNode) scrapeTree.get("cameras").get("Digital Cinema Cameras");
-//					System.out.println("HERE -> " + items1.get(1));
-//				System.out.println(scrapeTree.findPath);
-//					System.out.println(scrapeTree.get("cameras").get("Digital Cinema Cameras"));
-//					System.out.println(scrapeTree.fields());
+				// POPULATE DB WITH JSON DATA:
+				// Loop -> grab/build/save main category.
+				// Loop -> grab/build/save sub-category.
+				// Loop -> grab/build/save items.
 
 				Iterator<String> allFields = scrapeTree.fieldNames();
-
-				// This returns CAMERAS - partially solves my issue of getting key strings
 				List<String> categoryList = new ArrayList<>();
 				allFields.forEachRemaining(categoryList::add);
 				for(int i = 0; i < categoryList.size(); i++){
-					// iterate over main category / save
+					// iterate over main category / build & save model
 					String categoryName = categoryList.get(i);
 					Category category = new Category();
 					category.setName(categoryName);
 					categoryService.saveCategory(category);
-//					System.out.println(scrapeTree.findPath(mainCategoryName));
-//					System.out.println(categoryName + " ---> Subs ");
-//					System.out.println("--------------------");
-					// Get all sub-categories (strings) save into iterator (iterate) transfer to List
+					// Get all subCategory strings - turn into Arraylist from Iterator
 					Iterator<String> subCategories = scrapeTree.findPath(categoryName).fieldNames();
 					List<String> subCategoryList = new ArrayList<>();
 					subCategories.forEachRemaining(subCategoryList::add);
 					for(int j = 0; j < subCategoryList.size(); j++){
+						// iterate over sub category / build & save model
 						String subCatName = subCategoryList.get(j);
 						SubCategory subCategory = new SubCategory();
 						subCategory.setName(subCatName);
-						// SETTING RELATION
+						// SETTING RELATION TO CATEGORY
 						subCategory.setCategory(category);
 						subCategoryService.saveSubCategory(subCategory);
 						// Turn sub-category items into ArrayNode list
@@ -109,34 +94,10 @@ public class EquipmentAPI {
 							}
 						}
 					}
-
-//					subCategories.forEachRemaining(System.out::println);
-//					System.out.println(" ");
-					// turn sub categories into ArrayNode
-//					ArrayNode subCategory = (ArrayNode) scrapeTree.get(mainCategoryName);
-//					System.out.println(subCategory.get(1));
 				}
-
-
-//					System.out.println(scrapeTree.fieldNames().toString());
-//					System.out.println("uh");
-//				}
-
-//				Map<?, ?> map = objectMapper.readValue(new FileInputStream("src/main/resources/json/adoramaScrape.json"), Map.class);
-//				for (Map.Entry<?, ?> mainCat : map.entrySet()) {
-//					// Grabbing the key of each entry as string (they are category names)
-//					String categoryName = (String) mainCat.getKey();
-//					Category category = new Category();
-//					category.setName(categoryName);
-//					categoryService.saveCategory(category);
-//					// Loop over sub-categories
-//
-//					}
-//
 			} catch(Exception e) {
 				System.out.println("Error!!!: " + e.getMessage());
 			}
-
 		};
 	}
 }
