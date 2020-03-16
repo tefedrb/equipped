@@ -1,0 +1,24 @@
+{
+  "cameras": {
+    "Digital Cinema Cameras": [
+      {
+        "prodLink": "https://www.adoramarentals.com/p-~cac100mk2/CANON-C100-MARK-II-CINEMA-CAMERA-KIT",
+        "image": "https://www.adoramarentals.com/Image/Product/Full/_CAC100MK2.jpg",
+        "product": "CANON C100 MARK II CINEMA CAMERA KIT",
+        "value": "$5,407.73"
+      },
+      {
+        "prodLink": "https://www.adoramarentals.com/p-~cac200ef/CANON-C200-EF-4K-CINEMA-CAMERA-KIT",
+        "image": "https://www.adoramarentals.com/Image/Product/Full/_CAC200EF.jpg",
+        "product": "CANON C200 EF 4K CINEMA CAMERA KIT",
+        "value": "$15,577.16"
+      },
+      {
+        "prodLink": "https://www.adoramarentals.com/p-~sofs72ef/SONY-PXW-FS7-II-4K-CAMERA-W-EF-ADAPTER",
+        "image": "https://www.adoramarentals.com/Image/Product/Full/_SOFS72EF.jpg",
+        "product": "SONY PXW FS7 II 4K CAMERA W/EF ADAPTER",
+        "value": "$14,130.86"
+      }
+    ]
+  }
+}
