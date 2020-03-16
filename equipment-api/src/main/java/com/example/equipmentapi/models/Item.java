@@ -19,7 +19,7 @@ public class Item {
     private String product;
 
     @Column
-    private String value;
+    private float value;
 
     @ManyToOne(cascade = {CascadeType.DETACH,
         CascadeType.MERGE, CascadeType.REFRESH})
@@ -51,11 +51,11 @@ public class Item {
         this.product = name;
     }
 
-    public String getValue(){
+    public float getValue(){
         return value;
     }
 
-    public void setValue(String value){
+    public void setValue(float value){
         this.value = value;
     }
 
