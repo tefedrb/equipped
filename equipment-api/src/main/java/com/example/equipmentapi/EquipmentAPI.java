@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.io.*;
+import java.text.NumberFormat;
 import java.util.*;
 
 @SpringBootApplication
@@ -79,8 +80,12 @@ public class EquipmentAPI {
 								String image = currentItem.get("image").toString();
 								String product = currentItem.get("product").toString();
 								String prodLink = currentItem.get("prodLink").toString();
-								// In the future might want to change this to int
-								String value = currentItem.get("value").toString();
+								// Prep value string for parseFloat
+								String stringVal = currentItem.get("value")
+										.textValue()
+										.replaceAll("[$,]", "");
+								// Convert stringVal to float
+								float value = Float.parseFloat(stringVal);
 								currentItemModel.setImage(image);
 								currentItemModel.setProduct(product);
 								currentItemModel.setProdLink(prodLink);
