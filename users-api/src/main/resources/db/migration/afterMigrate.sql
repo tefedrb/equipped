@@ -1,2 +1,2 @@
-INSERT INTO user_role(role_type)
+INSERT INTO fly_test
 VALUES ('ADMIN'), ('BASIC');
