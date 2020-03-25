@@ -59,6 +59,9 @@ public class ItemServiceImpl implements ItemService {
 //        }
 //    }
 
-//    @Override
-//    public Item getItem
+    @Override
+    public Item getItem(Long serial_num){
+        ItemRetrieval itemRetrieval = new ItemRetrieval();
+       return itemRetrieval.run(serial_num);
+    }
 }

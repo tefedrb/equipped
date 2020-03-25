@@ -24,8 +24,8 @@ public class Item {
     private String image;
 
     @Key
-    @Column(name = "link")
-    private String link;
+    @Column(name = "prodLink")
+    private String prodLink;
 
     @Key
     @Column(name = "value")
@@ -66,20 +66,20 @@ public class Item {
         return available;
     }
 
-    public void setProd_img(String image){
+    public void setImage(String image){
         this.image = image;
     }
 
-    public String getProd_img() {
+    public String getImage() {
         return image;
     }
 
-    public void setLink(String link){
-        this.link = link;
+    public void setProdLink(String prodLink) {
+        this.prodLink = prodLink;
     }
 
-    public String getLink(){
-        return link;
+    public String getProdLink(){
+        return prodLink;
     }
 
     public void setValue(float value) {

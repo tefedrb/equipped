@@ -1,8 +1,10 @@
 package com.example.inventoryapi.controllers;
 
+import com.example.inventoryapi.models.Item;
 import com.example.inventoryapi.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
@@ -33,4 +35,8 @@ public class ItemController {
 //        }, Executors.newCachedThreadPool());
 //
 //    }
+    @GetMapping("/items/item/{serial_id}")
+    public Item retrieveItem(@PathVariable Long serial_id){
+        return itemService.getItem(serial_id);
+    }
 }

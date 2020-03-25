@@ -17,14 +17,21 @@ public class ItemRetrieval {
     static HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static JsonFactory JSON_FACTORY = new JacksonFactory();
 
-    private static void run() throws Exception {
+    public Item run(Long serial_id)  {
         HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(
                 (HttpRequest request) -> {
                     request.setParser(new JsonObjectParser(JSON_FACTORY));
                 });
-        EquipmentApiUrl url = new EquipmentApiUrl("http://localhost:8181/item/5");
-        HttpRequest request = requestFactory.buildGetRequest(url);
-        Type type = new TypeToken<Item>(){}.getType();
-        Item item = (Item) request.execute().parseAs(type);
+        EquipmentApiUrl url = new EquipmentApiUrl("http://localhost:8181/item/" + serial_id);
+        try {
+            HttpRequest request = requestFactory.buildGetRequest(url);
+            Type type = new TypeToken<Item>() {
+            }.getType();
+            Item item = (Item) request.execute().parseAs(type);
+            return item;
+        } catch(Exception e){
+            System.out.println("Error in ItemRetrieval " + e);
+        }
+        return null;
     }
 }
