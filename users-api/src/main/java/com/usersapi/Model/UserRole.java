@@ -39,11 +39,11 @@ public class UserRole {
         this.roleType = roleType;
     }
 
-//    public List<User> getUser(){
-//        return users;
-//    }
-//
-//    public void setUsers(List<User> users) {
-//        this.users = users;
-//    }
+    public List<User> getUser(){
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

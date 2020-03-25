@@ -23,4 +23,9 @@ public class ItemServiceImpl implements ItemService{
 //    public Iterable<Item> save(Iterable<Item> items){
 //        return itemRepository.save(items);
 //    }
+
+    @Override
+    public Item getItemBySerial(Long serial_num){
+        return itemRepository.findItemBySerial(serial_num);
+    }
 }
