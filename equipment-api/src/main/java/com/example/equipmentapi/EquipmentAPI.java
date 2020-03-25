@@ -15,9 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.io.*;
-import java.text.NumberFormat;
-import java.util.*;
+import java.io.*;import java.util.*;
 
 @SpringBootApplication
 public class EquipmentAPI {

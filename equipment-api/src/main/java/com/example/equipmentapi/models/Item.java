@@ -5,20 +5,20 @@ import javax.persistence.*;
 @Table(name = "items")
 public class Item {
     @Id
-    @Column
+    @Column(name = "serial_num")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long serial_num;
 
-    @Column
+    @Column(name = "prodLink")
     private String prodLink;
 
-    @Column
+    @Column(name = "image")
     private String image;
 
     @Column(unique = true)
     private String product;
 
-    @Column
+    @Column(name = "value")
     private float value;
 
     @ManyToOne(cascade = {CascadeType.DETACH,
@@ -31,16 +31,14 @@ public class Item {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
-
-
     public Item(){};
 
     public Long getId(){
-        return id;
+        return serial_num;
     }
 
-    public void setId(Long id){
-        this.id = id;
+    public void setId(Long serial_num){
+        this.serial_num = serial_num;
     }
 
     public String getProduct(){
