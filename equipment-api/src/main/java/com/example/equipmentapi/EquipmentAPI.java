@@ -75,9 +75,9 @@ public class EquipmentAPI {
 								JsonNode currentItem = items.get(k);
 								Item currentItemModel = new Item();
 								// Pull attributes out of currentItem save to currentItemModel
-								String image = currentItem.get("image").toString();
-								String product = currentItem.get("product").toString();
-								String prodLink = currentItem.get("prodLink").toString();
+								String image = currentItem.get("image").textValue();
+								String product = currentItem.get("product").textValue();
+								String prodLink = currentItem.get("prodLink").textValue();
 								// Prep value string for parseFloat
 								String stringVal = currentItem.get("value")
 										.textValue()
