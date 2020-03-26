@@ -33,11 +33,11 @@ public class Item {
 
     public Item(){};
 
-    public Long getId(){
+    public Long getSerial_num(){
         return serial_num;
     }
 
-    public void setId(Long serial_num){
+    public void setSerial_num(Long serial_num){
         this.serial_num = serial_num;
     }
 

@@ -1,6 +1,7 @@
 package com.example.inventoryapi.models;
 
 import com.google.api.client.util.Key;
+import data.classes.Category;
 
 import javax.persistence.*;
 
@@ -31,11 +32,13 @@ public class Item {
     @Column(name = "value")
     private float value;
 
+    @Key
     @Column(name = "category")
     private String category;
 
-    @Column(name = "sub_category")
-    private String sub_category;
+    @Key
+    @Column(name = "subCategory")
+    private String subCategory;
 
     @OneToOne(cascade = {CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH})
@@ -98,12 +101,12 @@ public class Item {
         return category;
     }
 
-    public void setSub_category(String sub_category) {
-        this.sub_category = sub_category;
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
     }
 
-    public String getSub_category(){
-        return sub_category;
+    public String getSubCategory(){
+        return subCategory;
     }
 
     public Inventory getInventory() {

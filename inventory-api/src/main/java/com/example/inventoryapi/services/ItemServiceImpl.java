@@ -2,11 +2,7 @@ package com.example.inventoryapi.services;
 
 import com.example.inventoryapi.models.Item;
 import com.example.inventoryapi.repositories.ItemRepository;
-import com.fasterxml.jackson.databind.util.JSONWrappedObject;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.javanet.NetHttpTransport;
+import data.classes.ItemFromJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +56,7 @@ public class ItemServiceImpl implements ItemService {
 //    }
 
     @Override
-    public Item getItem(Long serial_num){
+    public ItemFromJson getItem(Long serial_num){
         ItemRetrieval itemRetrieval = new ItemRetrieval();
        return itemRetrieval.run(serial_num);
     }
