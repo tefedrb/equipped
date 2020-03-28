@@ -45,6 +45,26 @@ public class Item {
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
 
+    public Item(){}
+
+    public Item(Long serial_id,
+                Boolean available,
+                String image,
+                String prodLink,
+                float value,
+                String category,
+                String subCategory)
+    {
+
+        this.serial_id = serial_id;
+        this.available = available;
+        this.image = image;
+        this.prodLink = prodLink;
+        this.category = category;
+        this.value = value;
+        this.subCategory = subCategory;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

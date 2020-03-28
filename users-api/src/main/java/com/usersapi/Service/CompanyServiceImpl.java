@@ -5,6 +5,8 @@ import com.usersapi.Model.User;
 import com.usersapi.Model.WaitList;
 import com.usersapi.Repository.CompanyRepository;
 import com.usersapi.Repository.UserRepository;
+import inventoryManagement.CreateInventory;
+import inventoryManagement.InventoryObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,7 @@ public class CompanyServiceImpl implements CompanyService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);
+
         // Create a wait list as soon as a new company is created
         WaitList newWaitList = new WaitList();
         newCompany.addUsers(authUser);
@@ -42,7 +45,18 @@ public class CompanyServiceImpl implements CompanyService {
         newWaitList.setCompany(newCompany);
         // Encrypting company password
         newCompany.setPassword(bCryptPasswordEncoder.encode(newCompany.getPassword()));
+
+        // Call inventory service
+        CreateInventory createInventory = new CreateInventory();
+
         companyRepository.save(newCompany);
+
+        // Company id gets generated after it's saved to repository - find/save it...
+        Long companyId = companyRepository.findCompanyByName(newCompany.getName()).getId();
+
+        // Build inventoryObj to send into createInventories Http post method (run())
+        InventoryObj inventoryObj = new InventoryObj(newCompany.getName(), companyId);
+        createInventory.run(inventoryObj);
         return HttpStatus.OK;
     }
 
