@@ -1,4 +1,4 @@
-package com.example.inventoryapi.models;
+package data.classes;
 
 import com.google.api.client.http.GenericUrl;
 
