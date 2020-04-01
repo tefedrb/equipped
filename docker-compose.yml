@@ -21,8 +21,6 @@ services:
     depends_on:
       - eureka
     command: 'mvn spring-boot:run'
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
   users-api:
     image: maven:3.6.1-jdk-8
     ports:
@@ -35,11 +33,37 @@ services:
     command: 'mvn spring-boot:run'
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+  equipment-api:
+    image: maven:3.6.1-jdk-8
+    ports:
+      - '8181:8181'
+    working_dir: /app
+    volumes:
+      - ./equipment-api:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+  inventory-api:
+    image: maven:3.6.2-jdk-8
+    ports:
+      - '8182:8182'
+    working_dir: /app
+    volumes:
+      - ./inventory-api:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
   postgresdev:
     image: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=equipped
+      - POSTGRES_MULTIPLE_DATABASES=users,equipment,inventory

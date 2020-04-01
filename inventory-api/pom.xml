@@ -11,8 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>inventory-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Inventory-Api</name>
+	<description>Inventory Api for Equipped</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -28,12 +28,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- This is for hot reloading purposes - referenced in springboot repo-->
@@ -58,18 +52,18 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.asynchttpclient/async-http-client -->
-<!--		<dependency>-->
-<!--			<groupId>org.asynchttpclient</groupId>-->
-<!--			<artifactId>async-http-client</artifactId>-->
-<!--			<version>2.11.0</version>-->
-<!--		</dependency>-->
-
 		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2 -->
 		<dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson2</artifactId>
 			<version>1.34.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>2.2.2.RELEASE</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.http-client/google-http-client -->

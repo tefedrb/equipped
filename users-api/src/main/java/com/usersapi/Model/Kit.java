@@ -3,7 +3,7 @@ package com.usersapi.Model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Kits")
+@Table(name = "kits")
 public class Kit {
     @Id
     @GeneratedValue
@@ -21,7 +21,7 @@ public class Kit {
     @Column
     private String grips;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "kit_inventory")
     private Inventory inventory;
 

@@ -1,2 +1,2 @@
-INSERT INTO fly_test
-VALUES ('ADMIN'), ('BASIC');
+-- INSERT INTO fly_test
+-- VALUES ('ADMIN'), ('BASIC');
