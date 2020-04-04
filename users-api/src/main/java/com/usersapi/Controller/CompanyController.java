@@ -26,6 +26,9 @@ public class CompanyController {
         return "Testing...";
     }
 
+    @GetMapping("/zuul-test")
+    public String zuulTest() {return "Test 2...";}
+
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
         Iterable<Company> allCompanies = companyService.getAllCompanies();

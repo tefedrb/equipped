@@ -5,9 +5,9 @@ import data.classes.ItemAndInventory;
 import org.springframework.http.HttpStatus;
 
 public interface InventoryService {
-    public Iterable<Inventory> listInventories();
+    Iterable<Inventory> listInventories();
     // Here we are going to communicate with our equipment api
-    public Inventory addItemToInventory(ItemAndInventory itemAndInventory);
-    public Inventory createInventory(Inventory inventory);
-    public HttpStatus deleteInventory(Long inventoryId);
+    Inventory addItemToInventory(ItemAndInventory itemAndInventory);
+    Inventory createInventory(Inventory inventory);
+    HttpStatus deleteInventory(Long inventoryId);
 }

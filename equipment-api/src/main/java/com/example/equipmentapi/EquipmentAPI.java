@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 import java.io.*;
 import java.util.*;
 
+@EnableEurekaClient
 @SpringBootApplication
 public class EquipmentAPI {
 
@@ -100,7 +102,7 @@ public class EquipmentAPI {
 					}
 				}
 			} catch(Exception e) {
-				System.out.println("Error!!!: " + e.getMessage());
+				System.out.println("Error - cmdLineRunner - equipment-api: " + e.getMessage());
 			}
 		};
 	}

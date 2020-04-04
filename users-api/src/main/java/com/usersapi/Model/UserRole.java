@@ -1,9 +1,5 @@
 package com.usersapi.Model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "user_role")
@@ -15,11 +11,6 @@ public class UserRole {
 
     @Column(unique = true)
     private String roleType;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "userRole",
-            cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<User> users;
 
     public UserRole(){}
 
@@ -39,11 +30,4 @@ public class UserRole {
         this.roleType = roleType;
     }
 
-    public List<User> getUser(){
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

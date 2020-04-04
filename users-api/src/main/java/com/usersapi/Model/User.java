@@ -1,9 +1,4 @@
 package com.usersapi.Model;
-
-//import com.fasterxml.jackson.annotation.JsonBackReference;
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,13 +12,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name="username", unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name="title", nullable = false)
     private String title;
 
-    @Column
+    @Column(name="password")
     private String password;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,

@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name="waitList")
 public class WaitList {
     @Id
-    @Column(name="waitlist_id")
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
