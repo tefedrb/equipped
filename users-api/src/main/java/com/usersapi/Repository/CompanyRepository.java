@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompanyRepository extends CrudRepository<Company, Long> {
     @Query("FROM Company c WHERE c.name = ?1")
-    public Company findCompanyByName(String name);
+    Company findCompanyByName(String name);
 }

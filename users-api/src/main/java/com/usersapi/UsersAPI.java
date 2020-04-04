@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableEurekaClient
 @RestController
-public class EquippedApiApp {
+public class UsersAPI {
 
 	@Autowired
 	UserRoleService userRoleService;
@@ -26,7 +26,7 @@ public class EquippedApiApp {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(EquippedApiApp.class, args);
+		SpringApplication.run(UsersAPI.class, args);
 	}
 
 	@Bean

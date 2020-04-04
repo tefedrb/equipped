@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.ConnectException;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
@@ -57,6 +59,7 @@ public class CompanyServiceImpl implements CompanyService {
         // Build inventoryObj to send into createInventories Http post method (run())
         InventoryObj inventoryObj = new InventoryObj(newCompany.getName(), companyId);
         createInventory.run(inventoryObj);
+
         return HttpStatus.OK;
     }
 

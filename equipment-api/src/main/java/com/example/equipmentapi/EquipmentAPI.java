@@ -102,7 +102,7 @@ public class EquipmentAPI {
 					}
 				}
 			} catch(Exception e) {
-				System.out.println("Error!!!: " + e.getMessage());
+				System.out.println("Error - cmdLineRunner - equipment-api: " + e.getMessage());
 			}
 		};
 	}
