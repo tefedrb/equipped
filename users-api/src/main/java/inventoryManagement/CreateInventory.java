@@ -16,8 +16,8 @@ public class CreateInventory {
     public HttpStatus run(InventoryObj inventoryObj)  {
         HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory();
 
-        InventoryApiUrl url = new InventoryApiUrl("http://localhost:8080/inventory-api/inventory/create");
-//        InventoryApiUrl url = new InventoryApiUrl("http://localhost:8182/inventory/create");
+//        InventoryApiUrl url = new InventoryApiUrl("http://localhost:8080/inventory-api/inventory/create");
+        InventoryApiUrl url = new InventoryApiUrl("http://localhost:8182/inventory/create");
 
         try {
             // Converting inventoryObj (containing a company name and id) into serialized JSON data and then

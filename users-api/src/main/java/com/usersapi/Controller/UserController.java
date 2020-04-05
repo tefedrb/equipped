@@ -37,6 +37,9 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(userService.createUser(newUser)));
     }
 
+    @GetMapping("/zuul-test3")
+    public String zuulTest3() {return "Test 3...";}
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
