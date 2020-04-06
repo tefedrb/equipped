@@ -6,7 +6,7 @@ import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-
+// THIS CAN BE USED FOR MONOLITH TESTING - COMMUNICATION BTWN SERVICES
 public class CreateInventory {
     static HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 

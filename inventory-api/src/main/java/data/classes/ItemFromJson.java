@@ -2,23 +2,24 @@ package data.classes;
 
 import com.google.api.client.util.Key;
 
+// UN-COMMENT @KEY ANNOTATIONS FOR MONOLITHIC TESTING
 public class ItemFromJson {
-    @Key("serial_num")
+//    @Key("serial_num")
     private Long serial_num;
 
-    @Key("image")
+//    @Key("image")
     private String image;
 
-    @Key("prodLink")
+//    @Key("prodLink")
     private String prodLink;
 
-    @Key("value")
+//    @Key("value")
     private float value;
 
-    @Key("category")
+//    @Key("category")
     private Category category;
 
-    @Key("subCategory")
+//    @Key("subCategory")
     private SubCategory subCategory;
 
     public Long getSerial_num() {
