@@ -1,4 +1,4 @@
-package inventoryManagement;
+package com.usersapi.inventoryManagement;
 
 import com.google.api.client.http.GenericUrl;
 

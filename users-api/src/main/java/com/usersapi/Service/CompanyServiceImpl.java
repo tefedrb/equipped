@@ -1,12 +1,13 @@
 package com.usersapi.Service;
 
 import com.usersapi.Model.Company;
+import com.usersapi.inventoryManagement.InventoryObj;
 import com.usersapi.Model.User;
 import com.usersapi.Model.WaitList;
 import com.usersapi.Repository.CompanyRepository;
 import com.usersapi.Repository.UserRepository;
-import inventoryManagement.CreateInventory;
-import inventoryManagement.InventoryObj;
+import com.usersapi.inventoryManagement.CreateInventory;
+import com.usersapi.inventoryManagement.InventoryServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.ConnectException;
-
 @Service
 public class CompanyServiceImpl implements CompanyService {
+
+    @Autowired
+    InventoryServiceFeign inventoryServiceFeign;
 
     @Autowired
     CompanyRepository companyRepository;
@@ -48,17 +50,14 @@ public class CompanyServiceImpl implements CompanyService {
         // Encrypting company password
         newCompany.setPassword(bCryptPasswordEncoder.encode(newCompany.getPassword()));
 
-        // Call inventory service
-        CreateInventory createInventory = new CreateInventory();
-
+        // Save company instance to generate id
         companyRepository.save(newCompany);
 
-        // Company id gets generated after it's saved to repository - find/save it...
+        // Find company instance
         Long companyId = companyRepository.findCompanyByName(newCompany.getName()).getId();
 
-        // Build inventoryObj to send into createInventories Http post method (run())
-        InventoryObj inventoryObj = new InventoryObj(newCompany.getName(), companyId);
-        createInventory.run(inventoryObj);
+        // Use Feign to call our inventory-api and create a new inventory
+        inventoryServiceFeign.createInventory(new InventoryObj(newCompany.getName(), companyId));
 
         return HttpStatus.OK;
     }

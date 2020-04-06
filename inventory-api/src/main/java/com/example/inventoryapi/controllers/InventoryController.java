@@ -24,9 +24,9 @@ public class InventoryController {
     }
 
     @PostMapping("/add")
-    public HttpStatus addToInventory(@RequestBody ItemAndInventory testrun){
+    public HttpStatus addToInventory(@RequestBody ItemAndInventory itemAndInventory){
         try {
-            inventoryService.addItemToInventory(testrun);
+            inventoryService.addItemToInventory(itemAndInventory);
             return HttpStatus.OK;
         } catch (Exception e){
             System.out.println(e.getMessage());
