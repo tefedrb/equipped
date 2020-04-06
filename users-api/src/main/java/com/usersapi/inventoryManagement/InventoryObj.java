@@ -1,13 +1,11 @@
-package inventoryManagement;
-
-import com.google.api.client.util.Key;
+package com.usersapi.inventoryManagement;
 
 public class InventoryObj {
 
-    @Key
+//    @Key
     private String company_name;
 
-    @Key
+//    @Key
     private Long company_id;
 
     public InventoryObj(){}
