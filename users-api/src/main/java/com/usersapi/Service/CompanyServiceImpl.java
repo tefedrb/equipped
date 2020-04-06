@@ -6,7 +6,6 @@ import com.usersapi.Model.User;
 import com.usersapi.Model.WaitList;
 import com.usersapi.Repository.CompanyRepository;
 import com.usersapi.Repository.UserRepository;
-import com.usersapi.inventoryManagement.CreateInventory;
 import com.usersapi.inventoryManagement.InventoryServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

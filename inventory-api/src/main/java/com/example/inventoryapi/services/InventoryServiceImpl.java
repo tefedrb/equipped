@@ -1,5 +1,6 @@
 package com.example.inventoryapi.services;
 
+import com.example.inventoryapi.itemRetrieval.ItemServiceFeign;
 import com.example.inventoryapi.models.Inventory;
 import com.example.inventoryapi.models.Item;
 import com.example.inventoryapi.repositories.InventoryRepository;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InventoryServiceImpl implements InventoryService {
+
+    @Autowired
+    ItemServiceFeign itemServiceFeign;
 
     @Autowired
     InventoryRepository inventoryRepository;
@@ -32,25 +36,27 @@ public class InventoryServiceImpl implements InventoryService {
             Long item_serial_id = itemAndInventory.getSerial_id();
             Inventory inventory = inventoryRepository.findById(inventory_id).get();
             // Here, again, I am wondering about asynchronicity and thread safety
-            ItemRetrieval requestedItem = new ItemRetrieval();
-            ItemFromJson itemJ = requestedItem.run(item_serial_id);
+            // (BELOW) THIS IS HERE FOR MONOLITHIC TESTING
+//            ItemRetrieval requestedItem = new ItemRetrieval();
+//            ItemFromJson itemJ = requestedItem.run(item_serial_id);
+            ItemFromJson requestedItem = itemServiceFeign.getItemBySerial(item_serial_id);
             // This doesn't seem like it follows DRY principles.
             // there should be a way to create an item within our ItemRetrieval instead
             // of a ItemFromJson
             Item item = new Item(
-                    itemJ.getSerial_num(),
-                    true, itemJ.getImage(),
-                    itemJ.getProdLink(),
-                    itemJ.getValue(),
-                    itemJ.getCategory().getName(),
-                    itemJ.getSubCategory().getName());
+                    requestedItem.getSerial_num(),
+                    true, requestedItem.getImage(),
+                    requestedItem.getProdLink(),
+                    requestedItem.getValue(),
+                    requestedItem.getCategory().getName(),
+                    requestedItem.getSubCategory().getName());
             // Adding Item to inventory
             item.setInventory(inventory);
             itemRepository.save(item);
             inventory.addItems(item);
             return inventoryRepository.save(inventory);
         } catch(Exception e) {
-            System.err.println("ERROR?! " + e.getMessage());
+            System.err.println("ERROR in addItemToInventory : inventory-api service: " + e.getMessage());
         }
         return null;
     }
