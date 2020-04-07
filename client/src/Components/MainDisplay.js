@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import '../App.css';
+import '../CSS/App.css';
 
-class Inventory extends Component {
+class MainDisplay extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -17,10 +17,10 @@ class Inventory extends Component {
     const createMenuDisplayed = this.props.showCreateMenu ? "dull-area" : null;
     return (
       <div className={`user-inventory ${createMenuDisplayed}`}>
-        <h1>Inventory</h1>
+        <h1></h1>
       </div>
     );
   }
 }
 
-export default Inventory;
+export default MainDisplay;

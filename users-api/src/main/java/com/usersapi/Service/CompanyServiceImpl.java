@@ -111,6 +111,19 @@ public class CompanyServiceImpl implements CompanyService {
 //    }
 
     @Override
+    public Company getCompanyById(Long id){
+        try {
+            Company targetCompany = companyRepository.findById(id).get();
+            targetCompany.setPassword(null);
+            targetCompany.setUsers(null);
+            return targetCompany;
+        } catch (Exception e){
+            System.err.println("Error in getCompanyById (company service): " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
     public Company findByUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();

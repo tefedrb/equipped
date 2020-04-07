@@ -1,44 +1,64 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 
-const Div = styled.div`
-.user-inventory 
-  display: flex;
-  height: 90%;
-  flex-grow: 5;
-  flex-direction: column;
-  margin: 3%;
-  background-color: rgba(255,255,255,0.4);
+const Section = styled.section`
+  height: 100%;
+  width: 100%;
+  margin: 0;
+
   transition: all .2s ease-in-out;
 `
 
 class CompanyView extends Component{
-  // constructor(props){
-  //   super(props);
-  // }
+  _isMounted = false;
+  constructor(props){
+    super(props);
+    this.state = {
+      company: null,
+      type: null
+    }
+  }
 
   componentDidMount(){
-      fetch("http://localhost:8082/company/userCompany", {
-        method: 'get',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-        }
-      })
-      .then(res => res.json())
-      .then(res =>{
-        // Display company of user
-      })
-      .catch(error => 
-        console.log("Can't find user compnay: ", error)
-      )
+    this._isMounted = true;
+    // console.log(this.props);
+    //   fetch("http://localhost:8080/users-api/company/userCompany", {
+    //     method: 'get',
+    //     headers:{
+    //       'Content-Type' : 'application/json',
+    //       'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+    //     }
+    //   })
+    //   .then(res => res.json())
+    //   .then(res =>{
+    //     // Display company of user
+    //     console.log(res);
+    //     this.setState({
+    //       company: res.name,
+    //       type: res.type
+    //     });
+    //   })
+    //   .catch(error => 
+    //     console.log("Can't find user compnay: ", error)
+    //   )
+    }
+  
+    componentWillUnmount(){
+      this._isMounted = false;
     }
 
   render(){
     return(
-      <Div>
-        
-      </Div>
+      <Section>
+        <div id="company-views">
+          <nav>
+            <h1><span>Company: </span>{this.props.company || "No Company"}</h1>
+          </nav>
+          <div>
+
+          </div>
+        </div>
+      </Section>
     );
   }
 }

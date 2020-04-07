@@ -54,7 +54,7 @@ class CreateCompanyMenu extends Component{
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
-        fetch("http://localhost:8082/company/create", {
+        fetch("http://localhost:8080/users-api/company/create", {
             method: 'post',
             headers: myHeaders,
             body: JSON.stringify({
@@ -68,7 +68,7 @@ class CreateCompanyMenu extends Component{
             console.log(res);
             this.props.toggleCreateCompany();
             // Insert company information into user
-            fetch("http://localhost:8082/company/userCompany", {
+            fetch("http://localhost:8080/users-api/company/userCompany", {
                 method: 'get',
                 headers: myHeaders
             })

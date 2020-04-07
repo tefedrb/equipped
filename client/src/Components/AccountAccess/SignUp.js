@@ -49,7 +49,7 @@ class SignUp extends Component {
     });
   };
 
-  toggleForm = (e) => {
+  toggleForm = () => {
     this.setState(prevState => ({
       isFormVisible: !prevState.isFormVisible
     }));

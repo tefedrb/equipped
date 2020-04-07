@@ -51,4 +51,9 @@ public class CompanyController {
             return dummyComp;
         }
     }
+
+    @GetMapping("/{company_id}")
+    public Company getCompanyById(@PathVariable Long company_id){
+        return companyService.getCompanyById(company_id);
+    }
 }

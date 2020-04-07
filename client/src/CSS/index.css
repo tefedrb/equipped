@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  padding: 0;
+  border: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -51,6 +53,11 @@ header {
   font-size: 1em;
   display: flex;
   align-items: center;
+}
+
+header h1 {
+  font-size: 1.5em;
+  letter-spacing: .04rem;
 }
 
 header img:first-child {
@@ -127,14 +134,24 @@ label {
   background-color: rgba(0,0,0,0.4);
   border: 2px black solid;
   padding: .2em;
+  transition: font-size .2s ease-in-out;
 }
 
 .company-list-item span:nth-child(2){
   font-size: .75em;
 }
 
+.company-list-item:hover {
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.company-list-item:active {
+  background-color: #69cb42;
+}
+
 .home {
-  min-height: 75vh;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -142,7 +159,6 @@ label {
   max-height: 80vh;
   background-color: rgba(142,201,80,0.4);
   border: 10px inset rgba(193, 193, 193, 0.5);
-  overflow: auto;
 }
 
 .inner-header {
@@ -181,4 +197,36 @@ label {
 .dull-area {
   opacity: 0;
   height: 0;
+}
+
+#company-views {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+#company-views nav {
+  background-color: black;
+  height: 2em;
+  flex-grow: .5;
+  display: flex;
+  align-items: center;
+  color:#69cb42;
+}
+
+#company-views h1 {
+  margin: 0;
+  font-size: 1em;
+  padding-left: .5em;
+}
+
+#company-views h1 span {
+  color: white;
+  font-size: .8em;
+}
+
+#company-views div {
+  height: 100%;
+  background-color: rgba(255,255,255,0.4);
 }

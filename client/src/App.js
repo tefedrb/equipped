@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './App.css';
+import './CSS/App.css';
 import Home from './Components/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
@@ -100,7 +100,7 @@ class App extends Component {
       <div className="main-container">
         <header>
           <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
-          <span>Equipped</span>
+          <h1>Equipped</h1>
           <UserHeader 
             logout={this.logOut} 
             user={this.state.user}

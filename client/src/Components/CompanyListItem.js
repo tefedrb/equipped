@@ -1,10 +1,10 @@
-import React from 'react';
-import '../App.css';
+import React, {useState} from 'react';
+import '../CSS/App.css';
 // Hook to check if clicked on, etc
 function CompanyListItem(props){
-  
+  const [companyId] = useState(props.company.id);
   return (
-    <div className="company-list-item">
+    <div onClick={()=>props.getCompanyInfo(companyId)} className="company-list-item">
       <span>
         {props.company.name}
       </span>
