@@ -20,30 +20,6 @@ class App extends Component {
   }
 
   componentDidMount(){
-    const myHeaders = new Headers();
-    // Get userRoles - if one doesn't exist create one - this is temp
-    myHeaders.append('Content-Type', 'application/json');
-    fetch("http://localhost:8082/userRole/listall", {
-      method: 'get',
-      headers: myHeaders
-    })
-    .then(res => res.json())
-    .then(res => {
-      const findBasic = res.find(item => {
-        return item.roleType === "BASIC";
-      })
-      if(!findBasic || findBasic.roleType !== "BASIC"){
-        fetch("http://localhost:8082/userRole/create", {
-          method: 'post',
-          headers: myHeaders,
-          body: JSON.stringify(
-            {
-              roleType: "BASIC"
-            }
-          )
-        })
-      }
-    })
     /* Trying to rehydrate state with user data after browser
      refresh */
     if(localStorage.getItem('user')){

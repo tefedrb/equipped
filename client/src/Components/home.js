@@ -31,6 +31,7 @@ class Home extends Component {
   componentDidMount(){
     this._isMounted = true;
     console.log(this.props);
+    if(localStorage.jwt){
       fetch("http://localhost:8080/users-api/company/userCompany", {
         method: 'get',
         headers:{
@@ -39,10 +40,9 @@ class Home extends Component {
         }
       })
       .then(res => res.json())
-      .then(res =>{
+      .then(res => {
         // Display company of user
-        console.log(res);
-        if(res.id != null){
+        if(res.id != null && this._isMounted){
           this.setState({
             company: res.name,
             type: res.type
@@ -52,6 +52,11 @@ class Home extends Component {
       .catch(error => 
         console.log("Can't find user compnay: ", error)
       )
+    }
+  }
+
+  componentWillUnmount(){
+    this._isMounted = false;
   }
 
   getCompanyInfo = (id) => {
@@ -63,10 +68,23 @@ class Home extends Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res, " In getCompanyInfo(): Home component");
       this.setState({
         selectedCompany: res
       })
+    })
+  }
+
+  joinWaitList = (id) => {
+    fetch("http://localhost:8080/users-api/waitList/join/" + id, {
+      method: 'put',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log(res, " Waitlist");
     })
   }
 
@@ -85,7 +103,8 @@ class Home extends Component {
         <main className="home-main">
           <Route exact path="/home">
             <MainDisplay
-            selectedCompay={this.state.getCompanyinfo}
+              joinWaitList={this.joinWaitList}
+              selectedCompany={this.state.selectedCompany}
               showCreateMenu={this.state.showCreateMenu} 
             /> 
           </Route>

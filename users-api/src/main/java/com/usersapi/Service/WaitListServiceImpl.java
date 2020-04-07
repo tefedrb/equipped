@@ -25,17 +25,22 @@ public class WaitListServiceImpl implements WaitListService {
     UserRepository userRepository;
 
     @Override
-    public HttpStatus joinWaitList(long id, User user){
-        WaitList targetList = waitListRepository.findById(id).get();
-        targetList.addUsers(user);
-        user.setWaitList(targetList);
-        userRepository.save(user);
-        waitListRepository.save(targetList);
-        return HttpStatus.OK;
+    public HttpStatus joinWaitList(Long id, User user){
+        try {
+            WaitList targetList = waitListRepository.findById(id).get();
+            targetList.addUsers(user);
+            user.setWaitList(targetList);
+            userRepository.save(user);
+            waitListRepository.save(targetList);
+            return HttpStatus.OK;
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+            return HttpStatus.FORBIDDEN;
+        }
     }
 
     @Override
-    public HttpStatus confirmUser(long waitListId, long userId){
+    public HttpStatus confirmUser(Long waitListId, Long userId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authUser = userRepository.findByUsername(userName);

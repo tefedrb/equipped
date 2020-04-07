@@ -62,13 +62,13 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public HttpStatus deleteCompanyById(long companyId) {
+    public HttpStatus deleteCompanyById(Long companyId) {
         companyRepository.deleteById(companyId);
         return HttpStatus.OK;
     }
 
     @Override
-    public HttpStatus updateCompany(long id, Company companyReq){
+    public HttpStatus updateCompany(Long id, Company companyReq){
         Company company = companyRepository.findById(id).get();
         company.setName(companyReq.getName());
         company.setType(companyReq.getName());
