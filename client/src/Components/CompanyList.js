@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../App.css';
+import '../CSS/App.css';
 import CompanyListItem from './CompanyListItem';
 
 class CompanyList extends Component {
@@ -20,7 +20,7 @@ class CompanyList extends Component {
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
-      fetch("http://localhost:8082/company/list", {
+      fetch("http://localhost:8080/users-api/company/list", {
         method: 'get',
         headers: myHeaders
       })
@@ -29,6 +29,7 @@ class CompanyList extends Component {
         if(res.error === "Unauthorized"){
           this.props.logout();
         } else if(this._isMounted){
+          console.log(res);
           this.setState({
             companies: res
           })
@@ -51,7 +52,11 @@ class CompanyList extends Component {
     const companies = this.state.companies ?
     this.state.companies.map((company, index) => {
       return (
-        <CompanyListItem company={company} key={index} />
+        <CompanyListItem
+          getCompanyInfo={this.props.getCompanyInfo} 
+          company={company} 
+          key={index} 
+        />
       )
     }) : "Loading...";
     const createMenuDisplayed = this.props.showCreateMenu ? "dull-area" : null;

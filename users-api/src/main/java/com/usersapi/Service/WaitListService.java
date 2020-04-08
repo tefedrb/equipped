@@ -4,6 +4,6 @@ import com.usersapi.Model.User;
 import org.springframework.http.HttpStatus;
 
 public interface WaitListService {
-    HttpStatus joinWaitList(long id, User user);
-    HttpStatus confirmUser(long waitListId, long userId);
+    HttpStatus joinWaitList(Long id, User user);
+    HttpStatus confirmUser(Long waitListId, Long userId);
 }

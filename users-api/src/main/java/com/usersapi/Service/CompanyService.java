@@ -5,12 +5,12 @@ import org.springframework.http.HttpStatus;
 
 public interface CompanyService {
     HttpStatus createCompany(Company newCompany);
-    HttpStatus deleteCompanyById(long companyId);
-    HttpStatus updateCompany(long id, Company companyReq);
+    HttpStatus deleteCompanyById(Long companyId);
+    HttpStatus updateCompany(Long id, Company companyReq);
 
     Iterable<Company> getAllCompanies();
 //  Iterable<Company> findCompanyByPerson(long id);
 //  HttpStatus verifyUser(Integer userId, Company company);
-//  HttpStatus findCompany(Long id);
+    Company getCompanyById(Long id);
     Company findByUser();
 }

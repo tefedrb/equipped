@@ -18,7 +18,7 @@ class LogIn extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8082/login", {
+    fetch("http://localhost:8080/users-api/login", {
       method: 'post',
       headers: {
         "Accept" : 'application/json, text/plain, */*',
@@ -38,7 +38,7 @@ class LogIn extends Component {
             this.props.getUser();
             try {
               // Make a call to user company based off userID or Name
-              fetch("http://localhost:8082/company/userCompany", {
+              fetch("http://localhost:8080/users-api/company/userCompany", {
                 method: 'get',
                 headers: {
                   'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),

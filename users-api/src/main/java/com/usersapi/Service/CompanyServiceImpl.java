@@ -62,13 +62,13 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public HttpStatus deleteCompanyById(long companyId) {
+    public HttpStatus deleteCompanyById(Long companyId) {
         companyRepository.deleteById(companyId);
         return HttpStatus.OK;
     }
 
     @Override
-    public HttpStatus updateCompany(long id, Company companyReq){
+    public HttpStatus updateCompany(Long id, Company companyReq){
         Company company = companyRepository.findById(id).get();
         company.setName(companyReq.getName());
         company.setType(companyReq.getName());
@@ -109,6 +109,19 @@ public class CompanyServiceImpl implements CompanyService {
 //        Company targetCompany = companyRepository.findById(id).get();
 //
 //    }
+
+    @Override
+    public Company getCompanyById(Long id){
+        try {
+            Company targetCompany = companyRepository.findById(id).get();
+            targetCompany.setPassword(null);
+            targetCompany.setUsers(null);
+            return targetCompany;
+        } catch (Exception e){
+            System.err.println("Error in getCompanyById (company service): " + e.getMessage());
+            return null;
+        }
+    }
 
     @Override
     public Company findByUser(){

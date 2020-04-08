@@ -31,7 +31,7 @@ class UserHeader extends Component {
 
     componentDidUpdate(){
         // This condition is here in order to get userHeader to properly display
-        // itself and pass down user data to settings after the asynchronous call from
+        // itself and pass down user data to Settings after the asynchronous call from
         // the getUser method (in app.js) which is invoked during an initial login or
         // signup
         if(this.props.user && this.state.user == null){

@@ -17,7 +17,7 @@ public class WaitList {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @JsonIgnore
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -40,7 +40,7 @@ public class WaitList {
         this.id = id;
     }
 
-    public long getId(){
+    public Long getId(){
         return this.id;
     }
 
