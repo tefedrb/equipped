@@ -3,7 +3,7 @@ import '../CSS/App.css';
 import styled from 'styled-components';
 
 function MainDisplay(props) {
-    const createMenuDisplayed = props.showCreateMenu ? "dull-area" : null;
+    const createMenuDisplayed = props.showCreateCompMenu ? "dull-area" : null;
     const company = props.selectedCompany;
     const Button = styled.button`
       outline: none;

@@ -59,7 +59,7 @@ class CompanyList extends Component {
         />
       )
     }) : "Loading...";
-    const createMenuDisplayed = this.props.showCreateMenu ? "dull-area" : null;
+    const createMenuDisplayed = this.props.showCreateCompMenu ? "dull-area" : null;
     return (
       <div className={`company-list ${createMenuDisplayed}`}>
         <h1>Company List</h1>

@@ -85,9 +85,9 @@ class CreateCompanyMenu extends Component{
     }
 
     render(){
-    const showCreateMenu = this.props.showCreateMenu ? "show-menu" : null;
+    const showCreateCompMenu = this.props.showCreateCompMenu ? "show-menu" : null;
         return  (
-            <div className={`create-company-menu ${showCreateMenu}`}>
+            <div className={`create-company-menu ${showCreateCompMenu}`}>
                 <Div>
                     <Form id="create-comp" onSubmit={this.createCompany}>
                         <Label>Company Name
