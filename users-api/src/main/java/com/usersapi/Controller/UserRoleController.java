@@ -19,9 +19,8 @@ public class UserRoleController {
         return HttpStatus.OK;
     }
 
-   @GetMapping("/listall")
+   @GetMapping("/listAll")
    public Iterable<UserRole> listRoles(){
-       Iterable<UserRole> userRoles = userRoleService.listRoles();
-       return userRoles;
+       return userRoleService.listRoles();
    }
 }

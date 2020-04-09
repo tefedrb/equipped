@@ -19,15 +19,5 @@
 */
 
 
-.main-container {
-  min-height: 100vh;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  align-content: space-between;
-  background-image: url('../pictures/gear-layout.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
+
 

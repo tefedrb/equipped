@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './CSS/App.css';
+import './CSS/index.css';
 import Home from './Components/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
@@ -15,7 +15,7 @@ class App extends Component {
     super(props);
     this.state = {
       user: null,
-      userLoggedIn: false
+      userLoggedIn: false,
     }
   }
 
@@ -92,7 +92,7 @@ class App extends Component {
             <Route
               path="/home"
               component={() =>
-              <Home
+              <Home 
                 getUserCompany={this.getUserCompany}
                 user={this.state.user}
                 logOut={this.logOut}

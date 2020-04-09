@@ -15,8 +15,9 @@ class Home extends Component {
     this.state = {
       company: null,
       type: null,
-      showCreateMenu: false,
-      selectedCompany: null
+      showCreateCompMenu: false,
+      selectedCompany: null,
+      waitList: false,
     }
   }
  
@@ -24,7 +25,7 @@ class Home extends Component {
     /* Might want to create a conditional here that checks
      to see if the user already has a company?? */
     this.setState(prevState => ({
-      showCreateMenu: !prevState.showCreateMenu
+      showCreateCompMenu: !prevState.showCreateCompMenu
     }))
   }
 
@@ -47,6 +48,8 @@ class Home extends Component {
             company: res.name,
             type: res.type
           });
+        } if(!res.company){
+
         }
       })
       .catch(error => 
@@ -54,6 +57,31 @@ class Home extends Component {
       )
     }
   }
+
+  checkForWaitList = () => {
+    fetch("http://localhost:8080/users-api/company/userCompany", {
+        method: 'get',
+        headers:{
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
+        // Display company of user
+        if(res.id != null && this._isMounted){
+          this.setState({
+            company: res.name,
+            type: res.type
+          });
+        } if(!res.company){
+
+        }
+      })
+      .catch(error => 
+        console.log("Can't find user compnay: ", error)
+      )
+    }
 
   componentWillUnmount(){
     this._isMounted = false;
@@ -96,7 +124,7 @@ class Home extends Component {
         <InnerNav />
         <CreateCompanyMenu 
           toggleCreateCompany={this.toggleCreateCompany} 
-          showCreateMenu={this.state.showCreateMenu}
+          showCreateCompMenu={this.state.showCreateCompMenu}
           createCompany={this.createCompany}
           getUserCompany={this.props.getUserCompany}
         />
@@ -105,14 +133,14 @@ class Home extends Component {
             <MainDisplay
               joinWaitList={this.joinWaitList}
               selectedCompany={this.state.selectedCompany}
-              showCreateMenu={this.state.showCreateMenu} 
+              showCreateCompMenu={this.state.showCreateCompMenu} 
             /> 
           </Route>
           <Route exact path="/home">
             <CompanyList
               getCompanyInfo={this.getCompanyInfo}
               logout={this.logOut} 
-              showCreateMenu={this.state.showCreateMenu}
+              showCreateCompMenu={this.state.showCreateCompMenu}
               toggleCreateCompany={this.toggleCreateCompany} 
             />
           </Route>

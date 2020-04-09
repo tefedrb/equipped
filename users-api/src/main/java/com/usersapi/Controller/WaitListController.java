@@ -64,4 +64,13 @@ public class WaitListController {
         }
         return waitListService.joinWaitList(waitListId, authUser);
     }
+
+    @GetMapping("/by-user")
+    public WaitList getByUserName(){
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        String userName = authentication.getName();
+        return waitListRepository.findWaitListByUserName(userName);
+    }
 }

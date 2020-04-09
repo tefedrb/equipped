@@ -2,19 +2,29 @@ import React from 'react';
 
 const Settings = (props) =>{
     // Might be able to use sass here to nest settingsStyle section {} css
-    let settingsStyle = {
+    
+    let transparentCover = {
+        display: props.display ? "flex" : "none",
         position: "absolute",
+        justifyContent: "flex-end",
+        top: "40px",
+        left: "0",
+        minHeight: "calc(100vh - 40px)",
+        width: "100%",
+        backgroundColor: "transparent"
+    }
+    
+    let settingsStyle = {
+        // position: "relative",
         display: props.display ? "flex" : "none",
         justifyContent: "space-around",
         alignItems: "center",
         flexDirection: "column",
         backgroundColor: "rgba(0, 0, 0, 0.8)",
-        right: 0,
-        top: "40px",
-        width: "25vw",
-        height: "50vh",
-        zIndex: 2,
-        boxShadow: "5px 2px 10px black"
+        width: "15em",
+        maxHeight: "20em",
+        boxShadow: "5px 2px 10px black",
+        zIndex: 2
     }
 
     let flexBox = {
@@ -37,11 +47,13 @@ const Settings = (props) =>{
     }
    
     return (
-        <div style={settingsStyle}>
-            {userDisplay}
-            <section>
-                <button onClick={() => props.logout()}>LOGOUT</button>
-            </section>
+        <div onClick={() => props.toggleSettingsDisplay()} style={transparentCover}>
+            <div style={settingsStyle} onClick={e => e.stopPropagation()}>
+                {userDisplay}
+                <section>
+                    <button onClick={() => props.logout()}>LOGOUT</button>
+                </section>
+            </div>
         </div>
     )
 }

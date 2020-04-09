@@ -42,7 +42,7 @@ class UserHeader extends Component {
         }
     }
 
-    handleClick = () => {
+    toggleSettingsDisp = () => {
         this.setState(prev => ({
             settingsDisplay: !prev.settingsDisplay
         }))
@@ -55,7 +55,8 @@ class UserHeader extends Component {
         const defaultView = this.state.user ? (
             <Div>
                 <span>{user}</span>
-                <Img onClick={this.handleClick} src="https://img.icons8.com/android/24/000000/settings.png" 
+                <Img onClick={this.toggleSettingsDisp} 
+                    src="https://img.icons8.com/android/24/000000/settings.png" 
                     alt="settings-wheel"
                 /> 
             </Div>
@@ -64,7 +65,12 @@ class UserHeader extends Component {
         return (
             <div>
                 {defaultView}
-                <Settings logout={this.props.logout} user={this.state.user} display={this.state.settingsDisplay} />
+                <Settings 
+                    logout={this.props.logout} 
+                    user={this.state.user} 
+                    display={this.state.settingsDisplay} 
+                    toggleSettingsDisplay={this.toggleSettingsDisp}
+                />
             </div>
         )
     }
