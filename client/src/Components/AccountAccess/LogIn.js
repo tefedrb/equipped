@@ -11,9 +11,6 @@ class LogIn extends Component {
       password: '',
       isFormVisible: false
     }
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.toggleForm = this.toggleForm.bind(this);
   }
 
   handleSubmit = (event) => {
@@ -66,6 +63,7 @@ class LogIn extends Component {
     }
     
     const Button = styled.button`
+      outline: none;
       background: rgba(37, 208, 125, 0.52);
       border-radius: 2px;
       border: 1px solid white;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './CSS/index.css';
-import Home from './Components/Home';
+import Home from './Components/Home/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccountAccess/AccessAccount';
@@ -22,6 +22,7 @@ class App extends Component {
   componentDidMount(){
     /* Trying to rehydrate state with user data after browser
      refresh */
+     console.log("app mounted");
     if(localStorage.getItem('user')){
       this.setState({
        user: JSON.parse(localStorage.getItem('user')),
@@ -75,37 +76,32 @@ class App extends Component {
   render(){
     const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
-      <div className="main-container">
-        <header>
-          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
-          <h1>Equipped</h1>
+      <Router>  
+        <div className="main-container">
           <UserHeader 
             logout={this.logOut} 
             user={this.state.user}
           />
-        </header>
-        <main>
-          <Router>   
-            <AccessAccount 
-              exact path="/"
-              getUser={this.getUser}
-            />     
-            {loggedIn}
-            <Route
-              path="/home"
-              component={() =>
+          <Route 
+            exact path="/" 
+            render={() => <AccessAccount getUser={this.getUser}/>}
+            />   
+          {loggedIn}
+          <Route
+            path="/home"
+            render={() =>
               <Home 
                 getUserCompanyLocal={this.getUserCompanyLocal}
                 user={this.state.user}
                 logOut={this.logOut}
-              />}
-            /> 
-          </Router>
-        </main>
-        <footer>
-          <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
-        </footer>
-      </div>
+              />
+            }
+          /> 
+          <footer>
+            <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+          </footer>
+        </div>
+      </Router>
     );
   }
 }

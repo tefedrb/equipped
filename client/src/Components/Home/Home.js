@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import '../CSS/App.css';
-import CompanyList from './CompanyList/CompanyList';
-import MainDisplay from './MainDisplay';
-import CreateCompanyMenu from './CreateCompanyMenu';
+import CompanyList from '../CompanyList/CompanyList';
+import MainDisplay from '../MainDisplay';
+import CreateCompanyMenu from '../CreateCompanyMenu';
 import {Route} from 'react-router-dom';
-import CompanyView from './CompanyView';
-import InnerNav from './InnerNav/InnerNav';
-import CheckJwt from '../CheckJwt';
+import CompanyView from '../CompanyView';
+import InnerNav from '../InnerNav/InnerNav';
+import CheckJwt from '../../CheckJwt';
 
 class Home extends Component {
   _isMounted = false;
@@ -33,6 +32,7 @@ class Home extends Component {
 
   componentDidMount(){
     this._isMounted = true;
+    console.log("Home mounted");
     if(localStorage.getItem('jwt')){
       this.getUserCompany();
       this.checkForWaitList();
@@ -88,6 +88,7 @@ class Home extends Component {
 
   componentWillUnmount(){
     this._isMounted = false;
+    console.log("home unmount")
   }
 
   getCompanyInfo = (id) => {
