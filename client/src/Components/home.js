@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import '../CSS/App.css';
-import CompanyList from './CompanyList';
+import CompanyList from './CompanyList/CompanyList';
 import MainDisplay from './MainDisplay';
 import CreateCompanyMenu from './CreateCompanyMenu';
 import {Route} from 'react-router-dom';
 import CompanyView from './CompanyView';
 import InnerNav from './InnerNav/InnerNav';
+import CheckJwt from '../CheckJwt';
 
 class Home extends Component {
   _isMounted = false;
@@ -17,7 +18,8 @@ class Home extends Component {
       type: null,
       showCreateCompMenu: false,
       selectedCompany: null,
-      waitList: false,
+      user: this.props.user,
+      waitList: null
     }
   }
  
@@ -31,57 +33,59 @@ class Home extends Component {
 
   componentDidMount(){
     this._isMounted = true;
-    console.log(this.props);
     if(localStorage.jwt){
-      fetch("http://localhost:8080/users-api/company/userCompany", {
-        method: 'get',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-        }
-      })
-      .then(res => res.json())
-      .then(res => {
-        // Display company of user
-        if(res.id != null && this._isMounted){
-          this.setState({
-            company: res.name,
-            type: res.type
-          });
-        } if(!res.company){
-
-        }
-      })
-      .catch(error => 
-        console.log("Can't find user compnay: ", error)
-      )
+      this.getUserCompany();
+      this.checkForWaitList();
+      CheckJwt(localStorage.jwt);
     }
   }
 
+  getUserCompany = () => {
+    fetch("http://localhost:8080/users-api/company/user-company", {
+      method: 'get',
+      headers:{
+        'Content-Type' : 'application/json',
+        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
+    })
+    .then(res => res.json())
+    .then(res => {
+      // Display company of user
+      console.log(res, "<- company")
+      if(res.id != null && this._isMounted){
+        this.setState({
+          company: res.name,
+          type: res.type
+        });
+      }
+    })
+    .catch(error => 
+      console.log("Can't find user compnay: ", error)
+    )
+  }
+
   checkForWaitList = () => {
-    fetch("http://localhost:8080/users-api/company/userCompany", {
+    fetch("http://localhost:8080/users-api/wait-list/by-user", {
         method: 'get',
         headers:{
           'Content-Type' : 'application/json',
           'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
         }
-      })
-      .then(res => res.json())
-      .then(res => {
-        // Display company of user
-        if(res.id != null && this._isMounted){
-          this.setState({
-            company: res.name,
-            type: res.type
-          });
-        } if(!res.company){
-
-        }
-      })
-      .catch(error => 
-        console.log("Can't find user compnay: ", error)
-      )
-    }
+    })
+    .then(res => res.json())
+    .then(res => {
+      // Display company of user
+      console.log(res, " < - wait list");
+      if(res.id != null && this._isMounted){
+        this.setState({
+          waitList: res.id
+        });
+      }
+    })
+    .catch(error => 
+      console.log("User not on a wait list: ", error)
+    )
+  }
 
   componentWillUnmount(){
     this._isMounted = false;
@@ -96,6 +100,7 @@ class Home extends Component {
     })
     .then(res => res.json())
     .then(res => {
+      console.log(res);
       this.setState({
         selectedCompany: res
       })
@@ -103,7 +108,7 @@ class Home extends Component {
   }
 
   joinWaitList = (id) => {
-    fetch("http://localhost:8080/users-api/waitList/join/" + id, {
+    fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
       method: 'put',
       headers: {
         'Content-Type' : 'application/json',
@@ -126,12 +131,14 @@ class Home extends Component {
           toggleCreateCompany={this.toggleCreateCompany} 
           showCreateCompMenu={this.state.showCreateCompMenu}
           createCompany={this.createCompany}
-          getUserCompany={this.props.getUserCompany}
+          getUserCompanyLocal={this.props.getUserCompanyLocal}
         />
         <main className="home-main">
           <Route exact path="/home">
             <MainDisplay
+              waitList={this.state.waitList}
               joinWaitList={this.joinWaitList}
+              company={this.state.company}
               selectedCompany={this.state.selectedCompany}
               showCreateCompMenu={this.state.showCreateCompMenu} 
             /> 

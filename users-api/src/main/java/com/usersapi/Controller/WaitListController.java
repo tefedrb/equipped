@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/waitList")
+@RequestMapping("/wait-list")
 public class WaitListController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class WaitListController {
     UserRepository userRepository;
 
      // Need to add admin privileges
-    @GetMapping("/list/{companyId}")
+    @GetMapping("/{companyId}")
     public WaitList getCompanyWaitList(@PathVariable Long companyId){
         // Get company
         Company targetCompany = companyRepository.findById(companyId).get();
@@ -71,6 +71,11 @@ public class WaitListController {
                 .getContext()
                 .getAuthentication();
         String userName = authentication.getName();
-        return waitListRepository.findWaitListByUserName(userName);
+        try {
+            return waitListRepository.findWaitListByUserName(userName);
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 }

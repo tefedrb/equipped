@@ -1,6 +1,7 @@
 package com.usersapi.Controller;
 
-import com.usersapi.Model.Company;
+import com.usersapi.Config.JwtUtil;
+import com.usersapi.JSONviews.JwtView;
 import com.usersapi.Model.JwtResponse;
 import com.usersapi.Model.User;
 import com.usersapi.Repository.CompanyRepository;
@@ -15,9 +16,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
-@RequestMapping("/user/")
+@RequestMapping("/user")
 public class UserController {
+
     @Autowired
     UserService userService;
 
@@ -33,10 +37,20 @@ public class UserController {
     @Autowired
     WaitListService waitListService;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
     @PostMapping("/sign-up")
-    public ResponseEntity createUser(@RequestBody User newUser) {
+    public ResponseEntity<?> createUser(@RequestBody User newUser) {
         return ResponseEntity.ok(new JwtResponse(userService.createUser(newUser)));
     }
+
+    @PostMapping("/check-jwt")
+    public Date checkJWTExpiration(@RequestBody JwtView jwtObj) {
+        String jwt = jwtObj.getJwt();
+        return jwtUtil.getExpirationDateFromToken(jwt);
+    }
+
 
     @GetMapping("/zuul-test3")
     public String zuulTest3() {return "Test 3...";}
@@ -45,16 +59,21 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
-    
-    @GetMapping("listall")
+
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody User user){
+//        JwtResponse jwt = new JwtResponse(userService.login(user));
+//        return ResponseEntity.ok(new JwtResponse(userService.login(user)));
+//    }
+//
+    @GetMapping("list-all")
     public Iterable<User> listUsers(){
-        Iterable<User> allUsers = userService.listUsers();
 //        for(User u: allUsers){
 //              u.getUserRole().setUsers(null);
 //              u.getCompany().setUsers(null);
 //              u.getCompany().setWaitList(null);
 //        }
-       return allUsers;
+        return userService.listUsers();
     }
 
     @DeleteMapping("/{userId}/")
@@ -77,7 +96,6 @@ public class UserController {
     public User getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
-        User authUser = userRepository.findByUsername(userName);
-        return authUser;
+        return userRepository.findByUsername(userName);
     }
 }

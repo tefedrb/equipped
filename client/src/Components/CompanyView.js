@@ -22,7 +22,7 @@ class CompanyView extends Component{
   componentDidMount(){
     this._isMounted = true;
     // console.log(this.props);
-    //   fetch("http://localhost:8080/users-api/company/userCompany", {
+    //   fetch("http://localhost:8080/users-api/company/user-company", {
     //     method: 'get',
     //     headers:{
     //       'Content-Type' : 'application/json',

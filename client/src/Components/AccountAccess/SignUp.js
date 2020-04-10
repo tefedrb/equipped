@@ -15,7 +15,7 @@ class SignUp extends Component {
   
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8082/signup", {
+    fetch("http://localhost:8080/users-api/user/sign-up", {
       method: 'post',
       headers: {
         "Accept" : 'application/json, text/plain, */*',
@@ -33,6 +33,7 @@ class SignUp extends Component {
     .then(res => res.json())
     .then(res => {
         if(!res.token){
+          console.log(res)
           alert("Looks like someone already has that username");
         } else {
           // this.props.updateJwt(res.token);
