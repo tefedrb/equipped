@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../CSS/App.css';
 import CompanyListItem from './CompanyListItem';
 
 class CompanyList extends Component {
@@ -10,7 +9,7 @@ class CompanyList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      companies: null
+      companies: []
     }
   }
 
@@ -49,16 +48,17 @@ class CompanyList extends Component {
   }
 
   render(){
-    const companies = this.state.companies ?
-    this.state.companies.map((company, index) => {
-      return (
-        <CompanyListItem
-          getCompanyInfo={this.props.getCompanyInfo} 
-          company={company} 
-          key={index} 
-        />
-      )
-    }) : "Loading...";
+      const companies = this.state.companies ?
+      this.state.companies.map((company, index) => {
+        return (
+          <CompanyListItem
+            getCompanyInfo={this.props.getCompanyInfo} 
+            company={company} 
+            key={index} 
+          />
+        )
+      }) : "Loading...";
+    
     const createMenuDisplayed = this.props.showCreateCompMenu ? "dull-area" : null;
     return (
       <div className={`company-list ${createMenuDisplayed}`}>
@@ -70,6 +70,7 @@ class CompanyList extends Component {
         Create Company</button>}
       </div>
     );
+
   }
 }
 

@@ -32,8 +32,7 @@ public class Company {
     // Need to determine how to have this persist and relate to users?
     // Need to determine where the join table will be - waitlist or company
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private WaitList waitList;
 
     public WaitList getWaitList(){

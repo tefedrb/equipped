@@ -18,7 +18,7 @@ class LogIn extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8080/users-api/login", {
+    fetch("http://localhost:8080/users-api/user/login", {
       method: 'post',
       headers: {
         "Accept" : 'application/json, text/plain, */*',
@@ -31,34 +31,15 @@ class LogIn extends Component {
     })
     .then(res => res.json())
     .then(res => {
+      console.log(res);
           if(res.token){
             localStorage.setItem('jwt', res.token);
-            /* This is a method created in App.js updates parent 
-                state in order for UserHeader to work properly */
+            localStorage.setItem('jwtTime', new Date().getMinutes)
+            /* 
+              This is a method created in App.js updates parent 
+              state in order for UserHeader to work properly 
+            */
             this.props.getUser();
-            try {
-              // Make a call to user company based off userID or Name
-              fetch("http://localhost:8080/users-api/company/userCompany", {
-                method: 'get',
-                headers: {
-                  'Authorization' : 'Bearer ' + localStorage.getItem('jwt'),
-                  'Content-Type': 'application/json'
-                }
-              })
-              .then(res => res.json())
-              .then(res => {
-                if(res.name !== "Null"){
-                  // This will direct user to company home page if they have a company
-                  // this.setState /* ({ */
-                  //   company: res
-                  /*  }) */
-                }
-                
-                // this.props.getUser();
-              })
-            } catch(error){
-              console.log(`Error for /company/userCompany: ${error}`);
-            }
           }
           else {
             alert("Invalid User/Pass Combination");

@@ -31,8 +31,7 @@ public class CompanyController {
 
     @GetMapping("/list")
     public Iterable<Company> getAllCompanies(){
-        Iterable<Company> allCompanies = companyService.getAllCompanies();
-        return allCompanies;
+         return companyService.getAllCompanies();
     }
 
     @PostMapping("/create")
@@ -40,14 +39,13 @@ public class CompanyController {
         return companyService.createCompany(company);
     }
 
-    @GetMapping("/userCompany")
+    @GetMapping("/user-company")
     public Company getUserCompany(){
         try {
-            Company userComp = companyService.findByUser();
-            return userComp;
+            return companyService.findByUser();
         } catch (NullPointerException e){
             Company dummyComp = new Company();
-            dummyComp.setName("Null");
+            dummyComp.setName(null);
             return dummyComp;
         }
     }

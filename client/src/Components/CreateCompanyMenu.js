@@ -68,7 +68,7 @@ class CreateCompanyMenu extends Component{
             console.log(res);
             this.props.toggleCreateCompany();
             // Insert company information into user
-            fetch("http://localhost:8080/users-api/company/userCompany", {
+            fetch("http://localhost:8080/users-api/company/user-company", {
                 method: 'get',
                 headers: myHeaders
             })
@@ -76,7 +76,7 @@ class CreateCompanyMenu extends Component{
             .then(res => {
                 console.log(res, "retrieve user company");
                 // Reach in and add to user
-                this.props.getUserCompany(res);
+                this.props.getUserCompanyLocal(res);
             })
         })
         .catch(error =>{

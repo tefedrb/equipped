@@ -53,10 +53,10 @@ public class UserServiceImpl implements UserService {
         UserRole userRole = userRoleService.getRole(newUser.getUserRole().getRoleType());
         newUser.setUserRole(userRole);
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-        if(userRepository.save(newUser) != null){
+        if (userRepository.save(newUser) != null){
             UserDetails userDetails = loadUserByUsername(newUser.getUsername());
             return jwtutil.generateToken(userDetails);
-        };
+        }
         return null;
     }
 
@@ -83,7 +83,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(User user){
         User returnUser = userRepository.findByUsername(user.getUsername());
-
         if(returnUser != null && bCryptPasswordEncoder.matches(user.getPassword(), returnUser.getPassword())){
             UserDetails userDetails = loadUserByUsername(returnUser.getUsername());
             return jwtutil.generateToken(userDetails);

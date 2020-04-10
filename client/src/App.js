@@ -36,11 +36,11 @@ class App extends Component {
     window.location.reload();
   }
 
-  getUser = (company) => {
+  getUser = () => {
     const myHeader = new Headers();
     myHeader.append('Content-Type', 'application/json');
     myHeader.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
-    fetch("http://localhost:8082/user/retrieve", {
+    fetch("http://localhost:8080/users-api/user/retrieve", {
       method: 'get',
       headers: myHeader
     })
@@ -48,15 +48,17 @@ class App extends Component {
     .then(res => {
       // Adds user to local storage
       localStorage.setItem('user', JSON.stringify(res));
-      if(company) res.company = company;
       this.setState({
         userLoggedIn: true,
         user: res
       })
     })
+    .catch(err => {
+      console.log("Error in getUser ", err);
+    })
   }
 
-  getUserCompany = (res) => {
+  getUserCompanyLocal = (res) => {
     // grab response and add to user object in state and in local 
     const {id, name, type} = res;
     const loggedInUser = JSON.parse(localStorage.getItem('user'));
@@ -93,7 +95,7 @@ class App extends Component {
               path="/home"
               component={() =>
               <Home 
-                getUserCompany={this.getUserCompany}
+                getUserCompanyLocal={this.getUserCompanyLocal}
                 user={this.state.user}
                 logOut={this.logOut}
               />}
