@@ -5,19 +5,27 @@ const CheckJwt = (jwt) => {
           'Content-Type' : 'application/json',
       },
       body: JSON.stringify({
-          jwt: jwt
+          jwt: jwt,
+          date: null,
+          valid: true
       })
     })
     .then(res => res.json())
     .then(res => {
        // calculations based off of milliseconds
-      const jwtTimeInMilli = res;
-      const currentTimeInMilli = new Date().getTime();
-      const timeLeft = jwtTimeInMilli - currentTimeInMilli;
-      if(timeLeft/60000 < 0){
-          localStorage.clear();
-          alert("You've been signed out.");
-          window.location.reload();
+      // const jwtTimeInMilli = res;
+      // const currentTimeInMilli = new Date().getTime();
+      // const timeLeft = jwtTimeInMilli - currentTimeInMilli;
+      // if(timeLeft/60000 < 0){
+      //     localStorage.clear();
+      //     alert("You've been signed out.");
+      //     window.location.reload();
+      // }
+      if(!res.valid){
+        console.log("expired jwt")
+        localStorage.clear();
+        alert("You've been signed out.")
+        window.location.reload();
       }
     })
     .catch(err => {

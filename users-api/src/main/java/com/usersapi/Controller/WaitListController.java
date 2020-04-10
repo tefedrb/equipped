@@ -71,11 +71,15 @@ public class WaitListController {
                 .getContext()
                 .getAuthentication();
         String userName = authentication.getName();
+        WaitList nullValue = new WaitList();
         try {
-            return waitListRepository.findWaitListByUserName(userName);
-        } catch (Exception e){
-            System.err.println(e.getMessage());
+            WaitList userWaitList = waitListRepository.findWaitListByUserName(userName);
+            if(userWaitList != null){
+                return userWaitList;
+            }
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
-        return null;
+        return nullValue;
     }
 }

@@ -9,14 +9,13 @@ import com.usersapi.Repository.UserRepository;
 import com.usersapi.Service.CompanyService;
 import com.usersapi.Service.UserService;
 import com.usersapi.Service.WaitListService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @RestController
 @RequestMapping("/user")
@@ -46,9 +45,22 @@ public class UserController {
     }
 
     @PostMapping("/check-jwt")
-    public Date checkJWTExpiration(@RequestBody JwtView jwtObj) {
+    public JwtView checkJWTExpiration(@RequestBody JwtView jwtObj) {
+        JwtView response = new JwtView();
+        // Set jwt from RequestBody
         String jwt = jwtObj.getJwt();
-        return jwtUtil.getExpirationDateFromToken(jwt);
+        response.setJwt(jwt);
+        // Check if expired, if not set date provided by jwtUtil...
+        System.out.println(jwt + " <--- JWT HERE!!!");
+        try {
+            if(!jwtUtil.isTokenExpired(jwt)){
+                response.setDate(jwtUtil.getExpirationDateFromToken(jwt));
+            }
+        } catch (ExpiredJwtException e){
+            response.setValid(false);
+            System.out.println(e.getMessage());
+        }
+        return response;
     }
 
 

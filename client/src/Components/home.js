@@ -33,10 +33,10 @@ class Home extends Component {
 
   componentDidMount(){
     this._isMounted = true;
-    if(localStorage.jwt){
+    if(localStorage.getItem('jwt')){
       this.getUserCompany();
       this.checkForWaitList();
-      CheckJwt(localStorage.jwt);
+      CheckJwt(localStorage.getItem('jwt'));
     }
   }
 
@@ -75,7 +75,6 @@ class Home extends Component {
     .then(res => res.json())
     .then(res => {
       // Display company of user
-      console.log(res, " < - wait list");
       if(res.id != null && this._isMounted){
         this.setState({
           waitList: res.id
@@ -83,7 +82,7 @@ class Home extends Component {
       }
     })
     .catch(error => 
-      console.log("User not on a wait list: ", error)
+      console.log("Error in checkForWaitList ", error)
     )
   }
 
