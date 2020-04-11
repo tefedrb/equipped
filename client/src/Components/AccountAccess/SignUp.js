@@ -36,12 +36,15 @@ class SignUp extends Component {
           console.log(res)
           alert("Looks like someone already has that username");
         } else {
-          // this.props.updateJwt(res.token);
           localStorage.setItem('jwt', res.token);
           this.props.getUser();
         }
       }
     )
+  }
+
+  componentDidMount(){
+    console.log("SignUp Mount");
   }
 
   handleChange = (event) => {
@@ -63,6 +66,7 @@ class SignUp extends Component {
     }
 
     const Button = styled.button`
+      outline: none;
       background: rgba(37, 208, 125, 0.52);
       border-radius: 2px;
       border: 1px solid white;

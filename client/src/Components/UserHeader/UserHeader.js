@@ -29,6 +29,10 @@ class UserHeader extends Component {
         }
     }
 
+    componentDidMount(){
+        console.log("UserHeader mount");
+    }
+
     componentDidUpdate(){
         // This condition is here in order to get userHeader to properly display
         // itself and pass down user data to Settings after the asynchronous call from
@@ -63,7 +67,9 @@ class UserHeader extends Component {
             ) 
             : null
         return (
-            <div>
+            <header>
+                <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
+                <h1>Equipped</h1>
                 {defaultView}
                 <Settings 
                     logout={this.props.logout} 
@@ -71,7 +77,7 @@ class UserHeader extends Component {
                     display={this.state.settingsDisplay} 
                     toggleSettingsDisplay={this.toggleSettingsDisp}
                 />
-            </div>
+            </header>
         )
     }
 }

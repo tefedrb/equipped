@@ -15,8 +15,16 @@ class CompanyList extends Component {
 
   componentDidMount(){
     this._isMounted = true;
-    if(this.state.companies == null && localStorage.getItem('jwt')){
-      const myHeaders = new Headers();
+    if(this.state.companies.length < 1 && localStorage.getItem('jwt')){
+      this.populateList();
+    } else {
+      // localStorage.clear();
+      // return <Redirect to="/" />
+    }
+  }
+
+  populateList = () => {
+    const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
       fetch("http://localhost:8080/users-api/company/list", {
@@ -25,6 +33,7 @@ class CompanyList extends Component {
       })
       .then(res => res.json())
       .then(res => {
+        console.log("In company list...");
         if(res.error === "Unauthorized"){
           this.props.logout();
         } else if(this._isMounted){
@@ -37,17 +46,26 @@ class CompanyList extends Component {
       .catch(error => {
         console.log(error, "ERROR!");
       })
-    } else {
-      // localStorage.clear();
-      // return <Redirect to="/" />
-    }
   }
+
+  componentDidUpdate(prevProps){
+    console.log("Company List update!")
+    console.log(prevProps.userHasCompany);
+    if(prevProps.userHasCompany !== this.props.userHasCompany){
+      this.populateList();
+    }
+    // this.populateList();
+  }
+
 
   componentWillUnmount(){
     this._isMounted = false;
   }
 
   render(){
+      const buttonStyle = {
+        opacity: .5
+      }
       const companies = this.state.companies ?
       this.state.companies.map((company, index) => {
         return (
@@ -61,13 +79,18 @@ class CompanyList extends Component {
     
     const createMenuDisplayed = this.props.showCreateCompMenu ? "dull-area" : null;
     return (
-      <div className={`company-list ${createMenuDisplayed}`}>
+      <div className={`company-list`}>
         <h1>Company List</h1>
         <div className='company-list-container'>
           {companies}
         </div>
-        {!createMenuDisplayed && <button onClick={this.props.toggleCreateCompany}>
-        Create Company</button>}
+        {
+          !createMenuDisplayed && 
+          <button style={this.props.userHasCompany ? buttonStyle : null} 
+            onClick={this.props.toggleCreateCompany}>
+            Create Company
+          </button>
+        }
       </div>
     );
 
