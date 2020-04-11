@@ -13,11 +13,12 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      company: null,
-      type: null,
+      companyName: null,
+      companyType: null,
+      companyId: null,
       showCreateCompMenu: false,
       selectedCompany: null,
-      user: this.props.user,
+      user: null,
       waitList: null
     }
   }
@@ -37,6 +38,9 @@ class Home extends Component {
       this.getUserCompany();
       this.checkForWaitList();
       CheckJwt(localStorage.getItem('jwt'));
+      this.setState({
+        user: this.props.user
+      })
     }
   }
 
@@ -54,8 +58,8 @@ class Home extends Component {
       console.log(res, "<- company")
       if(res.id != null && this._isMounted){
         this.setState({
-          company: res.name,
-          type: res.type
+          companNamey: res.name,
+          companyType: res.type
         });
       }
     })
@@ -121,6 +125,18 @@ class Home extends Component {
     })
   }
 
+  getUserCompanyLocal = (res) => {
+    // grab response and add to user object in state and in local 
+    const {id, name, type} = res;
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    loggedInUser.userCompany = {id,name,type};
+    localStorage.setItem('user', JSON.stringify(loggedInUser));
+    this.setState({
+      companyName: name,
+      companyType: type
+      })
+  }
+
   // Move create company menu into company list?
   render(){
     return (
@@ -131,7 +147,7 @@ class Home extends Component {
           toggleCreateCompany={this.toggleCreateCompany} 
           showCreateCompMenu={this.state.showCreateCompMenu}
           createCompany={this.createCompany}
-          getUserCompanyLocal={this.props.getUserCompanyLocal}
+          getUserCompanyLocal={this.getUserCompanyLocal}
         />
         <main className="home-main">
           <Route exact path="/home">
@@ -146,14 +162,15 @@ class Home extends Component {
           <Route exact path="/home">
             <CompanyList
               getCompanyInfo={this.getCompanyInfo}
-              logout={this.logOut} 
+              logout={this.logOut}
+              userHasCompany={this.state.companyName ? true : false} 
               showCreateCompMenu={this.state.showCreateCompMenu}
               toggleCreateCompany={this.toggleCreateCompany} 
             />
           </Route>
           <Route path="/home/company">
             <CompanyView 
-              company={this.state.company}
+              company={this.state.companyName}
               companyType={this.state.companyType}
             />
           </Route>

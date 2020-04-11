@@ -59,18 +59,10 @@ class App extends Component {
     })
   }
 
-  getUserCompanyLocal = (res) => {
-    // grab response and add to user object in state and in local 
-    const {id, name, type} = res;
-    const loggedInUser = JSON.parse(localStorage.getItem('user'));
-    loggedInUser.userCompany = {id,name,type};
-    localStorage.setItem('user', JSON.stringify(loggedInUser));
-    this.setState(prevState => ({
-      user: {
-          ...prevState.user, 
-          loggedInUser
-      }
-    }))
+  componentDidUpdate(prevProps){
+    if(this.state !== prevProps){
+      
+    }
   }
 
   render(){
@@ -91,7 +83,6 @@ class App extends Component {
             path="/home"
             render={() =>
               <Home 
-                getUserCompanyLocal={this.getUserCompanyLocal}
                 user={this.state.user}
                 logOut={this.logOut}
               />

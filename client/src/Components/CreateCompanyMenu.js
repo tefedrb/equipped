@@ -79,13 +79,13 @@ class CreateCompanyMenu extends Component{
                 this.props.getUserCompanyLocal(res);
             })
         })
-        .catch(error =>{
-        console.log(error);
+        .catch(error => {
+            console.log(error);
         })
     }
 
     render(){
-    const showCreateCompMenu = this.props.showCreateCompMenu ? "show-menu" : null;
+        const showCreateCompMenu = this.props.showCreateCompMenu ? "show-menu" : null;
         return  (
             <div className={`create-company-menu ${showCreateCompMenu}`}>
                 <Div>

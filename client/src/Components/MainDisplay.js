@@ -3,7 +3,7 @@ import '../CSS/App.css';
 import styled from 'styled-components';
 
 function MainDisplay(props) {
-  const createMenuDisplayed = props.showCreateCompMenu ? "dull-area" : null;
+  // const createMenuDisplayed = props.showCreateCompMenu ? "dull-area" : null;
   const companySelect = props.selectedCompany;
   const userWaitList = props.waitList;
   let joinComp = "";
@@ -54,7 +54,7 @@ function MainDisplay(props) {
   }
 
   return (
-    <div className={`main-display ${createMenuDisplayed}`}>
+    <div className={`main-display`}>
       <h1>{companySelect ? companySelect.name : ""}</h1>
       <h2>{companySelect ? companySelect.type : ""}</h2>
       {companySelect ? joinComp : ""}

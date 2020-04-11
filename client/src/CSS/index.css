@@ -113,11 +113,14 @@ footer img {
   height: 100%;
   display: flex;
   flex-grow: 1;
+  align-items: center;
 }
 
 .main-display {
   display: flex;
   flex-grow: 5;
+  max-height: 35em;
+  min-height: 25em;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -133,6 +136,7 @@ footer img {
   display: flex;
   flex-grow: 1;
   margin: 3%;
+  max-height: 35em;
   flex-direction: column;
   background-color: rgba(255,255,255,0.4);
   transition: all .2s ease-in-out;
