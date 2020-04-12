@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './CSS/index.css';
 import Home from './Components/Home/Home';
-// import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccountAccess/AccessAccount';
 import Footer from './Components/Footer';
@@ -30,12 +29,11 @@ class App extends Component {
   }
 
   componentDidMount(){
-    /* Trying to rehydrate state with user data after browser
-     refresh */
      this._isMounted = true;
      console.log("app mounted");
-     console.log(this.state.user, "app user")
-    if(localStorage.getItem('jwt') && !this.state.user){
+
+    if(localStorage.getItem('jwt')){
+      console.log("in if statement")
       this.login(localStorage.getItem('jwt'));
     }
   }
@@ -74,7 +72,7 @@ class App extends Component {
       })
   }
 
-  getCompanyByWaitList = async (id) => {
+  setWaitListCompanyName = async (id) => {
     await GetCompanyByWaitList(id).then(res => {
       this.setState({
         waitListCompany: res.name
@@ -82,9 +80,16 @@ class App extends Component {
     })
   }
 
-  getUser = async () => {
+  setUser = async () => {
     await GetUser(localStorage.getItem('jwt')).then(res => {
-      console.log("getUser() used!!!!!!! (replace)", res)
+      const user = res;
+      delete user.password;
+
+      if(this._isMounted){
+        this.setState({
+          user: user
+        })
+      }
     })
   }
 
@@ -115,22 +120,19 @@ class App extends Component {
     })
   }
 
-  UserCompanyLocal = (res) => {
+  userCompanyLocal = (res) => {
     // grab response and add to user object in state and in local 
     const {id, name, type} = res;
-    const loggedInUser = JSON.parse(localStorage.getItem('user'));
-    loggedInUser.userCompany = {id,name,type};
-    localStorage.setItem('user', JSON.stringify(loggedInUser));
+    const userCompany = {id,name,type};
+    localStorage.setItem('userCompany', JSON.stringify(userCompany));
+
     this.setState({
-        userCompany: loggedInUser.userCompany
+        userCompany: userCompany
       })
   }
 
   componentDidUpdate(prevProps){
-    console.log("udate in app")
-    if(this.state !== prevProps){
-      
-    }
+  
   }
 
   render(){
@@ -143,7 +145,7 @@ class App extends Component {
             userCompany={this.state.userCompany}
             logout={this.logOut} 
             user={this.state.user}
-            getCompanyByWaitList={this.getCompanyByWaitList}
+            setWaitListCompanyName={this.setWaitListCompanyName}
             waitListCompany={this.state.waitListCompany}
             waitListId={this.state.waitListId}
           />
@@ -154,7 +156,7 @@ class App extends Component {
                 login={this.login}
                 setUserCompany={this.setUserCompany}
                 checkForWaitList={this.checkForWaitList}
-                getUser={this.getUser}
+                setUser={this.setUser}
               />}
             />   
           {loggedIn}

@@ -37,7 +37,7 @@ class SignUp extends Component {
           alert("Looks like someone already has that username");
         } else {
           localStorage.setItem('jwt', res.token);
-          this.props.getUser();
+          this.props.setUser();
         }
       }
     )

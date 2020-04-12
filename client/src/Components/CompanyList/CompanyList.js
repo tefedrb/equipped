@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import CompanyListItem from './CompanyListItem';
+import GetCompanyList from '../FetchData/GetCompanyList';
 
 class CompanyList extends Component {
   // This sets up a flag that stops setState from 
@@ -20,39 +21,30 @@ class CompanyList extends Component {
     }
   }
 
-  populateList = () => {
-      fetch("http://localhost:8080/users-api/company/list", {
-        method: 'get',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
-        }
-      })
-      .then(res => res.json())
-      .then(res => {
-        console.log("In company list...");
-        if(res.error === "Unauthorized"){
-          this.props.logout();
-        } else if(this._isMounted){
-          console.log(res);
-          this.setState({
-            companies: res
-          })
-        }
-      })
-      .catch(error => {
-        console.log(error, "ERROR!");
-      })
+  populateList = async () => {
+     await GetCompanyList().then(res => {
+      if(res.error === "Unauthorized"){
+        this.props.logout();
+      } else if(this._isMounted){
+        console.log(res, "Company List");
+        this.setState({
+          companies: res
+        });
+      }
+     })
   }
 
-  componentDidUpdate(prevProps){
-    console.log("FIRST LINE IN COMPONENT DID UPDATE")
-    console.log(prevProps.userHasCompany, "Prev props");
-    console.log(this.props.userHasCompany, "current props")
-    if(prevProps.userHasCompany !== this.props.userHasCompany){
-      console.log("company list update!")
-      this.populateList();
-    }
+  componentDidUpdate(prevProps, prevState, ){
+    console.log(prevState, "Prevstate")
+    console.log(prevProps, "prevprops")
+
+    // console.log("FIRST LINE IN COMPONENT DID UPDATE")
+    // console.log(prevProps.userHasCompany, "Prev props");
+    // console.log(this.props.userHasCompany, "current props")
+    // // if(prevProps.userHasCompany !== this.props.userHasCompany){
+    // //   console.log("company list update!")
+    // //   this.populateList();
+    // // }
   }
 
   componentWillUnmount(){

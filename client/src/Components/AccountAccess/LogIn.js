@@ -37,7 +37,7 @@ class LogIn extends Component {
               state in order for UserHeader to work properly 
             */
             console.log("called get user in login!!!!!!!!");
-            // this.props.getUser();
+            // this.props.setUser();
             // this.props.setUserCompany();
             // this.props.checkForWaitList();
             this.props.login(res.token);

@@ -9,7 +9,9 @@ const GetCompanyByWaitList = async (id) => {
         })
         const data = await response.json();
         return data    
-    } catch (erorr) {
+    } catch (error) {
         console.log("Error in GetCompanyByWaitList: ", error)
     }
 }
+
+export default GetCompanyByWaitList;
