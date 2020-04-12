@@ -7,9 +7,10 @@ function MainDisplay(props) {
   const companySelect = props.selectedCompany;
   const userWaitList = props.waitList;
   let joinComp = "";
+  const userHasCompany = props.userCompany;
 
   const Button = styled.button`
-    opacity: ${props.company ? ".5" : "1"};
+    opacity: ${userHasCompany || userWaitList ? ".5" : "1"};
     outline: none;
     height: auto;
     width: auto;
@@ -22,12 +23,12 @@ function MainDisplay(props) {
     transition: box-shadow .1s ease-in-out;
 
     &:hover {
-      ${props.company || userWaitList ? "" : "box-shadow: .5px .5px 2.5px #000000"};
-      ${props.company || userWaitList ? "" : "background-color: rgba(0,0,0,0.5);"};
+      ${userHasCompany || userWaitList ? "" : "box-shadow: .5px .5px 2.5px #000000"};
+      ${userHasCompany || userWaitList ? "" : "background-color: rgba(0,0,0,0.5);"};
     }
 
     &:active {
-      ${props.company ? "" : "background-color: #69cb42;"}
+      ${userHasCompany || userWaitList ? "" : "background-color: #69cb42;"}
     } 
   `
   // If the user has a WAITLIST# and the SELECTED COMPANY's waitlist
@@ -40,16 +41,16 @@ function MainDisplay(props) {
         <Button onClick={()=> props.joinWaitList(companySelect.id)}>
           Join Company
         </Button>;
-    } else if(props.company){
+    } else if(userHasCompany){
       joinComp = 
         <Button>
           Join Company
-        </Button> 
-    } else {
+        </Button>;
+    } else if(userWaitList === companySelect.waitList.id){
       joinComp = 
         <Button>
           On Wait List
-        </Button> 
+        </Button>; 
     }
   }
 

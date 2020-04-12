@@ -5,7 +5,7 @@ const Section = styled.section`
   height: 100%;
   width: 100%;
   margin: 0;
-
+  align-self: start;
   transition: all .2s ease-in-out;
 `
 
@@ -21,38 +21,19 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
-    // console.log(this.props);
-    //   fetch("http://localhost:8080/users-api/company/user-company", {
-    //     method: 'get',
-    //     headers:{
-    //       'Content-Type' : 'application/json',
-    //       'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-    //     }
-    //   })
-    //   .then(res => res.json())
-    //   .then(res =>{
-    //     // Display company of user
-    //     console.log(res);
-    //     this.setState({
-    //       company: res.name,
-    //       type: res.type
-    //     });
-    //   })
-    //   .catch(error => 
-    //     console.log("Can't find user compnay: ", error)
-    //   )
-    }
+  }
   
-    componentWillUnmount(){
-      this._isMounted = false;
-    }
+  componentWillUnmount(){
+    this._isMounted = false;
+  }
 
   render(){
+    const companyName = this.props.userCompany ? this.props.userCompany.name : "No Company";
     return(
       <Section>
         <div id="company-views">
           <nav>
-            <h1><span>Company: </span>{this.props.company || "No Company"}</h1>
+            <h1><span>Company: </span>{companyName}</h1>
           </nav>
           <div>
 

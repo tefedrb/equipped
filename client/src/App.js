@@ -4,6 +4,11 @@ import Home from './Components/Home/Home';
 // import styled from 'styled-components';
 import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccountAccess/AccessAccount';
+import Footer from './Components/Footer';
+// import GetUser from './Components/FetchData/GetUser';
+// import GetUserCompany from './Components/FetchData/GetUser';
+// import GetWaitList from './Components/FetchData/GetUser';
+// import JoinWaitList from './Components/FetchData/JoinWaitList';
 import {
   BrowserRouter as Router,
   Route,
@@ -11,10 +16,14 @@ import {
 } from 'react-router-dom';
 
 class App extends Component {
+  _isMounted = false;
   constructor(props){
     super(props);
     this.state = {
       user: null,
+      userCompany: null,
+      waitListId: null,
+      waitListCompany: null,
       userLoggedIn: false,
     }
   }
@@ -22,6 +31,7 @@ class App extends Component {
   componentDidMount(){
     /* Trying to rehydrate state with user data after browser
      refresh */
+     this._isMounted = true;
      console.log("app mounted");
     if(localStorage.getItem('user')){
       this.setState({
@@ -37,26 +47,113 @@ class App extends Component {
     window.location.reload();
   }
 
+  getCompanyByWaitList = (id) => {
+    fetch("http://localhost:8080/users-api/company/by-wait-list/ " + id, {
+      method: 'get',
+      headers: {
+        'Content-Type' : 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res, " < company by waitlistId");
+        this.setState({
+          waitListCompany: res.name
+        })
+      })
+  }
+
   getUser = () => {
-    const myHeader = new Headers();
-    myHeader.append('Content-Type', 'application/json');
-    myHeader.append('Authorization', 'Bearer ' + localStorage.getItem('jwt'));
     fetch("http://localhost:8080/users-api/user/retrieve", {
       method: 'get',
-      headers: myHeader
+      headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
     })
-    .then(res => res.json())
-    .then(res => {
-      // Adds user to local storage
-      localStorage.setItem('user', JSON.stringify(res));
-      this.setState({
-        userLoggedIn: true,
-        user: res
+      .then(res => res.json())
+      .then(res => {
+        // Adds user to local storage
+        localStorage.setItem('user', JSON.stringify(res));
+        this.setState({
+          userLoggedIn: true,
+          user: res
+        })
       })
+      .catch(err => {
+          console.log("Error in GetUser ", err);
+      })
+  }
+
+  getUserCompany = () => {
+    fetch("http://localhost:8080/users-api/company/user-company", {
+      method: 'get',
+      headers:{
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
     })
-    .catch(err => {
-      console.log("Error in getUser ", err);
+      .then(res => res.json())
+      .then(res => {
+        if(res.id != null && this._isMounted){
+          const {id, name, type} = res;
+          this.setState({
+            userCompany: {id, name, type}
+          });
+        }
+      })
+      .catch(err => {
+        console.log("Error in getUserComp", err)
+      }) 
+  }
+
+  checkForWaitList = () => {
+    fetch("http://localhost:8080/users-api/wait-list/by-user", {
+      method: 'get',
+      headers:{
+        'Content-Type' : 'application/json',
+        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
     })
+      .then(res => res.json())
+      .then(res => {
+        if(res.id != null && this._isMounted){
+          this.setState({
+            waitListId: res.id
+          });
+        }
+      })
+      .catch(error => 
+          console.log("Error in checkForWaitList ", error)
+      )
+  }
+
+  joinWaitList = (id) => {
+    fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
+      method: 'put',
+      headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+          console.log(res, " Waitlist");
+      })
+      .catch(err => {
+        console.log("Error in joinWaitList ", err);
+      })
+  }
+
+  getUserCompanyLocal = (res) => {
+    // grab response and add to user object in state and in local 
+    const {id, name, type} = res;
+    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    loggedInUser.userCompany = {id,name,type};
+    localStorage.setItem('user', JSON.stringify(loggedInUser));
+    this.setState({
+        userCompany: loggedInUser.userCompany
+      })
   }
 
   componentDidUpdate(prevProps){
@@ -71,26 +168,36 @@ class App extends Component {
       <Router>  
         <div className="main-container">
           <UserHeader 
+            loggedIn={this.state.userLoggedIn}
+            userCompany={this.state.userCompany}
             logout={this.logOut} 
             user={this.state.user}
+            getCompanyByWaitList={this.getCompanyByWaitList}
+            waitListCompany={this.state.waitListCompany}
+            waitListId={this.state.waitListId}
           />
           <Route 
             exact path="/" 
-            render={() => <AccessAccount getUser={this.getUser}/>}
+            render={() => 
+              <AccessAccount 
+                getUser={this.getUser}
+              />}
             />   
           {loggedIn}
           <Route
             path="/home"
             render={() =>
               <Home 
+                getUserCompany={this.getUserCompany}
+                checkForWaitList={this.checkForWaitList}
+                joinWaitList={this.joinWaitList}
+                waitListId={this.state.waitListId}
                 user={this.state.user}
+                userCompany={this.state.userCompany}
                 logOut={this.logOut}
-              />
-            }
+              />}
           /> 
-          <footer>
-            <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
-          </footer>
+          <Footer />
         </div>
       </Router>
     );

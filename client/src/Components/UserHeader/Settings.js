@@ -20,7 +20,7 @@ const Settings = (props) => {
         flex-direction: column;
         background-color: rgba(0, 0, 0, 0.8);
         width: 15em;
-        max-height: 20em;
+        max-height: 10em;
         box-shadow: 5px 2px 10px black;
         z-index: 2;
     `
@@ -33,11 +33,17 @@ const Settings = (props) => {
     let userDisplay;
     if(props.user){
         const {title, username} = props.user;
+        const companyName = props.userCompany ? 
+            props.userCompany.name : null
+        const waitListName =   
+            props.companyName ? 
+            props.waitListCompany : "";
+        const compOrWaitList = props.waitListCompany ? "On Wait List: " : "Company: ";
         userDisplay =
         <section style={flexBox}>
-            <div><span style={{color: "white"}}>Username:</span>{username}</div>
-            <div><span style={{color: "white"}}>Title:</span>{title}</div>
-            <div><span style={{color: "white"}}>Company:</span></div>
+            <div><span style={{color: "white"}}>Username: </span>{username}</div>
+            <div><span style={{color: "white"}}>Title: </span>{title}</div>
+            <div><span style={{color: "white"}}>{compOrWaitList} </span>{companyName ? companyName : waitListName}</div>
         </section>
     } else {
         userDisplay = <div></div>

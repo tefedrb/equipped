@@ -49,48 +49,46 @@ class CompanyList extends Component {
   }
 
   componentDidUpdate(prevProps){
-    console.log("Company List update!")
-    console.log(prevProps.userHasCompany);
     if(prevProps.userHasCompany !== this.props.userHasCompany){
       this.populateList();
     }
-    // this.populateList();
   }
-
 
   componentWillUnmount(){
     this._isMounted = false;
   }
 
   render(){
-      const buttonStyle = {
-        opacity: .5
-      }
+      const buttonStyle = {opacity: .5}
+
       const companies = this.state.companies ?
-      this.state.companies.map((company, index) => {
-        return (
-          <CompanyListItem
-            getCompanyInfo={this.props.getCompanyInfo} 
-            company={company} 
-            key={index} 
-          />
-        )
-      }) : "Loading...";
+        this.state.companies.map((company, index) => {
+          return (
+            <CompanyListItem
+              getCompanyInfo={this.props.getCompanyInfo} 
+              company={company} 
+              key={index} 
+            />
+          )
+        }) : "Loading...";
     
-    const createMenuDisplayed = this.props.showCreateCompMenu ? "dull-area" : null;
+    // const createMenuDisplayed = this.props.showCreateCompMenu ? "dull-area" : null;
+    
+    // buttonDisplay renders if the 
+    const buttonDisplay = 
+    <button 
+      style={this.props.userHasCompany ? buttonStyle : null} 
+      onClick={this.props.userHasCompany ? null : this.props.toggleCreateCompany}>
+      Create Company
+    </button>
+
     return (
       <div className={`company-list`}>
         <h1>Company List</h1>
         <div className='company-list-container'>
           {companies}
         </div>
-        {
-          !createMenuDisplayed && 
-          <button style={this.props.userHasCompany ? buttonStyle : null} 
-            onClick={this.props.toggleCreateCompany}>
-            Create Company
-          </button>
-        }
+        {buttonDisplay}
       </div>
     );
 
