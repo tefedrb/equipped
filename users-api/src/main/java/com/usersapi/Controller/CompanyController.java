@@ -50,6 +50,11 @@ public class CompanyController {
         }
     }
 
+    @GetMapping("/by-wait-list/{waitListId}")
+    public Company getByWaitListId(@PathVariable Long waitListId){
+        return companyService.findByWaitListId(waitListId);
+    }
+
     @GetMapping("/{company_id}")
     public Company getCompanyById(@PathVariable Long company_id){
         return companyService.getCompanyById(company_id);

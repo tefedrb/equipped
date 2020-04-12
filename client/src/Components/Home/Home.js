@@ -13,13 +13,8 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      companyName: null,
-      companyType: null,
-      companyId: null,
       showCreateCompMenu: false,
       selectedCompany: null,
-      user: null,
-      waitList: null
     }
   }
  
@@ -35,59 +30,10 @@ class Home extends Component {
     this._isMounted = true;
     console.log("Home mounted");
     if(localStorage.getItem('jwt')){
-      this.getUserCompany();
-      this.checkForWaitList();
+      this.props.getUserCompany();
+      this.props.checkForWaitList();
       CheckJwt(localStorage.getItem('jwt'));
-      this.setState({
-        user: this.props.user
-      })
     }
-  }
-
-  getUserCompany = () => {
-    fetch("http://localhost:8080/users-api/company/user-company", {
-      method: 'get',
-      headers:{
-        'Content-Type' : 'application/json',
-        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-      }
-    })
-    .then(res => res.json())
-    .then(res => {
-      // Display company of user
-      console.log(res, "<- company")
-      if(res.id != null && this._isMounted){
-        this.setState({
-          companNamey: res.name,
-          companyType: res.type
-        });
-      }
-    })
-    .catch(error => 
-      console.log("Can't find user compnay: ", error)
-    )
-  }
-
-  checkForWaitList = () => {
-    fetch("http://localhost:8080/users-api/wait-list/by-user", {
-        method: 'get',
-        headers:{
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-        }
-    })
-    .then(res => res.json())
-    .then(res => {
-      // Display company of user
-      if(res.id != null && this._isMounted){
-        this.setState({
-          waitList: res.id
-        });
-      }
-    })
-    .catch(error => 
-      console.log("Error in checkForWaitList ", error)
-    )
   }
 
   componentWillUnmount(){
@@ -111,32 +57,6 @@ class Home extends Component {
     })
   }
 
-  joinWaitList = (id) => {
-    fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
-      method: 'put',
-      headers: {
-        'Content-Type' : 'application/json',
-        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-      }
-    })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res, " Waitlist");
-    })
-  }
-
-  getUserCompanyLocal = (res) => {
-    // grab response and add to user object in state and in local 
-    const {id, name, type} = res;
-    const loggedInUser = JSON.parse(localStorage.getItem('user'));
-    loggedInUser.userCompany = {id,name,type};
-    localStorage.setItem('user', JSON.stringify(loggedInUser));
-    this.setState({
-      companyName: name,
-      companyType: type
-      })
-  }
-
   // Move create company menu into company list?
   render(){
     return (
@@ -146,15 +66,14 @@ class Home extends Component {
         <CreateCompanyMenu 
           toggleCreateCompany={this.toggleCreateCompany} 
           showCreateCompMenu={this.state.showCreateCompMenu}
-          createCompany={this.createCompany}
-          getUserCompanyLocal={this.getUserCompanyLocal}
+          getUserCompany={this.props.getUserCompany}
         />
         <main className="home-main">
           <Route exact path="/home">
             <MainDisplay
-              waitList={this.state.waitList}
-              joinWaitList={this.joinWaitList}
-              company={this.state.company}
+              waitList={this.props.waitListId}
+              joinWaitList={this.props.joinWaitList}
+              userCompany={this.props.userCompany}
               selectedCompany={this.state.selectedCompany}
               showCreateCompMenu={this.state.showCreateCompMenu} 
             /> 
@@ -163,15 +82,14 @@ class Home extends Component {
             <CompanyList
               getCompanyInfo={this.getCompanyInfo}
               logout={this.logOut}
-              userHasCompany={this.state.companyName ? true : false} 
+              userHasCompany={this.props.userCompany ? true : false} 
               showCreateCompMenu={this.state.showCreateCompMenu}
               toggleCreateCompany={this.toggleCreateCompany} 
             />
           </Route>
           <Route path="/home/company">
             <CompanyView 
-              company={this.state.companyName}
-              companyType={this.state.companyType}
+              userCompany={this.props.userCompany}
             />
           </Route>
         </main> 

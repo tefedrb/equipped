@@ -23,25 +23,23 @@ class UserHeader extends Component {
     constructor(props){
         super(props);
         this.state = {
-            user: null,
             userDisplay: false,
-            settingsDisplay: false
+            settingsDisplay: false,
+            waitListName: false
         }
     }
 
     componentDidMount(){
-        console.log("UserHeader mount");
+
     }
 
-    componentDidUpdate(){
-        // This condition is here in order to get userHeader to properly display
-        // itself and pass down user data to Settings after the asynchronous call from
-        // the getUser method (in app.js) which is invoked during an initial login or
-        // signup
-        if(this.props.user && this.state.user == null){
+    componentDidUpdate(prevProps){
+        if(prevProps.waitListId != this.props.waitListId){
+            this.props.getCompanyByWaitList(this.props.waitListId);
+        }
+        if(prevProps.waitListCompany != this.props.waitListCompany){
             this.setState({
-                user: this.props.user,
-                userDisplay: true
+                companyName: true
             })
         }
     }
@@ -53,27 +51,29 @@ class UserHeader extends Component {
     }
 
     render(){
-        const user = this.state.user ? 
-        this.state.user.username : "Loading...";
+        const userName = this.props.user ? 
+        this.props.user.username : "Loading...";
 
-        const defaultView = this.state.user ? (
+        const defaultView = (
             <Div>
-                <span>{user}</span>
+                <span>{userName}</span>
                 <Img onClick={this.toggleSettingsDisp} 
                     src="https://img.icons8.com/android/24/000000/settings.png" 
                     alt="settings-wheel"
                 /> 
             </Div>
-            ) 
-            : null
+        ) 
         return (
             <header>
                 <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
                 <h1>Equipped</h1>
-                {defaultView}
-                <Settings 
+                {this.props.user ? defaultView : null}
+                <Settings
+                    companyName={this.state.companyName}
+                    waitListCompany={this.props.waitListCompany}
+                    userCompany={this.props.userCompany} 
                     logout={this.props.logout} 
-                    user={this.state.user} 
+                    user={this.props.user} 
                     display={this.state.settingsDisplay} 
                     toggleSettingsDisplay={this.toggleSettingsDisp}
                 />

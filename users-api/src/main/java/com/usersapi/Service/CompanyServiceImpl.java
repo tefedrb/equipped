@@ -132,4 +132,12 @@ public class CompanyServiceImpl implements CompanyService {
         System.out.println(userCompanyId + " <-- HERE IS THE COMPANY ID!!!!!");
         return companyRepository.findById(userCompanyId).get();
     }
+
+    @Override
+    public Company findByWaitListId(Long id){
+        Company company = companyRepository.findCompanyByWaitListId(id);
+        company.setUsers(null);
+        company.setPassword(null);
+        return company;
+    }
 }

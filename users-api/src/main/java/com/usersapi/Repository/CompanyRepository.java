@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface CompanyRepository extends CrudRepository<Company, Long> {
     @Query("FROM Company c WHERE c.name = ?1")
     Company findCompanyByName(String name);
+
+    @Query("FROM Company c WHERE c.waitList.id = ?1")
+    Company findCompanyByWaitListId(Long id);
 }

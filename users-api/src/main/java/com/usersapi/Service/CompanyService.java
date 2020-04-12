@@ -13,4 +13,5 @@ public interface CompanyService {
 //  HttpStatus verifyUser(Integer userId, Company company);
     Company getCompanyById(Long id);
     Company findByUser();
+    Company findByWaitListId(Long id);
 }

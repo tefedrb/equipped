@@ -136,7 +136,8 @@ footer img {
   display: flex;
   flex-grow: 1;
   margin: 3%;
-  max-height: 35em;
+  max-height: 30em;
+  max-width: 20em;
   flex-direction: column;
   background-color: rgba(255,255,255,0.4);
   transition: all .2s ease-in-out;
@@ -212,6 +213,7 @@ label {
   height: 0;
   width: 100%;
   opacity: 1;
+  z-index: 1;
   transition: all .2s ease-in-out;
 }
 
