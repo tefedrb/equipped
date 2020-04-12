@@ -4,7 +4,7 @@ import CompanyList from '../CompanyList/CompanyList';
 import MainDisplay from '../MainDisplay';
 import CreateCompanyMenu from '../CreateCompanyMenu';
 import {Route} from 'react-router-dom';
-import CompanyView from '../CompanyView';
+import CompanyView from '../CompanyView/CompanyView';
 import InnerNav from '../InnerNav/InnerNav';
 import CheckJwt from '../../CheckJwt';
 
@@ -15,6 +15,7 @@ class Home extends Component {
     this.state = {
       showCreateCompMenu: false,
       selectedCompany: null,
+      companyViewLoaded: false
     }
   }
  
@@ -30,8 +31,8 @@ class Home extends Component {
     this._isMounted = true;
     console.log("Home mounted");
     if(localStorage.getItem('jwt')){
-      this.props.getUserCompany();
-      this.props.checkForWaitList();
+      // this.props.setUserCompany();
+      // this.props.checkForWaitList();
       CheckJwt(localStorage.getItem('jwt'));
     }
   }
@@ -66,7 +67,7 @@ class Home extends Component {
         <CreateCompanyMenu 
           toggleCreateCompany={this.toggleCreateCompany} 
           showCreateCompMenu={this.state.showCreateCompMenu}
-          getUserCompany={this.props.getUserCompany}
+          setUserCompany={this.props.setUserCompany}
         />
         <main className="home-main">
           <Route exact path="/home">
@@ -78,20 +79,22 @@ class Home extends Component {
               showCreateCompMenu={this.state.showCreateCompMenu} 
             /> 
           </Route>
-          <Route exact path="/home">
+          <Route exact path="/home" render={() => 
             <CompanyList
               getCompanyInfo={this.getCompanyInfo}
               logout={this.logOut}
               userHasCompany={this.props.userCompany ? true : false} 
               showCreateCompMenu={this.state.showCreateCompMenu}
               toggleCreateCompany={this.toggleCreateCompany} 
-            />
-          </Route>
-          <Route path="/home/company">
+            />}
+          />
+            
+          <Route path="/home/company" render={() => 
             <CompanyView 
               userCompany={this.props.userCompany}
-            />
-          </Route>
+            />} 
+          />
+         
         </main> 
       </div>
     )

@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import CompanyNav from './CompanyNav';
+import GetUserCompany from '../FetchData/GetUserCompany';
 
 const Section = styled.section`
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -14,13 +18,17 @@ class CompanyView extends Component{
   constructor(props){
     super(props);
     this.state = {
-      company: null,
-      type: null
+      userCompany: null
     }
   }
 
   componentDidMount(){
     this._isMounted = true;
+    GetUserCompany().then(res => {
+      this.setState({
+        userCompany: res
+      }) 
+    })
   }
   
   componentWillUnmount(){
@@ -28,17 +36,9 @@ class CompanyView extends Component{
   }
 
   render(){
-    const companyName = this.props.userCompany ? this.props.userCompany.name : "No Company";
-    return(
+    return (
       <Section>
-        <div id="company-views">
-          <nav>
-            <h1><span>Company: </span>{companyName}</h1>
-          </nav>
-          <div>
-
-          </div>
-        </div>
+        <CompanyNav userCompany={this.props.userCompany} />
       </Section>
     );
   }

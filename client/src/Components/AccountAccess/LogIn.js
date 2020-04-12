@@ -36,7 +36,11 @@ class LogIn extends Component {
               This is a method created in App.js updates parent 
               state in order for UserHeader to work properly 
             */
-            this.props.getUser();
+            console.log("called get user in login!!!!!!!!");
+            // this.props.getUser();
+            // this.props.setUserCompany();
+            // this.props.checkForWaitList();
+            this.props.login(res.token);
           }
           else {
             alert("Invalid User/Pass Combination");

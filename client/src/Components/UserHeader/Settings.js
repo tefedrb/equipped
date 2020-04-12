@@ -33,20 +33,24 @@ const Settings = (props) => {
     let userDisplay;
     if(props.user){
         const {title, username} = props.user;
+
         const companyName = props.userCompany ? 
-            props.userCompany.name : null
+            props.userCompany.name : null;
+
         const waitListName =   
             props.companyName ? 
             props.waitListCompany : "";
+
         const compOrWaitList = props.waitListCompany ? "On Wait List: " : "Company: ";
+        
         userDisplay =
         <section style={flexBox}>
             <div><span style={{color: "white"}}>Username: </span>{username}</div>
             <div><span style={{color: "white"}}>Title: </span>{title}</div>
             <div><span style={{color: "white"}}>{compOrWaitList} </span>{companyName ? companyName : waitListName}</div>
-        </section>
+        </section>;
     } else {
-        userDisplay = <div></div>
+        userDisplay = <div></div>;
     }
    
     return (

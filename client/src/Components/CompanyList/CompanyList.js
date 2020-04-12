@@ -17,19 +17,16 @@ class CompanyList extends Component {
     this._isMounted = true;
     if(this.state.companies.length < 1 && localStorage.getItem('jwt')){
       this.populateList();
-    } else {
-      // localStorage.clear();
-      // return <Redirect to="/" />
     }
   }
 
   populateList = () => {
-    const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', `Bearer ${localStorage.getItem('jwt')}`);
       fetch("http://localhost:8080/users-api/company/list", {
         method: 'get',
-        headers: myHeaders
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
+        }
       })
       .then(res => res.json())
       .then(res => {
@@ -49,7 +46,11 @@ class CompanyList extends Component {
   }
 
   componentDidUpdate(prevProps){
+    console.log("FIRST LINE IN COMPONENT DID UPDATE")
+    console.log(prevProps.userHasCompany, "Prev props");
+    console.log(this.props.userHasCompany, "current props")
     if(prevProps.userHasCompany !== this.props.userHasCompany){
+      console.log("company list update!")
       this.populateList();
     }
   }

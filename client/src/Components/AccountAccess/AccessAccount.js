@@ -19,6 +19,9 @@ function AccessAccount(props){
                 getUser={props.getUser}
             />  
             <LogIn
+                login={props.login}
+                setUserCompany={props.setUserCompany}
+                checkForWaitList={props.checkForWaitList}
                 getUser={props.getUser}
             />
         </Div>

@@ -5,10 +5,11 @@ import Home from './Components/Home/Home';
 import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccountAccess/AccessAccount';
 import Footer from './Components/Footer';
-// import GetUser from './Components/FetchData/GetUser';
-// import GetUserCompany from './Components/FetchData/GetUser';
-// import GetWaitList from './Components/FetchData/GetUser';
-// import JoinWaitList from './Components/FetchData/JoinWaitList';
+import GetUser from './Components/FetchData/GetUser';
+import GetUserCompany from './Components/FetchData/GetUserCompany';
+import GetWaitList from './Components/FetchData/GetWaitList';
+import GetCompanyByWaitList from './Components/FetchData/GetCompanyByWaitList';
+import JoinWaitList from './Components/FetchData/JoinWaitList';
 import {
   BrowserRouter as Router,
   Route,
@@ -20,11 +21,11 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      user: null,
+      user: JSON.parse(localStorage.getItem('user')),
       userCompany: null,
       waitListId: null,
       waitListCompany: null,
-      userLoggedIn: false,
+      userLoggedIn: false
     }
   }
 
@@ -33,11 +34,9 @@ class App extends Component {
      refresh */
      this._isMounted = true;
      console.log("app mounted");
-    if(localStorage.getItem('user')){
-      this.setState({
-       user: JSON.parse(localStorage.getItem('user')),
-       userLoggedIn: true
-      })
+     console.log(this.state.user, "app user")
+    if(localStorage.getItem('jwt') && !this.state.user){
+      this.login(localStorage.getItem('jwt'));
     }
   }
 
@@ -47,105 +46,76 @@ class App extends Component {
     window.location.reload();
   }
 
-  getCompanyByWaitList = (id) => {
-    fetch("http://localhost:8080/users-api/company/by-wait-list/ " + id, {
-      method: 'get',
-      headers: {
-        'Content-Type' : 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res, " < company by waitlistId");
-        this.setState({
-          waitListCompany: res.name
-        })
-      })
-  }
+  login = async (jwt) => {
+    await Promise.all([GetUser(jwt), GetUserCompany(jwt), GetWaitList(jwt)])
+      .then((responses) => {
+        const user = responses[0];
+        delete user.password;
+        localStorage.setItem('user', JSON.stringify(user));
 
-  getUser = () => {
-    fetch("http://localhost:8080/users-api/user/retrieve", {
-      method: 'get',
-      headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        // Adds user to local storage
-        localStorage.setItem('user', JSON.stringify(res));
-        this.setState({
-          userLoggedIn: true,
-          user: res
-        })
-      })
-      .catch(err => {
-          console.log("Error in GetUser ", err);
-      })
-  }
-
-  getUserCompany = () => {
-    fetch("http://localhost:8080/users-api/company/user-company", {
-      method: 'get',
-      headers:{
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-      }
-    })
-      .then(res => res.json())
-      .then(res => {
-        if(res.id != null && this._isMounted){
-          const {id, name, type} = res;
+        const userCompany = {...responses[1]};
+        delete userCompany.password;
+        delete userCompany.users;
+        delete userCompany.waitList;
+        localStorage.setItem('userCompany', JSON.stringify(userCompany));
+        
+        if(this._isMounted){
           this.setState({
-            userCompany: {id, name, type}
-          });
+            userLoggedIn: true,
+            user: user,
+            userCompany: userCompany.id ? userCompany : null,
+            waitListId: responses[2].id
+          })
         }
+        console.log(responses, "< -!!!!!!!!!!!!!!!!!");
       })
       .catch(err => {
-        console.log("Error in getUserComp", err)
-      }) 
+        console.log("Error in login ", err);
+      })
   }
 
-  checkForWaitList = () => {
-    fetch("http://localhost:8080/users-api/wait-list/by-user", {
-      method: 'get',
-      headers:{
-        'Content-Type' : 'application/json',
-        'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+  getCompanyByWaitList = async (id) => {
+    await GetCompanyByWaitList(id).then(res => {
+      this.setState({
+        waitListCompany: res.name
+      })
+    })
+  }
+
+  getUser = async () => {
+    await GetUser(localStorage.getItem('jwt')).then(res => {
+      console.log("getUser() used!!!!!!! (replace)", res)
+    })
+  }
+
+  setUserCompany = async () => {
+    await GetUserCompany(localStorage.getItem('jwt')).then(res => {
+      if(res.id != null && this._isMounted){
+        const {id, name, type} = res;
+        this.setState({
+          userCompany: {id, name, type}
+        });
       }
     })
-      .then(res => res.json())
-      .then(res => {
-        if(res.id != null && this._isMounted){
-          this.setState({
-            waitListId: res.id
-          });
-        }
-      })
-      .catch(error => 
-          console.log("Error in checkForWaitList ", error)
-      )
   }
 
-  joinWaitList = (id) => {
-    fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
-      method: 'put',
-      headers: {
-          'Content-Type' : 'application/json',
-          'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
+  checkForWaitList = async () => {
+    await GetWaitList(localStorage.getItem('jwt')).then(res => {
+      if(res.id != null && this._isMounted){
+        this.setState({
+          waitListId: res.id
+        });
       }
     })
-      .then(res => res.json())
-      .then(res => {
-          console.log(res, " Waitlist");
-      })
-      .catch(err => {
-        console.log("Error in joinWaitList ", err);
-      })
   }
 
-  getUserCompanyLocal = (res) => {
+  joinWaitList = async (id) => {
+    await JoinWaitList(id, localStorage.getItem('jwt')).then(res => {
+      console.log(res, " Joined Waitlist")
+    })
+  }
+
+  UserCompanyLocal = (res) => {
     // grab response and add to user object in state and in local 
     const {id, name, type} = res;
     const loggedInUser = JSON.parse(localStorage.getItem('user'));
@@ -157,6 +127,7 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps){
+    console.log("udate in app")
     if(this.state !== prevProps){
       
     }
@@ -180,6 +151,9 @@ class App extends Component {
             exact path="/" 
             render={() => 
               <AccessAccount 
+                login={this.login}
+                setUserCompany={this.setUserCompany}
+                checkForWaitList={this.checkForWaitList}
                 getUser={this.getUser}
               />}
             />   
@@ -188,7 +162,7 @@ class App extends Component {
             path="/home"
             render={() =>
               <Home 
-                getUserCompany={this.getUserCompany}
+                setUserCompany={this.setUserCompany}
                 checkForWaitList={this.checkForWaitList}
                 joinWaitList={this.joinWaitList}
                 waitListId={this.state.waitListId}

@@ -1,16 +1,15 @@
 
-const JoinWaitList = (id) => {
-    fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
-        method: 'put',
-        headers: {
-            'Content-Type' : 'application/json',
-            'Authorization' : 'Bearer ' + localStorage.getItem('jwt')
-        }
-    })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res, " Waitlist");
+const JoinWaitList = async (id, jwt) => {
+    const response =
+        await fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
+            method: 'put',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer ' + jwt
+            }
         })
+    const data = await response.json();
+    return data;
 }
 
 export default JoinWaitList;
