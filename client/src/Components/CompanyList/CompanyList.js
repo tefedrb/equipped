@@ -26,7 +26,6 @@ class CompanyList extends Component {
       if(res.error === "Unauthorized"){
         this.props.logout();
       } else if(this._isMounted){
-        console.log(res, "Company List");
         this.setState({
           companies: res
         });
@@ -34,17 +33,12 @@ class CompanyList extends Component {
      })
   }
 
-  componentDidUpdate(prevProps, prevState, ){
-    console.log(prevState, "Prevstate")
-    console.log(prevProps, "prevprops")
-
-    // console.log("FIRST LINE IN COMPONENT DID UPDATE")
-    // console.log(prevProps.userHasCompany, "Prev props");
-    // console.log(this.props.userHasCompany, "current props")
-    // // if(prevProps.userHasCompany !== this.props.userHasCompany){
-    // //   console.log("company list update!")
-    // //   this.populateList();
-    // // }
+  componentDidUpdate(prevProps){
+    // This is here to update the list if user creates a new company
+    // might want to just implement a refresh button to avoid unnecessary renders
+    if(prevProps.userHasCompany !== this.props.userHasCompany){
+      this.populateList();
+    }
   }
 
   componentWillUnmount(){

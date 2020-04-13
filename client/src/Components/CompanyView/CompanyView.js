@@ -12,7 +12,10 @@ const Section = styled.section`
   align-self: start;
   transition: all .2s ease-in-out;
 `
-
+// Inventory. Equipment-list (seperate and fairly robust). 
+    // Users-list
+    // Wait-list (only for admins)
+    // Worry about implementing security for endpoints later
 class CompanyView extends Component{
   _isMounted = false;
   constructor(props){
@@ -24,6 +27,7 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
+    console.log("COMP VIEW DID MOUNT")
     GetUserCompany(localStorage.getItem("jwt")).then(res => {
       this.setState({
         userCompany: res

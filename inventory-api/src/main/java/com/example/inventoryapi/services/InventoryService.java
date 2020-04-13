@@ -10,4 +10,5 @@ public interface InventoryService {
     Inventory addItemToInventory(ItemAndInventory itemAndInventory);
     Inventory createInventory(Inventory inventory);
     HttpStatus deleteInventory(Long inventoryId);
+    Inventory retrieveInventory(Long company_id);
 }
