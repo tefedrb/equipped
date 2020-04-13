@@ -25,7 +25,8 @@ class UserHeader extends Component {
         this.state = {
             userDisplay: false,
             settingsDisplay: false,
-            waitListName: false
+            waitListName: false,
+            companyName: false
         }
     }
 
@@ -34,10 +35,10 @@ class UserHeader extends Component {
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps.waitListId != this.props.waitListId){
-            this.props.getCompanyByWaitList(this.props.waitListId);
+        if(prevProps.waitListId !== this.props.waitListId){
+            this.props.setWaitListCompanyName(this.props.waitListId);
         }
-        if(prevProps.waitListCompany != this.props.waitListCompany){
+        if(prevProps.waitListCompany !== this.props.waitListCompany){
             this.setState({
                 companyName: true
             })

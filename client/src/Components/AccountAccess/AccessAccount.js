@@ -16,10 +16,13 @@ function AccessAccount(props){
     return (
         <Div>
             <SignUp 
-                getUser={props.getUser}
+                setUser={props.setUser}
             />  
             <LogIn
-                getUser={props.getUser}
+                login={props.login}
+                setUserCompany={props.setUserCompany}
+                checkForWaitList={props.checkForWaitList}
+                setUser={props.setUser}
             />
         </Div>
     )
