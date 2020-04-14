@@ -8,7 +8,6 @@ const Nav = styled.nav `
     display: flex;
     color: #69cb42;
 `
-
 const Ul = styled.ul`
     list-style-type: none;
     display: flex;
@@ -18,7 +17,6 @@ const Ul = styled.ul`
     padding: 0;
     font-size: 1em;
 `
-
 const Span = styled.span`
     text-align: left;
     margin: 0;

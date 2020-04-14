@@ -14,11 +14,11 @@ const MainView = (props) => {
         <Main>
             <Route exact path="/home" render={() => 
                 <MainDisplay
-                waitList={props.waitListId}
-                joinWaitList={props.joinWaitList}
-                userCompany={props.userCompany}
-                selectedCompany={props.selectedCompany}
-                showCreateCompMenu={props.showCreateCompMenu} 
+                    waitList={props.waitListId}
+                    joinWaitList={props.joinWaitList}
+                    userCompany={props.userCompany}
+                    selectedCompany={props.selectedCompany}
+                    showCreateCompMenu={props.showCreateCompMenu} 
                 />}
             />
             <Route exact path="/home" render={() => 
