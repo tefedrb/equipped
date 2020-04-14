@@ -6,7 +6,6 @@ import com.example.inventoryapi.models.Item;
 import com.example.inventoryapi.repositories.InventoryRepository;
 import com.example.inventoryapi.repositories.ItemRepository;
 import data.classes.ItemFromJson;
-import data.classes.ItemRetrieval;
 import data.classes.ItemAndInventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,5 +73,15 @@ public class InventoryServiceImpl implements InventoryService {
         } catch (Exception e){
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
+    }
+
+    @Override
+    public Inventory retrieveInventory(Long company_id){
+        try {
+            return inventoryRepository.retrieveInventory(company_id);
+        } catch (Exception e){
+            System.err.println("Error caught in retrieveInventory(): " + e.getMessage());
+        }
+        return null;
     }
 }

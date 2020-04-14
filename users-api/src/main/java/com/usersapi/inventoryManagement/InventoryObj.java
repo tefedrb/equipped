@@ -1,5 +1,6 @@
 package com.usersapi.inventoryManagement;
 
+// @KEY IS USED WITH CreateInventory (FOR MONOLITH TESTING)
 public class InventoryObj {
 
 //    @Key

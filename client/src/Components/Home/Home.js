@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import CompanyList from '../CompanyList/CompanyList';
-import MainDisplay from '../MainDisplay';
 import CreateCompanyMenu from '../CreateCompanyMenu';
 import {Route} from 'react-router-dom';
 import CompanyView from '../CompanyView/CompanyView';
 import InnerNav from '../InnerNav/InnerNav';
 import CheckJwt from '../../CheckJwt';
+import MainView from './MainView';
 
 class Home extends Component {
   _isMounted = false;
@@ -63,39 +62,33 @@ class Home extends Component {
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
+
         <InnerNav />
+
         <CreateCompanyMenu 
           toggleCreateCompany={this.toggleCreateCompany} 
           showCreateCompMenu={this.state.showCreateCompMenu}
           setUserCompany={this.props.setUserCompany}
         />
-        <main className="home-main">
-          <Route exact path="/home">
-            <MainDisplay
-              waitList={this.props.waitListId}
-              joinWaitList={this.props.joinWaitList}
-              userCompany={this.props.userCompany}
-              selectedCompany={this.state.selectedCompany}
-              showCreateCompMenu={this.state.showCreateCompMenu} 
-            /> 
-          </Route>
-          <Route exact path="/home" render={() => 
-            <CompanyList
-              getCompanyInfo={this.getCompanyInfo}
-              logout={this.logOut}
-              userHasCompany={this.props.userCompany ? true : false} 
-              showCreateCompMenu={this.state.showCreateCompMenu}
-              toggleCreateCompany={this.toggleCreateCompany} 
-            />}
+
+        <Route exact path="/home" render={() => 
+          <MainView 
+            waitListId={this.props.waitListId}
+            joinWaitList={this.props.joinWaitList}
+            userCompany={this.props.userCompany}
+            selectedCompany={this.state.selectedCompany}
+            showCreateCompMenu={this.state.showCreateCompMenu}
+            getCompanyInfo={this.getCompanyInfo}
+            logout={this.logOut}
+            userHasCompany={this.props.userCompany ? true : false}  
           />
-            
-          <Route path="/home/company" render={() => 
-            <CompanyView 
-              userCompany={this.props.userCompany}
-            />} 
+        }/>
+
+        <Route path="/home/company" render={() => 
+          <CompanyView 
+            userCompany={this.props.userCompany}
           />
-         
-        </main> 
+        }/>
       </div>
     )
   }

@@ -109,13 +109,6 @@ footer img {
   border: 10px inset rgba(193, 193, 193, 0.5);
 }
 
-.home-main {
-  height: 100%;
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-}
-
 .main-display {
   display: flex;
   flex-grow: 5;
@@ -238,3 +231,4 @@ label {
   height: 100%;
   background-color: rgba(255,255,255,0.4);
 }
+

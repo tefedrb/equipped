@@ -34,6 +34,16 @@ public class InventoryController {
         }
     }
 
+    @GetMapping("/retrieve/{company_id")
+    public Inventory getInventoryByCompId(@PathVariable Long company_id){
+        try {
+            return inventoryService.retrieveInventory(company_id);
+        } catch(Exception e){
+            System.err.println("Error caught in InventoryController: " + e.getMessage());
+        }
+        return null;
+    }
+
     @DeleteMapping("/delete/{inventoryId}")
     public HttpStatus deleteInventory(@PathVariable Long inventoryId){
         try {
