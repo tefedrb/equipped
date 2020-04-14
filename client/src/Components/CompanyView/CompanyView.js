@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
+import {Route} from 'react-router-dom';
 import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/GetUserCompany';
+import EquipmentView from './EquipmentView/EquipmentView';
 
-const Section = styled.section`
+const CompanyViewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  flex-grow: 1;
   margin: 0;
-  align-self: start;
   transition: all .2s ease-in-out;
+  justify-content: center;
 `
 // Inventory. Equipment-list (seperate and fairly robust). 
     // Users-list
@@ -41,9 +42,14 @@ class CompanyView extends Component{
 
   render(){
     return (
-      <Section>
+      <>
         <CompanyNav userCompany={this.props.userCompany} />
-      </Section>
+        <CompanyViewContainer>
+          <Route path={"/home/company/company/equipment-view"} render={() => 
+            <EquipmentView />
+          }/>
+        </CompanyViewContainer>
+      </>
     );
   }
 }

@@ -6,7 +6,6 @@ import {NavLink} from 'react-router-dom';
 const Div = styled.div `
     display: flex;
     align-items: center;
-    flex-direction: row; 
     justify-content: space-around; 
     width: 100%;
     height: 40px;
@@ -30,14 +29,14 @@ class InnerNav extends Component {
     render(){
         return (
             <Div>
-                <NavLink to="/home">
+                <NavLink style={{textDecoration: 'none'}} to="/home">
                     <LinkBtns 
                         linkName={"Main"} 
                         activeLink={this.state.activeLink} 
                         activateLink={this.activateLink} 
                     />
                 </NavLink>
-                <NavLink to="/home/company">
+                <NavLink style={{textDecoration: 'none'}} to="/home/company">
                     <LinkBtns 
                         linkName={"Company View"} 
                         activeLink={this.state.activeLink} 

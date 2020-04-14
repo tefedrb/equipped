@@ -5,7 +5,6 @@ import CompLink from './CompLink';
 const Nav = styled.nav `
     background-color: transparent;
     height: 2em;
-    flex-grow: .5;
     display: flex;
     color: #69cb42;
 `
@@ -45,10 +44,23 @@ const CompanyNav = (props) => {
         justify-content: center;
         align-items: center;
     `
+    const routes = {
+        default: "/home/company",
+        Equipment: "/home/company/company/equipment-view"
+    }
     const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
     const CompLinks = props.userCompany ? linkTypes.map((name, id) => {
-        console.log("yeah dogs")
-        return <Li key={id}><CompLink myName={name} selectedLink={selectedLink} changeSelected={changeSelected} key={id}/></Li>
+        return (
+            <Li key={id}>
+                <CompLink
+                    key={id}
+                    myName={name}
+                    selectedLink={selectedLink}
+                    changeSelected={changeSelected}
+                    route={routes[name] ? routes[name] : routes.default}
+                />
+            </Li>
+            )
     }) : ""
 
     return (
@@ -58,7 +70,8 @@ const CompanyNav = (props) => {
                     <CompanyName>Company:</CompanyName> 
                     {
                         props.userCompany ? 
-                            <CompLink 
+                            <CompLink
+                                route={routes.default} 
                                 compName={true} 
                                 myName={props.userCompany.name} 
                                 selectedLink={selectedLink} 

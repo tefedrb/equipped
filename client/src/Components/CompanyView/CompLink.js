@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {NavLink} from 'react-router-dom';
 
 const CompLink = (props) => {
     // Add a way to accept a callback function that activates onclick
@@ -15,9 +16,16 @@ const CompLink = (props) => {
         align-items: center;
         cursor: pointer;
     `
+
+    const SectionLabel = styled.span `
+        color: ${props.selectedLink === props.myName ? "white" : "#69cb42"};
+        text-shadow: 2px 2px #000000;
+    `
     return (
-        <Button onClick={() => props.changeSelected(props.myName)}>
-            <span>{props.myName}</span>
+        <Button>
+            <NavLink style={{textDecoration: 'none'}} to={props.route}>
+                <SectionLabel onClick={() => props.changeSelected(props.myName)}>{props.myName}</SectionLabel>
+            </NavLink>
         </Button>
     )
 }
