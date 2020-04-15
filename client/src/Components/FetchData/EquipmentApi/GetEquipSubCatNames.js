@@ -1,7 +1,7 @@
-const GetEquipSubCatNames = async () => {
+const GetEquipSubCatNames = async (categoryName) => {
     try {
         const response =
-            await fetch("http://localhost:8080/equipment-api/sub-category/list", {
+            await fetch("http://localhost:8080/equipment-api/sub-category/list-by-category/" + categoryName, {
                 method: 'get',
                 headers: {
                     'Content-Type' : 'application/json'

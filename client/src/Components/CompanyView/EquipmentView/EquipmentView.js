@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CategoryItem from './CategoryItem';
 import GetAllItemsByCategory from '../../FetchData/EquipmentApi/GetEuipmentByCategory';
 import GetEquipCategoryNames from '../../FetchData/EquipmentApi/GetEquipCategoryNames';
+import GetEquipSubCatNames from '../../FetchData/EquipmentApi/GetEquipSubCatNames';
 
 const EquipmentView = (props) => { 
     const [equipment, adjustEquipment] = useState({});
@@ -11,6 +12,12 @@ const EquipmentView = (props) => {
     const getAllItemsByCategory = async (name) => {
         await GetAllItemsByCategory(name).then(res => {
             console.log(res, "HERE");
+        })
+    }
+
+    const getAllSubCategoryNames = async (categoryName) => {
+        await GetEquipSubCatNames(categoryName).then(res => {
+            console.log(res);
         })
     }
     
@@ -58,7 +65,7 @@ const EquipmentView = (props) => {
 
     const categoryItems = equipment.mainCategories ? equipment.mainCategories.map((category, id)=> {
         return <CategoryItem 
-                    clickFunc={getAllItemsByCategory}
+                    clickFunc={getAllSubCategoryNames}
                     multiplier={equipment.mainCategories.length} 
                     category={category} 
                     key={id}
@@ -77,7 +84,7 @@ const EquipmentView = (props) => {
         <Wrapper id={"wrapper"}>
             <GridContainer>
                 {categoryItems}
-                
+
             </GridContainer>
         </Wrapper>
     )

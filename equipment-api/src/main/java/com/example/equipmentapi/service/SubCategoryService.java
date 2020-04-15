@@ -7,4 +7,5 @@ import java.util.List;
 public interface SubCategoryService {
     Iterable<SubCategory> listSubCategories();
     SubCategory saveSubCategory(SubCategory subCategory);
+    List<SubCategory> findSubCategoriesByCategoryName(String name);
 }

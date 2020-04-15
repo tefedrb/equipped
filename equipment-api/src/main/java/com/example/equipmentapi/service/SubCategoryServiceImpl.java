@@ -5,6 +5,9 @@ import com.example.equipmentapi.repositories.SubCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class SubCategoryServiceImpl implements SubCategoryService {
     @Autowired
@@ -20,4 +23,13 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         return subCategoryRepository.save(subCategory);
     }
 
+    @Override
+    public List<SubCategory> findSubCategoriesByCategoryName(String name){
+        try {
+            return subCategoryRepository.findSubCategoriesByCategoryName(name);
+        } catch (Exception e){
+            System.err.println("Error in SubCatService " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
 }

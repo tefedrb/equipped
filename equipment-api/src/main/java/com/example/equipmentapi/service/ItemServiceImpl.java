@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService{
         try {
             return itemRepository.getAllItemsBySubCategoryName(name);
         } catch (Exception e){
-            System.err.println(e.getMessage());
+            System.err.println("Error in ItemService " + e.getMessage());
         }
         return new ArrayList<>();
     }
