@@ -5,6 +5,9 @@ import com.example.equipmentapi.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ItemServiceImpl implements ItemService{
     @Autowired
@@ -23,6 +26,16 @@ public class ItemServiceImpl implements ItemService{
 //    public Iterable<Item> save(Iterable<Item> items){
 //        return itemRepository.save(items);
 //    }
+
+    @Override
+    public List<Item> getAllItemsByCategoryName(String name){
+        try {
+            return itemRepository.getAllItemsByCategoryName(name);
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return new ArrayList<>();
+    }
 
     @Override
     public Item getItemBySerial(Long serial_num){

@@ -11,15 +11,14 @@ const EquipmentView = (props) => {
         margin: 3%;
     ` 
     const GridContainer = styled.div`
-        flex-grow: 1;
         display: grid;
-        grid-template-columns: repeat(3, 1fr) 4fr;
+        flex-grow: 1;
         max-height: 30em;
+        grid-template-columns: repeat(3, 1fr) 4fr;
         grid-template-rows: repeat(${mainCategory.length}, 4em);
     `
     console.log(mainCategory.length, "< MAIN CAT LENGH")
     const categoryItems = mainCategory ? mainCategory.map((category, id)=> {
-        console.log(id);
         return <CategoryItem 
                     multiplier={mainCategory.length} 
                     category={category} 
