@@ -24,7 +24,7 @@ const CategoryItem = (props) => {
         }
     `
     return (
-        <Category>
+        <Category onClick={() => props.clickFunc(props.category)}>
             <span>{props.category}</span>
         </Category>
     )

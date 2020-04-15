@@ -38,6 +38,17 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public List<Item> getAllItemsBySubCategoryName(String name){
+        try {
+            return itemRepository.getAllItemsBySubCategoryName(name);
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+
+    @Override
     public Item getItemBySerial(Long serial_num){
         return itemRepository.findItemBySerial(serial_num);
     }

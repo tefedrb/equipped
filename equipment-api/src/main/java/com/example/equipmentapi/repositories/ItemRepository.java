@@ -12,4 +12,7 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     @Query("FROM Item it JOIN Category ca ON it.category.id = ca.id WHERE ca.category_name = ?1")
     List<Item> getAllItemsByCategoryName(String name);
+
+    @Query("FROM Item it JOIN SubCategory sc ON it.subCategory.id = sc.id WHERE sc.name = ?1")
+    List<Item> getAllItemsBySubCategoryName(String name);
 }

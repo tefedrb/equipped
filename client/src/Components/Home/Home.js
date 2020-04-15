@@ -6,6 +6,8 @@ import CompanyView from '../CompanyView/CompanyView';
 import InnerNav from '../InnerNav/InnerNav';
 import CheckJwt from '../../CheckJwt';
 import MainView from './MainView';
+import GetEquipCategoryNames from '../FetchData/EquipmentApi/GetEquipCategoryNames';
+
 
 class Home extends Component {
   _isMounted = false;
@@ -33,6 +35,9 @@ class Home extends Component {
       // this.props.setUserCompany();
       // this.props.checkForWaitList();
       CheckJwt(localStorage.getItem('jwt'));
+      // GetEquipCategoryNames().then(res =>{
+      //   console.log(res, "<ress")
+      // })
     }
   }
 
@@ -77,6 +82,7 @@ class Home extends Component {
             joinWaitList={this.props.joinWaitList}
             userCompany={this.props.userCompany}
             selectedCompany={this.state.selectedCompany}
+            toggleCreateCompany={this.toggleCreateCompany} 
             showCreateCompMenu={this.state.showCreateCompMenu}
             getCompanyInfo={this.getCompanyInfo}
             logout={this.logOut}

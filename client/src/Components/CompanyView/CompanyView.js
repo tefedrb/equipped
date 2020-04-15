@@ -28,13 +28,14 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
-    if(this._isMounted){
-      GetUserCompany(localStorage.getItem("jwt")).then(res => {
-        this.setState({
-          userCompany: res
-        }) 
+    GetUserCompany(localStorage.getItem("jwt")).then(res => {
+        if(this._isMounted){
+          this.setState({
+            userCompany: res
+          }) 
+        }
       })
-    }
+    
   }
   
   componentWillUnmount(){
@@ -46,7 +47,7 @@ class CompanyView extends Component{
       <>
         <CompanyNav userCompany={this.props.userCompany} />
         <CompanyViewContainer>
-          <Route path={"/home/company/company/equipment-view"} render={() => 
+          <Route path={"/home/company/equipment-view"} render={() => 
             <EquipmentView />
           }/>
         </CompanyViewContainer>

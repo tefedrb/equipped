@@ -13,8 +13,6 @@ public class SubCategory {
     @Column(unique = true)
     private String name;
 
-    // There MIGHT be a problem with naming the column here the same
-    // as it's done in our item model
     @ManyToOne(cascade = {CascadeType.DETACH,
         CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "category_id", nullable = false)

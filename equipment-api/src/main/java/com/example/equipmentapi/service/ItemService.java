@@ -9,4 +9,5 @@ public interface ItemService {
     Item save(Item item);
     Item getItemBySerial(Long serial_num);
     List<Item> getAllItemsByCategoryName(String name);
+    List<Item> getAllItemsBySubCategoryName(String name);
 }
