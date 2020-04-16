@@ -17,7 +17,17 @@ const EquipmentView = (props) => {
 
     const getAllSubCategoryNames = async (categoryName) => {
         await GetEquipSubCatNames(categoryName).then(res => {
-            console.log(res);
+            // console.log(res);
+            const subCategoryNames = res.map(subCat => subCat.name);
+            // console.log(subCategoryNames);
+            if(!isCancelled){
+                adjustEquipment(prevState => {
+                    return {
+                                ...prevState,
+                                subCategories: [...subCategoryNames]
+                           }
+                })
+            }
         })
     }
     
@@ -31,6 +41,8 @@ const EquipmentView = (props) => {
                         adjustEquipment(prevState => {
                             return  {
                                         ...prevState,
+                                        mainSelected: null,
+                                        subSelected: null,
                                         mainCategories: [...names]
                                     }
                         })
@@ -42,29 +54,47 @@ const EquipmentView = (props) => {
                     console.log("Error in EquipmentView useEffect", e);
                 }
             }
+            console.log("Use effect...")
             return () => {
                 isCancelled = true;
             };
         }
     })  
 
+    const handleClick = (category, clicked) => {
+        adjustEquipment(prevState => {
+           return {
+                ...prevState,
+                mainSelected: category === 'main' ? clicked : prevState.mainSelected,
+                subSelected: category === 'sub' ? clicked : prevState.SubSelected
+            }
+        })
+        console.log(equipment, "< Equipment");
+    }
+
     const Wrapper = styled.section`
         display: flex;
-        justify-content: center;
+        justify-content: left;
+        align-items: center;
         background-color: rgba(255,255,255,0.4);
         margin: 3%;
     ` 
-    const GridContainer = styled.div`
+    const MainCatContainer = styled.div`
         display: grid;
         overflow: auto;
-        flex-grow: 1;
+        padding: 2px;
         max-height: 30em;
-        grid-template-columns: repeat(3, 1fr) 4fr;
+        grid-template-columns: 1fr;
         grid-template-rows: repeat(${equipment.mainCategories ? equipment.mainCategories.length : 0}, 3em);
     `
-
+    const SubCatContainer = styled(MainCatContainer)`
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(${equipment.subCategories ? equipment.subCategories.length : 0}, 3em);
+    `
     const categoryItems = equipment.mainCategories ? equipment.mainCategories.map((category, id)=> {
         return <CategoryItem 
+                    onClick={() => handleClick('main', category)}
+                    clicked={equipment.mainSelected}
                     clickFunc={getAllSubCategoryNames}
                     multiplier={equipment.mainCategories.length} 
                     category={category} 
@@ -73,19 +103,27 @@ const EquipmentView = (props) => {
                 />
     }) : null;
 
-    // const subCategoryItems = equipment.subCategories ? equipment.subCategories.map((subCat, id ) => {
-    //     return <CategoryItem 
-    //                 clickFunc={null}
-    //                 multipler={equipment.subCategories.length}
-    //             />
-    // })
+    const subCategoryItems = equipment.subCategories ? equipment.subCategories.map((subCat, id ) => {
+        return <CategoryItem onClick={() => handleClick('sub', subCat)}
+                    clicked={equipment.subSelected}
+                    clickFunc={null}
+                    multipler={equipment.subCategories.length}
+                    category={subCat}
+                    index={(id+1).toString()}
+                    key={id}
+                />
+    }) : null
+
+    // Wrap a gridContainer around subCategory items? to keep things in the middle - use flexbox?
 
     return (
         <Wrapper id={"wrapper"}>
-            <GridContainer>
+            <MainCatContainer>
                 {categoryItems}
-
-            </GridContainer>
+            </MainCatContainer>
+            <SubCatContainer>
+                {subCategoryItems}
+            </SubCatContainer>
         </Wrapper>
     )
 }
