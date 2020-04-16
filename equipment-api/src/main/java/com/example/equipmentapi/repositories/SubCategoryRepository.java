@@ -9,4 +9,8 @@ import java.util.List;
 public interface SubCategoryRepository extends CrudRepository<SubCategory, Long> {
     @Query("FROM SubCategory sc JOIN Category ca ON ca.id = sc.category.id WHERE ca.category_name = ?1")
     List<SubCategory> findSubCategoriesByCategoryName(String name);
+
+    @Query("FROM SubCategory sc JOIN Category ca ON ca.id = sc.category.id WHERE ca.id = ?1")
+    List<SubCategory> findSubCategoriesByCategoryId(Long id);
+
 }

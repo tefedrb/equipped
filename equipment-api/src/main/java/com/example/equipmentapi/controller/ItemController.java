@@ -40,4 +40,9 @@ public class ItemController {
     public List<Item> getItemsBySubCategoryName(@PathVariable String name){
         return itemService.getAllItemsBySubCategoryName(name);
     }
+
+    @GetMapping("/list-by-sub-category-id/{id}")
+    public List<Item> getItemsBySubCategoryId(@PathVariable Long id){
+        return itemService.getAllItemsBySubCategoryId(id);
+    }
 }

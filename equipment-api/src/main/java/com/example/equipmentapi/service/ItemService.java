@@ -10,4 +10,5 @@ public interface ItemService {
     Item getItemBySerial(Long serial_num);
     List<Item> getAllItemsByCategoryName(String name);
     List<Item> getAllItemsBySubCategoryName(String name);
+    List<Item> getAllItemsBySubCategoryId(Long id);
 }

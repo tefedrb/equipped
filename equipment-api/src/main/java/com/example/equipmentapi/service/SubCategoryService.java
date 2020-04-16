@@ -8,4 +8,5 @@ public interface SubCategoryService {
     Iterable<SubCategory> listSubCategories();
     SubCategory saveSubCategory(SubCategory subCategory);
     List<SubCategory> findSubCategoriesByCategoryName(String name);
+    List<SubCategory> findSubCategoriesByCategoryId(Long id);
 }

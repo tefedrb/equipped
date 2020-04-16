@@ -9,7 +9,7 @@ import ItemView from '../EquipmentView/ItemView';
 import SubCatItem from '../EquipmentView/SubCatItem';
 import ListItem from '../EquipmentView/ListItem';
 
-const EquipmentView = (props) => { 
+const EquipmentView = () => { 
     const [equipment, adjustEquipment] = useState({});
     let isCancelled = false;
 
@@ -19,12 +19,13 @@ const EquipmentView = (props) => {
                 const allItemsByCat = res;
                 if(!isCancelled){
                     adjustEquipment(prevState => {
-                        return {
+                        return {    
                                     ...prevState,
+                                    allItemsByCat: allItemsByCat,
                                     itemsBySelectedCat: allItemsByCat 
                             }
                     });
-                    console.log(allItemsByCat)
+                    console.log(allItemsByCat, "< allItems")
                 }
             })
         } else {
@@ -32,8 +33,8 @@ const EquipmentView = (props) => {
         }
     }
 
-    const getAllItemsBySubCategory = async (name) => {
-        await GetEquipBySubCategory(name).then(res => {
+    const getAllItemsBySubCategory = async (id) => {
+        await GetEquipBySubCategory(id).then(res => {
             const allItemsBySubCat = res;
             console.log(res, "< sub cat items RESPONSE")
             if(!isCancelled){
@@ -48,16 +49,16 @@ const EquipmentView = (props) => {
         })
     }
 
-    const getAllSubCategoryNames = async (categoryName) => {
-        await GetEquipSubCatNames(categoryName).then(res => {
+    const getAllSubCategoryNames = async (id) => {
+        await GetEquipSubCatNames(id).then(res => {
             // console.log(res);
-            const subCategoryNames = res.map(subCat => subCat.name);
+            // const subCategoryNames = res.map(subCat => subCat.name);
             // console.log(subCategoryNames);
             if(!isCancelled){
                 adjustEquipment(prevState => {
                     return {
                                 ...prevState,
-                                subCategories: [...subCategoryNames]
+                                subCategories: res
                            }
                 });
             }
@@ -69,7 +70,6 @@ const EquipmentView = (props) => {
             try {
                 async function setMainCategories(){
                     const response = await GetEquipCategoryNames();
-                    const names = response.map(category => category.name);
                     if(!isCancelled){
                         adjustEquipment(prevState => {
                             return  {
@@ -77,7 +77,7 @@ const EquipmentView = (props) => {
                                         mainSelected: null,
                                         subSelected: null,
                                         itemSelected: null,
-                                        mainCategories: [...names]
+                                        mainCategories: response
                                     }
                         });
                     }
@@ -123,15 +123,20 @@ const EquipmentView = (props) => {
         grid-template-rows: repeat(${equipment.mainCategories ? equipment.mainCategories.length : 0}, 3em);
     `
     const SubCatContainer = styled(MainCatContainer)`
-        grid-template-columns: 1fr;
         grid-template-rows: repeat(${equipment.subCategories ? equipment.subCategories.length : 0}, 3em);
     `
-    const categoryItems = equipment.mainCategories ? equipment.mainCategories.map((category, id)=> {
+
+    const ItemListContainer = styled(MainCatContainer)`
+        grid-template-rows: repeat(${equipment.itemsBySelectedCat ? equipment.itemsBySelectedCat.length : 0}, 3em);
+    `
+
+    const categoryItems = equipment.mainCategories ? equipment.mainCategories.map((categoryObj, id)=> {
+        const category = categoryObj.name;
         return <CategoryItem 
                     categoryListGen={() => getAllItemsByCategory(category)}
                     onClick={() => handleClick('main', category)}
                     selected={equipment.mainSelected}
-                    clickFunc={() => getAllSubCategoryNames(category)}
+                    clickFunc={() => getAllSubCategoryNames(categoryObj.id)}
                     multiplier={equipment.mainCategories.length} 
                     category={category} 
                     index={(id+1).toString()}
@@ -141,11 +146,12 @@ const EquipmentView = (props) => {
 
     const subCategoryItems = equipment.subCategories ? equipment.subCategories.map((subCat, id ) => {
         return <SubCatItem 
-                    onClick={() => handleClick('sub', subCat)}
+                    onClick={() => handleClick('sub', subCat.name)}
                     selected={equipment.subSelected}
-                    subCategoryListGen={() => getAllItemsBySubCategory(subCat)}
+                    // Swap this from equipment-api search to local search
+                    subCategoryListGen={() => getAllItemsBySubCategory(subCat.id)}
                     multipler={equipment.subCategories.length}
-                    category={subCat}
+                    category={subCat.name}
                     index={(id+1).toString()}
                     key={id}
                 />
@@ -170,9 +176,9 @@ const EquipmentView = (props) => {
             <SubCatContainer>
                 {subCategoryItems}
             </SubCatContainer>
-            <SubCatContainer>
+            <ItemListContainer>
                 {itemsList}
-            </SubCatContainer>
+            </ItemListContainer>
             <ItemView id={"ItemView"} itemSelected={equipment.itemSelected} />
         </Wrapper>
     )
