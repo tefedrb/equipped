@@ -44,9 +44,11 @@ const CompanyNav = (props) => {
     `
     const routes = {
         default: "/home/company",
-        Equipment: "/home/company/company/equipment-view"
+        Equipment: "/home/company/equipment-view"
     }
+    
     const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
+
     const CompLinks = props.userCompany ? linkTypes.map((name, id) => {
         return (
             <Li key={id}>

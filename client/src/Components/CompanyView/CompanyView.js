@@ -10,7 +10,7 @@ const CompanyViewContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   margin: 0;
-  transition: all .2s ease-in-out;
+  transition: all .1s ease-in-out;
   justify-content: center;
 `
 // Inventory. Equipment-list (seperate and fairly robust). 
@@ -28,12 +28,14 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
-    console.log("COMP VIEW DID MOUNT")
     GetUserCompany(localStorage.getItem("jwt")).then(res => {
-      this.setState({
-        userCompany: res
-      }) 
-    })
+        if(this._isMounted){
+          this.setState({
+            userCompany: res
+          }) 
+        }
+      })
+    
   }
   
   componentWillUnmount(){
@@ -45,7 +47,7 @@ class CompanyView extends Component{
       <>
         <CompanyNav userCompany={this.props.userCompany} />
         <CompanyViewContainer>
-          <Route path={"/home/company/company/equipment-view"} render={() => 
+          <Route path={"/home/company/equipment-view"} render={() => 
             <EquipmentView />
           }/>
         </CompanyViewContainer>
