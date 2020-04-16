@@ -26,6 +26,7 @@ const CategoryItem = (props) => {
     `
     return (
         <Category onClick={() => {
+                props.categoryListGen();
                 props.clickFunc(props.category)
                 props.onClick();
             }}>

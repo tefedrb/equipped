@@ -11,8 +11,21 @@ const EquipmentView = (props) => {
 
     const getAllItemsByCategory = async (name) => {
         await GetAllItemsByCategory(name).then(res => {
-            console.log(res, "HERE");
+            const allItemsByCat = res;
+            if(!isCancelled){
+                adjustEquipment(prevState => {
+                    return {
+                                ...prevState,
+                                itemsBySelectedCat: allItemsByCat 
+                        }
+                })
+                console.log(allItemsByCat)
+            }
         })
+    }
+
+    const getAllItemsBySubCategory = async (name) => {
+        
     }
 
     const getAllSubCategoryNames = async (categoryName) => {
@@ -93,6 +106,7 @@ const EquipmentView = (props) => {
     `
     const categoryItems = equipment.mainCategories ? equipment.mainCategories.map((category, id)=> {
         return <CategoryItem 
+                    categoryListGen={() => getAllItemsByCategory(category)}
                     onClick={() => handleClick('main', category)}
                     clicked={equipment.mainSelected}
                     clickFunc={getAllSubCategoryNames}
@@ -114,7 +128,13 @@ const EquipmentView = (props) => {
                 />
     }) : null
 
-    // Wrap a gridContainer around subCategory items? to keep things in the middle - use flexbox?
+    const itemsList = equipment.itemsBySelectedCat ? equipment.itemsBySelectedCat.map((item, id) => {
+        return <CategoryItem 
+                    category={item.product}
+                    key={id}
+                    multiplier={equipment.itemsBySelectedCat.length}
+                />
+    }) : null
 
     return (
         <Wrapper id={"wrapper"}>
@@ -123,6 +143,9 @@ const EquipmentView = (props) => {
             </MainCatContainer>
             <SubCatContainer>
                 {subCategoryItems}
+            </SubCatContainer>
+            <SubCatContainer>
+                {itemsList}
             </SubCatContainer>
         </Wrapper>
     )
