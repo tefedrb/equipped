@@ -4,28 +4,48 @@ import CategoryItem from './CategoryItem';
 import GetAllItemsByCategory from '../../FetchData/EquipmentApi/GetEuipmentByCategory';
 import GetEquipCategoryNames from '../../FetchData/EquipmentApi/GetEquipCategoryNames';
 import GetEquipSubCatNames from '../../FetchData/EquipmentApi/GetEquipSubCatNames';
+import GetEquipBySubCategory from '../../FetchData/EquipmentApi/GetEquipBySubCategory';
+import ItemView from '../EquipmentView/ItemView';
+import SubCatItem from '../EquipmentView/SubCatItem';
+import ListItem from '../EquipmentView/ListItem';
 
 const EquipmentView = (props) => { 
     const [equipment, adjustEquipment] = useState({});
     let isCancelled = false;
 
     const getAllItemsByCategory = async (name) => {
-        await GetAllItemsByCategory(name).then(res => {
-            const allItemsByCat = res;
+        if(name){
+            await GetAllItemsByCategory(name).then(res => {
+                const allItemsByCat = res;
+                if(!isCancelled){
+                    adjustEquipment(prevState => {
+                        return {
+                                    ...prevState,
+                                    itemsBySelectedCat: allItemsByCat 
+                            }
+                    });
+                    console.log(allItemsByCat)
+                }
+            })
+        } else {
+            return null;
+        }
+    }
+
+    const getAllItemsBySubCategory = async (name) => {
+        await GetEquipBySubCategory(name).then(res => {
+            const allItemsBySubCat = res;
+            console.log(res, "< sub cat items RESPONSE")
             if(!isCancelled){
                 adjustEquipment(prevState => {
                     return {
                                 ...prevState,
-                                itemsBySelectedCat: allItemsByCat 
-                        }
+                                itemsBySelectedCat: allItemsBySubCat
+                            }
                 })
-                console.log(allItemsByCat)
+                console.log(allItemsBySubCat, "< sub cat items")
             }
         })
-    }
-
-    const getAllItemsBySubCategory = async (name) => {
-        
     }
 
     const getAllSubCategoryNames = async (categoryName) => {
@@ -39,7 +59,7 @@ const EquipmentView = (props) => {
                                 ...prevState,
                                 subCategories: [...subCategoryNames]
                            }
-                })
+                });
             }
         })
     }
@@ -56,9 +76,10 @@ const EquipmentView = (props) => {
                                         ...prevState,
                                         mainSelected: null,
                                         subSelected: null,
+                                        itemSelected: null,
                                         mainCategories: [...names]
                                     }
-                        })
+                        });
                     }
                 } 
                 setMainCategories();
@@ -79,9 +100,10 @@ const EquipmentView = (props) => {
            return {
                 ...prevState,
                 mainSelected: category === 'main' ? clicked : prevState.mainSelected,
-                subSelected: category === 'sub' ? clicked : prevState.SubSelected
+                subSelected: category === 'sub' ? clicked : prevState.subSelected,
+                itemSelected: category === 'item' ? clicked : prevState.itemSelected
             }
-        })
+        });
         console.log(equipment, "< Equipment");
     }
 
@@ -108,33 +130,37 @@ const EquipmentView = (props) => {
         return <CategoryItem 
                     categoryListGen={() => getAllItemsByCategory(category)}
                     onClick={() => handleClick('main', category)}
-                    clicked={equipment.mainSelected}
-                    clickFunc={getAllSubCategoryNames}
+                    selected={equipment.mainSelected}
+                    clickFunc={() => getAllSubCategoryNames(category)}
                     multiplier={equipment.mainCategories.length} 
                     category={category} 
-                    key={id}
                     index={(id+1).toString()}
+                    key={id}
                 />
     }) : null;
 
     const subCategoryItems = equipment.subCategories ? equipment.subCategories.map((subCat, id ) => {
-        return <CategoryItem onClick={() => handleClick('sub', subCat)}
-                    clicked={equipment.subSelected}
-                    clickFunc={null}
+        return <SubCatItem 
+                    onClick={() => handleClick('sub', subCat)}
+                    selected={equipment.subSelected}
+                    subCategoryListGen={() => getAllItemsBySubCategory(subCat)}
                     multipler={equipment.subCategories.length}
                     category={subCat}
                     index={(id+1).toString()}
                     key={id}
                 />
-    }) : null
+    }) : null;
 
     const itemsList = equipment.itemsBySelectedCat ? equipment.itemsBySelectedCat.map((item, id) => {
-        return <CategoryItem 
+        return <ListItem 
+                    onClick={() => handleClick('item', item)}
+                    selected={equipment.itemSelected ? equipment.itemSelected.product : null}
                     category={item.product}
-                    key={id}
                     multiplier={equipment.itemsBySelectedCat.length}
+                    index={(id+1).toString()}
+                    key={id}
                 />
-    }) : null
+    }) : null;
 
     return (
         <Wrapper id={"wrapper"}>
@@ -147,6 +173,7 @@ const EquipmentView = (props) => {
             <SubCatContainer>
                 {itemsList}
             </SubCatContainer>
+            <ItemView id={"ItemView"} itemSelected={equipment.itemSelected} />
         </Wrapper>
     )
 }
