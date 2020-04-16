@@ -32,4 +32,14 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         }
         return new ArrayList<>();
     }
+
+    @Override
+    public List<SubCategory> findSubCategoriesByCategoryId(Long id){
+        try{
+            return subCategoryRepository.findSubCategoriesByCategoryId(id);
+        } catch (Exception e){
+            System.err.println("Error in findSubCategoriesByCategoryIdl " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
 }

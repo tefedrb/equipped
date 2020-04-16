@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const CategoryItem = (props) => {
+const SubCatItem = (props) => {
     const Category = styled.div`
         display: flex;
         align-items: center;
@@ -26,8 +26,7 @@ const CategoryItem = (props) => {
     `
     return (
         <Category onClick={() => {
-                props.categoryListGen();
-                props.clickFunc();
+                props.subCategoryListGen();
                 props.onClick();
             }}>
             <span>{props.category}</span>
@@ -35,4 +34,4 @@ const CategoryItem = (props) => {
     )
 }
 
-export default CategoryItem;
+export default SubCatItem;

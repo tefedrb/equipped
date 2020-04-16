@@ -47,6 +47,15 @@ public class ItemServiceImpl implements ItemService{
         return new ArrayList<>();
     }
 
+    @Override
+    public List<Item> getAllItemsBySubCategoryId(Long id){
+        try {
+            return itemRepository.getAllItemsBySubCategoryId(id);
+        } catch (Exception e){
+            System.err.println("Error in getAllItemsBySubCategoryId " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
 
     @Override
     public Item getItemBySerial(Long serial_num){
