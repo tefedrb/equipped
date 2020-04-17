@@ -1,5 +1,7 @@
 package com.example.inventoryapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.api.client.util.Key;
 import data.classes.Category;
 
@@ -40,6 +42,7 @@ public class Item {
     @Column(name = "subCategory")
     private String subCategory;
 
+    @JsonBackReference
     @OneToOne(cascade = {CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "inventory_id")

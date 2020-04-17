@@ -12,8 +12,8 @@ public class ItemAndInventory {
         this.serial_id = serial_id;
     }
 
-    public void setInventory_id(Long invetory_id) {
-        this.inventory_id = invetory_id;
+    public void setInventory_id(Long inventory_id) {
+        this.inventory_id = inventory_id;
     }
 
     public Long getInventory_id(){

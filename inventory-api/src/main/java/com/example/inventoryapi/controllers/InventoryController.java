@@ -35,7 +35,7 @@ public class InventoryController {
         }
     }
 
-    @GetMapping("/retrieve/{company_id")
+    @GetMapping("/retrieve/{company_id}")
     public Inventory getInventoryByCompId(@PathVariable Long company_id){
         try {
             return inventoryService.retrieveInventory(company_id);

@@ -18,7 +18,7 @@ class LogIn extends Component {
     fetch("http://localhost:8080/users-api/user/login", {
       method: 'post',
       headers: {
-        "Accept" : 'application/json, text/plain, */*',
+        'Accept' : 'application/json, text/plain, */*',
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({

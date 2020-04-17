@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
+import InventoryView from './EquipmentView/InventoryView';
 
 const CompanyViewContainer = styled.div`
   display: flex;
@@ -50,6 +51,9 @@ class CompanyView extends Component{
           <Route path={"/home/company/equipment-view"} render={() => 
             <EquipmentView />
           }/>
+          <Route path={"/home/company/inventory-view"} render={() => 
+            <InventoryView />
+          } />
         </CompanyViewContainer>
       </>
     );

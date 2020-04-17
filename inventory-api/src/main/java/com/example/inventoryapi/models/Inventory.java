@@ -1,5 +1,7 @@
 package com.example.inventoryapi.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class Inventory {
     @Column(name = "company_name")
     private String company_name;
 
+    @JsonManagedReference
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private List<Item> items;

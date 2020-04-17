@@ -24,15 +24,6 @@ const ListItem = (props) => {
             color: white;
         }
     `
-    const ListNum = styled.span`
-        position: absolute;
-        top: 0;
-        left: .5em;
-    `
-
-    const ListNumContainer = styled.div`
-        position: relative;
-    `
     return (
         <Category onClick={() => {
                 props.onClick();
