@@ -1,0 +1,23 @@
+const PostItemToInventory = async (itemId, inventoryId) => {
+    try {
+        const response =
+            await fetch("http://localhost:8080/inventory-api/inventory/add", {
+                method: 'post',
+                headers: {
+                    'Accept' : 'application/json, text/plain, */*',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    serial_id: itemId,
+                    inventory_id: inventoryId
+                })   
+            })
+        const data = await response.json();
+        console.log(data, "<in add item to inventory")
+        return data;
+    } catch (error) {
+        console.log("Error in AddToInventory: ", error);
+    }
+}
+
+export default PostItemToInventory;

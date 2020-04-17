@@ -30,7 +30,7 @@ const CategoryItem = (props) => {
                 props.clickFunc();
                 props.onClick();
             }}>
-            <span>{props.category}</span>
+            <span>{props.category.toUpperCase()}</span>
         </Category>
     )
 }

@@ -44,7 +44,8 @@ const CompanyNav = (props) => {
     `
     const routes = {
         default: "/home/company",
-        Equipment: "/home/company/equipment-view"
+        Equipment: "/home/company/equipment-view",
+        Inventory: "/home/company/inventory-view"
     }
     
     const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
