@@ -15,30 +15,33 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Key
+//    @Key
     @Column(name = "serial_id")
     private Long serial_id;
+
+    @Column(name = "product")
+    private String product;
 
     @Column(name = "available")
     private Boolean available;
 
-    @Key
+//    @Key
     @Column(name = "image")
     private String image;
 
-    @Key
+//    @Key
     @Column(name = "prodLink")
     private String prodLink;
 
-    @Key
+//    @Key
     @Column(name = "value")
     private float value;
 
-    @Key
+//    @Key
     @Column(name = "category")
     private String category;
 
-    @Key
+//    @Key
     @Column(name = "subCategory")
     private String subCategory;
 
@@ -51,6 +54,7 @@ public class Item {
     public Item(){}
 
     public Item(Long serial_id,
+                String product,
                 Boolean available,
                 String image,
                 String prodLink,
@@ -60,12 +64,21 @@ public class Item {
     {
 
         this.serial_id = serial_id;
+        this.product = product;
         this.available = available;
         this.image = image;
         this.prodLink = prodLink;
         this.category = category;
         this.value = value;
         this.subCategory = subCategory;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 
     public void setId(Long id) {

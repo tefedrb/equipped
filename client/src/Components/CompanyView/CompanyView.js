@@ -5,6 +5,7 @@ import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
 import InventoryView from './EquipmentView/InventoryView';
+import {UserConsumer} from '../UserContext';
 
 const CompanyViewContainer = styled.div`
   display: flex;
@@ -46,14 +47,26 @@ class CompanyView extends Component{
   render(){
     return (
       <>
-        <CompanyNav userCompany={this.props.userCompany} />
+        <UserConsumer>
+          {value => {
+            return <CompanyNav userContext={value} userCompany={this.props.userCompany} />
+          }}
+      
+        </UserConsumer>
         <CompanyViewContainer>
           <Route path={"/home/company/equipment-view"} render={() => 
             <EquipmentView />
           }/>
+
+         
           <Route path={"/home/company/inventory-view"} render={() => 
-            <InventoryView />
-          } />
+            <UserConsumer>
+              {value => {
+                  return <InventoryView userContext={value.state}/>;
+                }
+              }
+            </UserConsumer>
+          } /> 
         </CompanyViewContainer>
       </>
     );

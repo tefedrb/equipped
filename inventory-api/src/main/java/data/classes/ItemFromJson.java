@@ -22,6 +22,12 @@ public class ItemFromJson {
 //    @Key("subCategory")
     private SubCategory subCategory;
 
+    private String product;
+
+    public String getProduct() {
+        return product;
+    }
+
     public Long getSerial_num() {
         return serial_num;
     }

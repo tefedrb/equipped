@@ -6,8 +6,6 @@ import CompanyView from '../CompanyView/CompanyView';
 import InnerNav from '../InnerNav/InnerNav';
 import CheckJwt from '../../CheckJwt';
 import MainView from './MainView';
-import GetEquipCategoryNames from '../FetchData/EquipmentApi/GetEquipCategoryNames';
-
 
 class Home extends Component {
   _isMounted = false;

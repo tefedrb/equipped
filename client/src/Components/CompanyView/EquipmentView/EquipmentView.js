@@ -8,6 +8,7 @@ import GetEquipBySubCategory from '../../FetchData/EquipmentApi/GetEquipBySubCat
 import ItemView from '../EquipmentView/ItemView';
 import SubCatItem from '../EquipmentView/SubCatItem';
 import ListItem from '../EquipmentView/ListItem';
+import {UserConsumer} from '../../UserContext';
 
 
 /* Notes: 
@@ -180,7 +181,15 @@ const EquipmentView = () => {
             <ItemListContainer>
                 {itemsList}
             </ItemListContainer>
-            <ItemView id={"ItemView"} itemSelected={equipment.itemSelected} />
+            <UserConsumer>
+                { value => 
+                    <ItemView 
+                        id={"ItemView"} 
+                        itemSelected={equipment.itemSelected} 
+                        userContext={value.state} 
+                    />
+                }
+            </UserConsumer>
         </Wrapper>
     )
 }

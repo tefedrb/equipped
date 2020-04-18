@@ -39,10 +39,12 @@ public class InventoryController {
     public Inventory getInventoryByCompId(@PathVariable Long company_id){
         try {
             return inventoryService.retrieveInventory(company_id);
-        } catch(Exception e){
+        } catch(NullPointerException e){
             System.err.println("Error caught in InventoryController: " + e.getMessage());
+            Inventory dummyInventory = new Inventory();
+            dummyInventory.setCompany_id(null);
+            return dummyInventory;
         }
-        return null;
     }
 
     @DeleteMapping("/delete/{inventoryId}")
