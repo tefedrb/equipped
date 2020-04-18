@@ -30,6 +30,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+//     METHOD SAVED FOR MONOLITHIC TESTING
     @Override
     public ItemFromJson getItem(Long serial_num){
         try {

@@ -25,13 +25,10 @@ public class Company {
 
     // Removed mappedBy in the relationship because this side isn't the owning side.
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+    @OneToMany(cascade = {CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
     private List<User> users;
-
-    // Need to determine how to have this persist and relate to users?
-    // Need to determine where the join table will be - waitlist or company
-
+    
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private WaitList waitList;
 

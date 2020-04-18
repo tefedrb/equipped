@@ -21,19 +21,17 @@ const InventoryView = (props) => {
         grid-template-rows: repeat(${inventory.inventory ? 1 : 0}, 3em);
     `
     useEffect(() => {
-        console.log(inventory)
-        if(!inventory.inventory && props.userContext.userCompany && props.userContext.userCompany.id){
+        if(!inventory.inventory && props.userContext.userCompany){
             try {
                 // SET INVENTORY VIA CONTEXT API
-                console.log(props.userContext, "< context Recieved!")
-                const userComp = props.userContext ? props.userContext.userCompany : ["Null Inventory"];
+                const { userCompany } = props.userContext;
+                console.log(userCompany.items, 'items')
                 const setCompanyInventory = async () => {
                     if(!isCancelled){
-                        console.log(userComp)
                         adjustInventory(prevState => {
                             return {
                                 ...prevState,
-                                inventory: userComp.items
+                                inventory: userCompany.items
                             }
                         });
                         // localStorage.setItem('companyInventory', JSON.stringify(response));
@@ -51,7 +49,7 @@ const InventoryView = (props) => {
         return () => {
             isCancelled = true;
         }
-    })
+    },[inventory])
 
     const handleClick = (item) => {
         adjustInventory(prevState => {
@@ -65,9 +63,9 @@ const InventoryView = (props) => {
 
     const itemsList = inventory.inventory ? inventory.inventory.map((item, id) => {
         return <ListItem 
-                    onClick={() => handleClick(item)}
+                    onClick={() => handleClick(item.serial_id)}
                     selected={inventory.itemSelected ? inventory.itemSelected : null}
-                    category={item.name}
+                    category={item.product}
                     index={(id+1).toString()}
                     key={id}
                 />
@@ -76,7 +74,7 @@ const InventoryView = (props) => {
     return (
         <Wrapper>
             <Inventory>
-                {/* {itemsList} */}
+                {itemsList}
             </Inventory>
         </Wrapper>
     )

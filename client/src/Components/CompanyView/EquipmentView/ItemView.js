@@ -17,16 +17,9 @@ const ItemView = (props) => {
     `
     console.log(item, "< item available to view")
     const user = props.userContext;
-    let inventoryId;
-
-    useEffect(()=> {
-        console.log(user, "USERS")
-        if(user.userCompany){
-            if(user.userCompany.inventory){
-                inventoryId = user.userCompany.inventory.id;
-            }
-        }
-    },[inventoryId])
+    const {inventory} = user.userCompany;
+    console.log(user, "<user in itemview")
+    console.log(inventory, "<inventory in itemview")
 
     // const inventoryId = props.userContext.userCompany.inventory.id
     // console.log(inventoryId, "< inventory id")
@@ -34,7 +27,7 @@ const ItemView = (props) => {
     // Remove this button option - find a better way to insert this functionality
     return (
        <ItemWrapper>
-           <button onClick={() => PostItemToInventory(item.serial_num, inventoryId)}>Add to Inventory</button>
+           <button onClick={() => PostItemToInventory(item.serial_num, inventory.id)}>Add to Inventory</button>
            <Img src={item && item.image ? item.image : "none"} />
            <p>{item && item.product ? item.product : ""}</p>
            <p>{item && item.subCategory ? "Sub-Category: " + item.subCategory.name : ""}</p>

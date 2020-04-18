@@ -89,9 +89,9 @@ class App extends Component {
     await GetUser(localStorage.getItem('jwt')).then(res => {
       const user = res;
       delete user.password;
-
       if(this._isMounted){
         this.setState({
+          loggedIn: true,
           user: user
         })
       }
@@ -99,12 +99,18 @@ class App extends Component {
   }
 
   setUserCompany = async () => {
-    await GetUserCompany(localStorage.getItem('jwt')).then(res => {
+    await GetUserCompany(localStorage.getItem('jwt'), GetInventory).then(res => {
       console.log("In Set User Company")
+        const userCompany = {...res};
+        delete userCompany.password;
+        delete userCompany.users;
+        delete userCompany.waitList;
+        localStorage.setItem('userCompany', JSON.stringify(userCompany));
       if(res.id != null && this._isMounted){
-        const {id, name, type} = res;
+        console.log(userCompany, "<in setUserCompany")
         this.setState({
-          userCompany: {id, name, type}
+          userLoggedIn: true,
+          userCompany: userCompany
         });
       }
     })
