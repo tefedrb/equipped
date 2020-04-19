@@ -9,11 +9,15 @@ import GetUserCompany from './Components/FetchData/GetUserCompany';
 import GetWaitList from './Components/FetchData/GetWaitList';
 import GetCompanyByWaitList from './Components/FetchData/GetCompanyByWaitList';
 import JoinWaitList from './Components/FetchData/JoinWaitList';
+import GetInventory from './Components/FetchData/InventoryApi/GetInventory';
 import {
   BrowserRouter as Router,
   Route,
   Redirect
 } from 'react-router-dom';
+// import InventoryView from './Components/CompanyView/EquipmentView/InventoryView';
+
+import {UserProvider} from './Components/UserContext';
 
 class App extends Component {
   _isMounted = false;
@@ -22,6 +26,7 @@ class App extends Component {
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
       userCompany: null,
+      companyInventory: null,
       waitListId: null,
       waitListCompany: null,
       userLoggedIn: false
@@ -45,7 +50,7 @@ class App extends Component {
   }
 
   login = async (jwt) => {
-    await Promise.all([GetUser(jwt), GetUserCompany(jwt), GetWaitList(jwt)])
+    await Promise.all([GetUser(jwt), GetUserCompany(jwt, GetInventory), GetWaitList(jwt)])
       .then((responses) => {
         const user = responses[0];
         delete user.password;
@@ -95,6 +100,7 @@ class App extends Component {
 
   setUserCompany = async () => {
     await GetUserCompany(localStorage.getItem('jwt')).then(res => {
+      console.log("In Set User Company")
       if(res.id != null && this._isMounted){
         const {id, name, type} = res;
         this.setState({
@@ -131,6 +137,17 @@ class App extends Component {
       })
   }
 
+  refreshInventory = async (company_id) => {
+    await GetInventory(company_id).then(res => {
+      this.setState(prevState => {
+          return {
+            ...prevState,
+            userCompany: prevState.userCompany.inventory = res
+          }
+      })
+    })
+  }
+
   componentDidUpdate(prevProps){
   
   }
@@ -138,44 +155,49 @@ class App extends Component {
   render(){
     const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
-      <Router>  
-        <div className="main-container">
-          <UserHeader 
-            loggedIn={this.state.userLoggedIn}
-            userCompany={this.state.userCompany}
-            logout={this.logOut} 
-            user={this.state.user}
-            setWaitListCompanyName={this.setWaitListCompanyName}
-            waitListCompany={this.state.waitListCompany}
-            waitListId={this.state.waitListId}
-          />
-          <Route 
-            exact path="/" 
-            render={() => 
-              <AccessAccount 
-                login={this.login}
-                setUserCompany={this.setUserCompany}
-                checkForWaitList={this.checkForWaitList}
-                setUser={this.setUser}
-              />}
-            />   
-          {loggedIn}
-          <Route
-            path="/home"
-            render={() =>
-              <Home 
-                setUserCompany={this.setUserCompany}
-                checkForWaitList={this.checkForWaitList}
-                joinWaitList={this.joinWaitList}
-                waitListId={this.state.waitListId}
-                user={this.state.user}
+      <UserProvider value={{
+          state: this.state,
+          refreshInventory: this.refreshInventory
+        }}>
+        <Router>  
+          <div className="main-container">
+              <UserHeader 
+                loggedIn={this.state.userLoggedIn}
                 userCompany={this.state.userCompany}
-                logOut={this.logOut}
-              />}
-          /> 
-          <Footer />
-        </div>
-      </Router>
+                logout={this.logOut} 
+                user={this.state.user}
+                setWaitListCompanyName={this.setWaitListCompanyName}
+                waitListCompany={this.state.waitListCompany}
+                waitListId={this.state.waitListId}
+              />
+              <Route 
+                exact path="/" 
+                render={() => 
+                  <AccessAccount 
+                    login={this.login}
+                    setUserCompany={this.setUserCompany}
+                    checkForWaitList={this.checkForWaitList}
+                    setUser={this.setUser}
+                  />}
+                />   
+              {loggedIn}
+              <Route
+                path="/home"
+                render={() =>
+                  <Home 
+                    setUserCompany={this.setUserCompany}
+                    checkForWaitList={this.checkForWaitList}
+                    joinWaitList={this.joinWaitList}
+                    waitListId={this.state.waitListId}
+                    user={this.state.user}
+                    userCompany={this.state.userCompany}
+                    logOut={this.logOut}
+                  />}
+              /> 
+              <Footer />  
+          </div>
+        </Router>
+      </UserProvider>
     );
   }
 }

@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import GetInventory from '../../FetchData/InventoryApi/GetInventory';
 import ListItem from '../EquipmentView/ListItem';
 
-const InventoryView = () => {
+const InventoryView = (props) => {
     const [inventory, adjustInventory] = useState({});
     let isCancelled = false;
-    const companyId = JSON.parse(localStorage.getItem("userCompany")).id;
-
     const Wrapper = styled.section`
         display: flex;
         justify-content: left;
@@ -21,23 +18,28 @@ const InventoryView = () => {
         padding: 2px;
         max-height: 30em;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(${inventory.inventory ? inventory.inventory.items.length : 0}, 3em);
+        grid-template-rows: repeat(${inventory.inventory ? 1 : 0}, 3em);
     `
     useEffect(() => {
-        if(!inventory.inventory){
+        console.log(inventory)
+        if(!inventory.inventory && props.userContext.userCompany && props.userContext.userCompany.id){
             try {
+                // SET INVENTORY VIA CONTEXT API
+                console.log(props.userContext, "< context Recieved!")
+                const userComp = props.userContext ? props.userContext.userCompany : ["Null Inventory"];
                 const setCompanyInventory = async () => {
-                    const response = await GetInventory(companyId);
                     if(!isCancelled){
+                        console.log(userComp)
                         adjustInventory(prevState => {
                             return {
                                 ...prevState,
-                                inventory: response
+                                inventory: userComp.items
                             }
                         });
-                        localStorage.setItem('companyInventory', JSON.stringify(response));
-                        console.log(response, "< company inventory");
+                        // localStorage.setItem('companyInventory', JSON.stringify(response));
+                        // console.log(response, "< company inventory");
                     }
+                    
                 }
                 setCompanyInventory();
             } catch (e){
@@ -61,11 +63,11 @@ const InventoryView = () => {
         console.log(inventory, "< inventory");
     }
 
-    const itemsList = inventory.inventory ? inventory.inventory.items.map((item, id) => {
+    const itemsList = inventory.inventory ? inventory.inventory.map((item, id) => {
         return <ListItem 
                     onClick={() => handleClick(item)}
                     selected={inventory.itemSelected ? inventory.itemSelected : null}
-                    category={item}
+                    category={item.name}
                     index={(id+1).toString()}
                     key={id}
                 />
@@ -74,7 +76,7 @@ const InventoryView = () => {
     return (
         <Wrapper>
             <Inventory>
-                
+                {/* {itemsList} */}
             </Inventory>
         </Wrapper>
     )

@@ -54,6 +54,7 @@ const CompanyNav = (props) => {
         return (
             <Li key={id}>
                 <CompLink
+                    userContext={props.userContext}
                     key={id}
                     myName={name}
                     selectedLink={selectedLink}
