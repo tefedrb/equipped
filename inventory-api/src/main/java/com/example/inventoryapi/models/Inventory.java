@@ -21,8 +21,7 @@ public class Inventory {
     private String company_name;
 
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Item> items;
 
     public void setId(Long id) {

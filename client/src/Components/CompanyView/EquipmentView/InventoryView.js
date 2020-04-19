@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ListItem from '../EquipmentView/ListItem';
 
 const InventoryView = (props) => {
-    const [inventory, adjustInventory] = useState({});
+    const [inventoryState, adjustInventory] = useState({});
     let isCancelled = false;
     const Wrapper = styled.section`
         display: flex;
@@ -18,20 +18,20 @@ const InventoryView = (props) => {
         padding: 2px;
         max-height: 30em;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(${inventory.inventory ? 1 : 0}, 3em);
+        grid-template-rows: repeat(${inventoryState.inventory ? 1 : 0}, 3em);
     `
     useEffect(() => {
-        if(!inventory.inventory && props.userContext.userCompany){
+        if(!inventoryState.inventory && props.userContext.userCompany){
             try {
                 // SET INVENTORY VIA CONTEXT API
                 const { userCompany } = props.userContext;
-                console.log(userCompany.items, 'items')
+                console.log(userCompany.inventory, 'items')
                 const setCompanyInventory = async () => {
                     if(!isCancelled){
                         adjustInventory(prevState => {
                             return {
                                 ...prevState,
-                                inventory: userCompany.items
+                                inventory: userCompany.inventory
                             }
                         });
                         // localStorage.setItem('companyInventory', JSON.stringify(response));
@@ -49,7 +49,7 @@ const InventoryView = (props) => {
         return () => {
             isCancelled = true;
         }
-    },[inventory])
+    },[inventoryState])
 
     const handleClick = (item) => {
         adjustInventory(prevState => {
@@ -58,13 +58,13 @@ const InventoryView = (props) => {
                 selectedItem: item
             }
         });
-        console.log(inventory, "< inventory");
+        console.log(inventoryState, "< inventory");
     }
 
-    const itemsList = inventory.inventory ? inventory.inventory.map((item, id) => {
+    const itemsList = inventoryState.inventory ? inventoryState.inventory.items.map((item, id) => {
         return <ListItem 
                     onClick={() => handleClick(item.serial_id)}
-                    selected={inventory.itemSelected ? inventory.itemSelected : null}
+                    selected={inventoryState.itemSelected ? inventoryState.itemSelected : null}
                     category={item.product}
                     index={(id+1).toString()}
                     key={id}

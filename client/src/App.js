@@ -26,7 +26,6 @@ class App extends Component {
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
       userCompany: null,
-      companyInventory: null,
       waitListId: null,
       waitListCompany: null,
       userLoggedIn: false
@@ -146,9 +145,13 @@ class App extends Component {
   refreshInventory = async (company_id) => {
     await GetInventory(company_id).then(res => {
       this.setState(prevState => {
+        console.log(prevState, "Prev state in refreshInventory")
+        console.log(prevState.userCompany.inventory, "prevState.userCompany.inventory")
+        const userCompany = prevState.userCompany;
+        userCompany.inventory = res;
           return {
             ...prevState,
-            userCompany: prevState.userCompany.inventory = res
+            userCompany: userCompany
           }
       })
     })

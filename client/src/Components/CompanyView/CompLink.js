@@ -21,7 +21,8 @@ const CompLink = (props) => {
         color: ${props.selectedLink === props.myName ? "white" : "#69cb42"};
         text-shadow: 2px 2px #000000;
     `
-    // props.userContext.refreshInventory(props.userContext.userCompany.id)
+
+    // Used to refresh company inventory
     const clickFunc = (myName) => {
         if(props.userContext && myName === "Inventory"){
             console.log(props.userContext, "here")

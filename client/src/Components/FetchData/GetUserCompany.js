@@ -8,13 +8,14 @@ const GetUserCompany = async (jwt, getInventory) => {
                     'Authorization' : 'Bearer ' + jwt,
                 }
             })
-        const data = await response.json();
+        const userCompany = await response.json();
         if(getInventory){
             console.log('OK HERE WE GO....')
-            const response2 = await getInventory(data.id);
-            data.inventory = response2;
+            const inventory = await getInventory(userCompany.id);
+            userCompany.inventory = inventory;
+            console.log(userCompany, "< adding inventory to userCompany");
         }
-        return data;
+        return userCompany;
     } catch (error){
         console.log("Error in GetUserCompany: ", error)
     }

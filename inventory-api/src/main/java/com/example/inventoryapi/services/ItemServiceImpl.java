@@ -22,6 +22,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public HttpStatus deleteItem(Long itemId){
         try {
+            Item found = itemRepository.findById(itemId).get();
+            System.out.println(found.getProduct() + "ITEM!!!!");
             itemRepository.deleteById(itemId);
             return HttpStatus.OK;
         } catch (Exception e){
