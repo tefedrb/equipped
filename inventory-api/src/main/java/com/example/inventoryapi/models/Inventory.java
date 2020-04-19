@@ -59,6 +59,9 @@ public class Inventory {
         items.add(item);
     }
 
+    public void removeItemById(Long itemId){
+        this.items.removeIf(item -> (item.getId().equals(itemId)));
+    }
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
     }

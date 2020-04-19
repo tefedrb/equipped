@@ -49,8 +49,8 @@ const CompanyNav = (props) => {
     }
     
     const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
-
-    const CompLinks = props.userCompany ? linkTypes.map((name, id) => {
+    const { state } = props.userContext;
+    const CompLinks = state.userCompany ? linkTypes.map((name, id) => {
         return (
             <Li key={id}>
                 <CompLink
@@ -62,7 +62,7 @@ const CompanyNav = (props) => {
                     route={routes[name] ? routes[name] : routes.default}
                 />
             </Li>
-            )
+        )
     }) : ""
 
     return (
@@ -71,11 +71,11 @@ const CompanyNav = (props) => {
                 <Li>
                     <CompanyName>Company:</CompanyName> 
                     {
-                        props.userCompany ? 
+                        state.userCompany ? 
                             <CompLink
                                 route={routes.default} 
                                 compName={true} 
-                                myName={props.userCompany.name} 
+                                myName={state.userCompany.name} 
                                 selectedLink={selectedLink} 
                                 changeSelected={changeSelected}
                             /> 

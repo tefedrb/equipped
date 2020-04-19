@@ -21,21 +21,18 @@ const InventoryView = (props) => {
         grid-template-rows: repeat(${inventoryState.inventory ? 1 : 0}, 3em);
     `
     useEffect(() => {
-        if(!inventoryState.inventory && props.userContext.userCompany){
+        if(!inventoryState.inventory && props.userContext.companyInventory){
             try {
-                // SET INVENTORY VIA CONTEXT API
-                const { userCompany } = props.userContext;
-                console.log(userCompany.inventory, 'items')
+                const { companyInventory } = props.userContext;
+                console.log(companyInventory.items, 'items')
                 const setCompanyInventory = async () => {
                     if(!isCancelled){
                         adjustInventory(prevState => {
                             return {
                                 ...prevState,
-                                inventory: userCompany.inventory
+                                inventory: companyInventory
                             }
-                        });
-                        // localStorage.setItem('companyInventory', JSON.stringify(response));
-                        // console.log(response, "< company inventory");
+                        });    
                     }
                     
                 }
@@ -49,7 +46,7 @@ const InventoryView = (props) => {
         return () => {
             isCancelled = true;
         }
-    },[inventoryState])
+    })
 
     const handleClick = (item) => {
         adjustInventory(prevState => {
@@ -58,7 +55,6 @@ const InventoryView = (props) => {
                 selectedItem: item
             }
         });
-        console.log(inventoryState, "< inventory");
     }
 
     const itemsList = inventoryState.inventory ? inventoryState.inventory.items.map((item, id) => {

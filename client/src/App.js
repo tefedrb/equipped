@@ -15,8 +15,6 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-// import InventoryView from './Components/CompanyView/EquipmentView/InventoryView';
-
 import {UserProvider} from './Components/UserContext';
 
 class App extends Component {
@@ -26,6 +24,7 @@ class App extends Component {
     this.state = {
       user: JSON.parse(localStorage.getItem('user')),
       userCompany: null,
+      companyInventory: null,
       waitListId: null,
       waitListCompany: null,
       userLoggedIn: false
@@ -49,7 +48,14 @@ class App extends Component {
   }
 
   login = async (jwt) => {
-    await Promise.all([GetUser(jwt), GetUserCompany(jwt, GetInventory), GetWaitList(jwt)])
+    await Promise.all([GetUser(jwt), GetUserCompany(jwt), GetWaitList(jwt)])
+      .then(async (responses) => {
+        if(responses[1].id){
+          const companyInventory = await GetInventory(responses[1].id);
+          responses.push(companyInventory);
+        }
+        return responses;
+      })
       .then((responses) => {
         const user = responses[0];
         delete user.password;
@@ -66,6 +72,7 @@ class App extends Component {
             userLoggedIn: true,
             user: user,
             userCompany: userCompany.id ? userCompany : null,
+            companyInventory: responses[3],
             waitListId: responses[2].id
           })
         }
@@ -145,20 +152,12 @@ class App extends Component {
   refreshInventory = async (company_id) => {
     await GetInventory(company_id).then(res => {
       this.setState(prevState => {
-        console.log(prevState, "Prev state in refreshInventory")
-        console.log(prevState.userCompany.inventory, "prevState.userCompany.inventory")
-        const userCompany = prevState.userCompany;
-        userCompany.inventory = res;
           return {
             ...prevState,
-            userCompany: userCompany
+            companyInventory: res
           }
       })
     })
-  }
-
-  componentDidUpdate(prevProps){
-  
   }
 
   render(){
@@ -166,11 +165,14 @@ class App extends Component {
     return (
       <UserProvider value={{
           state: this.state,
-          refreshInventory: this.refreshInventory
+          refreshInventory: this.refreshInventory,
+          logOut: this.logOut,
+          setuserCompany: this.setUserCompany,
+          joinWaitList: this.joinWaitList
         }}>
         <Router>  
           <div className="main-container">
-              <UserHeader 
+              <UserHeader
                 loggedIn={this.state.userLoggedIn}
                 userCompany={this.state.userCompany}
                 logout={this.logOut} 
@@ -187,21 +189,13 @@ class App extends Component {
                     setUserCompany={this.setUserCompany}
                     checkForWaitList={this.checkForWaitList}
                     setUser={this.setUser}
-                  />}
-                />   
+                  />
+                }
+              />   
               {loggedIn}
               <Route
                 path="/home"
-                render={() =>
-                  <Home 
-                    setUserCompany={this.setUserCompany}
-                    checkForWaitList={this.checkForWaitList}
-                    joinWaitList={this.joinWaitList}
-                    waitListId={this.state.waitListId}
-                    user={this.state.user}
-                    userCompany={this.state.userCompany}
-                    logOut={this.logOut}
-                  />}
+                render={() => <Home />}
               /> 
               <Footer />  
           </div>

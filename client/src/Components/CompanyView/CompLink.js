@@ -23,12 +23,13 @@ const CompLink = (props) => {
     `
 
     // Used to refresh company inventory
-    const clickFunc = (myName) => {
+    const inventoryRefresh = (myName) => {
         if(props.userContext && myName === "Inventory"){
-            console.log(props.userContext, "here")
-            if(props.userContext.state.userCompany){
-                return props.userContext.refreshInventory(props.userContext.state.userCompany.id);
-            }
+            const { id } = props.userContext.state.userCompany;
+            console.log(props.userContext)
+            console.log(id, "COMPANY ID");
+            console.log("REFRESH!!!!");
+            return props.userContext.refreshInventory(id);
         } else {
             return null;
         }
@@ -36,7 +37,7 @@ const CompLink = (props) => {
 
     return (
         <Button>
-            <NavLink onClick={() => clickFunc(props.myName)} style={{textDecoration: 'none'}} to={props.route}>
+            <NavLink onClick={() => inventoryRefresh(props.myName)} style={{textDecoration: 'none'}} to={props.route}>
                 <SectionLabel onClick={() => props.changeSelected(props.myName)}>{props.myName}</SectionLabel>
             </NavLink>
         </Button>

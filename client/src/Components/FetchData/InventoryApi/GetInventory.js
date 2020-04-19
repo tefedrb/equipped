@@ -8,7 +8,6 @@ const GetInventory = async (company_id) => {
                 }   
             })
         const data = await response.json();
-        console.log(data, "INVENTORY REFRESH");
         return data;
     } catch (error) {
         console.log("Error in GetInventory: ", error);
