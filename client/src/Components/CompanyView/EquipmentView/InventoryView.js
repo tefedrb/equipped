@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ListItem from '../EquipmentView/ListItem';
 
 const InventoryView = (props) => {
-    const [inventoryState, adjustInventory] = useState({});
+    const [inventoryState, adjustInventory] = useState({items: []});
     let isCancelled = false;
     const Wrapper = styled.section`
         display: flex;
@@ -21,7 +21,6 @@ const InventoryView = (props) => {
         grid-template-rows: repeat(${inventoryState.inventory ? 1 : 0}, 3em);
     `
     useEffect(() => {
-        if(!inventoryState.inventory && props.userContext.companyInventory){
             try {
                 const { companyInventory } = props.userContext;
                 console.log(companyInventory.items, 'items')
@@ -42,11 +41,11 @@ const InventoryView = (props) => {
                     console.log("Error in InventoryView useEffect: ", e);
                 }
             } 
-        }
+        
         return () => {
             isCancelled = true;
         }
-    })
+    },[props.userContext.companyInventory]);
 
     const handleClick = (item) => {
         adjustInventory(prevState => {

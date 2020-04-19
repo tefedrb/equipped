@@ -34,7 +34,7 @@ const CompLink = (props) => {
             return null;
         }
     }
-
+    
     return (
         <Button>
             <NavLink onClick={() => inventoryRefresh(props.myName)} style={{textDecoration: 'none'}} to={props.route}>

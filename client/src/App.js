@@ -150,14 +150,16 @@ class App extends Component {
   }
 
   refreshInventory = async (company_id) => {
-    await GetInventory(company_id).then(res => {
+    const response = await GetInventory(company_id).then(res => {
       this.setState(prevState => {
           return {
             ...prevState,
             companyInventory: res
           }
       })
+      return res;
     })
+    return response;
   }
 
   render(){
@@ -167,7 +169,7 @@ class App extends Component {
           state: this.state,
           refreshInventory: this.refreshInventory,
           logOut: this.logOut,
-          setuserCompany: this.setUserCompany,
+          setUserCompany: this.setUserCompany,
           joinWaitList: this.joinWaitList
         }}>
         <Router>  
