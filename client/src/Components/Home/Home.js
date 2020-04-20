@@ -6,6 +6,8 @@ import CompanyView from '../CompanyView/CompanyView';
 import InnerNav from '../InnerNav/InnerNav';
 import CheckJwt from '../../CheckJwt';
 import MainView from './MainView';
+import {UserConsumer} from '../UserContext';
+
 
 class Home extends Component {
   _isMounted = false;
@@ -60,12 +62,16 @@ class Home extends Component {
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
 
         <InnerNav />
-
-        <CreateCompanyMenu 
-          toggleCreateCompany={this.toggleCreateCompany} 
-          showCreateCompMenu={this.state.showCreateCompMenu}
-          setUserCompany={this.props.setUserCompany}
-        />
+        <UserConsumer>
+          { context =>
+            <CreateCompanyMenu 
+              userContext={context}
+              toggleCreateCompany={this.toggleCreateCompany} 
+              showCreateCompMenu={this.state.showCreateCompMenu}
+              setUserCompany={this.props.setUserCompany}
+            />
+          }
+        </UserConsumer>
 
         <Route 
           exact path="/home" 

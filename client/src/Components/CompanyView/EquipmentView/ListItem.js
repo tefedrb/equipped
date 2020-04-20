@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 const ListItem = (props) => {
-    const Category = styled.div`
+    const Category = styled.button`
         display: flex;
         align-items: center;
         justify-content: center;
@@ -25,8 +25,9 @@ const ListItem = (props) => {
         }
     `
     return (
-        <Category onClick={() => {
-                props.onClick();
+        <Category onClick={(e) => {
+                console.log(e, "E")
+                props.onclick();
             }}>
             <span>{props.category}</span>
         </Category>

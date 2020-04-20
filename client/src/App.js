@@ -163,7 +163,7 @@ class App extends Component {
   }
 
   render(){
-    const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
+    // const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
       <UserProvider value={{
           state: this.state,
@@ -194,7 +194,6 @@ class App extends Component {
                   />
                 }
               />   
-              {loggedIn}
               <Route
                 path="/home"
                 render={() => <Home />}

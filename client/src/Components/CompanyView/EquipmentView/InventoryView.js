@@ -58,7 +58,7 @@ const InventoryView = (props) => {
 
     const itemsList = inventoryState.inventory ? inventoryState.inventory.items.map((item, id) => {
         return <ListItem 
-                    onClick={() => handleClick(item.serial_id)}
+                    onclick={() => handleClick(item.serial_id)}
                     selected={inventoryState.itemSelected ? inventoryState.itemSelected : null}
                     category={item.product}
                     index={(id+1).toString()}
@@ -66,9 +66,14 @@ const InventoryView = (props) => {
                 />
     }) : null;
 
+    const handleScrollEvent = (e) => {
+        e.persist()
+        console.log(e)
+    }
+
     return (
         <Wrapper>
-            <Inventory>
+            <Inventory onClick={(e) => handleScrollEvent(e)}>
                 {itemsList}
             </Inventory>
         </Wrapper>

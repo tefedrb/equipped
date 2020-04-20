@@ -162,7 +162,7 @@ const EquipmentView = () => {
 
     const itemsList = equipment.itemsBySelectedCat ? equipment.itemsBySelectedCat.map((item, id) => {
         return <ListItem 
-                    onClick={() => handleClick('item', item)}
+                    onclick={() => handleClick('item', item)}
                     selected={equipment.itemSelected ? equipment.itemSelected.product : null}
                     category={item.product}
                     index={(id+1).toString()}
