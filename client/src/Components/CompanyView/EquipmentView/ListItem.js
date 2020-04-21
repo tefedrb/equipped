@@ -26,8 +26,8 @@ const ListItem = (props) => {
     `
     return (
         <Category onClick={(e) => {
-                console.log(e, "E")
-                props.onclick();
+                e.persist()
+                props.onclick(props.item.serial_id, e.target.parentNode.parentNode.scrollTop);
             }}>
             <span>{props.category}</span>
         </Category>

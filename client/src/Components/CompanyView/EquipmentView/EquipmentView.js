@@ -109,9 +109,6 @@ const EquipmentView = () => {
 
     const getAllSubCategoryNames = async (id) => {
         await GetEquipSubCatNames(id).then(res => {
-            // console.log(res);
-            // const subCategoryNames = res.map(subCat => subCat.name);
-            // console.log(subCategoryNames);
             if(!isCancelled){
                 adjustEquipment(prevState => {
                     return {
