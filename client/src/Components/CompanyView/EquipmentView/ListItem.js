@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 const ListItem = (props) => {
-    const Category = styled.button`
+    const Category = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
@@ -26,8 +26,9 @@ const ListItem = (props) => {
     `
     return (
         <Category onClick={(e) => {
-                e.persist()
-                props.onclick(props.item.serial_id, e.target.parentNode.parentNode.scrollTop);
+                e.persist();
+                props.inventoryClick ? props.inventoryClick(props.item.serial_id, e.target.parentNode.parentNode.scrollTop) :
+                props.onclick();
             }}>
             <span>{props.category}</span>
         </Category>

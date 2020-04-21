@@ -53,7 +53,7 @@ class InventoryView extends React.Component{
         }
     }
 
-    handleClick = (item_serial, currentScroll) => {
+    handleClick = (item_serial) => {
         this.setState(prevState => {
            return {
                 ...prevState,
@@ -81,7 +81,7 @@ class InventoryView extends React.Component{
         `
         const itemsList = this.state.companyInventory ? this.state.companyInventory.items.map((item, id) => {
             return <ListItem 
-                        onclick={this.handleClick}
+                        inventoryClick={this.handleClick}
                         item={item}
                         selected={this.state.itemSelected ? this.itemSelected : null}
                         category={item.product}
