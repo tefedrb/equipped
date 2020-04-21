@@ -16,7 +16,8 @@ class Home extends Component {
     this.state = {
       showCreateCompMenu: false,
       selectedCompany: null,
-      companyViewLoaded: false
+      companyViewLoaded: false,
+      sectionLoaded: null
     }
   }
  
@@ -55,13 +56,18 @@ class Home extends Component {
     })
   }
 
+  sectionLoaded = (loaded) => {
+    this.setState({
+      sectionLoaded: loaded
+    })
+  }
+
   // Move create company menu into company list?
   render(){
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
-
-        <InnerNav />
+        <InnerNav loaded={this.state.sectionLoaded} />
         <UserConsumer>
           { context =>
             <CreateCompanyMenu 
@@ -77,6 +83,7 @@ class Home extends Component {
           exact path="/home" 
           render={() => 
             <MainView
+              loaded={this.sectionLoaded}
               selectedCompany={this.state.selectedCompany}
               toggleCreateCompany={this.toggleCreateCompany} 
               showCreateCompMenu={this.state.showCreateCompMenu}
@@ -87,7 +94,7 @@ class Home extends Component {
 
         <Route 
           path="/home/company" 
-          render={() => <CompanyView />}
+          render={() => <CompanyView loaded={this.sectionLoaded} />}
         />
       </div>
     )

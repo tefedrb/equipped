@@ -27,8 +27,13 @@ const ListItem = (props) => {
     return (
         <Category onClick={(e) => {
                 e.persist();
-                props.inventoryClick ? props.inventoryClick(props.item.serial_id, e.target.parentNode.parentNode.scrollTop) :
-                props.onclick();
+                props.handleClick ? 
+                
+                props.handleClick(props.item.id, props.listCategory ? props.listCategory : null) :
+                e.preventDefault();
+                
+                props.listGen ? props.listGen() : 
+                e.preventDefault();
             }}>
             <span>{props.category}</span>
         </Category>

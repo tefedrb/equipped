@@ -30,6 +30,7 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
+    this.props.loaded("Company View");
     GetUserCompany(localStorage.getItem("jwt")).then(res => {
         if(this._isMounted){
           this.setState({

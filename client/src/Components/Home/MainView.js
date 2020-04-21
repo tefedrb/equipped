@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {Route} from 'react-router-dom';
 import MainDisplay from '../MainDisplay';
@@ -11,6 +11,11 @@ const Main = styled.main`
     align-items: center;
 `
 const MainView = (props) => {
+
+    useEffect(() => {
+        props.loaded("Main")
+    },[true])
+
     return (
         <UserConsumer>
             {context => 

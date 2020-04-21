@@ -16,7 +16,7 @@ class InnerNav extends Component {
     constructor(props){
         super(props);
         this.state = {
-            activeLink: 'Main'
+            activeLink: "Main"
         }
     }
 
@@ -24,6 +24,12 @@ class InnerNav extends Component {
         this.setState({
             activeLink: linkName
         })
+    }
+
+    componentDidUpdate(){
+        if(this.props.loaded != this.state.activeLink){
+            this.activateLink(this.props.loaded);
+        }
     }
 
     render(){
