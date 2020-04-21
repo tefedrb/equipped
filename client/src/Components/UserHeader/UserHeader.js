@@ -30,10 +30,6 @@ class UserHeader extends Component {
         }
     }
 
-    componentDidMount(){
-
-    }
-
     componentDidUpdate(prevProps){
         if(prevProps.waitListId !== this.props.waitListId){
             this.props.setWaitListCompanyName(this.props.waitListId);

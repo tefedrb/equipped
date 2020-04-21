@@ -1,4 +1,4 @@
-const GetUserCompany = async (jwt, getInventory) => {
+const GetUserCompany = async (jwt) => {
     try { 
         const response = 
             await fetch("http://localhost:8080/users-api/company/user-company", {
@@ -8,13 +8,8 @@ const GetUserCompany = async (jwt, getInventory) => {
                     'Authorization' : 'Bearer ' + jwt,
                 }
             })
-        const data = await response.json();
-        if(getInventory){
-            console.log('OK HERE WE GO....')
-            const response2 = await getInventory(data.id);
-            data.inventory = response2;
-        }
-        return data;
+        const userCompany = await response.json();
+        return userCompany;
     } catch (error){
         console.log("Error in GetUserCompany: ", error)
     }

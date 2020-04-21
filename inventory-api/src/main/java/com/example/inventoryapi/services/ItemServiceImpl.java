@@ -22,6 +22,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public HttpStatus deleteItem(Long itemId){
         try {
+            Item item = itemRepository.findById(itemId).get();
+            System.out.println(item.getProduct() + "ITEM!!!!");
+            item.getInventory().removeItemById(itemId);
+            item.setInventory(null);
             itemRepository.deleteById(itemId);
             return HttpStatus.OK;
         } catch (Exception e){
@@ -30,6 +34,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+//     METHOD SAVED FOR MONOLITHIC TESTING
     @Override
     public ItemFromJson getItem(Long serial_num){
         try {

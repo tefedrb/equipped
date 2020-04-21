@@ -68,7 +68,7 @@ class CreateCompanyMenu extends Component{
             console.log(res);
             this.props.toggleCreateCompany();
             // Insert company information into user
-            this.props.setUserCompany();
+            this.props.userContext.setUserCompany();
         })
     }
 

@@ -20,22 +20,23 @@ public class ItemController {
         return "Hello";
     }
 
-    @GetMapping("/retrieve/{serial_id}")
-    public ItemFromJson retrieveItem(@PathVariable Long serial_id){
-        try {
-            return itemService.getItem(serial_id);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
-    }
+    // METHOD SAVED FOR MONOLITHIC TESTING
+//    @GetMapping("/retrieve/{serial_id}")
+//    public ItemFromJson retrieveItem(@PathVariable Long serial_id){
+//        try {
+//            return itemService.getItem(serial_id);
+//        } catch (Exception e) {
+//            System.err.println(e.getMessage());
+//            return null;
+//        }
+//    }
 
     @DeleteMapping("/delete/{id}")
     public HttpStatus deleteItem(@PathVariable Long id){
         try {
             itemService.deleteItem(id);
             return HttpStatus.OK;
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
             return null;
         }

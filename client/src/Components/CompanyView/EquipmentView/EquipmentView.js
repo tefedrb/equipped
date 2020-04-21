@@ -109,9 +109,6 @@ const EquipmentView = () => {
 
     const getAllSubCategoryNames = async (id) => {
         await GetEquipSubCatNames(id).then(res => {
-            // console.log(res);
-            // const subCategoryNames = res.map(subCat => subCat.name);
-            // console.log(subCategoryNames);
             if(!isCancelled){
                 adjustEquipment(prevState => {
                     return {
@@ -162,7 +159,7 @@ const EquipmentView = () => {
 
     const itemsList = equipment.itemsBySelectedCat ? equipment.itemsBySelectedCat.map((item, id) => {
         return <ListItem 
-                    onClick={() => handleClick('item', item)}
+                    onclick={() => handleClick('item', item)}
                     selected={equipment.itemSelected ? equipment.itemSelected.product : null}
                     category={item.product}
                     index={(id+1).toString()}

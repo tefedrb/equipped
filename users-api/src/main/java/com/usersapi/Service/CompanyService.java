@@ -14,4 +14,5 @@ public interface CompanyService {
     Company getCompanyById(Long id);
     Company findByUser();
     Company findByWaitListId(Long id);
+    HttpStatus deleteCompanyById2(Long companyId);
 }

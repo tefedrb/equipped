@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
@@ -65,6 +67,25 @@ public class CompanyServiceImpl implements CompanyService {
     public HttpStatus deleteCompanyById(Long companyId) {
         companyRepository.deleteById(companyId);
         return HttpStatus.OK;
+    }
+
+    @Override
+    public HttpStatus deleteCompanyById2(Long companyId){
+        try {
+            Company selectedCompany = companyRepository.findById(companyId).get();
+            List<User> allUsers = selectedCompany.getUsers();
+            for (User user : allUsers) {
+                user.setCompany(null);
+                userRepository.save(user);
+            }
+            selectedCompany.setUsers(null);
+            companyRepository.save(selectedCompany);
+            companyRepository.deleteById(companyId);
+            return HttpStatus.OK;
+        } catch (Exception e){
+            System.err.println("Error in deleteCompanyById2: " + e.getMessage());
+        }
+        return HttpStatus.FORBIDDEN;
     }
 
     @Override

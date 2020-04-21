@@ -6,6 +6,8 @@ import CompanyView from '../CompanyView/CompanyView';
 import InnerNav from '../InnerNav/InnerNav';
 import CheckJwt from '../../CheckJwt';
 import MainView from './MainView';
+import {UserConsumer} from '../UserContext';
+
 
 class Home extends Component {
   _isMounted = false;
@@ -19,8 +21,6 @@ class Home extends Component {
   }
  
   toggleCreateCompany = () => {
-    /* Might want to create a conditional here that checks
-     to see if the user already has a company?? */
     this.setState(prevState => ({
       showCreateCompMenu: !prevState.showCreateCompMenu
     }))
@@ -30,12 +30,7 @@ class Home extends Component {
     this._isMounted = true;
     console.log("Home mounted");
     if(localStorage.getItem('jwt')){
-      // this.props.setUserCompany();
-      // this.props.checkForWaitList();
       CheckJwt(localStorage.getItem('jwt'));
-      // GetEquipCategoryNames().then(res =>{
-      //   console.log(res, "<ress")
-      // })
     }
   }
 
@@ -67,32 +62,33 @@ class Home extends Component {
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
 
         <InnerNav />
+        <UserConsumer>
+          { context =>
+            <CreateCompanyMenu 
+              userContext={context}
+              toggleCreateCompany={this.toggleCreateCompany} 
+              showCreateCompMenu={this.state.showCreateCompMenu}
+              setUserCompany={this.props.setUserCompany}
+            />
+          }
+        </UserConsumer>
 
-        <CreateCompanyMenu 
-          toggleCreateCompany={this.toggleCreateCompany} 
-          showCreateCompMenu={this.state.showCreateCompMenu}
-          setUserCompany={this.props.setUserCompany}
+        <Route 
+          exact path="/home" 
+          render={() => 
+            <MainView
+              selectedCompany={this.state.selectedCompany}
+              toggleCreateCompany={this.toggleCreateCompany} 
+              showCreateCompMenu={this.state.showCreateCompMenu}
+              getCompanyInfo={this.getCompanyInfo}  
+            />
+          }
         />
 
-        <Route exact path="/home" render={() => 
-          <MainView 
-            waitListId={this.props.waitListId}
-            joinWaitList={this.props.joinWaitList}
-            userCompany={this.props.userCompany}
-            selectedCompany={this.state.selectedCompany}
-            toggleCreateCompany={this.toggleCreateCompany} 
-            showCreateCompMenu={this.state.showCreateCompMenu}
-            getCompanyInfo={this.getCompanyInfo}
-            logout={this.logOut}
-            userHasCompany={this.props.userCompany ? true : false}  
-          />
-        }/>
-
-        <Route path="/home/company" render={() => 
-          <CompanyView 
-            userCompany={this.props.userCompany}
-          />
-        }/>
+        <Route 
+          path="/home/company" 
+          render={() => <CompanyView />}
+        />
       </div>
     )
   }

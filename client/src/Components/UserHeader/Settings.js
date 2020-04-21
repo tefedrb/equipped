@@ -32,10 +32,10 @@ const Settings = (props) => {
     
     let userDisplay;
     if(props.user){
-        const {title, username} = props.user;
+        const {title, username, userCompany} = props.user;
 
-        const companyName = props.userCompany ? 
-            props.userCompany.name : null;
+        const companyName = userCompany ? 
+            userCompany.name : null;
 
         const waitListName =   
             props.companyName ? 

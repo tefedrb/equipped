@@ -21,21 +21,23 @@ const CompLink = (props) => {
         color: ${props.selectedLink === props.myName ? "white" : "#69cb42"};
         text-shadow: 2px 2px #000000;
     `
-    // props.userContext.refreshInventory(props.userContext.userCompany.id)
-    const clickFunc = (myName) => {
+
+    // Used to refresh company inventory
+    const inventoryRefresh = (myName) => {
         if(props.userContext && myName === "Inventory"){
-            console.log(props.userContext, "here")
-            if(props.userContext.state.userCompany){
-                return props.userContext.refreshInventory(props.userContext.state.userCompany.id);
-            }
+            const { id } = props.userContext.state.userCompany;
+            console.log(props.userContext)
+            console.log(id, "COMPANY ID");
+            console.log("REFRESH!!!!");
+            return props.userContext.refreshInventory(id);
         } else {
             return null;
         }
     }
-
+    
     return (
         <Button>
-            <NavLink onClick={() => clickFunc(props.myName)} style={{textDecoration: 'none'}} to={props.route}>
+            <NavLink onClick={() => inventoryRefresh(props.myName)} style={{textDecoration: 'none'}} to={props.route}>
                 <SectionLabel onClick={() => props.changeSelected(props.myName)}>{props.myName}</SectionLabel>
             </NavLink>
         </Button>

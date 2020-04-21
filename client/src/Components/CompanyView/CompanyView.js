@@ -48,25 +48,21 @@ class CompanyView extends Component{
     return (
       <>
         <UserConsumer>
-          {value => {
-            return <CompanyNav userContext={value} userCompany={this.props.userCompany} />
-          }}
-      
+          {context => <CompanyNav userContext={context} />}
         </UserConsumer>
         <CompanyViewContainer>
-          <Route path={"/home/company/equipment-view"} render={() => 
-            <EquipmentView />
-          }/>
-
-         
-          <Route path={"/home/company/inventory-view"} render={() => 
-            <UserConsumer>
-              {value => {
-                  return <InventoryView userContext={value.state}/>;
-                }
-              }
-            </UserConsumer>
-          } /> 
+          <Route 
+            path={"/home/company/equipment-view"} 
+            render={() => <EquipmentView />}
+          />
+          <Route 
+            path={"/home/company/inventory-view"} 
+            render={() => 
+              <UserConsumer>
+                {context => <InventoryView userContext={context.state}/>}
+              </UserConsumer>
+            } 
+          /> 
         </CompanyViewContainer>
       </>
     );

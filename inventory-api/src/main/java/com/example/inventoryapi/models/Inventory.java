@@ -21,8 +21,7 @@ public class Inventory {
     private String company_name;
 
     @JsonManagedReference
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Item> items;
 
     public void setId(Long id) {
@@ -60,6 +59,9 @@ public class Inventory {
         items.add(item);
     }
 
+    public void removeItemById(Long itemId){
+        this.items.removeIf(item -> (item.getId().equals(itemId)));
+    }
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
     }

@@ -55,6 +55,12 @@ public class CompanyController {
         return companyService.findByWaitListId(waitListId);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public HttpStatus deleteCompanyById(@PathVariable Long id){
+        return companyService.deleteCompanyById2(id);
+    }
+
+
     @GetMapping("/{company_id}")
     public Company getCompanyById(@PathVariable Long company_id){
         return companyService.getCompanyById(company_id);

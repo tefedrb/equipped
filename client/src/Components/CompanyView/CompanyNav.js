@@ -32,7 +32,8 @@ const CompanyName = styled.span`
 `
 
 const CompanyNav = (props) => {
-    const [selectedLink, changeSelected] = useState(props.userCompany ? props.userCompany.name : null);
+    const storageSelectedLink = localStorage.getItem("companyViewSelectedLink");
+    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : null);
     // Here we can iterate over a list of Li's
     const Li = styled.li`
         background-color: ${props.userCompany ? "none" : "black"};
@@ -50,7 +51,17 @@ const CompanyNav = (props) => {
     
     const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
 
-    const CompLinks = props.userCompany ? linkTypes.map((name, id) => {
+    const saveStateForRefresh = (name) => {
+        localStorage.setItem("companyViewSelectedLink", name);
+    }
+
+    const changeSelected2 = (name) => {
+        changeSelected(name);
+        saveStateForRefresh(name);
+    }
+
+    const { state } = props.userContext;
+    const CompLinks = state.userCompany ? linkTypes.map((name, id) => {
         return (
             <Li key={id}>
                 <CompLink
@@ -58,11 +69,11 @@ const CompanyNav = (props) => {
                     key={id}
                     myName={name}
                     selectedLink={selectedLink}
-                    changeSelected={changeSelected}
+                    changeSelected={changeSelected2}
                     route={routes[name] ? routes[name] : routes.default}
                 />
             </Li>
-            )
+        )
     }) : ""
 
     return (
@@ -71,13 +82,13 @@ const CompanyNav = (props) => {
                 <Li>
                     <CompanyName>Company:</CompanyName> 
                     {
-                        props.userCompany ? 
+                        state.userCompany ? 
                             <CompLink
                                 route={routes.default} 
                                 compName={true} 
-                                myName={props.userCompany.name} 
+                                myName={state.userCompany.name} 
                                 selectedLink={selectedLink} 
-                                changeSelected={changeSelected}
+                                changeSelected={changeSelected2}
                             /> 
                             : 
                             <Span>No Company</Span>
@@ -90,3 +101,5 @@ const CompanyNav = (props) => {
 }
 
 export default CompanyNav;
+
+

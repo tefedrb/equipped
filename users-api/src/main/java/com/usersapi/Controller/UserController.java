@@ -78,7 +78,7 @@ public class UserController {
 //        return ResponseEntity.ok(new JwtResponse(userService.login(user)));
 //    }
 //
-    @GetMapping("list-all")
+    @GetMapping("/list-all")
     public Iterable<User> listUsers(){
 //        for(User u: allUsers){
 //              u.getUserRole().setUsers(null);
@@ -88,13 +88,13 @@ public class UserController {
         return userService.listUsers();
     }
 
-    @DeleteMapping("/{userId}/")
-    public HttpStatus deleteUserById(@PathVariable long userId){
+    @DeleteMapping("/{userId}")
+    public HttpStatus deleteUserById(@PathVariable Long userId){
         return userService.deleteUserById(userId);
     }
 
     @PutMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable long userId, @RequestBody User userReq){
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User userReq){
         return userService.updateUser(userId, userReq);
     }
 
