@@ -9,4 +9,5 @@ public interface ItemService {
     // Here we will be communicating with our equipment-api (MONOLITHIC TESTING)
     ItemFromJson getItem(Long serial_num);
     HttpStatus deleteItem(Long itemId);
+    Item updateItemStatus(Item item);
 }

@@ -44,6 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         // Create a wait list as soon as a new company is created
         WaitList newWaitList = new WaitList();
+        newWaitList.setCompanyName(newCompany.getName());
         newCompany.addUsers(authUser);
         authUser.setCompany(newCompany);
         newCompany.setWaitList(newWaitList);

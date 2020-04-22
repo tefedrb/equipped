@@ -1,7 +1,28 @@
 // import React, {useState, useEffect, useRef} from 'react';
 import React from 'react';
 import styled from 'styled-components';
-import ListItem from '../EquipmentView/ListItem';
+import ListItem from '../ListItem';
+import InventoryItem from '../InventoryView/InventoryItem';
+
+const Wrapper = styled.section`
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: rgba(255,255,255,0.4);
+    margin: 3%;
+`
+const Inventory = styled.div`
+    display: grid;
+    overflow: auto;
+    padding: 2px;
+    max-height: 30em;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(0, 3em);
+`
+
+const NoItems = styled.div`
+    
+`
 
 class InventoryView extends React.Component{
     isCancelled = false;
@@ -54,6 +75,7 @@ class InventoryView extends React.Component{
    
     componentDidUpdate(prevProps){
         this.myRef.current.scrollTop = this.state.inventoryScroll
+        console.log(this.state)
         if(prevProps !== this.props){
 
             this.setCompanyInventory();
@@ -72,49 +94,41 @@ class InventoryView extends React.Component{
 
     render(){
         const {selectedItem, companyInventory, items} = this.state;
-        const Wrapper = styled.section`
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            background-color: rgba(255,255,255,0.4);
-            margin: 3%;
-        `
-        const Inventory = styled.div`
-            display: grid;
-            overflow: auto;
-            padding: 2px;
-            max-height: 30em;
-            grid-template-columns: 1fr;
-            grid-template-rows: repeat(0, 3em);
-        `
         /* 
             Make a hashTable like representation of the items for the list - key is name - value is array with
-             the id's of each instance of the item 
+            the id's of each instance of the item 
         */
-        const itemsList = companyInventory ? companyInventory.items.reduce((acc, item, id, array) => {
-            // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
-            if(!acc[0][item.product]){
-            acc[0][item.product] = true; 
-            acc.push(<ListItem 
-                handleClick={this.handleClick}
-                item={item}
-                selected={selectedItem ? selectedItem.product : null}
-                index={(id+1).toString()}
-                key={id}
-            />)
-            } 
-            if(array.length-1 === id){
-                acc.shift();
-            }
-            console.log(acc[0])
-            return acc;
-        },[{}]) : null;
+        
+        const itemsList = companyInventory && companyInventory.items.length > 0 ? 
+            companyInventory.items.reduce((acc, item, id, array) => {
+                // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
+                if(!acc[0][item.product]){
+                acc[0][item.product] = true; 
+                acc.push(
+                    <ListItem 
+                        handleClick={this.handleClick}
+                        item={item}
+                        selected={selectedItem ? selectedItem.product : null}
+                        index={(id+1).toString()}
+                        key={id}
+                    />
+                )
+                } 
+                if(array.length-1 === id){
+                    acc.shift();
+                }
+                console.log(acc[0])
+                return acc;
+            },[{}]) : null;
         
         return (
             <Wrapper>
                 <Inventory ref={this.myRef}>
                     {itemsList}
                 </Inventory>
+                <InventoryItem>
+
+                </InventoryItem>
             </Wrapper>
         );
     }

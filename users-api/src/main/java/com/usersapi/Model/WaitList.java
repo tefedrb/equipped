@@ -28,6 +28,17 @@ public class WaitList {
             CascadeType.MERGE, CascadeType.REFRESH})
     public List<User> users;
 
+    @Column(name= "company_name")
+    public String companyName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     public void setUsers(List<User> users){
         this.users = users;
     }

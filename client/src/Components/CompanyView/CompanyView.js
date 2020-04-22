@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
-import InventoryView from './EquipmentView/InventoryView';
+import InventoryView from '../CompanyView/InventoryView/InventoryView';
 import {UserConsumer} from '../UserContext';
 
 const CompanyViewContainer = styled.div`

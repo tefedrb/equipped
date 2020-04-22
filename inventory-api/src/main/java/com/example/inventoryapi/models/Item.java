@@ -41,6 +41,9 @@ public class Item {
     @Column(name = "subCategory")
     private String subCategory;
 
+    @Column(name = "itemUser")
+    private String itemUser;
+
     @JsonBackReference
     @OneToOne(cascade = {CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH})
@@ -58,7 +61,6 @@ public class Item {
                 String category,
                 String subCategory)
     {
-
         this.serial_id = serial_id;
         this.product = product;
         this.available = available;
@@ -67,6 +69,14 @@ public class Item {
         this.category = category;
         this.value = value;
         this.subCategory = subCategory;
+    }
+
+    public String getItemUser() {
+        return itemUser;
+    }
+
+    public void setItemUser(String user) {
+        this.itemUser = itemUser;
     }
 
     public String getProduct() {

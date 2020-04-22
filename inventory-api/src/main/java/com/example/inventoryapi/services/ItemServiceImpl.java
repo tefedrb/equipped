@@ -34,7 +34,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-//     METHOD SAVED FOR MONOLITHIC TESTING
+    // METHOD SAVED FOR MONOLITHIC TESTING
     @Override
     public ItemFromJson getItem(Long serial_num){
         try {
@@ -42,7 +42,20 @@ public class ItemServiceImpl implements ItemService {
             //This method produces GET request
             return itemRetrieval.run(serial_num);
         } catch (Exception e){
-            System.err.println(e.getMessage());
+            System.err.println("Error in getItem: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Item updateItemStatus(Item item){
+        try {
+            Item retrievedItem = itemRepository.findById(item.getId()).get();
+            retrievedItem.setItemUser(item.getItemUser());
+            retrievedItem.setAvailable(item.getAvailable());
+            return itemRepository.save(retrievedItem);
+        } catch(Exception e){
+            System.err.println("Error in updateItemStatus: " + e.getMessage());
             return null;
         }
     }

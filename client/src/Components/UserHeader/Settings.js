@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
+import UserDisplay from '../UserHeader/UserDisplay';
+import {UserConsumer} from '../UserContext';
 
 const Settings = (props) => {
-
+    const [userInfo, updateUserInfo] = useState({});
     const Cover = styled.div `
         display: ${props.display ? "flex" : "none"};
         position: absolute;
@@ -24,39 +26,19 @@ const Settings = (props) => {
         box-shadow: 5px 2px 10px black;
         z-index: 2;
     `
-    let flexBox = {
-        display: "flex",
-        flexDirection: "column",
-        height: "4em"
-    }
     
-    let userDisplay;
-    if(props.user){
-        const {title, username, userCompany} = props.user;
-
-        const companyName = userCompany ? 
-            userCompany.name : null;
-
-        const waitListName =   
-            props.companyName ? 
-            props.waitListCompany : "";
-
-        const compOrWaitList = props.waitListCompany ? "On Wait List: " : "Company: ";
+    useEffect(() => {
         
-        userDisplay =
-        <section style={flexBox}>
-            <div><span style={{color: "white"}}>Username: </span>{username}</div>
-            <div><span style={{color: "white"}}>Title: </span>{title}</div>
-            <div><span style={{color: "white"}}>{compOrWaitList} </span>{companyName ? companyName : waitListName}</div>
-        </section>;
-    } else {
-        userDisplay = <div></div>;
-    }
+    })
    
     return (
         <Cover onClick={() => props.toggleSettingsDisplay()}>
             <SettingsStyle onClick={e => e.stopPropagation()}>
-                {userDisplay}
+                <UserConsumer>
+                    {context =>
+                        <UserDisplay userContext={context} />
+                    }
+                </UserConsumer>
                 <section>
                     <button onClick={() => props.logout()}>LOGOUT</button>
                 </section>
