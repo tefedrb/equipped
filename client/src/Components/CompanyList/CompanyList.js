@@ -23,7 +23,7 @@ class CompanyList extends Component {
 
   populateList = async () => {
      await GetCompanyList().then(res => {
-      if(res.error === "Unauthorized"){
+      if(res.error && res.error === "Unauthorized"){
         this.props.logout();
       } else if(this._isMounted){
         this.setState({

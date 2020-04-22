@@ -7,7 +7,7 @@ const ListItem = (props) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: ${props.selected === props.category ? '#69cb42' : 'rgba(0,0,0,0.4)'};
+        background-color: ${props.selected === props.item.product ? '#69cb42' : 'rgba(0,0,0,0.4)'};
         border: 2px black solid;
         grid-column: 1 / 2;
         grid-row: ${props.index} / span 1;
@@ -20,22 +20,21 @@ const ListItem = (props) => {
         }
 
         &:hover {
-            background-color: ${props.selected === props.category ? '#69cb42' : 'rgba(0,0,0,0.6)'};
+            background-color: ${props.selected === props.item.product ? '#69cb42' : 'rgba(0,0,0,0.6)'};
             color: white;
         }
     `
     return (
-        <Category onClick={(e) => {
-                e.persist();
-                props.handleClick ? 
-                
-                props.handleClick(props.item.id, props.listCategory ? props.listCategory : null) :
-                e.preventDefault();
-                
-                props.listGen ? props.listGen() : 
-                e.preventDefault();
-            }}>
-            <span>{props.category}</span>
+        <Category onClick={() => {
+            if(props.handleClick){
+                props.handleClick(props.item, props.listCategory ? props.listCategory : null)
+            }
+            
+            if(props.listGen){
+                props.listGen()
+            }   
+        }}>
+            <span>{props.item.product}</span>
         </Category>
     )
 }

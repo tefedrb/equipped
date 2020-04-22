@@ -147,13 +147,14 @@ class EquipmentView extends React.Component {
                 ...prevState,
                 mainSelected: category === 'main' ? clicked : prevState.mainSelected,
                 subSelected: category === 'sub' || category === 'main' ? clicked : prevState.subSelected,
-                itemSelected: category === 'item' ? clicked : prevState.itemSelected
+                itemSelected: category === 'item' ? clicked : prevState.itemSelected,
+                listScroll: this.scrollRef.current.scrollTop
             }
         });
-        console.log(this.state, "< Equipment");
     }
 
     render(){
+        const {itemsBySelectedCat, subCategories, mainCategories, itemSelected, mainSelected, subSelected} = this.state;
         const Wrapper = styled.section`
             display: flex;
             justify-content: left;
@@ -167,32 +168,32 @@ class EquipmentView extends React.Component {
             padding: 2px;
             max-height: 30em;
             grid-template-columns: 1fr;
-            grid-template-rows: repeat(${this.state.mainCategories ? this.state.mainCategories.length : 0}, 3em);
+            grid-template-rows: repeat(${mainCategories ? mainCategories.length : 0}, 3em);
         `
         const SubCatContainer = styled(MainCatContainer)`
-            grid-template-rows: repeat(${this.state.subCategories ? this.state.subCategories.length : 0}, 3em);
+            grid-template-rows: repeat(${subCategories ? subCategories.length : 0}, 3em);
         `
 
         const ItemListContainer = styled(MainCatContainer)`
-            grid-template-rows: repeat(${this.state.itemsBySelectedCat ? this.state.itemsBySelectedCat.length : 0}, 3em);
+            grid-template-rows: repeat(${itemsBySelectedCat ? itemsBySelectedCat.length : 0}, 3em);
         `
-        const mainCategory = this.state.mainCategories ? this.state.mainCategories.map((categoryObj, id)=> {
-            const category = categoryObj.name;
+        const mainCategory = mainCategories ? mainCategories.map((categoryObj, id)=> {
+            const categoryName = categoryObj.name;
             return <CategoryItem 
-                        categoryListGen={() => this.getAllItemsByCategory(category)}
-                        onClick={() => this.handleClick('main', category)}
-                        selected={this.state.mainSelected}
+                        categoryListGen={() => this.getAllItemsByCategory(categoryName)}
+                        onClick={() => this.handleClick(categoryName, 'main')}
+                        selected={mainSelected}
                         clickFunc={() => this.getAllSubCategoryNames(categoryObj.id)}
-                        category={category} 
+                        category={categoryName} 
                         index={(id+1).toString()}
                         key={id}
                     />
         }) : null;
     
-        const subCategoryItems = this.state.subCategories ? this.state.subCategories.map((subCat, id ) => {
+        const subCategoryItems = subCategories ? subCategories.map((subCat, id ) => {
             return <SubCatItem 
-                        onClick={() => this.handleClick('sub', subCat.name)}
-                        selected={this.state.subSelected}
+                        onClick={() => this.handleClick(subCat.name, 'sub')}
+                        selected={subSelected}
                         // Swap this from equipment-api search to local search
                         subCategoryListGen={() => this.getAllItemsBySubCategory(subCat.id)}
                         category={subCat.name}
@@ -201,13 +202,12 @@ class EquipmentView extends React.Component {
                     />
         }) : null;
     
-        const itemsList = this.state.itemsBySelectedCat ? this.state.itemsBySelectedCat.map((item, id) => {
+        const itemsList = itemsBySelectedCat ? itemsBySelectedCat.map((item, id) => {
             return <ListItem 
                         handleClick={this.handleClick}
                         item={item}
                         listCategory={'item'}
-                        selected={this.state.itemSelected ? this.state.itemSelected.product : null}
-                        category={item.product}
+                        selected={itemSelected ? itemSelected.product : null}
                         index={(id+1).toString()}
                         key={id}
                     />
@@ -228,7 +228,7 @@ class EquipmentView extends React.Component {
                     { value => 
                         <ItemView 
                             id={"ItemView"} 
-                            itemSelected={this.state.itemSelected} 
+                            itemSelected={itemSelected} 
                             userContext={value.state} 
                         />
                     }
