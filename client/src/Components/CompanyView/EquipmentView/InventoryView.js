@@ -10,7 +10,9 @@ class InventoryView extends React.Component{
         this.myRef = React.createRef();
         this.state = { 
             companyInventory: null,
-            inventoryScroll: 0
+            inventoryScroll: 0,
+            selectedItem: null,
+            itemTable: null
         }
     }
 
@@ -29,11 +31,17 @@ class InventoryView extends React.Component{
     setCompanyInventory = () => {
         if(this.props.userContext){
         const { companyInventory } = this.props.userContext
+        const itemTable = companyInventory ? companyInventory.items.reduce((acc, item) => {
+            acc[item.product] ? 
+            acc[item.product].push(item.id) : acc[item.product] = [item.id];
+            return acc;
+        }, {}) : null;
             if(!this.isCancelled){
                 this.setState(prevState => {
                     return {
                         ...prevState,
-                        companyInventory: companyInventory
+                        companyInventory: companyInventory,
+                        itemTable: itemTable
                     }
                 })
             }
@@ -46,7 +54,6 @@ class InventoryView extends React.Component{
    
     componentDidUpdate(prevProps){
         this.myRef.current.scrollTop = this.state.inventoryScroll
-
         if(prevProps !== this.props){
 
             this.setCompanyInventory();
@@ -64,6 +71,7 @@ class InventoryView extends React.Component{
     }
 
     render(){
+        const {selectedItem, companyInventory, items} = this.state;
         const Wrapper = styled.section`
             display: flex;
             justify-content: left;
@@ -77,19 +85,31 @@ class InventoryView extends React.Component{
             padding: 2px;
             max-height: 30em;
             grid-template-columns: 1fr;
-            grid-template-rows: repeat(${this.state.items ? 1 : 0}, 3em);
+            grid-template-rows: repeat(0, 3em);
         `
-        const itemsList = this.state.companyInventory ? this.state.companyInventory.items.map((item, id) => {
-            return <ListItem 
-                        handleClick={this.handleClick}
-                        item={item}
-                        selected={this.state.itemSelected ? this.itemSelected : null}
-                        category={item.product}
-                        index={(id+1).toString()}
-                        key={id}
-                    />
-        }) : null;
-
+        /* 
+            Make a hashTable like representation of the items for the list - key is name - value is array with
+             the id's of each instance of the item 
+        */
+        const itemsList = companyInventory ? companyInventory.items.reduce((acc, item, id, array) => {
+            // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
+            if(!acc[0][item.product]){
+            acc[0][item.product] = true; 
+            acc.push(<ListItem 
+                handleClick={this.handleClick}
+                item={item}
+                selected={selectedItem ? selectedItem.product : null}
+                index={(id+1).toString()}
+                key={id}
+            />)
+            } 
+            if(array.length-1 === id){
+                acc.shift();
+            }
+            console.log(acc[0])
+            return acc;
+        },[{}]) : null;
+        
         return (
             <Wrapper>
                 <Inventory ref={this.myRef}>
