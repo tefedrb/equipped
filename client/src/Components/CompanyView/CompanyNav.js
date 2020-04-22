@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import CompLink from './CompLink';
 
@@ -33,7 +33,9 @@ const CompanyName = styled.span`
 
 const CompanyNav = (props) => {
     const storageSelectedLink = localStorage.getItem("companyViewSelectedLink");
-    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : null);
+    const { state } = props.userContext;
+    const { userCompany } = props.userContext.state;
+    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : userCompany ? userCompany.name : null);
     // Here we can iterate over a list of Li's
     const Li = styled.li`
         background-color: ${props.userCompany ? "none" : "black"};
@@ -60,7 +62,13 @@ const CompanyNav = (props) => {
         saveStateForRefresh(name);
     }
 
-    const { state } = props.userContext;
+    useEffect(() => {
+        if(userCompany){
+            changeSelected(userCompany.name);
+        }
+    },[userCompany])
+
+    
     const CompLinks = state.userCompany ? linkTypes.map((name, id) => {
         return (
             <Li key={id}>
