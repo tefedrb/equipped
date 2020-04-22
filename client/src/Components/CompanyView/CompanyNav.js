@@ -57,15 +57,14 @@ const CompanyNav = (props) => {
         localStorage.setItem("companyViewSelectedLink", name);
     }
 
-    const changeSelected2 = (name) => {
+    const changeSelectedOnClick = (name) => {
         changeSelected(name);
         saveStateForRefresh(name);
     }
 
     useEffect(() => {
-        if(userCompany){
-            changeSelected(userCompany.name);
-        }
+        const cache = localStorage.getItem("companyViewSelectedLink");
+        changeSelected(cache ? cache : userCompany.name);
     },[userCompany])
 
     
@@ -77,7 +76,7 @@ const CompanyNav = (props) => {
                     key={id}
                     myName={name}
                     selectedLink={selectedLink}
-                    changeSelected={changeSelected2}
+                    changeSelected={changeSelectedOnClick}
                     route={routes[name] ? routes[name] : routes.default}
                 />
             </Li>
@@ -85,7 +84,7 @@ const CompanyNav = (props) => {
     }) : ""
 
     return (
-        <Nav>
+        <Nav id={"company-nav"}>
             <Ul> 
                 <Li>
                     <CompanyName>Company:</CompanyName> 
@@ -96,7 +95,7 @@ const CompanyNav = (props) => {
                                 compName={true} 
                                 myName={state.userCompany.name} 
                                 selectedLink={selectedLink} 
-                                changeSelected={changeSelected2}
+                                changeSelected={changeSelectedOnClick}
                             /> 
                             : 
                             <Span>No Company</Span>

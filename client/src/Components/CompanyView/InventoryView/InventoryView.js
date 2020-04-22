@@ -19,9 +19,10 @@ const Inventory = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: repeat(0, 3em);
 `
-
 const NoItems = styled.div`
-    
+    flex-grow: 1;
+    padding: 100px;
+
 `
 
 class InventoryView extends React.Component{
@@ -117,16 +118,15 @@ class InventoryView extends React.Component{
                 if(array.length-1 === id){
                     acc.shift();
                 }
-                console.log(acc[0])
                 return acc;
-            },[{}]) : null;
+            },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
         
         return (
-            <Wrapper>
-                <Inventory ref={this.myRef}>
+            <Wrapper id={"inventory-wrap"}>
+                <Inventory id={"inventory"} ref={this.myRef}>
                     {itemsList}
                 </Inventory>
-                <InventoryItem>
+                <InventoryItem selectedItem={this.state.selectedItem}>
 
                 </InventoryItem>
             </Wrapper>
