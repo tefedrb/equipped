@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ListItem from '../ListItem';
 import InventoryItem from '../InventoryView/InventoryItem';
+import InventoryOverview from '../InventoryView/InventoryOverview';
 
 const Wrapper = styled.section`
     display: flex;
@@ -126,9 +127,14 @@ class InventoryView extends React.Component{
                 <Inventory id={"inventory"} ref={this.myRef}>
                     {itemsList}
                 </Inventory>
-                <InventoryItem selectedItem={this.state.selectedItem}>
-
-                </InventoryItem>
+                
+                <InventoryOverview>
+                    <Route path={`${match.path}/:itemId`}>
+                        <InventoryItem inventoryView={this.state}>
+                        
+                        </InventoryItem>
+                    </Route>
+                </InventoryOverview>
             </Wrapper>
         );
     }

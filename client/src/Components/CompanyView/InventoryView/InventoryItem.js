@@ -9,13 +9,18 @@ const InventoryItem = (props) => {
         justify-content: center;
         min-height: 10em;
         border-left: 1px solid black;
-        
     `
     // Product Name, picture, users associated,
+    console.log(props.selectedItem, "!!!!!!!!!!")
+    const {selectedItem, companyInventory} = props.inventoryView
+
+    const missingItemsMsg = companyInventory ? "" : 
+        <p>Use the Equipment section to find your equipment and build you inventory!</p>
+
     return(
         <ItemWrapper id={"item-wrap"}>
-            <img src={props.item ? props.item.product : ""}></img>
-            <p>Use the Equipment section to find your equipment and build you inventory!</p>
+            <img src={selectedItem ? selectedItem.image : ""}></img>
+            {missingItemsMsg}
         </ItemWrapper>
     )
 }
