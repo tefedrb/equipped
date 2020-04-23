@@ -16,6 +16,7 @@ const InventoryItem = (props) => {
         display: flex;
         align-items: center;
         flex-direction: column;
+        padding: .5em;
     `
     const Image = styled.img`
         width: 15vw;
@@ -26,6 +27,8 @@ const InventoryItem = (props) => {
     const missingItemsMsg = props.selectedItem ? "" : 
         <p>Use the Equipment section to find your equipment and build you inventory!</p>
 
+
+    
     const Detail = styled.p`
         margin: .2em;
         font-size: .9em;
@@ -33,9 +36,19 @@ const InventoryItem = (props) => {
     const color = {
         color: '#69cb42'
     }
+
+    // Should be able to find out how many items are taken out in InventoryView state
+    const numAvailable = props.itemTable.available.reduce((acc, cur) =>{
+        if(cur){
+            acc += 1;
+        }
+        return acc;
+    },0)
+    
     return(
         <ItemWrapper id={"item-wrap"}>
             <ProductInfo>
+                <p>{`Num Available: ${numAvailable}/${props.itemTable.iterations.length}`}</p>
                 <p>{selectedItem.available ? "Available" : "Not Available"}</p>
                 <button>Take Out</button>
                 <p>{selectedItem.available ? "" : `Out with: ${selectedItem.itemUser}`}</p>

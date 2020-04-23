@@ -54,10 +54,16 @@ class InventoryView extends React.Component{
         if(this.props.userContext){
         const { companyInventory } = this.props.userContext
         const itemTable = companyInventory ? companyInventory.items.reduce((acc, item) => {
-            acc[item.product] ? 
-            acc[item.product].push(item.id) : acc[item.product] = [item.id];
+            if(acc[item.product]){ 
+                acc[item.product].iterations.push(item.id)
+                acc[item.product].available.push(item.available)
+            }
+            else { 
+                acc[item.product] = {"iterations":[item.id], "available": [item.available]};
+            }
             return acc;
         }, {}) : null;
+
             if(!this.isCancelled){
                 this.setState(prevState => {
                     return {
@@ -108,6 +114,11 @@ class InventoryView extends React.Component{
                             selected={selectedItem ? selectedItem.product : null}
                             index={(id+1).toString()}
                             key={id}
+                            backgroundColor={
+                                this.state.itemTable[item.product]
+                                    .available
+                                    .find(bool => bool) ? null : "rgba(255,0,0,0.4)"
+                                }
                         />
                     </NoStyleLink>
                 )
@@ -125,10 +136,11 @@ class InventoryView extends React.Component{
                 </Inventory>
                     
                 <InventoryOverview>
-                    { companyInventory && <Route 
+                    { companyInventory && selectedItem && <Route 
                     path={`${this.props.match.path}/:itemId`} 
                     render={({match}) => 
-                            <InventoryItem 
+                            <InventoryItem
+                                itemTable={this.state.itemTable[selectedItem.product]} 
                                 selectedItem={
                                     companyInventory
                                     .items

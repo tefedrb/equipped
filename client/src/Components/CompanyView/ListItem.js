@@ -17,7 +17,7 @@ const ListItem = (props) => {
         color: black;
 
         &:active {
-            background-color: #69cb42;
+            background-color: ${props.backgroundColor ? props.backgroundColor : "#69cb42"};
         }
 
         &:hover {
