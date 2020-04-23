@@ -64,7 +64,7 @@ const CompanyNav = (props) => {
 
     useEffect(() => {
         const cache = localStorage.getItem("companyViewSelectedLink");
-        changeSelected(cache ? cache : userCompany.name);
+        changeSelected(cache ? cache : userCompany ? userCompany.name : null);
     },[userCompany])
 
     

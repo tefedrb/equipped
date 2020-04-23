@@ -14,6 +14,7 @@ const ListItem = (props) => {
         cursor: pointer;
         transition: all .2s linear;
         padding: 10px
+        color: black;
 
         &:active {
             background-color: #69cb42;

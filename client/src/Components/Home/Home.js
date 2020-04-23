@@ -94,7 +94,7 @@ class Home extends Component {
 
         <Route 
           path="/home/company" 
-          render={() => <CompanyView loaded={this.sectionLoaded} />}
+          render={({match}) => <CompanyView match={match} loaded={this.sectionLoaded} />}
         />
       </div>
     )

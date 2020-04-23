@@ -15,10 +15,6 @@ const CompanyViewContainer = styled.div`
   transition: all .1s ease-in-out;
   justify-content: center;
 `
-// Inventory. Equipment-list (seperate and fairly robust). 
-    // Users-list
-    // Wait-list (only for admins)
-    // Worry about implementing security for endpoints later
 class CompanyView extends Component{
   _isMounted = false;
   constructor(props){
@@ -46,6 +42,7 @@ class CompanyView extends Component{
   }
 
   render(){
+    console.log(this.props.match, 'MATCH IN COMPANY VIEW')
     return (
       <>
         <UserConsumer>
@@ -53,14 +50,14 @@ class CompanyView extends Component{
         </UserConsumer>
         <CompanyViewContainer>
           <Route 
-            path={"/home/company/equipment-view"} 
+            path={`${this.props.match.path}/equipment-view`} 
             render={() => <EquipmentView />}
           />
           <Route 
             path={"/home/company/inventory-view"} 
-            render={() => 
+            render={({match}) => 
               <UserConsumer>
-                {context => <InventoryView userContext={context.state}/>}
+                {context => <InventoryView match={match} userContext={context.state}/>}
               </UserConsumer>
             } 
           /> 
