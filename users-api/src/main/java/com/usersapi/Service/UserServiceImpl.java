@@ -53,9 +53,11 @@ public class UserServiceImpl implements UserService {
         UserRole userRole = userRoleService.getRole(newUser.getUserRole().getRoleType());
         newUser.setUserRole(userRole);
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-        if (userRepository.save(newUser) != null){
+        try{
             UserDetails userDetails = loadUserByUsername(newUser.getUsername());
             return jwtutil.generateToken(userDetails);
+        } catch (IllegalArgumentException e){
+            e.printStackTrace();
         }
         return null;
     }

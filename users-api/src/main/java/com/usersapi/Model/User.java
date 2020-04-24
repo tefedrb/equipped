@@ -1,8 +1,10 @@
 package com.usersapi.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -13,6 +15,7 @@ public class User {
     private Long id;
 
     @Column(name="username", unique = true, nullable = false)
+    @Length(min=3, max=15)
     private String username;
 
     @Column(name="title", nullable = false)
@@ -37,12 +40,34 @@ public class User {
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private WaitList waitList;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Post> posts;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
     public User() {}
 
     public User(Long id, String username, String title){
         this.id = id;
         this.username = username;
         this.title = title;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public void setWaitList(WaitList waitList){
