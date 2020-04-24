@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
-import InventoryView from './EquipmentView/InventoryView';
+import InventoryView from '../CompanyView/InventoryView/InventoryView';
 import {UserConsumer} from '../UserContext';
 
 const CompanyViewContainer = styled.div`
@@ -15,10 +15,6 @@ const CompanyViewContainer = styled.div`
   transition: all .1s ease-in-out;
   justify-content: center;
 `
-// Inventory. Equipment-list (seperate and fairly robust). 
-    // Users-list
-    // Wait-list (only for admins)
-    // Worry about implementing security for endpoints later
 class CompanyView extends Component{
   _isMounted = false;
   constructor(props){
@@ -53,14 +49,19 @@ class CompanyView extends Component{
         </UserConsumer>
         <CompanyViewContainer>
           <Route 
-            path={"/home/company/equipment-view"} 
+            path={`${this.props.match.path}/equipment-view`} 
             render={() => <EquipmentView />}
           />
           <Route 
             path={"/home/company/inventory-view"} 
-            render={() => 
+            render={({match}) => 
               <UserConsumer>
-                {context => <InventoryView userContext={context.state}/>}
+                {context => <InventoryView 
+                                match={match} 
+                                refreshInventory={context.refreshInventory} 
+                                userContext={context.state}
+                              />
+                }
               </UserConsumer>
             } 
           /> 

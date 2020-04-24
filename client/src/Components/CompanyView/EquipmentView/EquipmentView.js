@@ -8,7 +8,7 @@ import GetEquipBySubCategory from '../../FetchData/EquipmentApi/GetEquipBySubCat
 import GetAllItems from '../../FetchData/EquipmentApi/GetAllItems';
 import ItemView from '../EquipmentView/ItemView';
 import SubCatItem from '../EquipmentView/SubCatItem';
-import ListItem from '../EquipmentView/ListItem';
+import ListItem from '../ListItem';
 import {UserConsumer} from '../../UserContext';
 
 

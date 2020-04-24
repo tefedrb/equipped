@@ -6,10 +6,10 @@ function MainDisplay(props) {
   // const createMenuDisplayed = props.showCreateCompMenu ? "dull-area" : null;
   const companySelect = props.selectedCompany;
   let joinComp = "";
-  const {userCompany, waitListId} = props.userContext.state;
+  const {userCompany, waitList} = props.userContext.state;
 
   const Button = styled.button`
-    opacity: ${userCompany || waitListId ? ".5" : "1"};
+    opacity: ${userCompany || waitList ? ".5" : "1"};
     outline: none;
     height: auto;
     width: auto;
@@ -22,12 +22,12 @@ function MainDisplay(props) {
     transition: box-shadow .1s ease-in-out;
 
     &:hover {
-      ${userCompany || waitListId ? "" : "box-shadow: .5px .5px 2.5px #000000"};
-      ${userCompany || waitListId ? "" : "background-color: rgba(0,0,0,0.5);"};
+      ${userCompany || waitList ? "" : "box-shadow: .5px .5px 2.5px #000000"};
+      ${userCompany || waitList ? "" : "background-color: rgba(0,0,0,0.5);"};
     }
 
     &:active {
-      ${userCompany || waitListId ? "" : "background-color: #69cb42;"}
+      ${userCompany || waitList ? "" : "background-color: #69cb42;"}
     } 
   `
   // If the user has a WAITLIST# and the SELECTED COMPANY's waitlist
@@ -35,7 +35,7 @@ function MainDisplay(props) {
   
 
   if(companySelect){
-    if(waitListId !== companySelect.waitList.id){
+    if(waitList !== companySelect.waitList.id){
       joinComp = 
         <Button onClick={()=> props.userContext.joinWaitList(companySelect.id)}>
           Join Company
@@ -45,7 +45,7 @@ function MainDisplay(props) {
         <Button>
           Join Company
         </Button>;
-    } else if(waitListId === companySelect.waitList.id){
+    } else if(waitList === companySelect.waitList.id){
       joinComp = 
         <Button>
           On Wait List

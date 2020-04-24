@@ -36,7 +36,7 @@ class CompanyList extends Component {
   componentDidUpdate(prevProps){
     // This is here to update the list if user creates a new company
     // might want to just implement a refresh button to avoid unnecessary renders
-    if(prevProps.userHasCompany !== this.props.userHasCompany){
+    if(prevProps.userContext.state.userCompany !== this.props.userContext.state.userCompany){
       this.populateList();
     }
   }

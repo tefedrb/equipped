@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Settings from './Settings';
+import { UserConsumer } from '../UserContext';
 
 const Div = styled.div`
     display: flex;
@@ -24,21 +25,29 @@ class UserHeader extends Component {
         super(props);
         this.state = {
             userDisplay: false,
-            settingsDisplay: false,
-            waitListName: false,
-            companyName: false
+            settingsDisplay: false
         }
+    }
+    
+    componentDidMount(){
+        // if(this.props.userCompany){
+        //     this.setState({
+        //        companyName: this.props.userCompany.name 
+        //     })
+        // }
     }
 
     componentDidUpdate(prevProps){
-        if(prevProps.waitListId !== this.props.waitListId){
-            this.props.setWaitListCompanyName(this.props.waitListId);
-        }
-        if(prevProps.waitListCompany !== this.props.waitListCompany){
-            this.setState({
-                companyName: true
-            })
-        }
+        // if(prevProps.waitListCompany !== this.props.waitListCompany){
+        //     this.setState({
+        //         companyName: true
+        //     })
+        // }
+        // if(prevProps.userCompany != this.props.userCompany){
+        //     this.setState({
+        //         companyName: this.props.userCompany.name 
+        //      })
+        // }
     }
 
     toggleSettingsDisp = () => {
@@ -59,18 +68,13 @@ class UserHeader extends Component {
                     alt="settings-wheel"
                 /> 
             </Div>
-        ) 
+        )
         return (
             <header>
                 <img src="https://img.icons8.com/ios/50/000000/camera.png" alt="cam-icon"/>
                 <h1>Equipped</h1>
                 {this.props.user ? defaultView : null}
                 <Settings
-                    companyName={this.state.companyName}
-                    waitListCompany={this.props.waitListCompany}
-                    userCompany={this.props.userCompany} 
-                    logout={this.props.logout} 
-                    user={this.props.user} 
                     display={this.state.settingsDisplay} 
                     toggleSettingsDisplay={this.toggleSettingsDisp}
                 />

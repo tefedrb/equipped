@@ -2,9 +2,9 @@ package com.example.inventoryapi.controllers;
 
 import com.example.inventoryapi.models.Item;
 import com.example.inventoryapi.services.ItemService;
-import data.classes.ItemFromJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -30,6 +30,11 @@ public class ItemController {
 //            return null;
 //        }
 //    }
+
+    @PutMapping("/update-item")
+    public ResponseEntity<Item> addUser(@RequestBody Item item){
+        return ResponseEntity.ok(itemService.updateItemStatus(item));
+    }
 
     @DeleteMapping("/delete/{id}")
     public HttpStatus deleteItem(@PathVariable Long id){

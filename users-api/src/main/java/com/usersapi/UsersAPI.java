@@ -1,6 +1,7 @@
 package com.usersapi;
 
 import com.usersapi.Model.UserRole;
+import com.usersapi.Repository.UserRoleRepository;
 import com.usersapi.Service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +22,9 @@ public class UsersAPI {
 	@Autowired
 	UserRoleService userRoleService;
 
+	@Autowired
+	UserRoleRepository userRoleRepository;
+
 	@RequestMapping("/")
 	public String home(){
 		return "some users";
@@ -34,12 +38,14 @@ public class UsersAPI {
 	CommandLineRunner runner(){
 		return args -> {
 			try {
-				UserRole admin = new UserRole();
-				admin.setRoleType("ADMIN");
-				UserRole basic = new UserRole();
-				basic.setRoleType("BASIC");
-				userRoleService.createRole(basic);
-				userRoleService.createRole(admin);
+				if(!userRoleRepository.existsById((long)1)) {
+					UserRole admin = new UserRole();
+					admin.setRoleType("ADMIN");
+					UserRole basic = new UserRole();
+					basic.setRoleType("BASIC");
+					userRoleService.createRole(basic);
+					userRoleService.createRole(admin);
+				}
 			} catch(Exception e) {
 				System.out.println("Error! " + e.getMessage());
 			}

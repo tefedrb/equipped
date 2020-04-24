@@ -13,7 +13,6 @@ import GetInventory from './Components/FetchData/InventoryApi/GetInventory';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect
 } from 'react-router-dom';
 import {UserProvider} from './Components/UserContext';
 
@@ -25,8 +24,7 @@ class App extends Component {
       user: JSON.parse(localStorage.getItem('user')),
       userCompany: null,
       companyInventory: null,
-      waitListId: null,
-      waitListCompany: null,
+      waitList: null,
       userLoggedIn: false
     }
   }
@@ -73,7 +71,7 @@ class App extends Component {
             user: user,
             userCompany: userCompany.id ? userCompany : null,
             companyInventory: responses[3],
-            waitListId: responses[2].id
+            waitList: responses[2]
           })
         }
         console.log(responses, "< -!!!!!!!!!!!!!!!!!");
@@ -81,14 +79,6 @@ class App extends Component {
       .catch(err => {
         console.log("Error in login ", err);
       })
-  }
-
-  setWaitListCompanyName = async (id) => {
-    await GetCompanyByWaitList(id).then(res => {
-      this.setState({
-        waitListCompany: res.name
-      })
-    })
   }
 
   setUser = async () => {
@@ -126,7 +116,7 @@ class App extends Component {
     await GetWaitList(localStorage.getItem('jwt')).then(res => {
       if(res.id != null && this._isMounted){
         this.setState({
-          waitListId: res.id
+          waitList: {id: res.id, name: res.companyName}
         });
       }
     })
@@ -145,8 +135,8 @@ class App extends Component {
     localStorage.setItem('userCompany', JSON.stringify(userCompany));
 
     this.setState({
-        userCompany: userCompany
-      })
+      userCompany: userCompany
+    })
   }
 
   refreshInventory = async (company_id) => {
@@ -179,9 +169,7 @@ class App extends Component {
                 userCompany={this.state.userCompany}
                 logout={this.logOut} 
                 user={this.state.user}
-                setWaitListCompanyName={this.setWaitListCompanyName}
-                waitListCompany={this.state.waitListCompany}
-                waitListId={this.state.waitListId}
+                waitList={this.state.waitList}
               />
               <Route 
                 exact path="/" 
