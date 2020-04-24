@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import UserDisplay from '../UserHeader/UserDisplay';
 import {UserConsumer} from '../UserContext';
 
 const Settings = (props) => {
-    const [userInfo, updateUserInfo] = useState({});
     const Cover = styled.div `
         display: ${props.display ? "flex" : "none"};
         position: absolute;
@@ -26,11 +25,6 @@ const Settings = (props) => {
         box-shadow: 5px 2px 10px black;
         z-index: 2;
     `
-    
-    useEffect(() => {
-        
-    })
-   
     return (
         <Cover onClick={() => props.toggleSettingsDisplay()}>
             <SettingsStyle onClick={e => e.stopPropagation()}>

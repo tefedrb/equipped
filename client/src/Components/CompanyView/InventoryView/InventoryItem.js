@@ -25,9 +25,6 @@ const InventoryItem = (props) => {
     const {selectedItem, userName} = props;
     console.log(selectedItem, userName, 'SELECTED');
 
-    const missingItemsMsg = props.selectedItem ? "" : 
-        <p>Use the Equipment section to find your equipment and build you inventory!</p>
-
     const Detail = styled.p`
         margin: .2em;
         font-size: .9em;
@@ -36,7 +33,6 @@ const InventoryItem = (props) => {
         color: '#69cb42',
     }
 
-    // Should be able to find out how many items are taken out in InventoryView state
     const numAvailable = props.itemTable.available.reduce((acc, cur) =>{
         if(cur){
             acc += 1;
@@ -45,12 +41,8 @@ const InventoryItem = (props) => {
     },0)
     
     const reserveButton = (() => {
-        // Grab itemTable, iterate over available, find the index where there is a true value, use that index
-        // Number to set the button - with the proper item id passed into the reserveItem function
         const nextAvailable = props.itemTable.available.findIndex(bool => bool);
-        console.log(nextAvailable, "!!!!!")
         let output;
-        
         if(nextAvailable >= 0){
             const itemId = props.itemTable.iterations[nextAvailable];
             output = <button onClick={() => props.reserveItem(userName, false, itemId)}>Take Out</button>

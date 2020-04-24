@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Settings from './Settings';
-import { UserConsumer } from '../UserContext';
 
 const Div = styled.div`
     display: flex;
@@ -75,6 +74,7 @@ class UserHeader extends Component {
                 <h1>Equipped</h1>
                 {this.props.user ? defaultView : null}
                 <Settings
+                    logout={this.props.logout}
                     display={this.state.settingsDisplay} 
                     toggleSettingsDisplay={this.toggleSettingsDisp}
                 />

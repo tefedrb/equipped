@@ -24,7 +24,7 @@ const Inventory = styled.div`
 `
 const NoItems = styled.div`
     flex-grow: 1;
-    padding: 100px;
+    padding: 3em;
 
 `
 const NoStyleLink = styled(Link)`
@@ -32,6 +32,14 @@ const NoStyleLink = styled(Link)`
     &:focus, &hover, &:visited, &:link, &:active{
         text-decoration: none;
     }
+`
+
+const NoItemsMsg = styled.p`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 2px solid black;
+    height: 4em;
 `
 
 class InventoryView extends React.Component{
@@ -109,7 +117,7 @@ class InventoryView extends React.Component{
             companyInventory.items.reduce((acc, item, id, array) => {
                 // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
                 if(!acc[0][item.product]){
-                acc[0][item.product] = true; 
+                acc[0][item.product] = true;
                 acc.push(
                     <NoStyleLink key={id} to={`${this.props.match.path}/${item.id}`}>
                         <ListItem 
@@ -139,20 +147,23 @@ class InventoryView extends React.Component{
                 </Inventory>
                     
                 <InventoryOverview>
-                    { companyInventory && selectedItem && <Route 
-                    path={`${this.props.match.path}/:itemId`} 
-                    render={({match}) => 
-                            <InventoryItem
-                                reserveItem={this.reserveItem}
-                                userName={this.props.userContext.user.username}
-                                itemTable={this.state.itemTable[selectedItem.product]} 
-                                selectedItem={
-                                    companyInventory
-                                    .items
-                                    .find(item => match.params.itemId === item.id.toString())}
-                            />
-                        } 
-                    />}
+                    { companyInventory && selectedItem ?
+                        <Route 
+                            path={`${this.props.match.path}/:itemId`} 
+                            render={({match}) => 
+                                    <InventoryItem
+                                        reserveItem={this.reserveItem}
+                                        userName={this.props.userContext.user.username}
+                                        itemTable={this.state.itemTable[selectedItem.product]} 
+                                        selectedItem={
+                                            companyInventory
+                                            .items
+                                            .find(item => match.params.itemId === item.id.toString())}
+                                    />
+                                } 
+                        /> : <NoItemsMsg>Use the Equipment section to find your equipment and build you inventory!</NoItemsMsg>
+                    
+                    }
                 </InventoryOverview>
             </Wrapper>
         );

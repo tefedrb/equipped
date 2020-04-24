@@ -7,7 +7,6 @@ import Footer from './Components/Footer';
 import GetUser from './Components/FetchData/GetUser';
 import GetUserCompany from './Components/FetchData/GetUserCompany';
 import GetWaitList from './Components/FetchData/GetWaitList';
-import GetCompanyByWaitList from './Components/FetchData/GetCompanyByWaitList';
 import JoinWaitList from './Components/FetchData/JoinWaitList';
 import GetInventory from './Components/FetchData/InventoryApi/GetInventory';
 import {

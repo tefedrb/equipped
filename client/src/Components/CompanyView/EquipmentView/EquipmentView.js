@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import CategoryItem from './CategoryItem';
 import GetAllItemsByCategory from '../../FetchData/EquipmentApi/GetEuipmentByCategory';

@@ -83,6 +83,7 @@ class Home extends Component {
           exact path="/home" 
           render={() => 
             <MainView
+              loadedState={this.state.sectionLoaded}
               loaded={this.sectionLoaded}
               selectedCompany={this.state.selectedCompany}
               toggleCreateCompany={this.toggleCreateCompany} 
