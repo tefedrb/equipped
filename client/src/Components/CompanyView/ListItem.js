@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
 
 const ListItem = (props) => {
+    
     const Category = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: ${props.selected === props.item.product ? '#69cb42' : 'rgba(0,0,0,0.4)'};
+        background-color: ${props.selected === props.item.product ? '#69cb42' : props.backgroundColor ? props.backgroundColor : 'rgba(0,0,0,0.4)'};
         border: 2px black solid;
         grid-column: 1 / 2;
         grid-row: ${props.index} / span 1;
@@ -17,7 +18,7 @@ const ListItem = (props) => {
         color: black;
 
         &:active {
-            background-color: ${props.backgroundColor ? props.backgroundColor : "#69cb42"};
+            background-color: "#69cb42";
         }
 
         &:hover {
@@ -25,6 +26,8 @@ const ListItem = (props) => {
             color: white;
         }
     `
+    useEffect(() => {}, [props]);
+
     return (
         <Category onClick={() => {
             if(props.handleClick){

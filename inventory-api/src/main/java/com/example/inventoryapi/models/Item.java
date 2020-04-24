@@ -75,7 +75,7 @@ public class Item {
         return itemUser;
     }
 
-    public void setItemUser(String user) {
+    public void setItemUser(String itemUser) {
         this.itemUser = itemUser;
     }
 

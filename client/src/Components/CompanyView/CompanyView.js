@@ -42,7 +42,6 @@ class CompanyView extends Component{
   }
 
   render(){
-    console.log(this.props.match, 'MATCH IN COMPANY VIEW')
     return (
       <>
         <UserConsumer>
@@ -57,7 +56,12 @@ class CompanyView extends Component{
             path={"/home/company/inventory-view"} 
             render={({match}) => 
               <UserConsumer>
-                {context => <InventoryView match={match} userContext={context.state}/>}
+                {context => <InventoryView 
+                                match={match} 
+                                refreshInventory={context.refreshInventory} 
+                                userContext={context.state}
+                              />
+                }
               </UserConsumer>
             } 
           /> 

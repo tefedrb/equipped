@@ -5,6 +5,7 @@ import ListItem from '../ListItem';
 import {Route, Link} from 'react-router-dom';
 import InventoryItem from '../InventoryView/InventoryItem';
 import InventoryOverview from '../InventoryView/InventoryOverview';
+import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
 
 const Wrapper = styled.section`
     display: flex;
@@ -53,7 +54,7 @@ class InventoryView extends React.Component{
     setCompanyInventory = () => {
         if(this.props.userContext){
         const { companyInventory } = this.props.userContext
-        const itemTable = companyInventory ? companyInventory.items.reduce((acc, item) => {
+        const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((acc, item) => {
             if(acc[item.product]){ 
                 acc[item.product].iterations.push(item.id)
                 acc[item.product].available.push(item.available)
@@ -82,11 +83,14 @@ class InventoryView extends React.Component{
    
     componentDidUpdate(prevProps){
         this.myRef.current.scrollTop = this.state.inventoryScroll
-        console.log("inventoryview update")
         if(prevProps !== this.props){
-
             this.setCompanyInventory();
         }
+    }
+
+    reserveItem = async (user, availability, id) => {
+        await PutUpdateItem(user, availability, id);
+        await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
     handleClick = (id) => {
@@ -128,7 +132,6 @@ class InventoryView extends React.Component{
                 }
                 return acc;
             },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
-        
         return (
             <Wrapper id={"inventory-wrap"}>
                 <Inventory id={"inventory"} ref={this.myRef}>
@@ -140,6 +143,8 @@ class InventoryView extends React.Component{
                     path={`${this.props.match.path}/:itemId`} 
                     render={({match}) => 
                             <InventoryItem
+                                reserveItem={this.reserveItem}
+                                userName={this.props.userContext.user.username}
                                 itemTable={this.state.itemTable[selectedItem.product]} 
                                 selectedItem={
                                     companyInventory

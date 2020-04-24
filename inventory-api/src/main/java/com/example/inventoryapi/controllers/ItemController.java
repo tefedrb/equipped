@@ -2,7 +2,6 @@ package com.example.inventoryapi.controllers;
 
 import com.example.inventoryapi.models.Item;
 import com.example.inventoryapi.services.ItemService;
-import data.classes.ItemFromJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
