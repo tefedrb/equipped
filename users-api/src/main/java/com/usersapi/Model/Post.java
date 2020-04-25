@@ -1,5 +1,8 @@
 package com.usersapi.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -16,16 +19,29 @@ public class Post {
     @Column(name="post_title", nullable = false)
     private String title;
 
+    @Column(name="post_username")
+    private String post_username;
+
     @Length(min=2, max=40000)
     @Column(name="post_txt")
     private String post_txt;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private User user;
+
+    public void setPost_username(String user_name) {
+        this.post_username = user_name;
+    }
+
+    public String getPost_username() {
+        return post_username;
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -43,19 +59,19 @@ public class Post {
         return id;
     }
 
-    public void setComment(List<Comment> comment) {
+    public void setComments(List<Comment> comment) {
         this.comments = comment;
     }
 
-    public List<Comment> getComment() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public String getPost() {
+    public String getPost_txt() {
         return post_txt;
     }
 
-    public void setPost(String post_txt) {
+    public void setPost_txt(String post_txt) {
         this.post_txt = post_txt;
     }
 

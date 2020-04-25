@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -64,6 +65,13 @@ public class User {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public void addPost(Post post){
+        if(posts == null){
+            posts = new ArrayList<>();
+        }
+        posts.add(post);
     }
 
     public void setPosts(List<Post> posts) {
