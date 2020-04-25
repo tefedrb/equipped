@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -56,5 +58,10 @@ public class PostServiceImpl implements PostService {
         } else {
             return HttpStatus.FORBIDDEN;
         }
+    }
+
+    @Override
+    public List<Post> listAllPosts(){
+        return (List<Post>) postRepository.findAll();
     }
 }

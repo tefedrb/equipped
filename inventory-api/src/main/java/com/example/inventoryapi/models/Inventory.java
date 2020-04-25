@@ -24,6 +24,24 @@ public class Inventory {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Item> items;
 
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<ItemHistory> itemHistories;
+
+    public List<ItemHistory> getItemHistories() {
+        return itemHistories;
+    }
+
+    public void setItemHistories(List<ItemHistory> itemHistories) {
+        this.itemHistories = itemHistories;
+    }
+
+    public void addToHistory(ItemHistory history){
+        if(itemHistories == null){
+            this.itemHistories = new ArrayList<>();
+        }
+        this.itemHistories.add(history);
+    }
+
     public void setId(Long id) {
         this.inventory_id = id;
     }

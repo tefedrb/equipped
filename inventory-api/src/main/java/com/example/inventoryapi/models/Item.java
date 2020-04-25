@@ -1,7 +1,10 @@
 package com.example.inventoryapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "items")
@@ -50,6 +53,10 @@ public class Item {
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
 
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<ItemHistory> itemHistories;
+
     public Item(){}
 
     public Item(Long serial_id,
@@ -69,6 +76,14 @@ public class Item {
         this.category = category;
         this.value = value;
         this.subCategory = subCategory;
+    }
+
+    public List<ItemHistory> getItemHistories() {
+        return itemHistories;
+    }
+
+    public void setItemHistories(List<ItemHistory> itemHistories) {
+        this.itemHistories = itemHistories;
     }
 
     public String getItemUser() {
