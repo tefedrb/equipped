@@ -27,7 +27,8 @@ class InnerNav extends Component {
     }
 
     componentDidUpdate(){
-        if(this.props.loaded != this.state.activeLink){
+        if(this.props.loaded !== this.state.activeLink){
+            console.log("eh")
             this.activateLink(this.props.loaded);
         }
     }

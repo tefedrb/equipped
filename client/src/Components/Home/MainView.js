@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {Route} from 'react-router-dom';
 import MainDisplay from '../MainDisplay';
@@ -13,8 +13,8 @@ const Main = styled.main`
 const MainView = (props) => {
 
     useEffect(() => {
-        props.loaded("Main")
-    },[true])
+        props.loaded("Main");
+    },[props.loadedState])
 
     return (
         <UserConsumer>

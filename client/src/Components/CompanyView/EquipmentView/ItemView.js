@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PostItemToInventory from '../../FetchData/InventoryApi/PostItemToInventory';
 
@@ -25,7 +25,7 @@ const ItemView = (props) => {
            <p>{item && item.product ? item.product : ""}</p>
            <p>{item && item.subCategory ? "Sub-Category: " + item.subCategory.name : ""}</p>
            <p>{item && item.value ? "Value: $" + item.value : ""}</p>
-           <a target="_blank" href={item && item.prodLink ? item.prodLink : ""}>Product Link</a>
+           <a href={item && item.prodLink ? item.prodLink : ""}>Product Link</a>
        </ItemWrapper>
     )
 }

@@ -51,7 +51,6 @@ public class UserController {
         String jwt = jwtObj.getJwt();
         response.setJwt(jwt);
         // Check if expired, if not set date provided by jwtUtil...
-        System.out.println(jwt + " <--- JWT HERE!!!");
         try {
             if(!jwtUtil.isTokenExpired(jwt)){
                 response.setDate(jwtUtil.getExpirationDateFromToken(jwt));

@@ -58,12 +58,20 @@ class CreateCompanyMenu extends Component{
             method: 'post',
             headers: myHeaders,
             body: JSON.stringify({
-              name: this.state.name,
-              password: this.state.password,
-              type: this.state.type
+            name: this.state.name,
+            password: this.state.password,
+            type: this.state.type
             })
         })
-        .then(res => res.json())
+        .then(res => {
+                if(res.status === 500){
+                    alert("Company name already exists!")
+                    return
+                } else {
+                    return res.json()
+                }
+            }
+        )
         .then(res => {
             console.log(res);
             this.props.toggleCreateCompany();
