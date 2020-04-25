@@ -2,8 +2,10 @@ package com.example.inventoryapi.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,7 +55,8 @@ public class Item {
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
 
-    @JsonIgnore
+    // jsonIgnore was here
+    @JsonManagedReference(value = "item-itemHistories")
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<ItemHistory> itemHistories;
 
@@ -84,6 +87,13 @@ public class Item {
 
     public void setItemHistories(List<ItemHistory> itemHistories) {
         this.itemHistories = itemHistories;
+    }
+
+    public void addToItemHistories(ItemHistory history){
+        if(this.itemHistories == null){
+            this.itemHistories = new ArrayList<>();
+        }
+        this.itemHistories.add(history);
     }
 
     public String getItemUser() {

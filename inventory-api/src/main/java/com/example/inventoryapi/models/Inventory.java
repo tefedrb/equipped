@@ -24,6 +24,7 @@ public class Inventory {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Item> items;
 
+    @JsonManagedReference(value = "inventory-histories")
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<ItemHistory> itemHistories;
 

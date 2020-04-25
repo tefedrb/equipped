@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
 const FlexWrap = styled.section `
@@ -22,7 +22,7 @@ const UserDisplay = (props) => {
                 <span style={{color: "white"}}>
                     {waitList && waitList.id ? "On Wait List: " : "Company: "}
                 </span>
-                {userCompany && (waitList.id === null) ? userCompany.name : waitList ? waitList.name : ""}
+                {userCompany && (waitList && waitList.id === null) ? userCompany.name : waitList ? waitList.name : ""}
             </div>
         </FlexWrap>
     )

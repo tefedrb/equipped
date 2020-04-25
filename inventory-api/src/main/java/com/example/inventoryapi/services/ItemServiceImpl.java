@@ -74,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
                     // Adding item return date
                     ItemHistory itemHistory = itemHistoryRepository
                             .findItemHistoryByUsernameAndId(username, retrievedItem.getId());
-                    itemHistory.setReturn_date(new Date());
+                    itemHistoryService.updateHistory(itemHistory.getId());
                 }
                 retrievedItem.setItemUser(username);
                 retrievedItem.setAvailable(item.getAvailable());

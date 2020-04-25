@@ -1,5 +1,6 @@
 package com.example.inventoryapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,11 +22,13 @@ public class ItemHistory {
     @Column(name = "return_date")
     private Date return_date;
 
+    @JsonBackReference(value = "item-itemHistories")
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
     private Item item;
 
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference(value = "inventory-histories")
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
     private Inventory inventory;
