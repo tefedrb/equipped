@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const FlexWrap = styled.section `
@@ -8,8 +8,7 @@ const FlexWrap = styled.section `
 `
 
 const UserDisplay = (props) => {
-
-    const {user, userCompany, waitList} = props.userContext.state
+    const {user, userCompany, waitList} = props.userContext.state;
     return (
         <FlexWrap>
             <div>
@@ -22,7 +21,7 @@ const UserDisplay = (props) => {
                 <span style={{color: "white"}}>
                     {waitList && waitList.id ? "On Wait List: " : "Company: "}
                 </span>
-                {userCompany && (waitList && waitList.id === null) ? userCompany.name : waitList ? waitList.name : ""}
+                {userCompany && userCompany.id ? userCompany.name : waitList ? waitList.name : ""}
             </div>
         </FlexWrap>
     )

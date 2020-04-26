@@ -3,9 +3,11 @@ import React from 'react';
 import styled from 'styled-components';
 import ListItem from '../ListItem';
 import {Route, Link} from 'react-router-dom';
-import InventoryItem from '../InventoryView/InventoryItem';
-import InventoryOverview from '../InventoryView/InventoryOverview';
+import InventoryItem from './InventoryItem';
+import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
+import {UserConsumer} from '../../UserContext';
+import History from './History';
 
 const Wrapper = styled.section`
     display: flex;
@@ -17,7 +19,7 @@ const Wrapper = styled.section`
 const Inventory = styled.div`
     display: grid;
     overflow: auto;
-    padding: 2px;
+    padding: 1em;
     max-height: 30em;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(0, 3em);
@@ -25,7 +27,6 @@ const Inventory = styled.div`
 const NoItems = styled.div`
     flex-grow: 1;
     padding: 3em;
-
 `
 const NoStyleLink = styled(Link)`
     text-decoration: none;
@@ -38,8 +39,14 @@ const NoItemsMsg = styled.p`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 2px solid black;
     height: 4em;
+`
+
+const Stats = styled.div`
+    flex-grow: 1;
+    align-items: center;
+    flex-direction: column;
+    padding: .2em;
 `
 
 class InventoryView extends React.Component{
@@ -145,6 +152,12 @@ class InventoryView extends React.Component{
                 <Inventory id={"inventory"} ref={this.myRef}>
                     {itemsList}
                 </Inventory>
+
+                <UserConsumer>
+                    { context => 
+                        <History userContext={context} />
+                    }
+                </UserConsumer>
                     
                 <InventoryOverview>
                     { companyInventory && selectedItem ?

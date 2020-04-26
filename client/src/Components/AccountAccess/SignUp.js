@@ -32,6 +32,7 @@ class SignUp extends Component {
     })
     .then(res => res.json())
     .then(res => {
+      console.log("here.... in handle submit")
         if(!res.token){
           console.log(res)
           alert("Looks like someone already has that username");

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ItemHistoryServiceImpl implements ItemHistoryService{
@@ -30,12 +31,10 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
         if(itemRepository.findById(item.getId()).isPresent()){
             Item retrieveItem = itemRepository.findById(item.getId()).get();
             retrieveItem.addToItemHistories(history);
-            itemRepository.save(retrieveItem);
         }
         if(inventoryRepository.findById(inventory.getId()).isPresent()){
             Inventory retrieveInventory = inventoryRepository.findById(inventory.getId()).get();
             retrieveInventory.addToHistory(history);
-            inventoryRepository.save(retrieveInventory);
         }
 
         return itemHistoryRepository.save(history);
@@ -53,5 +52,14 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
        }
     }
 
+    @Override
+    public List<ItemHistory> getHistoryByInventoryId(Long id){
+        try {
+            return itemHistoryRepository.getHistoryByInventoryId(id);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
 }
