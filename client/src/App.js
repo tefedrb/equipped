@@ -94,21 +94,22 @@ class App extends Component {
   }
 
   setUserCompany = async () => {
-    await GetUserCompany(localStorage.getItem('jwt'), GetInventory).then(res => {
-      console.log("In Set User Company")
-        const userCompany = {...res};
+    const userCompany = await GetUserCompany(localStorage.getItem('jwt'))
+    if(userCompany.id != null && this._isMounted){
+    const inventory = await GetInventory(userCompany.id)
         delete userCompany.password;
         delete userCompany.users;
         delete userCompany.waitList;
         localStorage.setItem('userCompany', JSON.stringify(userCompany));
-      if(res.id != null && this._isMounted){
-        console.log(userCompany, "<in setUserCompany")
-        this.setState({
-          userLoggedIn: true,
-          userCompany: userCompany
+        this.setState(prevState => {
+          return {
+              ...prevState,
+            companyInventory: inventory,
+            userLoggedIn: true,
+            userCompany: userCompany
+          }
         });
       }
-    })
   }
 
   checkForWaitList = async () => {

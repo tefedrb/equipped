@@ -8,7 +8,6 @@ const InventoryItem = (props) => {
         align-items: center;
         justify-content: center;
         min-height: 10em;
-        border-left: ${props.selectedItem ? null : "1px solid black"};
         background-color: white;
     `
     const ProductInfo = styled.section`

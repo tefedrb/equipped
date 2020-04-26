@@ -25,6 +25,7 @@ const Settings = (props) => {
         box-shadow: 5px 2px 10px black;
         z-index: 2;
     `
+
     return (
         <Cover onClick={() => props.toggleSettingsDisplay()}>
             <SettingsStyle onClick={e => e.stopPropagation()}>
