@@ -39,7 +39,6 @@ public class InventoryServiceImpl implements InventoryService {
 //            ItemRetrieval requestedItem = new ItemRetrieval();
 //            ItemFromJson itemJ = requestedItem.run(item_serial_id);
             ItemFromJson requestedItem = itemServiceFeign.getItemBySerial(item_serial_id);
-            System.out.println(requestedItem + " < REQUESTED ITEM!");
             // This doesn't seem like it follows DRY principles.
             // there should be a way to create an item within our ItemRetrieval instead
             // of a ItemFromJson
