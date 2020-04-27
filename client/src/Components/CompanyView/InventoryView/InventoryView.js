@@ -103,8 +103,13 @@ class InventoryView extends React.Component{
         }
     }
 
-    reserveItem = async (user, availability, id) => {
-        await PutUpdateItem(user, availability, id);
+    reserveItem = async (user, id) => {
+        await PutUpdateItem(user, false, id);
+        await this.props.refreshInventory(this.props.userContext.userCompany.id);
+    }
+
+    returnItem = async (user, id) => {
+        await PutUpdateItem(user, true, id);
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
@@ -119,7 +124,7 @@ class InventoryView extends React.Component{
     }
 
     render(){
-        const {selectedItem, companyInventory} = this.state;
+        const {selectedItem, companyInventory, user} = this.state;
         const itemsList = companyInventory && companyInventory.items.length > 0 ? 
             companyInventory.items.reduce((acc, item, id, array) => {
                 // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
@@ -147,6 +152,7 @@ class InventoryView extends React.Component{
                 }
                 return acc;
             },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
+
         return (
             <Wrapper id={"inventory-wrap"}>
                 <Inventory id={"inventory"} ref={this.myRef}>
@@ -166,7 +172,8 @@ class InventoryView extends React.Component{
                             render={({match}) => 
                                     <InventoryItem
                                         reserveItem={this.reserveItem}
-                                        userName={this.props.userContext.user.username}
+                                        returnItem={this.returnItem}
+                                        userName={user.username}
                                         itemTable={this.state.itemTable[selectedItem.product]} 
                                         selectedItem={
                                             companyInventory

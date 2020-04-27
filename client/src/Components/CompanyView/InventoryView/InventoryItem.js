@@ -21,7 +21,7 @@ const InventoryItem = (props) => {
         width: 15vw;
     `
     // Product Name, picture, users associated,
-    const {selectedItem, userName} = props;
+    const {selectedItem, userName, itemTable} = props;
     console.log(selectedItem, userName, 'SELECTED');
 
     const Detail = styled.p`
@@ -39,14 +39,20 @@ const InventoryItem = (props) => {
         return acc;
     },0)
     
-    const reserveButton = (() => {
-        const nextAvailable = props.itemTable.available.findIndex(bool => bool);
+    const reservervationButton = (() => {
+        const nextAvailable = itemTable.available.findIndex(bool => bool);
+        const itemId = itemTable.iterations[nextAvailable];
         let output;
         if(nextAvailable >= 0){
-            const itemId = props.itemTable.iterations[nextAvailable];
-            output = <button onClick={() => props.reserveItem(userName, false, itemId)}>Take Out</button>
+            output = <button onClick={() => props.reserveItem(userName, itemId)}>Take Out</button>
         } else {
-            output = <button>N/A</button>
+            // here we can create logic that tells whether to have this be an n/a or return button
+            // Need to add logic for when a user leaves the company - remove all of his names
+            if(itemTable.itemUser === userName) {
+                output = <button onClick={() => props.returnItem(userName, itemId)}>Return Item</button>
+            } else {
+                output = <button>N/A</button>
+            }
         }
         return output;
     })();
@@ -56,7 +62,7 @@ const InventoryItem = (props) => {
             <ProductInfo>
                 <p>{`Num Available: ${numAvailable}/${props.itemTable.iterations.length}`}</p>
                 <p>{selectedItem.available ? "Available" : "Not Available"}</p>
-                {reserveButton}
+                {reservervationButton}
                 <p>{selectedItem.available ? "" : `Out with: ${selectedItem.itemUser}`}</p>
             </ProductInfo>
             <ProductInfo>
