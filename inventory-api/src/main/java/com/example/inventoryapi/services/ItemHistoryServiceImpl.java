@@ -66,7 +66,25 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
     @Override
     public HttpStatus deleteHistoryByInId(Long id) throws IllegalArgumentException{
        try {
+           // Get all history associated with inventory (in a list)
            List<ItemHistory> retrieveHistory = itemHistoryRepository.getHistoryByInventoryId(id);
+           // Get the inventory associated with the histories
+           Inventory getInventory = retrieveHistory.get(0).getInventory();
+           // Set the the itemHistories field of the inventory to null
+           getInventory.setItemHistories(null);
+           // Save the inventory
+           inventoryRepository.save(getInventory);
+           // For each history entry , get it's associated item and set its history to null
+           // Also set each histories inventory to null
+           retrieveHistory.forEach( itemHistory -> {
+               Item item = itemHistory.getItem();
+               itemHistory.setInventory(null);
+               // Adding this... save each itemHistory after setting it's inventory to null.
+               itemHistoryRepository.save(itemHistory);
+               // Set associated items histories to null and then save
+               item.setItemHistories(null);
+               itemRepository.save(item);
+           });
            itemHistoryRepository.deleteAll(retrieveHistory);
            return HttpStatus.OK;
        } catch (IllegalArgumentException e){

@@ -58,38 +58,31 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item updateItemStatus(Item item) {
         if (itemRepository.findById(item.getId()).isPresent()) {
-                System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
 
-                Item retrievedItem = itemRepository.findById(item.getId()).get();
-            System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
+            Item retrievedItem = itemRepository.findById(item.getId()).get();
 
             String username = item.getItemUser();
-            System.out.println(retrievedItem.getItemUser() + " <--------------");
-            System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
 
-                /* If there is no user, or if the username for retrievedItem isn't the same,
-                a new history gets created */
+            /* If there is no user, or if the username for retrievedItem isn't the same,
+            a new history gets created */
 
-                if (retrievedItem.getItemUser() == null) {
-                    itemHistoryService
-                            .addHistory(item.getItemUser(),
-                                    retrievedItem,
-                                    retrievedItem.getInventory());
+            if (retrievedItem.getItemUser() == null) {
+                itemHistoryService
+                        .addHistory(item.getItemUser(),
+                                retrievedItem,
+                                retrievedItem.getInventory());
 
-                    System.out.println("IN FIRST CONDITION");
-                } else if (retrievedItem.getItemUser().equals(username)) {
-                    // Adding item return date
-                    ItemHistory itemHistory = itemHistoryRepository
-                            .findItemHistoryByUsernameAndId(username, retrievedItem.getId());
-                    itemHistoryService.updateHistory(itemHistory.getId());
-                    System.out.println("IN SECOND CONDITION");
+            } else if (retrievedItem.getItemUser().equals(username)) {
+                // Adding item return date
+                // THIS IS RETURNING A BUNCH OF ENTRIES B/CUZ THE RETURN DATE IS NEVER SET
+                ItemHistory itemHistory = itemHistoryRepository
+                        .findItemHistoryByUsernameAndId(username, retrievedItem.getId());
+                itemHistoryService.updateHistory(itemHistory.getId());
+            }
 
-                }
-                System.out.println("IN THIRD");
-
-                retrievedItem.setItemUser(username);
-                retrievedItem.setAvailable(item.getAvailable());
-                return itemRepository.save(retrievedItem);
+            retrievedItem.setItemUser(username);
+            retrievedItem.setAvailable(item.getAvailable());
+            return itemRepository.save(retrievedItem);
         } else {
             return null;
         }

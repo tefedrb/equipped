@@ -48,8 +48,6 @@ const InventoryItem = (props) => {
         const nextAvailable = itemTable.available.findIndex(bool => bool);
         const itemId = itemTable.iterations[nextAvailable];
         let output;
-        console.log(props.selectedItem.itemUser, "Item user")
-        console.log(itemTable, "ITEM TABLE")
         if(nextAvailable >= 0){
             output = <button onClick={() => props.reserveItem(userName, itemId)}>Take Out</button>  
         } else {
