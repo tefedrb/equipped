@@ -73,12 +73,11 @@ class InventoryView extends React.Component{
             if(acc[item.product]){ 
                 acc[item.product].iterations.push(item.id)
                 acc[item.product].available.push(item.available)
-                if(item.itemUser){
+                if(item.itemUser && acc[item.product][item.itemUser]){
                     acc[item.product][item.itemUser].push(item.id);
                 }
             }
             else { 
-                console.log(item.itemUser, 'ITEM USER IN SET COMP')
                 acc[item.product] = {"iterations":[item.id], "available": [item.available], [item.itemUser]: [item.id]};
             }
             return acc;
@@ -102,7 +101,7 @@ class InventoryView extends React.Component{
    
     componentDidUpdate(prevProps){
         this.myRef.current.scrollTop = this.state.inventoryScroll
-        console.log(this.state.itemTable, "MASTER ITEM TABLE")
+        // console.log(this.state.itemTable, "MASTER ITEM TABLE")
         if(prevProps !== this.props){
             this.setCompanyInventory();
             

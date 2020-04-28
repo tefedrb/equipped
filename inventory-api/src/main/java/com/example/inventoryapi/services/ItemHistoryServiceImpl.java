@@ -7,6 +7,7 @@ import com.example.inventoryapi.repositories.InventoryRepository;
 import com.example.inventoryapi.repositories.ItemHistoryRepository;
 import com.example.inventoryapi.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -60,6 +61,18 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public HttpStatus deleteHistoryByInId(Long id) throws IllegalArgumentException{
+       try {
+           List<ItemHistory> retrieveHistory = itemHistoryRepository.getHistoryByInventoryId(id);
+           itemHistoryRepository.deleteAll(retrieveHistory);
+           return HttpStatus.OK;
+       } catch (IllegalArgumentException e){
+           System.out.println("Error in deleteHistoryByInId: " + e.getMessage());
+           return HttpStatus.INTERNAL_SERVER_ERROR;
+       }
     }
 
 }

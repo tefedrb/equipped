@@ -70,7 +70,6 @@ public class ItemServiceImpl implements ItemService {
                 /* If there is no user, or if the username for retrievedItem isn't the same,
                 a new history gets created */
 
-//            !System.out.println(retrievedItem.getItemUser().equals(username))
                 if (retrievedItem.getItemUser() == null) {
                     itemHistoryService
                             .addHistory(item.getItemUser(),
