@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 const InventoryItem = (props) => {
+    const [moreInfo, updateInfo] = useState({});
     const ItemWrapper = styled.aside`
         flex-grow: 1;
         display: flex;
@@ -22,7 +23,6 @@ const InventoryItem = (props) => {
     `
     // Product Name, picture, users associated,
     const {selectedItem, userName, itemTable} = props;
-    console.log(selectedItem, userName, 'SELECTED');
 
     const Detail = styled.p`
         margin: .2em;
@@ -38,32 +38,57 @@ const InventoryItem = (props) => {
         }
         return acc;
     },0)
+
+    // Logic that looks at itemTable.iterations and finds the username and associated id and removes it
+    // item. - will need to reach in and check the master item table
+
+    // Grab item name - look in master table for that name - iterate over iterations
     
-    const reservervationButton = (() => {
+    const reservervationButton = () => {
         const nextAvailable = itemTable.available.findIndex(bool => bool);
         const itemId = itemTable.iterations[nextAvailable];
         let output;
+        console.log(props.selectedItem.itemUser, "Item user")
+        console.log(itemTable, "ITEM TABLE")
         if(nextAvailable >= 0){
-            output = <button onClick={() => props.reserveItem(userName, itemId)}>Take Out</button>
+            output = <button onClick={() => props.reserveItem(userName, itemId)}>Take Out</button>  
         } else {
-            // here we can create logic that tells whether to have this be an n/a or return button
-            // Need to add logic for when a user leaves the company - remove all of his names
-            if(itemTable.itemUser === userName) {
-                output = <button onClick={() => props.returnItem(userName, itemId)}>Return Item</button>
-            } else {
-                output = <button>N/A</button>
-            }
+            output = <button>N/A</button>
         }
         return output;
-    })();
+    };
+
+// } else if(props.selectedItem.itemUser === userName){
+//     // here we can create logic that tells whether to have this be an n/a or return button
+//     // Need to add logic for when a user leaves the company - remove all of his names
+//     output = <button onClick={() => props.returnItem(itemId)}>Return Item</button>
+
+    const returnItem = () => {
+        const nextReservedId = itemTable[userName] ? itemTable[userName][0] : null;
+        if(nextReservedId){
+            return <button onClick={() => props.returnItem(nextReservedId)}>Return Item</button>
+        }
+    }
+
+    const outWith = (itemObj) => {
+        let output = [];
+        for(const item in itemObj){
+            if(item !== "available" && item !== "iterations"){
+                output.push([item, item.length])
+            }
+        }
+        return output.map(user => <p>Out with: {user[0] + user[1] > 1 ? ` ${(user[1])}` : ""}</p>);
+    }
 
     return(
         <ItemWrapper id={"item-wrap"}>
             <ProductInfo>
                 <p>{`Num Available: ${numAvailable}/${props.itemTable.iterations.length}`}</p>
                 <p>{selectedItem.available ? "Available" : "Not Available"}</p>
-                {reservervationButton}
+                {reservervationButton()}
+                {returnItem()}
                 <p>{selectedItem.available ? "" : `Out with: ${selectedItem.itemUser}`}</p>
+                {outWith()}
             </ProductInfo>
             <ProductInfo>
                 <Image src={selectedItem.image}></Image>
