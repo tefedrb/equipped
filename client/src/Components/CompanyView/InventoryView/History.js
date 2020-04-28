@@ -18,7 +18,7 @@ const History = (props) => {
     }
 
     useEffect(() => {
-        if(companyInventory && companyInventory.id){
+        if(companyInventory && companyInventory.id && !_isCancelled){
             GetHistory(companyInventory.id).then(res => {
                 console.log(res, "HISTORY!!")
                 if(checkReturnedHistory(history, res)){
@@ -34,6 +34,7 @@ const History = (props) => {
 
     return (
         <>
+            
             
         </>
     )

@@ -58,29 +58,39 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item updateItemStatus(Item item) {
         if (itemRepository.findById(item.getId()).isPresent()) {
-            try {
+                System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
+
                 Item retrievedItem = itemRepository.findById(item.getId()).get();
-                String username = item.getItemUser();
+            System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
+
+            String username = item.getItemUser();
+            System.out.println(retrievedItem.getItemUser() + " <--------------");
+            System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
+
                 /* If there is no user, or if the username for retrievedItem isn't the same,
                 a new history gets created */
-                if (retrievedItem.getItemUser() == null || !retrievedItem.getItemUser().equals(username)) {
+
+//            !System.out.println(retrievedItem.getItemUser().equals(username))
+                if (retrievedItem.getItemUser() == null) {
                     itemHistoryService
                             .addHistory(item.getItemUser(),
                                     retrievedItem,
                                     retrievedItem.getInventory());
+
+                    System.out.println("IN FIRST CONDITION");
                 } else if (retrievedItem.getItemUser().equals(username)) {
                     // Adding item return date
                     ItemHistory itemHistory = itemHistoryRepository
                             .findItemHistoryByUsernameAndId(username, retrievedItem.getId());
                     itemHistoryService.updateHistory(itemHistory.getId());
+                    System.out.println("IN SECOND CONDITION");
+
                 }
+                System.out.println("IN THIRD");
+
                 retrievedItem.setItemUser(username);
                 retrievedItem.setAvailable(item.getAvailable());
                 return itemRepository.save(retrievedItem);
-            } catch (Exception e) {
-                System.err.println("Error in updateItemStatus: " + e.getMessage());
-                return null;
-            }
         } else {
             return null;
         }

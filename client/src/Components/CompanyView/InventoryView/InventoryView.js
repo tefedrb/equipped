@@ -73,9 +73,13 @@ class InventoryView extends React.Component{
             if(acc[item.product]){ 
                 acc[item.product].iterations.push(item.id)
                 acc[item.product].available.push(item.available)
+                if(item.itemUser){
+                    acc[item.product][item.itemUser].push(item.id);
+                }
             }
             else { 
-                acc[item.product] = {"iterations":[item.id], "available": [item.available]};
+                console.log(item.itemUser, 'ITEM USER IN SET COMP')
+                acc[item.product] = {"iterations":[item.id], "available": [item.available], [item.itemUser]: [item.id]};
             }
             return acc;
         }, {}) : null;
@@ -98,13 +102,20 @@ class InventoryView extends React.Component{
    
     componentDidUpdate(prevProps){
         this.myRef.current.scrollTop = this.state.inventoryScroll
+        console.log(this.state.itemTable, "MASTER ITEM TABLE")
         if(prevProps !== this.props){
             this.setCompanyInventory();
+            
         }
     }
 
-    reserveItem = async (user, availability, id) => {
-        await PutUpdateItem(user, availability, id);
+    reserveItem = async (user, id) => {
+        await PutUpdateItem(user, false, id);
+        await this.props.refreshInventory(this.props.userContext.userCompany.id);
+    }
+
+    returnItem = async (id) => {
+        await PutUpdateItem(null, true, id);
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
@@ -120,6 +131,7 @@ class InventoryView extends React.Component{
 
     render(){
         const {selectedItem, companyInventory} = this.state;
+        const {user} = this.props.userContext;
         const itemsList = companyInventory && companyInventory.items.length > 0 ? 
             companyInventory.items.reduce((acc, item, id, array) => {
                 // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
@@ -147,6 +159,7 @@ class InventoryView extends React.Component{
                 }
                 return acc;
             },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
+
         return (
             <Wrapper id={"inventory-wrap"}>
                 <Inventory id={"inventory"} ref={this.myRef}>
@@ -166,7 +179,8 @@ class InventoryView extends React.Component{
                             render={({match}) => 
                                     <InventoryItem
                                         reserveItem={this.reserveItem}
-                                        userName={this.props.userContext.user.username}
+                                        returnItem={this.returnItem}
+                                        userName={user.username}
                                         itemTable={this.state.itemTable[selectedItem.product]} 
                                         selectedItem={
                                             companyInventory

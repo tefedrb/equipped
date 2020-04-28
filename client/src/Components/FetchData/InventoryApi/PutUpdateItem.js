@@ -1,7 +1,6 @@
 const PutUpdateItem = async (user, availability, id) => {
     try {
-        console.log(typeof inventoryId, "< INVENTORY ID TYPE");
-        console.log(typeof itemId, " < type of itemID");
+        console.log(id, "ID IN PUT UPDATE ITEM")
         const response =
             await fetch("http://localhost:8080/inventory-api/items/update-item", {
                 method: 'put',
