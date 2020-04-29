@@ -46,6 +46,8 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
        if(itemHistoryRepository.findById(id).isPresent()){
            ItemHistory targetHistory = itemHistoryRepository.findById(id).get();
            targetHistory.setReturn_date(new Date());
+           System.out.println("SHOULD HAVE ADDED RETURN DATE TO ITEM HISTORY!!!");
+           System.out.println(targetHistory.getReturn_date().toString() + "<--- RETURN DATE PROOF");
            itemHistoryRepository.save(targetHistory);
            return true;
        } else {

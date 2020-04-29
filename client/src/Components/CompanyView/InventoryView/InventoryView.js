@@ -113,8 +113,8 @@ class InventoryView extends React.Component{
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
-    returnItem = async (id) => {
-        await PutUpdateItem(null, true, id);
+    returnItem = async (username, id) => {
+        await PutUpdateItem(username, true, id);
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 

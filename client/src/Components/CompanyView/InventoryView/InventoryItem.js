@@ -64,7 +64,7 @@ const InventoryItem = (props) => {
     const returnItem = () => {
         const nextReservedId = itemTable[userName] ? itemTable[userName][0] : null;
         if(nextReservedId){
-            return <button onClick={() => props.returnItem(nextReservedId)}>Return Item</button>
+            return <button onClick={() => props.returnItem(userName, nextReservedId)}>Return Item</button>
         }
     }
 

@@ -58,26 +58,32 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item updateItemStatus(Item item) {
         if (itemRepository.findById(item.getId()).isPresent()) {
-
             Item retrievedItem = itemRepository.findById(item.getId()).get();
-
             String username = item.getItemUser();
-
+            /// I need to get the history
+            System.out.println(item.getAvailable() + " <------- WHAT IS HAPPENING?!?!?!??!?!");
+            if (item.getAvailable()) {
+                ItemHistory itemHistory = itemHistoryRepository
+                        .getItemHistoryByItemIdAndReturnDateNull(retrievedItem.getId(), retrievedItem.getItemUser());
+                //////////////////////NEEDS CONFIRMATION//////////////////////////////
+                System.out.println(itemHistory.getUsername() + " <----- itemHistory obj user");
+                System.out.println(itemHistory.getId() + " <----- itemHistory obj id");
+                //////////////////////////////////////////////////////////////////////
+                if (retrievedItem.getItemUser().equals(username) && itemHistory.getReturn_date() == null) {
+                    // Adding item return date
+                    // THIS IS RETURNING A BUNCH OF ENTRIES B/CUZ THE RETURN DATE IS NEVER SET
+                    // findItemHistoryByUsernameAndId only returns an obj that doesn't have a return date
+                    itemHistoryService.updateHistory(itemHistory.getId());
+                }
+            }
             /* If there is no user, or if the username for retrievedItem isn't the same,
             a new history gets created */
-
             if (retrievedItem.getItemUser() == null) {
                 itemHistoryService
                         .addHistory(item.getItemUser(),
                                 retrievedItem,
                                 retrievedItem.getInventory());
 
-            } else if (retrievedItem.getItemUser().equals(username)) {
-                // Adding item return date
-                // THIS IS RETURNING A BUNCH OF ENTRIES B/CUZ THE RETURN DATE IS NEVER SET
-                ItemHistory itemHistory = itemHistoryRepository
-                        .findItemHistoryByUsernameAndId(username, retrievedItem.getId());
-                itemHistoryService.updateHistory(itemHistory.getId());
             }
 
             retrievedItem.setItemUser(username);
@@ -87,4 +93,6 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
     }
+
+
 }
