@@ -29,7 +29,6 @@ class Home extends Component {
 
   componentDidMount(){
     this._isMounted = true;
-    console.log("Home mounted");
     if(localStorage.getItem('jwt')){
       CheckJwt(localStorage.getItem('jwt'));
     }
@@ -37,7 +36,6 @@ class Home extends Component {
 
   componentWillUnmount(){
     this._isMounted = false;
-    console.log("home unmount")
   }
 
   getCompanyInfo = (id) => {

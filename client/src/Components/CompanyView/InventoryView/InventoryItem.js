@@ -74,20 +74,19 @@ const InventoryItem = (props) => {
         let output = [];
         for(const item in itemObj){
             if(item !== "available" && item !== "iterations"){
-                output.push([item, item.length])
+                output.push([item, itemObj[item].length])
             }
         }
-        return output.map(user => <p>Out with: {user[0] + user[1] > 1 ? ` ${(user[1])}` : ""}</p>);
+        return output.map((user, id) => <p key={id}>Out with: {user[0] + (user[1] > 1 ? ` x${(user[1])}` : "")}</p>);
     }
-
+// itemTable
     return(
         <ItemWrapper id={"item-wrap"}>
             <ProductInfo>
                 <p>{`Num Available: ${numAvailable}/${props.itemTable.iterations.length}`}</p>
-                <p>{selectedItem.available ? "Available" : "Not Available"}</p>
                 {reservervationButton()}
                 {returnItem()}
-                <p>{selectedItem.available ? "" : `Out with: ${selectedItem.itemUser}`}</p>
+                {outWith(props.itemTable)}
                 {outWith()}
             </ProductInfo>
             <ProductInfo>

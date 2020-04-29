@@ -120,8 +120,6 @@ class InventoryView extends React.Component{
     returnItem = async () => {
         const { itemTable, selectedItem } = this.state;
         const { username } = this.props.userContext.user;
-        console.log(this.props.userContext.user, "USER")
-        console.log(itemTable[selectedItem.product][username], 'PRODUCT')
         const lastItem = itemTable[selectedItem.product][username].length-1;
         const nextReservedId = itemTable[selectedItem.product][username][lastItem];
 
@@ -142,8 +140,8 @@ class InventoryView extends React.Component{
     }
 
     render(){
-        const {selectedItem, companyInventory} = this.state;
-        const {user} = this.props.userContext;
+        const { selectedItem, companyInventory } = this.state;
+        const { user } = this.props.userContext;
         const itemsList = companyInventory && companyInventory.items.length > 0 ? 
             companyInventory.items.reduce((acc, item, id, array) => {
                 // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
@@ -188,7 +186,7 @@ class InventoryView extends React.Component{
                     { companyInventory && selectedItem ?
                         <Route 
                             path={`${this.props.match.path}/:itemId`} 
-                            render={({match}) => 
+                            render={({ match }) => 
                                     <InventoryItem
                                         reserveItem={this.reserveItem}
                                         returnItem={this.returnItem}

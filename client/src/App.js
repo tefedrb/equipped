@@ -30,10 +30,7 @@ class App extends Component {
 
   componentDidMount(){
      this._isMounted = true;
-     console.log("app mounted");
-
     if(localStorage.getItem('jwt')){
-      console.log("in if statement")
       this.login(localStorage.getItem('jwt'));
     }
   }
@@ -45,6 +42,7 @@ class App extends Component {
   }
 
   login = async (jwt) => {
+    console.log("HERE")
     await Promise.all([GetUser(jwt), GetUserCompany(jwt), GetWaitList(jwt)])
       .then(async (responses) => {
         if(responses[1].id){
