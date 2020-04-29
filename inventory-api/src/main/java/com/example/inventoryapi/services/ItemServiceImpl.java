@@ -58,41 +58,41 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item updateItemStatus(Item item) {
         if (itemRepository.findById(item.getId()).isPresent()) {
-                System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
-
-                Item retrievedItem = itemRepository.findById(item.getId()).get();
-            System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
-
+            Item retrievedItem = itemRepository.findById(item.getId()).get();
             String username = item.getItemUser();
-            System.out.println(retrievedItem.getItemUser() + " <--------------");
-            System.out.println(itemRepository.findById(item.getId()).get().getId() + " <<<<<<<<<<<<<<");
-
-                /* If there is no user, or if the username for retrievedItem isn't the same,
-                a new history gets created */
-
-//            !System.out.println(retrievedItem.getItemUser().equals(username))
-                if (retrievedItem.getItemUser() == null) {
-                    itemHistoryService
-                            .addHistory(item.getItemUser(),
-                                    retrievedItem,
-                                    retrievedItem.getInventory());
-
-                    System.out.println("IN FIRST CONDITION");
-                } else if (retrievedItem.getItemUser().equals(username)) {
+            /// I need to get the history
+            System.out.println(item.getAvailable() + " <------- WHAT IS HAPPENING?!?!?!??!?!");
+            if (item.getAvailable()) {
+                ItemHistory itemHistory = itemHistoryRepository
+                        .getItemHistoryByItemIdAndReturnDateNull(retrievedItem.getId(), retrievedItem.getItemUser());
+                //////////////////////NEEDS CONFIRMATION//////////////////////////////
+                System.out.println(itemHistory.getUsername() + " <----- itemHistory obj user");
+                System.out.println(itemHistory.getId() + " <----- itemHistory obj id");
+                //////////////////////////////////////////////////////////////////////
+                if (retrievedItem.getItemUser().equals(username) && itemHistory.getReturn_date() == null) {
                     // Adding item return date
-                    ItemHistory itemHistory = itemHistoryRepository
-                            .findItemHistoryByUsernameAndId(username, retrievedItem.getId());
+                    // THIS IS RETURNING A BUNCH OF ENTRIES B/CUZ THE RETURN DATE IS NEVER SET
+                    // findItemHistoryByUsernameAndId only returns an obj that doesn't have a return date
                     itemHistoryService.updateHistory(itemHistory.getId());
-                    System.out.println("IN SECOND CONDITION");
-
                 }
-                System.out.println("IN THIRD");
+            }
+            /* If there is no user, or if the username for retrievedItem isn't the same,
+            a new history gets created */
+            if (retrievedItem.getItemUser() == null) {
+                itemHistoryService
+                        .addHistory(item.getItemUser(),
+                                retrievedItem,
+                                retrievedItem.getInventory());
 
-                retrievedItem.setItemUser(username);
-                retrievedItem.setAvailable(item.getAvailable());
-                return itemRepository.save(retrievedItem);
+            }
+
+            retrievedItem.setItemUser(username);
+            retrievedItem.setAvailable(item.getAvailable());
+            return itemRepository.save(retrievedItem);
         } else {
             return null;
         }
     }
+
+
 }

@@ -32,7 +32,7 @@ public class ItemController {
 //    }
 
     @PutMapping("/update-item")
-    public ResponseEntity<Item> addUser(@RequestBody Item item){
+    public ResponseEntity<Item> updateItem(@RequestBody Item item){
         return ResponseEntity.ok(itemService.updateItemStatus(item));
     }
 

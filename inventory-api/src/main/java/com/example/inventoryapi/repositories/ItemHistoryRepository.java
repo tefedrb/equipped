@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ItemHistoryRepository extends CrudRepository<ItemHistory, Long> {
-// Find by item id and user // and where ItemHistory return date == null
-    @Query("FROM ItemHistory ih, Item i WHERE ih.username = ?1 AND i.id = ?2 AND ih.return_date IS NULL")
-    ItemHistory findItemHistoryByUsernameAndId(String username, Long id);
+
+    @Query("FROM ItemHistory ih WHERE ih.item.id = ?1 AND ih.username = ?2 AND ih.return_date IS NULL")
+    ItemHistory getItemHistoryByItemIdAndReturnDateNull(Long id, String username);
 
     @Query("FROM ItemHistory ih WHERE ih.inventory.inventory_id = ?1")
     List<ItemHistory> getHistoryByInventoryId(Long id);

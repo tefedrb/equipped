@@ -4,6 +4,7 @@ import com.example.inventoryapi.models.ItemHistory;
 import com.example.inventoryapi.services.InventoryService;
 import com.example.inventoryapi.services.ItemHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,5 +30,10 @@ public class ItemHistoryController {
             a difference between histories (arrays).
          */
         return itemHistoryService.getHistoryByInventoryId(id);
+    }
+
+    @PutMapping("/delete/{id}")
+    public HttpStatus deleteHistoryByInId(@PathVariable Long id){
+        return itemHistoryService.deleteHistoryByInId(id);
     }
 }
