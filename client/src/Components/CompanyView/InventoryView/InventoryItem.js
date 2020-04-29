@@ -62,9 +62,11 @@ const InventoryItem = (props) => {
 //     output = <button onClick={() => props.returnItem(itemId)}>Return Item</button>
 
     const returnItem = () => {
-        const nextReservedId = itemTable[userName] ? itemTable[userName][0] : null;
+        const lastIndex = itemTable[userName] ? itemTable[userName].length-1 : null;
+        const nextReservedId = itemTable[userName] ? itemTable[userName][lastIndex] : null;
+
         if(nextReservedId){
-            return <button onClick={() => props.returnItem(userName, nextReservedId)}>Return Item</button>
+            return <button onClick={() => props.returnItem()}>Return Item</button>
         }
     }
 

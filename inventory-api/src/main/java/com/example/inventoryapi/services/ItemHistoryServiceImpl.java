@@ -42,12 +42,11 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
     }
 
     @Override
-    public Boolean updateHistory(Long id) {
+    public Boolean returnItem(Long id) {
        if(itemHistoryRepository.findById(id).isPresent()){
            ItemHistory targetHistory = itemHistoryRepository.findById(id).get();
+           // RETURNING ITEM
            targetHistory.setReturn_date(new Date());
-           System.out.println("SHOULD HAVE ADDED RETURN DATE TO ITEM HISTORY!!!");
-           System.out.println(targetHistory.getReturn_date().toString() + "<--- RETURN DATE PROOF");
            itemHistoryRepository.save(targetHistory);
            return true;
        } else {

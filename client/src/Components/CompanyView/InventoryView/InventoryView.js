@@ -69,18 +69,22 @@ class InventoryView extends React.Component{
     setCompanyInventory = () => {
         if(this.props.userContext){
         const { companyInventory } = this.props.userContext
-        const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((acc, item) => {
-            if(acc[item.product]){ 
-                acc[item.product].iterations.push(item.id)
-                acc[item.product].available.push(item.available)
-                if(item.itemUser && acc[item.product][item.itemUser]){
-                    acc[item.product][item.itemUser].push(item.id);
+        const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((itemTable, item) => {
+            if(itemTable[item.product]){ 
+                itemTable[item.product].iterations.push(item.id);
+                itemTable[item.product].available.push(item.available);
+                if(item.itemUser && itemTable[item.product][item.itemUser]){
+                    itemTable[item.product][item.itemUser].push(item.id);
                 }
             }
             else { 
-                acc[item.product] = {"iterations":[item.id], "available": [item.available], [item.itemUser]: [item.id]};
+                itemTable[item.product] = {"iterations":[item.id], "available": [item.available]};
+                // no longer will there be a null user with an item assigned to them
+                if(item.itemUser !== null){
+                    itemTable[item.product][item.itemUser] = [item.id];
+                }
             }
-            return acc;
+            return itemTable;
         }, {}) : null;
 
             if(!this.isCancelled){
@@ -113,8 +117,17 @@ class InventoryView extends React.Component{
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
-    returnItem = async (username, id) => {
-        await PutUpdateItem(username, true, id);
+    returnItem = async () => {
+        const { itemTable, selectedItem } = this.state;
+        const { username } = this.props.userContext.user;
+        console.log(this.props.userContext.user, "USER")
+        console.log(itemTable[selectedItem.product][username], 'PRODUCT')
+        const lastItem = itemTable[selectedItem.product][username].length-1;
+        const nextReservedId = itemTable[selectedItem.product][username][lastItem];
+
+        itemTable[selectedItem.product][username].pop();
+
+        await PutUpdateItem(username, true, nextReservedId);
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
