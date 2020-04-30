@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ItemHistoryService {
     ItemHistory addHistory(String username, Item item, Inventory inventory);
-    Boolean updateHistory(Long id);
+    Boolean returnItem(Long id);
     List<ItemHistory> getHistoryByInventoryId(Long id);
     HttpStatus deleteHistoryByInId(Long id);
 }

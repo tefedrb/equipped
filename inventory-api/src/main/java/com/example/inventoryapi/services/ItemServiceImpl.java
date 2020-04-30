@@ -60,8 +60,8 @@ public class ItemServiceImpl implements ItemService {
         if (itemRepository.findById(item.getId()).isPresent()) {
             Item retrievedItem = itemRepository.findById(item.getId()).get();
             String username = item.getItemUser();
-            /// I need to get the history
-            System.out.println(item.getAvailable() + " <------- WHAT IS HAPPENING?!?!?!??!?!");
+
+            // Returning Item (sent from client - they indicate that the item needs to be returned by making it available)
             if (item.getAvailable()) {
                 ItemHistory itemHistory = itemHistoryRepository
                         .getItemHistoryByItemIdAndReturnDateNull(retrievedItem.getId(), retrievedItem.getItemUser());
@@ -73,26 +73,28 @@ public class ItemServiceImpl implements ItemService {
                     // Adding item return date
                     // THIS IS RETURNING A BUNCH OF ENTRIES B/CUZ THE RETURN DATE IS NEVER SET
                     // findItemHistoryByUsernameAndId only returns an obj that doesn't have a return date
-                    itemHistoryService.updateHistory(itemHistory.getId());
+                    retrievedItem.setItemUser(null);
+                    retrievedItem.setAvailable(true);
+                    System.out.println(retrievedItem.getItemUser() + " CHECKING RETRIEVED ITEM USER!!!!!!! RETURNING.");
+                    itemHistoryService.returnItem(itemHistory.getId());
                 }
             }
             /* If there is no user, or if the username for retrievedItem isn't the same,
             a new history gets created */
-            if (retrievedItem.getItemUser() == null) {
+
+            // Reserving Item
+            if (retrievedItem.getItemUser() == null && !item.getAvailable()) {
+                System.out.println(item.getAvailable() + " <--- RESERVING ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 itemHistoryService
                         .addHistory(item.getItemUser(),
                                 retrievedItem,
                                 retrievedItem.getInventory());
-
+                retrievedItem.setItemUser(item.getItemUser());
+                retrievedItem.setAvailable(item.getAvailable());
             }
-
-            retrievedItem.setItemUser(username);
-            retrievedItem.setAvailable(item.getAvailable());
             return itemRepository.save(retrievedItem);
         } else {
             return null;
         }
     }
-
-
 }

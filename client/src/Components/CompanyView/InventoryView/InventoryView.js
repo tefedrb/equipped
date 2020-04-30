@@ -2,12 +2,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import ListItem from '../ListItem';
-import {Route, Link} from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import InventoryItem from './InventoryItem';
 import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
-import {UserConsumer} from '../../UserContext';
-import History from './History';
+// import { UserConsumer } from '../../UserContext';
+// import History from './History';
+// import InventoryList from './InventoryList';
 
 const Wrapper = styled.section`
     display: flex;
@@ -30,7 +31,7 @@ const NoItems = styled.div`
 `
 const NoStyleLink = styled(Link)`
     text-decoration: none;
-    &:focus, &hover, &:visited, &:link, &:active{
+    &:focus, &hover, &:visited, &:link, &:active {
         text-decoration: none;
     }
 `
@@ -58,6 +59,7 @@ class InventoryView extends React.Component{
             companyInventory: null,
             inventoryScroll: 0,
             selectedItem: null,
+            userReservedItems: null,
             itemTable: null
         }
     }
@@ -68,19 +70,29 @@ class InventoryView extends React.Component{
    
     setCompanyInventory = () => {
         if(this.props.userContext){
-        const { companyInventory } = this.props.userContext
-        const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((acc, item) => {
-            if(acc[item.product]){ 
-                acc[item.product].iterations.push(item.id)
-                acc[item.product].available.push(item.available)
-                if(item.itemUser && acc[item.product][item.itemUser]){
-                    acc[item.product][item.itemUser].push(item.id);
+        const { companyInventory, user } = this.props.userContext
+        const userReservedItems = [];
+        // Setting up itemTable info
+        const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((itemTable, item) => {
+            if(itemTable[item.product]){ 
+                itemTable[item.product].iterations.push(item.id);
+                itemTable[item.product].available.push(item.available);
+                if(item.itemUser && itemTable[item.product][item.itemUser]){
+                    itemTable[item.product][item.itemUser].push(item.id);
+                    // Filling in userReservedItems
+                    if(item.itemUser == user.username){
+                        userReservedItems.push(item.id);
+                    }
                 }
             }
             else { 
-                acc[item.product] = {"iterations":[item.id], "available": [item.available], [item.itemUser]: [item.id]};
+                itemTable[item.product] = {"iterations":[item.id], "available": [item.available]};
+                // no longer will there be a null user with an item assigned to them
+                if(item.itemUser !== null){
+                    itemTable[item.product][item.itemUser] = [item.id];
+                }
             }
-            return acc;
+            return itemTable;
         }, {}) : null;
 
             if(!this.isCancelled){
@@ -88,6 +100,7 @@ class InventoryView extends React.Component{
                     return {
                         ...prevState,
                         companyInventory: companyInventory,
+                        userReservedItems: userReservedItems,
                         itemTable: itemTable
                     }
                 })
@@ -113,8 +126,15 @@ class InventoryView extends React.Component{
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
-    returnItem = async (username, id) => {
-        await PutUpdateItem(username, true, id);
+    returnItem = async () => {
+        const { itemTable, selectedItem } = this.state;
+        const { username } = this.props.userContext.user;
+        const lastItem = itemTable[selectedItem.product][username].length-1;
+        const nextReservedId = itemTable[selectedItem.product][username][lastItem];
+
+        itemTable[selectedItem.product][username].pop();
+
+        await PutUpdateItem(username, true, nextReservedId);
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
@@ -129,8 +149,8 @@ class InventoryView extends React.Component{
     }
 
     render(){
-        const {selectedItem, companyInventory} = this.state;
-        const {user} = this.props.userContext;
+        const { selectedItem, companyInventory } = this.state;
+        const { user } = this.props.userContext;
         const itemsList = companyInventory && companyInventory.items.length > 0 ? 
             companyInventory.items.reduce((acc, item, id, array) => {
                 // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
@@ -165,17 +185,11 @@ class InventoryView extends React.Component{
                     {itemsList}
                 </Inventory>
 
-                <UserConsumer>
-                    { context => 
-                        <History userContext={context} />
-                    }
-                </UserConsumer>
-                    
                 <InventoryOverview>
                     { companyInventory && selectedItem ?
                         <Route 
                             path={`${this.props.match.path}/:itemId`} 
-                            render={({match}) => 
+                            render={({ match }) => 
                                     <InventoryItem
                                         reserveItem={this.reserveItem}
                                         returnItem={this.returnItem}
