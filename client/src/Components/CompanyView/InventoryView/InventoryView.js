@@ -2,12 +2,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import ListItem from '../ListItem';
-import {Route, Link} from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import InventoryItem from './InventoryItem';
 import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
-import {UserConsumer} from '../../UserContext';
-import History from './History';
+// import { UserConsumer } from '../../UserContext';
+// import History from './History';
+// import InventoryList from './InventoryList';
 
 const Wrapper = styled.section`
     display: flex;
@@ -30,7 +31,7 @@ const NoItems = styled.div`
 `
 const NoStyleLink = styled(Link)`
     text-decoration: none;
-    &:focus, &hover, &:visited, &:link, &:active{
+    &:focus, &hover, &:visited, &:link, &:active {
         text-decoration: none;
     }
 `
@@ -58,6 +59,7 @@ class InventoryView extends React.Component{
             companyInventory: null,
             inventoryScroll: 0,
             selectedItem: null,
+            userReservedItems: null,
             itemTable: null
         }
     }
@@ -68,13 +70,19 @@ class InventoryView extends React.Component{
    
     setCompanyInventory = () => {
         if(this.props.userContext){
-        const { companyInventory } = this.props.userContext
+        const { companyInventory, user } = this.props.userContext
+        const userReservedItems = [];
+        // Setting up itemTable info
         const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((itemTable, item) => {
             if(itemTable[item.product]){ 
                 itemTable[item.product].iterations.push(item.id);
                 itemTable[item.product].available.push(item.available);
                 if(item.itemUser && itemTable[item.product][item.itemUser]){
                     itemTable[item.product][item.itemUser].push(item.id);
+                    // Filling in userReservedItems
+                    if(item.itemUser == user.username){
+                        userReservedItems.push(item.id);
+                    }
                 }
             }
             else { 
@@ -92,6 +100,7 @@ class InventoryView extends React.Component{
                     return {
                         ...prevState,
                         companyInventory: companyInventory,
+                        userReservedItems: userReservedItems,
                         itemTable: itemTable
                     }
                 })
@@ -176,12 +185,6 @@ class InventoryView extends React.Component{
                     {itemsList}
                 </Inventory>
 
-                <UserConsumer>
-                    { context => 
-                        <History userContext={context} />
-                    }
-                </UserConsumer>
-                    
                 <InventoryOverview>
                     { companyInventory && selectedItem ?
                         <Route 

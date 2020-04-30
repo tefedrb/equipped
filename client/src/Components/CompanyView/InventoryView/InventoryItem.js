@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const InventoryItem = (props) => {
-    const [moreInfo, updateInfo] = useState({});
     const ItemWrapper = styled.aside`
         flex-grow: 1;
         display: flex;
@@ -22,7 +21,7 @@ const InventoryItem = (props) => {
         width: 15vw;
     `
     // Product Name, picture, users associated,
-    const {selectedItem, userName, itemTable} = props;
+    const { selectedItem, userName, itemTable } = props;
 
     const Detail = styled.p`
         margin: .2em;
@@ -38,11 +37,6 @@ const InventoryItem = (props) => {
         }
         return acc;
     },0)
-
-    // Logic that looks at itemTable.iterations and finds the username and associated id and removes it
-    // item. - will need to reach in and check the master item table
-
-    // Grab item name - look in master table for that name - iterate over iterations
     
     const reservervationButton = () => {
         const nextAvailable = itemTable.available.findIndex(bool => bool);
@@ -55,11 +49,6 @@ const InventoryItem = (props) => {
         }
         return output;
     };
-
-// } else if(props.selectedItem.itemUser === userName){
-//     // here we can create logic that tells whether to have this be an n/a or return button
-//     // Need to add logic for when a user leaves the company - remove all of his names
-//     output = <button onClick={() => props.returnItem(itemId)}>Return Item</button>
 
     const returnItem = () => {
         const lastIndex = itemTable[userName] ? itemTable[userName].length-1 : null;
@@ -79,8 +68,8 @@ const InventoryItem = (props) => {
         }
         return output.map((user, id) => <p key={id}>Out with: {user[0] + (user[1] > 1 ? ` x${(user[1])}` : "")}</p>);
     }
-// itemTable
-    return(
+
+    return (
         <ItemWrapper id={"item-wrap"}>
             <ProductInfo>
                 <p>{`Num Available: ${numAvailable}/${props.itemTable.iterations.length}`}</p>
