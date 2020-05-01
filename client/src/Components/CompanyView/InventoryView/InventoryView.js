@@ -1,13 +1,9 @@
-// import React, {useState, useEffect, useRef} from 'react';
 import React from 'react';
 import styled from 'styled-components';
-import ListItem from '../ListItem';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import InventoryItem from './InventoryItem';
 import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
-// import { UserConsumer } from '../../UserContext';
-// import History from './History';
 import InventoryList from './InventoryList';
 
 const Wrapper = styled.section`
@@ -29,14 +25,6 @@ const NoItems = styled.div`
     flex-grow: 1;
     padding: 3em;
 `
-const NoStyleLink = styled(Link)`
-    color: white;
-    text-decoration: none;
-    &:focus, &hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
-`
-
 const InventoryListWrap = styled.div`
     display: flex;
     flex-direction: column;
@@ -133,8 +121,6 @@ class InventoryView extends React.Component{
     }
    
     componentDidUpdate(prevProps){
-        this.myRef.current.scrollTop = this.state.inventoryScroll
-        // console.log(this.state.itemTable, "MASTER ITEM TABLE")
         if(prevProps !== this.props){
             this.setCompanyInventory();    
         }
@@ -163,55 +149,46 @@ class InventoryView extends React.Component{
            return {
                 ...prevState,
                 selectedItem: id,
-                inventoryScroll: this.myRef.current.scrollTop
             }
         });
     }
 
+    switchInventoryView = (event) => {
+        event.persist();
+        const value = event.target.innerText === "Inventory" ? true : false;
+        this.setState(prevProps => {
+            return {
+                ...prevProps,
+                inventoryLink: value
+            }
+        })
+    }
+
     render(){
-        const { selectedItem, companyInventory } = this.state;
+        const { selectedItem, companyInventory, inventoryLink } = this.state;
         const { user } = this.props.userContext;
-        const itemsList = companyInventory && companyInventory.items.length > 0 ? 
-            companyInventory.items.reduce((acc, item, id, array) => {
-                // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
-                if(!acc[0][item.product]){
-                acc[0][item.product] = true;
-                acc.push(
-                    <NoStyleLink key={id} to={`${this.props.match.path}/${item.id}`}>
-                        <ListItem 
-                            item={item}
-                            handleClick={this.handleClick}
-                            selected={selectedItem ? selectedItem.product : null}
-                            index={(id+1).toString()}
-                            key={id}
-                            backgroundColor={
-                                this.state.itemTable[item.product]
-                                    .available
-                                    .find(bool => bool) ? null : "rgba(255,0,0,0.4)"
-                                }
-                        />
-                    </NoStyleLink>
-                )
-                } 
-                // this removes the obj which acts as a cache
-                if(array.length-1 === id){  
-                    acc.shift();
+
+        const NoStyleLink = styled.div`
+                color: ${inventoryLink ? "white" : "#69cb42"};
+                text-decoration: none;
+                &:focus, &hover, &:visited, &:link, &:active {
+                    text-decoration: none;
                 }
-                return acc;
-            },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
-            
+                cursor: pointer;
+            `
         return (
             <Wrapper id={"inventory-wrap"}>
                 <InventoryListWrap>
                     <InventoryNavWrap>
-                        <NoStyleLink >Inventory</NoStyleLink>
-                        <NoStyleLink>Your Reserved Items</NoStyleLink>
+                        <NoStyleLink style={inventoryLink ? {color: "white"} : {color: "#69cb42"}} onClick={this.switchInventoryView}>
+                            Inventory
+                        </NoStyleLink>
+                        <NoStyleLink style={inventoryLink ? {color: "#69cb42"} : {color: "white"}} onClick={this.switchInventoryView}>
+                            Your Reserved Items
+                        </NoStyleLink>
                     </InventoryNavWrap>
-                    <Inventory ref={this.myRef}>
-                        {itemsList}
-                    </Inventory>
+                    
                     <InventoryList 
-                        ref={this.myRef}
                         id={"inventory"}
                         inventoryViewState={this.state} 
                         matchPath={this.props.match.path}

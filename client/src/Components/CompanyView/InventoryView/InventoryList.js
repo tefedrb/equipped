@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
 import ListItem from '../ListItem';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const InventoryList = (props) => {
     // const [currentProps, updateProps] = useState({...props});
-    const { userReservedItems, itemTable, companyInventory, selectedItem, userInventory } = props.inventoryViewState;
+    const { userReservedItems, itemTable, companyInventory, selectedItem, userInventory, inventoryLink } = props.inventoryViewState;
 
-    const scrollRef = useRef();
     const [currentState, updateState] = useState([userReservedItems, 0]);
+    const scrollRef = useRef();
     const previousProps = useRef(currentState);
 
     const NoStyleLink = styled(Link)`
@@ -78,12 +78,12 @@ const InventoryList = (props) => {
         return output;
     }
 
-    const listExport = userInventory && companyInventory && companyInventory.items ? 
+    const listExport = userInventory && companyInventory && companyInventory.items && !inventoryLink ? 
         filterItems(collectUserItems()) : companyInventory && companyInventory.items ? 
-        filterItems(companyInventory.items) : <p>N/A</p>;
-    
+        filterItems(companyInventory.items) : <p>You don't have any equipment!</p>;
+
         // On click we need a way of storing the scrollTop variable in useRef
-        // Look into reducing the cals to updateState here
+        // Look into reducing the calls to updateState here
     useEffect(() => {
         previousProps.current = userReservedItems;
         updateState([userReservedItems, currentState[1]]);
