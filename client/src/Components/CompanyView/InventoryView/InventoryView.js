@@ -30,10 +30,26 @@ const NoItems = styled.div`
     padding: 3em;
 `
 const NoStyleLink = styled(Link)`
+    color: white;
     text-decoration: none;
     &:focus, &hover, &:visited, &:link, &:active {
         text-decoration: none;
     }
+`
+
+const InventoryListWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const InventoryNavWrap = styled.div`
+    display: flex;
+    background-color: black;
+    width: 100%;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    justify-content: space-around;
 `
 
 const NoItemsMsg = styled.p`
@@ -61,7 +77,8 @@ class InventoryView extends React.Component{
             selectedItem: null,
             userReservedItems: null,
             itemTable: null,
-            userInventory: true
+            userInventory: true,
+            inventoryLink: true
         }
     }
 
@@ -75,15 +92,13 @@ class InventoryView extends React.Component{
         const userReservedItems = [];
         // Setting up itemTable info
         const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((itemTable, item) => {
+            // If the item already exists by product name...
             if(itemTable[item.product]){ 
                 itemTable[item.product].iterations.push(item.id);
                 itemTable[item.product].available.push(item.available);
+                // If the item has a user assigned and our tables item has the same user associated...
                 if(item.itemUser && itemTable[item.product][item.itemUser]){
                     itemTable[item.product][item.itemUser].push(item.id);
-                    // Filling in userReservedItems
-                    if(item.itemUser == user.username){
-                        userReservedItems.push(item.id);
-                    }
                 }
             }
             else { 
@@ -93,6 +108,10 @@ class InventoryView extends React.Component{
                     itemTable[item.product][item.itemUser] = [item.id];
                 }
             }
+             // Filling in userReservedItems
+             if(item.itemUser == user.username){
+                 userReservedItems.push(item.id);
+             }
             return itemTable;
         }, {}) : null;
 
@@ -117,8 +136,7 @@ class InventoryView extends React.Component{
         this.myRef.current.scrollTop = this.state.inventoryScroll
         // console.log(this.state.itemTable, "MASTER ITEM TABLE")
         if(prevProps !== this.props){
-            this.setCompanyInventory();
-            
+            this.setCompanyInventory();    
         }
     }
 
@@ -184,17 +202,20 @@ class InventoryView extends React.Component{
 
         return (
             <Wrapper id={"inventory-wrap"}>
-                <Inventory id={"inventory"} ref={this.myRef}>
+                <InventoryListWrap>
+                    <InventoryNavWrap>
+                        <NoStyleLink>Inventory</NoStyleLink>
+                        <NoStyleLink>Your Reserved Items</NoStyleLink>
+                    </InventoryNavWrap>
+                    <Inventory id={"inventory"} ref={this.myRef}>
                     {itemsList}
-                </Inventory>
-                <InventoryList userItems={this.state.userReservedItems} 
-                    itemTable={this.state.itemTable}
-                    companyInventory={this.state.companyInventory}
-                    matchPath={this.props.match.path}
-                    selectedItem={this.state.selectedItem}
-                    handleClick={this.handleClick}
-                    userInventory={this.state.userInventory}
-                />
+                    </Inventory>
+                    <InventoryList
+                        inventoryViewState={this.state} 
+                        matchPath={this.props.match.path}
+                        handleClick={this.handleClick}
+                    />
+                </InventoryListWrap>
                 <InventoryOverview>
                     { companyInventory && selectedItem ?
                         <Route 
@@ -211,8 +232,7 @@ class InventoryView extends React.Component{
                                             .find(item => match.params.itemId === item.id.toString())}
                                     />
                                 } 
-                        /> : <NoItemsMsg>Use the Equipment section to find your equipment and build you inventory!</NoItemsMsg>
-                    
+                        /> : <NoItemsMsg>Use the Equipment section to find your equipment and build your inventory!</NoItemsMsg>  
                     }
                 </InventoryOverview>
             </Wrapper>

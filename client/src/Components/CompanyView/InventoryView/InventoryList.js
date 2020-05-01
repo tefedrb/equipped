@@ -1,11 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ListItem from '../ListItem';
 import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const InventoryList = (props) => {
-    const { userItems, itemTable, companyInventory, 
-        matchPath, selectedItem, handleClick, userInventory } = props;
+    // const [currentProps, updateProps] = useState({...props});
+    const { userReservedItems, itemTable, companyInventory, 
+        matchPath, selectedItem, handleClick, userInventory } = props.inventoryViewState;
+
+    const [currentState, updateState] = useState(userReservedItems);
+    const previousProps = useRef(currentState);
 
     const NoStyleLink = styled(Link)`
         text-decoration: none;
@@ -22,18 +26,13 @@ const InventoryList = (props) => {
         grid-template-rows: repeat(0, 3em);
     `
 
-    useEffect(() => {
-        console.log(props, "props here")
-        console.log(companyInventory, " <-- company inventory")
-        console.log(filterItems(companyInventory ? companyInventory.items : []))
-    })
-
-    // I need to be able to pass companyItems through this function, and userItems,
+    // I need to be able to pass companyItems through this function, and userReservedItems,
     // And have the route match (react-router-dom)
     const collectUserItems = () => {
         return companyInventory ?
         companyInventory.items.reduce((acc, item) => {
-            if(userItems.includes(item.id)){
+            if(userReservedItems.includes(item.id)){
+                console.log(userReservedItems, "userReservedItems");
                 acc.push(item);
             }
             return acc;
@@ -41,7 +40,7 @@ const InventoryList = (props) => {
     }
 
     const filterItems = (items) => {
-        if(items.length < 0) return <p>No Items</p>;
+        if(items.length === 0) return <p>No Items</p>;
         const output = items.reduce((acc, item, id, array) => {
             // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
             if(!acc[0][item.product]){
@@ -62,21 +61,27 @@ const InventoryList = (props) => {
                     />
                 </NoStyleLink>
             )
-            } 
+            }
             if(array.length-1 === id){  
                 acc.shift();
             }
+            console.log(acc, 'ACC')
+
             return acc;
-        },[{}])
-        console.log(output, "OUTPUT")
+        }, [{}])
+        previousProps.current = userReservedItems;
         return output;
     }
 
     const listExport = userInventory && companyInventory && companyInventory.items ? 
         filterItems(collectUserItems()) : companyInventory && companyInventory.items ? 
         filterItems(companyInventory.items) : <p>N/A</p>
+    
+    useEffect(() => {
+        previousProps.current = userReservedItems;
+        updateState(userReservedItems);
+    }, [previousProps.current ? previousProps.current.length : previousProps.current])
 
-    console.log(collectUserItems(), "USER ITEMS")
     return (
         <Inventory>
             {listExport}
