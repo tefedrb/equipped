@@ -1,14 +1,14 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
 import ListItem from '../ListItem';
 import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const InventoryList = (props) => {
     // const [currentProps, updateProps] = useState({...props});
-    const { userReservedItems, itemTable, companyInventory, 
-        matchPath, selectedItem, handleClick, userInventory } = props.inventoryViewState;
+    const { userReservedItems, itemTable, companyInventory, selectedItem, userInventory } = props.inventoryViewState;
 
-    const [currentState, updateState] = useState(userReservedItems);
+    const scrollRef = useRef();
+    const [currentState, updateState] = useState([userReservedItems, 0]);
     const previousProps = useRef(currentState);
 
     const NoStyleLink = styled(Link)`
@@ -32,12 +32,19 @@ const InventoryList = (props) => {
         return companyInventory ?
         companyInventory.items.reduce((acc, item) => {
             if(userReservedItems.includes(item.id)){
-                console.log(userReservedItems, "userReservedItems");
                 acc.push(item);
             }
             return acc;
         }, []) : []
     }
+
+    // const setRef = (ref, scrollVal) => {
+    //     const lastScrollValue = ref.current.scrollTop;
+    //     useEffect(() => {
+    //         ref.current.scrollTop = scrollVal;
+    //     })
+    //     return ref.current.scrollTop;
+    // }
 
     const filterItems = (items) => {
         if(items.length === 0) return <p>No Items</p>;
@@ -46,7 +53,7 @@ const InventoryList = (props) => {
             if(!acc[0][item.product]){
             acc[0][item.product] = true;
             acc.push(
-                <NoStyleLink key={id} to={`${matchPath}/${item.id}`}>
+                <NoStyleLink key={id} to={`${props.matchPath}/${item.id}`}>
                     <ListItem 
                         item={item}
                         handleClick={props.handleClick}
@@ -65,8 +72,6 @@ const InventoryList = (props) => {
             if(array.length-1 === id){  
                 acc.shift();
             }
-            console.log(acc, 'ACC')
-
             return acc;
         }, [{}])
         previousProps.current = userReservedItems;
@@ -75,15 +80,21 @@ const InventoryList = (props) => {
 
     const listExport = userInventory && companyInventory && companyInventory.items ? 
         filterItems(collectUserItems()) : companyInventory && companyInventory.items ? 
-        filterItems(companyInventory.items) : <p>N/A</p>
+        filterItems(companyInventory.items) : <p>N/A</p>;
     
+        // On click we need a way of storing the scrollTop variable in useRef
+        // Look into reducing the cals to updateState here
     useEffect(() => {
         previousProps.current = userReservedItems;
-        updateState(userReservedItems);
-    }, [previousProps.current ? previousProps.current.length : previousProps.current])
+        updateState([userReservedItems, currentState[1]]);
+    }, [previousProps.current ? previousProps.current.length : previousProps.current, currentState[1]])
 
+    useLayoutEffect(() => {
+        scrollRef.current.scrollTop = currentState[1];
+    })
+    
     return (
-        <Inventory>
+        <Inventory ref={scrollRef} onClick={() => updateState([currentState[0], scrollRef.current.scrollTop])}>
             {listExport}
         </Inventory>
     )

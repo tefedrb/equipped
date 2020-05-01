@@ -157,7 +157,8 @@ class InventoryView extends React.Component{
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
-    handleClick = (id) => {
+    handleClick = (id, cb) => {
+        if(cb) cb(); 
         this.setState(prevState => {
            return {
                 ...prevState,
@@ -198,19 +199,20 @@ class InventoryView extends React.Component{
                 }
                 return acc;
             },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
-            console.log(itemsList, "ItemList@!")
-
+            
         return (
             <Wrapper id={"inventory-wrap"}>
                 <InventoryListWrap>
                     <InventoryNavWrap>
-                        <NoStyleLink>Inventory</NoStyleLink>
+                        <NoStyleLink >Inventory</NoStyleLink>
                         <NoStyleLink>Your Reserved Items</NoStyleLink>
                     </InventoryNavWrap>
-                    <Inventory id={"inventory"} ref={this.myRef}>
-                    {itemsList}
+                    <Inventory ref={this.myRef}>
+                        {itemsList}
                     </Inventory>
-                    <InventoryList
+                    <InventoryList 
+                        ref={this.myRef}
+                        id={"inventory"}
                         inventoryViewState={this.state} 
                         matchPath={this.props.match.path}
                         handleClick={this.handleClick}
