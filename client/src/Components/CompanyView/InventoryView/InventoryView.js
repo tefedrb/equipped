@@ -8,7 +8,7 @@ import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
 // import { UserConsumer } from '../../UserContext';
 // import History from './History';
-// import InventoryList from './InventoryList';
+import InventoryList from './InventoryList';
 
 const Wrapper = styled.section`
     display: flex;
@@ -60,7 +60,8 @@ class InventoryView extends React.Component{
             inventoryScroll: 0,
             selectedItem: null,
             userReservedItems: null,
-            itemTable: null
+            itemTable: null,
+            userInventory: true
         }
     }
 
@@ -173,18 +174,27 @@ class InventoryView extends React.Component{
                     </NoStyleLink>
                 )
                 } 
+                // this removes the obj which acts as a cache
                 if(array.length-1 === id){  
                     acc.shift();
                 }
                 return acc;
             },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
+            console.log(itemsList, "ItemList@!")
 
         return (
             <Wrapper id={"inventory-wrap"}>
                 <Inventory id={"inventory"} ref={this.myRef}>
                     {itemsList}
                 </Inventory>
-
+                <InventoryList userItems={this.state.userReservedItems} 
+                    itemTable={this.state.itemTable}
+                    companyInventory={this.state.companyInventory}
+                    matchPath={this.props.match.path}
+                    selectedItem={this.state.selectedItem}
+                    handleClick={this.handleClick}
+                    userInventory={this.state.userInventory}
+                />
                 <InventoryOverview>
                     { companyInventory && selectedItem ?
                         <Route 
