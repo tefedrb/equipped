@@ -1,9 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const CompLink = (props) => {
     // Add a way to accept a callback function that activates onclick
+    /* 
+        props: 
+        selectedLink,
+        myName,
+        compName,
+        userContext,
+    */
     const Button = styled.div`
         background-color: ${props.selectedLink === props.myName ? "transparent" : "black"};
         color: ${props.selectedLink === props.myName ? "white" : "#69cb42"};
@@ -26,8 +33,6 @@ const CompLink = (props) => {
     const inventoryRefresh = (myName) => {
         if(props.userContext && myName === "Inventory"){
             const { id } = props.userContext.state.userCompany;
-            console.log(props.userContext)
-            console.log(id, "COMPANY ID");
             console.log("REFRESH!!!!");
             return props.userContext.refreshInventory(id);
         } else {
@@ -36,7 +41,7 @@ const CompLink = (props) => {
     }
     
     return (
-        <Button>
+        <Button className={"testing"}>
             <NavLink onClick={() => inventoryRefresh(props.myName)} style={{textDecoration: 'none'}} to={props.route}>
                 <SectionLabel onClick={() => props.changeSelected(props.myName)}>{props.myName}</SectionLabel>
             </NavLink>

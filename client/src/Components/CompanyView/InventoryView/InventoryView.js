@@ -1,13 +1,9 @@
-// import React, {useState, useEffect, useRef} from 'react';
 import React from 'react';
 import styled from 'styled-components';
-import ListItem from '../ListItem';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import InventoryItem from './InventoryItem';
 import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
-// import { UserConsumer } from '../../UserContext';
-// import History from './History';
 import InventoryList from './InventoryList';
 
 const Wrapper = styled.section`
@@ -29,11 +25,19 @@ const NoItems = styled.div`
     flex-grow: 1;
     padding: 3em;
 `
-const NoStyleLink = styled(Link)`
-    text-decoration: none;
-    &:focus, &hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
+const InventoryListWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const InventoryNavWrap = styled.div`
+    display: flex;
+    background-color: black;
+    width: 100%;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    justify-content: space-around;
 `
 
 const NoItemsMsg = styled.p`
@@ -61,7 +65,8 @@ class InventoryView extends React.Component{
             selectedItem: null,
             userReservedItems: null,
             itemTable: null,
-            userInventory: true
+            userInventory: true,
+            inventoryLink: true
         }
     }
 
@@ -75,15 +80,13 @@ class InventoryView extends React.Component{
         const userReservedItems = [];
         // Setting up itemTable info
         const itemTable = companyInventory && companyInventory.items ? companyInventory.items.reduce((itemTable, item) => {
+            // If the item already exists by product name...
             if(itemTable[item.product]){ 
                 itemTable[item.product].iterations.push(item.id);
                 itemTable[item.product].available.push(item.available);
+                // If the item has a user assigned and our tables item has the same user associated...
                 if(item.itemUser && itemTable[item.product][item.itemUser]){
                     itemTable[item.product][item.itemUser].push(item.id);
-                    // Filling in userReservedItems
-                    if(item.itemUser == user.username){
-                        userReservedItems.push(item.id);
-                    }
                 }
             }
             else { 
@@ -93,6 +96,10 @@ class InventoryView extends React.Component{
                     itemTable[item.product][item.itemUser] = [item.id];
                 }
             }
+             // Filling in userReservedItems
+             if(item.itemUser == user.username){
+                 userReservedItems.push(item.id);
+             }
             return itemTable;
         }, {}) : null;
 
@@ -114,11 +121,8 @@ class InventoryView extends React.Component{
     }
    
     componentDidUpdate(prevProps){
-        this.myRef.current.scrollTop = this.state.inventoryScroll
-        // console.log(this.state.itemTable, "MASTER ITEM TABLE")
         if(prevProps !== this.props){
-            this.setCompanyInventory();
-            
+            this.setCompanyInventory();    
         }
     }
 
@@ -139,62 +143,58 @@ class InventoryView extends React.Component{
         await this.props.refreshInventory(this.props.userContext.userCompany.id);
     }
 
-    handleClick = (id) => {
+    handleClick = (id, cb) => {
+        if(cb) cb(); 
         this.setState(prevState => {
            return {
                 ...prevState,
                 selectedItem: id,
-                inventoryScroll: this.myRef.current.scrollTop
             }
         });
     }
 
-    render(){
-        const { selectedItem, companyInventory } = this.state;
-        const { user } = this.props.userContext;
-        const itemsList = companyInventory && companyInventory.items.length > 0 ? 
-            companyInventory.items.reduce((acc, item, id, array) => {
-                // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
-                if(!acc[0][item.product]){
-                acc[0][item.product] = true;
-                acc.push(
-                    <NoStyleLink key={id} to={`${this.props.match.path}/${item.id}`}>
-                        <ListItem 
-                            item={item}
-                            handleClick={this.handleClick}
-                            selected={selectedItem ? selectedItem.product : null}
-                            index={(id+1).toString()}
-                            key={id}
-                            backgroundColor={
-                                this.state.itemTable[item.product]
-                                    .available
-                                    .find(bool => bool) ? null : "rgba(255,0,0,0.4)"
-                                }
-                        />
-                    </NoStyleLink>
-                )
-                } 
-                // this removes the obj which acts as a cache
-                if(array.length-1 === id){  
-                    acc.shift();
-                }
-                return acc;
-            },[{}]) : <NoItems>NO ITEMS IN INVENTORY</NoItems>;
-            console.log(itemsList, "ItemList@!")
+    switchInventoryView = (event) => {
+        event.persist();
+        const value = event.target.innerText === "Inventory" ? true : false;
+        this.setState(prevProps => {
+            return {
+                ...prevProps,
+                inventoryLink: value
+            }
+        })
+    }
 
+    render(){
+        const { selectedItem, companyInventory, inventoryLink } = this.state;
+        const { user } = this.props.userContext;
+
+        const NoStyleLink = styled.div`
+                color: ${inventoryLink ? "white" : "#69cb42"};
+                text-decoration: none;
+                &:focus, &hover, &:visited, &:link, &:active {
+                    text-decoration: none;
+                }
+                cursor: pointer;
+            `
         return (
             <Wrapper id={"inventory-wrap"}>
-                <Inventory id={"inventory"} ref={this.myRef}>
-                    {itemsList}
-                </Inventory>
-                <InventoryList userItems={this.state.userReservedItems} 
-                    itemTable={this.state.itemTable}
-                    companyInventory={this.state.companyInventory}
-                    matchPath={this.props.match.path}
-                    selectedItem={this.state.selectedItem}
-                    handleClick={this.handleClick}
-                    userInventory={this.state.userInventory}
-                />
+                <InventoryListWrap>
+                    <InventoryNavWrap>
+                        <NoStyleLink style={inventoryLink ? {color: "white"} : {color: "#69cb42"}} onClick={this.switchInventoryView}>
+                            Inventory
+                        </NoStyleLink>
+                        <NoStyleLink style={inventoryLink ? {color: "#69cb42"} : {color: "white"}} onClick={this.switchInventoryView}>
+                            Your Reserved Items
+                        </NoStyleLink>
+                    </InventoryNavWrap>
+                    
+                    <InventoryList 
+                        id={"inventory"}
+                        inventoryViewState={this.state} 
+                        matchPath={this.props.match.path}
+                        handleClick={this.handleClick}
+                    />
+                </InventoryListWrap>
                 <InventoryOverview>
                     { companyInventory && selectedItem ?
                         <Route 
@@ -211,8 +211,7 @@ class InventoryView extends React.Component{
                                             .find(item => match.params.itemId === item.id.toString())}
                                     />
                                 } 
-                        /> : <NoItemsMsg>Use the Equipment section to find your equipment and build you inventory!</NoItemsMsg>
-                    
+                        /> : <NoItemsMsg>Use the Equipment section to find your equipment and build your inventory!</NoItemsMsg>  
                     }
                 </InventoryOverview>
             </Wrapper>
