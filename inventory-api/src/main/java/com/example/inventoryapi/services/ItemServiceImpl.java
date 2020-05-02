@@ -31,7 +31,6 @@ public class ItemServiceImpl implements ItemService {
     public HttpStatus deleteItem(Long itemId){
         try {
             Item item = itemRepository.findById(itemId).get();
-            System.out.println(item.getProduct() + "ITEM!!!!");
             item.getInventory().removeItemById(itemId);
             item.setInventory(null);
             itemRepository.deleteById(itemId);
@@ -65,17 +64,12 @@ public class ItemServiceImpl implements ItemService {
             if (item.getAvailable()) {
                 ItemHistory itemHistory = itemHistoryRepository
                         .getItemHistoryByItemIdAndReturnDateNull(retrievedItem.getId(), retrievedItem.getItemUser());
-                //////////////////////NEEDS CONFIRMATION//////////////////////////////
-                System.out.println(itemHistory.getUsername() + " <----- itemHistory obj user");
-                System.out.println(itemHistory.getId() + " <----- itemHistory obj id");
-                //////////////////////////////////////////////////////////////////////
                 if (retrievedItem.getItemUser().equals(username) && itemHistory.getReturn_date() == null) {
                     // Adding item return date
                     // THIS IS RETURNING A BUNCH OF ENTRIES B/CUZ THE RETURN DATE IS NEVER SET
                     // findItemHistoryByUsernameAndId only returns an obj that doesn't have a return date
                     retrievedItem.setItemUser(null);
                     retrievedItem.setAvailable(true);
-                    System.out.println(retrievedItem.getItemUser() + " CHECKING RETRIEVED ITEM USER!!!!!!! RETURNING.");
                     itemHistoryService.returnItem(itemHistory.getId());
                 }
             }
@@ -84,7 +78,6 @@ public class ItemServiceImpl implements ItemService {
 
             // Reserving Item
             if (retrievedItem.getItemUser() == null && !item.getAvailable()) {
-                System.out.println(item.getAvailable() + " <--- RESERVING ITEM!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 itemHistoryService
                         .addHistory(item.getItemUser(),
                                 retrievedItem,

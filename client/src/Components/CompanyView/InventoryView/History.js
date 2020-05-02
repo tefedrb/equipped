@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import HistoryItem from './HistoryItem';
 import GetHistory from '../../FetchData/InventoryApi/GetHistory';
 
 const History = (props) => {
-    const [history, updateHistory] = useState([]);
-    const {companyInventory} = props.userContext.state;
+    const [ history, updateHistory ] = useState([]);
+    const { companyInventory } = props.userContext.state;
 
-    const checkReturnedHistory = (history, returnedHistory) => {
+    const checkNewHistory = (history, returnedHistory) => {
         return history.some((history, idx) => {
             // Return true if...
             return returnedHistory[idx].id !== history.id ? true :
@@ -19,21 +20,29 @@ const History = (props) => {
         let _isCancelled = false;
         if(companyInventory && companyInventory.id && !_isCancelled){
             GetHistory(companyInventory.id).then(res => {
-                console.log(res, "HISTORY!!")
-                if(checkReturnedHistory(history, res)){
+                console.log(res,"eh")
+                if(checkNewHistory(history, res)){
                     updateHistory(res);
+                    console.log(companyInventory, "inventory history");
+                    
                 }
             })
-            
+           
         }
         return () => {
             _isCancelled = true;
         }
-    },[companyInventory, history]);
+    }, [companyInventory, history]);
 
+    const pullItemInfo = () => {
+
+    }
+
+    // Order history by earliest to last
+    // For each item - productName - 
+    console.log(history, "HISTORY")
     return (
         <>
-            
             
         </>
     )

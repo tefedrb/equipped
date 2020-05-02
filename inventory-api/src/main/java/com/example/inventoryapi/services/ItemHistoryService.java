@@ -12,4 +12,5 @@ public interface ItemHistoryService {
     Boolean returnItem(Long id);
     List<ItemHistory> getHistoryByInventoryId(Long id);
     HttpStatus deleteHistoryByInId(Long id);
+    String generateHistory();
 }

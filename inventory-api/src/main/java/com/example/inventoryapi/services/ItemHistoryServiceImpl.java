@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class ItemHistoryServiceImpl implements ItemHistoryService{
@@ -26,8 +28,18 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
     ItemRepository itemRepository;
 
     @Override
+    public String generateHistory(){
+        SimpleDateFormat eastern = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
+        TimeZone etTimeZone = TimeZone.getTimeZone("America/New_York");
+        eastern.setTimeZone( etTimeZone );
+        Date currentDate = new Date();
+        return eastern.format(currentDate.getTime());
+    }
+
+    @Override
     public ItemHistory addHistory(String username, Item item, Inventory inventory){
-        ItemHistory history = new ItemHistory(username, new Date(), item, inventory);
+
+        ItemHistory history = new ItemHistory(username, this.generateHistory(), item, inventory);
 
         if(itemRepository.findById(item.getId()).isPresent()){
             Item retrieveItem = itemRepository.findById(item.getId()).get();
@@ -46,7 +58,7 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
        if(itemHistoryRepository.findById(id).isPresent()){
            ItemHistory targetHistory = itemHistoryRepository.findById(id).get();
            // RETURNING ITEM
-           targetHistory.setReturn_date(new Date());
+           targetHistory.setReturn_date(this.generateHistory());
            itemHistoryRepository.save(targetHistory);
            return true;
        } else {
@@ -93,5 +105,4 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
            return HttpStatus.INTERNAL_SERVER_ERROR;
        }
     }
-
 }

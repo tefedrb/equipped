@@ -38,14 +38,6 @@ const InventoryList = (props) => {
         }, []) : []
     }
 
-    // const setRef = (ref, scrollVal) => {
-    //     const lastScrollValue = ref.current.scrollTop;
-    //     useEffect(() => {
-    //         ref.current.scrollTop = scrollVal;
-    //     })
-    //     return ref.current.scrollTop;
-    // }
-
     const filterItems = (items) => {
         if(items.length === 0) return <p>No Items</p>;
         const output = items.reduce((acc, item, id, array) => {

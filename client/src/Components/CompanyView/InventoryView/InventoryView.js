@@ -5,21 +5,14 @@ import InventoryItem from './InventoryItem';
 import InventoryOverview from './InventoryOverview';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
 import InventoryList from './InventoryList';
-
+import History from './History';
+import { UserConsumer } from '../../UserContext';
 const Wrapper = styled.section`
     display: flex;
     justify-content: left;
     align-items: center;
     background-color: rgba(255,255,255,0.4);
     margin: 3%;
-`
-const Inventory = styled.div`
-    display: grid;
-    overflow: auto;
-    padding: 1em;
-    max-height: 30em;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(0, 3em);
 `
 const NoItems = styled.div`
     flex-grow: 1;
@@ -29,6 +22,7 @@ const InventoryListWrap = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 15em;
 `
 
 const InventoryNavWrap = styled.div`
@@ -178,11 +172,13 @@ class InventoryView extends React.Component{
             `
         return (
             <Wrapper id={"inventory-wrap"}>
+
                 <InventoryListWrap>
                     <InventoryNavWrap>
                         <NoStyleLink style={inventoryLink ? {color: "white"} : {color: "#69cb42"}} onClick={this.switchInventoryView}>
                             Inventory
                         </NoStyleLink>
+
                         <NoStyleLink style={inventoryLink ? {color: "#69cb42"} : {color: "white"}} onClick={this.switchInventoryView}>
                             Your Reserved Items
                         </NoStyleLink>
@@ -195,6 +191,11 @@ class InventoryView extends React.Component{
                         handleClick={this.handleClick}
                     />
                 </InventoryListWrap>
+
+                <UserConsumer>
+                    {context => <History userContext={context}/>}
+                </UserConsumer>
+
                 <InventoryOverview>
                     { companyInventory && selectedItem ?
                         <Route 
@@ -211,9 +212,10 @@ class InventoryView extends React.Component{
                                             .find(item => match.params.itemId === item.id.toString())}
                                     />
                                 } 
-                        /> : <NoItemsMsg>Use the Equipment section to find your equipment and build your inventory!</NoItemsMsg>  
+                        /> : <NoItemsMsg styled={{alignSelf: "center"}}>Use the Equipment section to find your equipment and build your inventory!</NoItemsMsg>  
                     }
                 </InventoryOverview>
+
             </Wrapper>
         );
     }

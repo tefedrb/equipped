@@ -3,7 +3,12 @@ package com.example.inventoryapi.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Entity
 @Table(name="item_history")
@@ -16,17 +21,16 @@ public class ItemHistory {
     private String username;
 
     @Column(name = "reserve_date")
-    private Date reserve_date;
+    private String reserve_date;
 
     @Column(name = "return_date")
-    private Date return_date;
+    private String return_date;
 
     @JsonBackReference(value = "item-itemHistories")
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
     private Item item;
 
-//    @JsonIgnore
     @JsonBackReference(value = "inventory-histories")
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
@@ -34,7 +38,7 @@ public class ItemHistory {
 
     public ItemHistory() {}
 
-    public ItemHistory(String username, Date reserve_date, Item item, Inventory inventory) {
+    public ItemHistory(String username, String reserve_date, Item item, Inventory inventory) {
         this.username = username;
         this.reserve_date = reserve_date;
         this.item = item;
@@ -73,19 +77,20 @@ public class ItemHistory {
         return id;
     }
 
-    public void setReserve_date(Date reserve_date) {
+    public void setReserve_date(String reserve_date) {
         this.reserve_date = reserve_date;
     }
 
-    public Date getReserve_date() {
+    public String getReserve_date() {
         return reserve_date;
     }
 
-    public void setReturn_date(Date return_date) {
+    public void setReturn_date(String return_date) {
         this.return_date = return_date;
     }
 
-    public Date getReturn_date() {
+    public String getReturn_date() {
         return return_date;
     }
+
 }
