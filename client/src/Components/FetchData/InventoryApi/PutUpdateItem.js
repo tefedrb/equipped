@@ -1,6 +1,5 @@
 const PutUpdateItem = async (user, availability, id) => {
     try {
-        console.log(id, "ID IN PUT UPDATE ITEM")
         const response =
             await fetch("http://localhost:8080/inventory-api/items/update-item", {
                 method: 'put',
@@ -24,7 +23,6 @@ const PutUpdateItem = async (user, availability, id) => {
                 })   
             })
         const data = await response.json();
-        console.log(data, "< in updateItem item to inventory")
         return data;
     } catch (error) {
         console.log("Error in AddToInventory: ", error);
