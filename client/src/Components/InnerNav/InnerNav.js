@@ -11,7 +11,6 @@ const Div = styled.div `
     height: 40px;
     background-color: rgba(57, 57, 57, 0.8);
 `
-
 class InnerNav extends Component {
     constructor(props){
         super(props);
@@ -45,7 +44,6 @@ class InnerNav extends Component {
     }
 
     render(){
-        console.log("rendered!")
         return (
             <Div>
                 <NavLink style={{textDecoration: 'none'}} to="/home">

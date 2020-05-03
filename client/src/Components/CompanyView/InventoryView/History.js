@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HistoryItem from './HistoryItem';
-import GetHistory from '../../FetchData/InventoryApi/GetHistory';
+import GetOrderedHistory from '../../FetchData/InventoryApi/GetOrderedHistory';
 
 const History = (props) => {
     const [ history, updateHistory ] = useState([]);
@@ -26,7 +26,7 @@ const History = (props) => {
     useEffect(() => {
         let _isCancelled = false;
         if(companyInventory && companyInventory.id && !_isCancelled){
-            GetHistory(companyInventory.id).then(res => {
+            GetOrderedHistory(companyInventory.id).then(res => {
                 if(historyIsNew(history, res)){
                     updateHistory(res);
                 }
@@ -38,12 +38,6 @@ const History = (props) => {
         }
     }, [companyInventory, history]);
 
-    const pullItemInfo = () => {
-        // For each item check if history is related
-    }
-    // Order history by earliest to latest by history id
-    // For each item - productName
-    
     return (
         <>
             

@@ -15,4 +15,7 @@ public interface ItemHistoryRepository extends CrudRepository<ItemHistory, Long>
 
     @Query("FROM ItemHistory ih WHERE ih.inventory.inventory_id = ?1")
     List<ItemHistory> getHistoryByInventoryId(Long id);
+
+    @Query("FROM ItemHistory ih WHERE ih.inventory.inventory_id = ?1 ORDER BY unix_reserve LIMIT 50")
+    List<ItemHistory> getHistoryByInventoryId50(Long id);
 }

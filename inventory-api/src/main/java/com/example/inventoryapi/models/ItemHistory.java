@@ -26,6 +26,9 @@ public class ItemHistory {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "item_name")
+    private String item_name;
+
     @Column(name = "reserve_date")
     private String reserve_date;
 
@@ -44,12 +47,21 @@ public class ItemHistory {
 
     public ItemHistory() {}
 
-    public ItemHistory(String username, String reserve_date, long unix_reserve, Item item, Inventory inventory) {
+    public ItemHistory(String username, String reserve_date, long unix_reserve, Item item, String item_name, Inventory inventory) {
         this.unix_reserve = unix_reserve;
         this.username = username;
         this.reserve_date = reserve_date;
         this.item = item;
+        this.item_name = item_name;
         this.inventory = inventory;
+    }
+
+    public String getItem_name() {
+        return item_name;
+    }
+
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
     }
 
     public long getUnix_reserve() {

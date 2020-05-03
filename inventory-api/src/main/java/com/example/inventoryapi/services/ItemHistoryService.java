@@ -14,4 +14,5 @@ public interface ItemHistoryService {
     HttpStatus deleteHistoryByInId(Long id);
     String generateHistory();
     long generateUnixTime();
+    List<ItemHistory> getHistoryByInventoryIdLimit(Long id);
 }

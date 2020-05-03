@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/item-history")
 public class ItemHistoryController {
-    // Get all history from inventory // Get all items based on history
+
     @Autowired
     InventoryService inventoryService;
 
@@ -21,15 +21,13 @@ public class ItemHistoryController {
     ItemHistoryService itemHistoryService;
 
     @GetMapping("/list/{id}")
-    public List<ItemHistory> getHistory(@PathVariable Long id){
-        /*
-                To optimize for front end usage - an idea would be to organize the list
-            So that history entries that are full (have a take out / return date)
-            Are placed at the beginning of the array. This can allow the front-end
-            to perhaps creating a caching system to more easily check if there is
-            a difference between histories (arrays).
-         */
+    public List<ItemHistory> getHistoryByInventoryId(@PathVariable Long id){
         return itemHistoryService.getHistoryByInventoryId(id);
+    }
+
+    @GetMapping("/list-50-order/{id}")
+    public List<ItemHistory> getHistoryByInventoryId50(@PathVariable Long id){
+        return itemHistoryService.getHistoryByInventoryIdLimit(id);
     }
 
     @PutMapping("/delete/{id}")
