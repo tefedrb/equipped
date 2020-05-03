@@ -43,7 +43,7 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
 
     @Override
     public ItemHistory addHistory(String username, Item item, Inventory inventory){
-        ItemHistory history = new ItemHistory(username, this.generateHistory(), this.generateUnixTime(), item, inventory);
+        ItemHistory history = new ItemHistory(username, this.generateHistory(), this.generateUnixTime(), item, item.getProduct(), inventory);
         if(itemRepository.findById(item.getId()).isPresent()){
             Item retrieveItem = itemRepository.findById(item.getId()).get();
             retrieveItem.addToItemHistories(history);
@@ -73,6 +73,16 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
     public List<ItemHistory> getHistoryByInventoryId(Long id){
         try {
             return itemHistoryRepository.getHistoryByInventoryId(id);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<ItemHistory> getHistoryByInventoryIdLimit(Long id){
+        try {
+            return itemHistoryRepository.findByInventoryIdLimit50(id);
         } catch (Exception e){
             System.out.println(e.getMessage());
             return null;

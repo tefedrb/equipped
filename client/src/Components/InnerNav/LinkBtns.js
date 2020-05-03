@@ -12,7 +12,6 @@ const LinkBtns = (props) => {
         backgroundColor: props.activeLink ? "black" : "transparent"
     }
     
-    console.log(props.activeLink, "activeLink")
     return (
         <div style={linkStyle} onClick={() => props.handleClick()}>
             {props.linkName}

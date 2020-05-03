@@ -58,10 +58,7 @@ class CompanyList extends Component {
             />
           )
         }) : "Loading...";
-    
-    // const createMenuDisplayed = this.props.showCreateCompMenu ? "dull-area" : null;
-    
-    // buttonDisplay renders if the 
+
     const buttonDisplay = 
     <button 
       style={this.props.userHasCompany ? buttonStyle : null} 

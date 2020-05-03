@@ -57,7 +57,6 @@ class Home extends Component {
 
   checkMainViewIsLoaded = () => {
     const { isExact } = this.props.match;
-    console.log("IS MAIN LOADED?")
     return isExact ? true : false;
   }
 

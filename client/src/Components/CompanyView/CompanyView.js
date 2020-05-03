@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
 import InventoryView from '../CompanyView/InventoryView/InventoryView';
-import {UserConsumer} from '../UserContext';
+import { UserConsumer } from '../UserContext';
 
 const CompanyViewContainer = styled.div`
   display: flex;
