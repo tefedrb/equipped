@@ -37,10 +37,13 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
     }
 
     @Override
+    public long generateUnixTime(){
+        return System.currentTimeMillis() / 1000L;
+    }
+
+    @Override
     public ItemHistory addHistory(String username, Item item, Inventory inventory){
-
-        ItemHistory history = new ItemHistory(username, this.generateHistory(), item, inventory);
-
+        ItemHistory history = new ItemHistory(username, this.generateHistory(), this.generateUnixTime(), item, inventory);
         if(itemRepository.findById(item.getId()).isPresent()){
             Item retrieveItem = itemRepository.findById(item.getId()).get();
             retrieveItem.addToItemHistories(history);
@@ -49,7 +52,6 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
             Inventory retrieveInventory = inventoryRepository.findById(inventory.getId()).get();
             retrieveInventory.addToHistory(history);
         }
-
         return itemHistoryRepository.save(history);
     }
 
@@ -59,6 +61,7 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
            ItemHistory targetHistory = itemHistoryRepository.findById(id).get();
            // RETURNING ITEM
            targetHistory.setReturn_date(this.generateHistory());
+           targetHistory.setUnix_return(this.generateUnixTime());
            itemHistoryRepository.save(targetHistory);
            return true;
        } else {

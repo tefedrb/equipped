@@ -59,7 +59,6 @@ public class ItemServiceImpl implements ItemService {
         if (itemRepository.findById(item.getId()).isPresent()) {
             Item retrievedItem = itemRepository.findById(item.getId()).get();
             String username = item.getItemUser();
-
             // Returning Item (sent from client - they indicate that the item needs to be returned by making it available)
             if (item.getAvailable()) {
                 ItemHistory itemHistory = itemHistoryRepository

@@ -17,6 +17,12 @@ public class ItemHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "unix_reserve")
+    private long unix_reserve;
+
+    @Column(name = "unix_return")
+    private long unix_return;
+
     @Column(name = "username")
     private String username;
 
@@ -38,11 +44,28 @@ public class ItemHistory {
 
     public ItemHistory() {}
 
-    public ItemHistory(String username, String reserve_date, Item item, Inventory inventory) {
+    public ItemHistory(String username, String reserve_date, long unix_reserve, Item item, Inventory inventory) {
+        this.unix_reserve = unix_reserve;
         this.username = username;
         this.reserve_date = reserve_date;
         this.item = item;
         this.inventory = inventory;
+    }
+
+    public long getUnix_reserve() {
+        return unix_reserve;
+    }
+
+    public void setUnix_reserve(long unix_reserve) {
+        this.unix_reserve = unix_reserve;
+    }
+
+    public long getUnix_return() {
+        return unix_return;
+    }
+
+    public void setUnix_return(long unix_return) {
+        this.unix_return = unix_return;
     }
 
     public Inventory getInventory() {
