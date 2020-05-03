@@ -82,7 +82,7 @@ public class ItemHistoryServiceImpl implements ItemHistoryService{
     @Override
     public List<ItemHistory> getHistoryByInventoryIdLimit(Long id){
         try {
-            return itemHistoryRepository.getHistoryByInventoryId50(id);
+            return itemHistoryRepository.findByInventoryIdLimit50(id);
         } catch (Exception e){
             System.out.println(e.getMessage());
             return null;
