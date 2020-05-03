@@ -86,7 +86,7 @@ const InventoryList = (props) => {
     })
     
     return (
-        <Inventory ref={scrollRef} onClick={() => updateState([currentState[0], scrollRef.current.scrollTop])}>
+        <Inventory id={"Inventory"} ref={scrollRef} onClick={() => updateState([currentState[0], scrollRef.current.scrollTop])}>
             {listExport}
         </Inventory>
     )

@@ -1,10 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import HistoryItem from './HistoryItem';
+import styled from 'styled-components';
 import GetOrderedHistory from '../../FetchData/InventoryApi/GetOrderedHistory';
 
 const History = (props) => {
     const [ history, updateHistory ] = useState([]);
     const { companyInventory } = props.userContext.state;
+
+    const HistoryWrap = styled.div`
+        display: flex;
+        flex-direction: column;
+        max-height: 30em;
+        scrollbar-width: thin;
+    `
+
+    const ItemsWrapper = styled.div`
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    `
+
+    const HistoryHeader = styled.h4`
+        background-color: black;
+        color: white;
+        padding: .5em 0;
+        font-weight: 400;
+    `
 
     const historyIsNew = (prevHistory, returnedHistory) => {
         if(returnedHistory.length === 0){
@@ -38,10 +59,19 @@ const History = (props) => {
         }
     }, [companyInventory, history]);
 
+    const historyItems = history.length >= 1 ? history.map((item, key) => {
+        return <HistoryItem item={item} key={key} />
+    }) : "No History"
+
     return (
-        <>
-            
-        </>
+        <HistoryWrap>
+            <HistoryHeader>
+                Item History
+            </HistoryHeader>
+            <ItemsWrapper id={"History Wrap"}>
+                {historyItems}
+            </ItemsWrapper>
+        </HistoryWrap>
     )
 }
 

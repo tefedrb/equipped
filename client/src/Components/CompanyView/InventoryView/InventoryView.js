@@ -32,14 +32,14 @@ const InventoryListWrap = styled.div`
     flex-direction: column;
     align-items: center;
     min-width: 15em;
+    margin: 0 .5em;
 `
 
 const InventoryNavWrap = styled.div`
     display: flex;
     background-color: black;
     width: 100%;
-    padding-top: .5em;
-    padding-bottom: .5em;
+    padding: .5em 0;
     justify-content: space-around;
 `
 
@@ -174,8 +174,8 @@ class InventoryView extends React.Component{
         return (
             <Wrapper id={"inventory-wrap"}>
 
-                <InventoryListWrap>
-                    <InventoryNavWrap>
+                <InventoryListWrap id={"Inventory-List-Wrap"}>
+                    <InventoryNavWrap id={"Inventory-Nav-Wrap"}>
                         <NoStyleLink style={inventoryLink ? {color: "white"} : {color: "#69cb42"}} onClick={this.switchInventoryView}>
                             Inventory
                         </NoStyleLink>
@@ -186,7 +186,6 @@ class InventoryView extends React.Component{
                     </InventoryNavWrap>
                     
                     <InventoryList 
-                        id={"inventory"}
                         inventoryViewState={this.state} 
                         matchPath={this.props.match.path}
                         handleClick={this.handleClick}
