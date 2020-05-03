@@ -42,7 +42,6 @@ class App extends Component {
   }
 
   login = async (jwt) => {
-    console.log("HERE")
     await Promise.all([GetUser(jwt), GetUserCompany(jwt), GetWaitList(jwt)])
       .then(async (responses) => {
         if(responses[1].id){
@@ -182,7 +181,7 @@ class App extends Component {
               />   
               <Route
                 path="/home"
-                render={() => <Home />}
+                render={({ match }) => <Home match={match}/>}
               /> 
               <Footer />  
           </div>

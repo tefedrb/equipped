@@ -33,7 +33,6 @@ const CompLink = (props) => {
     const inventoryRefresh = (myName) => {
         if(props.userContext && myName === "Inventory"){
             const { id } = props.userContext.state.userCompany;
-            console.log("REFRESH!!!!");
             return props.userContext.refreshInventory(id);
         } else {
             return null;

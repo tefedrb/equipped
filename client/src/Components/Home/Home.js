@@ -17,7 +17,8 @@ class Home extends Component {
       showCreateCompMenu: false,
       selectedCompany: null,
       companyViewLoaded: false,
-      sectionLoaded: null
+      sectionLoaded: null,
+      mainView: this.props.match.isExact
     }
   }
  
@@ -54,10 +55,10 @@ class Home extends Component {
     })
   }
 
-  sectionLoaded = (loaded) => {
-    this.setState({
-      sectionLoaded: loaded
-    })
+  checkMainViewIsLoaded = () => {
+    const { isExact } = this.props.match;
+    console.log("IS MAIN LOADED?")
+    return isExact ? true : false;
   }
 
   // Move create company menu into company list?
@@ -65,7 +66,7 @@ class Home extends Component {
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
-        <InnerNav loaded={this.state.sectionLoaded} />
+        <InnerNav mainLoaded={this.checkMainViewIsLoaded()} />
         <UserConsumer>
           { context =>
             <CreateCompanyMenu 
@@ -81,8 +82,6 @@ class Home extends Component {
           exact path="/home" 
           render={() => 
             <MainView
-              loadedState={this.state.sectionLoaded}
-              loaded={this.sectionLoaded}
               selectedCompany={this.state.selectedCompany}
               toggleCreateCompany={this.toggleCreateCompany} 
               showCreateCompMenu={this.state.showCreateCompMenu}
@@ -93,7 +92,9 @@ class Home extends Component {
 
         <Route 
           path="/home/company" 
-          render={({match}) => <CompanyView match={match} loaded={this.sectionLoaded} />}
+          render={({ match }) => 
+            <CompanyView match={match} loaded={this.sectionLoaded} />
+          }
         />
       </div>
     )

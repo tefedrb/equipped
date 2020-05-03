@@ -1,6 +1,7 @@
 import React from 'react';
 
 const LinkBtns = (props) => {
+
     const linkStyle = {
         display: "flex",
         flexDirection: "column",
@@ -8,11 +9,12 @@ const LinkBtns = (props) => {
         color: "white",
         height: "40px",
         padding: "0 2em",
-        backgroundColor: props.activeLink === props.linkName ? "black" : "transparent"
+        backgroundColor: props.activeLink ? "black" : "transparent"
     }
     
+    console.log(props.activeLink, "activeLink")
     return (
-        <div style={linkStyle} onClick={() => props.activateLink(props.linkName)}>
+        <div style={linkStyle} onClick={() => props.handleClick()}>
             {props.linkName}
         </div>
     )

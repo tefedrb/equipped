@@ -11,15 +11,6 @@ const Main = styled.main`
     align-items: center;
 `
 const MainView = (props) => {
-
-    const { loadedState } = props;
-
-    useEffect(() => {
-        if(!loadedState){
-         props.loaded("Main");
-        }
-    })
-
     return (
         <UserConsumer>
             {context => 

@@ -16,7 +16,7 @@ class InnerNav extends Component {
     constructor(props){
         super(props);
         this.state = {
-            activeLink: "Main"
+            activeLink: null
         }
     }
 
@@ -26,26 +26,41 @@ class InnerNav extends Component {
         })
     }
 
-    componentDidUpdate(){
-        if(this.props.loaded !== this.state.activeLink){
-            this.activateLink(this.props.loaded);
+    checkIfActive = (linkName) => {
+        return this.state.activeLink === linkName ? true : false;
+    }
+
+    componentDidMount(){
+        this.setState({
+            activeLink: this.props.mainLoaded ? "Main" : "Company View"
+        })
+    }
+
+    componentDidUpdate(prevProps){
+        if(this.props !== prevProps){
+            this.setState({
+                activeLink: this.props.mainLoaded ? "Main" : "Company View"
+            })
         }
     }
 
     render(){
+        console.log("rendered!")
         return (
             <Div>
                 <NavLink style={{textDecoration: 'none'}} to="/home">
                     <LinkBtns 
-                        linkName={"Main"} 
-                        activeLink={this.state.activeLink} 
+                        activeLink={this.checkIfActive("Main")}
+                        linkName={"Main"}
+                        handleClick={() => this.activateLink("Main")} 
                         activateLink={this.activateLink} 
                     />
                 </NavLink>
                 <NavLink style={{textDecoration: 'none'}} to="/home/company">
                     <LinkBtns 
+                        activeLink={this.checkIfActive("Company View")}
                         linkName={"Company View"} 
-                        activeLink={this.state.activeLink} 
+                        handleClick={() => this.activateLink("Company View")}
                         activateLink={this.activateLink} 
                     />
                 </NavLink>
