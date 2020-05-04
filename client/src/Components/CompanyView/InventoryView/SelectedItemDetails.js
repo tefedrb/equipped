@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const InventoryOverview = (props) => {
+const SelectedItemDetails = (props) => {
     const Overview = styled.div`
         height: 100%;
         padding: 1em;
@@ -18,4 +18,4 @@ const InventoryOverview = (props) => {
     )
 }
 
-export default InventoryOverview;
+export default SelectedItemDetails;

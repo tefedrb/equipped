@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
 import InventoryItem from './InventoryItem';
-import InventoryOverview from './InventoryOverview';
+import SelectedItemDetails from './SelectedItemDetails';
 import PutUpdateItem from '../../FetchData/InventoryApi/PutUpdateItem'
 import InventoryList from './InventoryList';
 import History from './History';
 import { UserConsumer } from '../../UserContext';
+import MiddleViewWrapper from '../../MiddleViewWrapper';
 
 const NoStyleLink = styled.div`
     color: white;
@@ -15,13 +16,6 @@ const NoStyleLink = styled.div`
         text-decoration: none;
     }
     cursor: pointer;
-`
-const Wrapper = styled.section`
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    background-color: rgba(255,255,255,0.4);
-    margin: 3%;
 `
 const NoItems = styled.div`
     flex-grow: 1;
@@ -172,10 +166,9 @@ class InventoryView extends React.Component{
         const { user } = this.props.userContext;
 
         return (
-            <Wrapper id={"inventory-wrap"}>
-
-                <InventoryListWrap id={"Inventory-List-Wrap"}>
-                    <InventoryNavWrap id={"Inventory-Nav-Wrap"}>
+            <MiddleViewWrapper id={"inventory"}>
+                <InventoryListWrap id={"inventory-list-wrap"}>
+                    <InventoryNavWrap id={"inventory-nav-wrap"}>
                         <NoStyleLink style={inventoryLink ? {color: "white"} : {color: "#69cb42"}} onClick={this.switchInventoryView}>
                             Inventory
                         </NoStyleLink>
@@ -196,7 +189,7 @@ class InventoryView extends React.Component{
                     {context => <History userContext={context}/>}
                 </UserConsumer>
 
-                <InventoryOverview>
+                <SelectedItemDetails>
                     { companyInventory && selectedItem ?
                         <Route 
                             path={`${this.props.match.path}/:itemId`} 
@@ -214,9 +207,8 @@ class InventoryView extends React.Component{
                                 } 
                         /> : <NoItemsMsg styled={{alignSelf: "center"}}>Use the Equipment section to find your equipment and build your inventory!</NoItemsMsg>  
                     }
-                </InventoryOverview>
-
-            </Wrapper>
+                </SelectedItemDetails>
+            </MiddleViewWrapper>
         );
     }
 }

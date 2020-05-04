@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
 
-const ListItem = (props) => {
+const GearItemButton = (props) => {
     
     const Category = styled.div`
         display: flex;
@@ -43,4 +43,4 @@ const ListItem = (props) => {
     )
 }
 
-export default ListItem;
+export default GearItemButton;
