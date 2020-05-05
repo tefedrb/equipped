@@ -20,6 +20,11 @@ const HistoryItem = (props) => {
     const Span = styled.span`
         color: #69cb42;
         margin-bottom: 1em;
+        padding: 0 1em;
+    `
+
+    const Returned = styled(Span)`
+        color: white;
     `
 
     return (
@@ -31,7 +36,7 @@ const HistoryItem = (props) => {
             <P>Reserve date:</P>
             <Span>{props.item.reserve_date}</Span>
             <P>Returned:</P>
-            <Span>{props.item.return_date ? props.item.return_date : "Still Out"}</Span>
+            <Returned>{props.item.return_date ? props.item.return_date : "Still Out"}</Returned>
         </ItemWrap>
     )
 }

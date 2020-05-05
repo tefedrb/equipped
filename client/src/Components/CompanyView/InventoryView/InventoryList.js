@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
-import ListItem from '../ListItem';
+import GearItemButton from '../GearItemButton';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -39,14 +39,14 @@ const InventoryList = (props) => {
     }
 
     const filterItems = (items) => {
-        if(items.length === 0) return <p>No Items</p>;
+        if(items.length === 0) return "No Items";
         const output = items.reduce((acc, item, id, array) => {
             // Doesn't allow duplicates on list (ids of duplicates saved in itemTable)
             if(!acc[0][item.product]){
             acc[0][item.product] = true;
             acc.push(
                 <NoStyleLink key={id} to={`${props.matchPath}/${item.id}`}>
-                    <ListItem 
+                    <GearItemButton 
                         item={item}
                         handleClick={props.handleClick}
                         selected={selectedItem ? selectedItem.product : null}
@@ -86,7 +86,11 @@ const InventoryList = (props) => {
     })
     
     return (
-        <Inventory id={"Inventory"} ref={scrollRef} onClick={() => updateState([currentState[0], scrollRef.current.scrollTop])}>
+        <Inventory 
+            id={"Inventory"} 
+            ref={scrollRef} 
+            onClick={() => updateState([currentState[0], scrollRef.current.scrollTop])}
+        >
             {listExport}
         </Inventory>
     )

@@ -18,6 +18,7 @@ const History = (props) => {
         display: flex;
         flex-direction: column;
         overflow: auto;
+        padding: 1em;
     `
 
     const HistoryHeader = styled.h4`
@@ -25,6 +26,8 @@ const History = (props) => {
         color: white;
         padding: .5em 0;
         font-weight: 400;
+        margin: 0;
+        padding: .5em 0;
     `
 
     const historyIsNew = (prevHistory, returnedHistory) => {

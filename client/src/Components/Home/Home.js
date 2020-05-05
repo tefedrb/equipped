@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 import CreateCompanyMenu from '../CreateCompanyMenu';
 import {Route} from 'react-router-dom';
 import CompanyView from '../CompanyView/CompanyView';
-import InnerNav from '../InnerNav/InnerNav';
+import ParentNav from '../ParentNav/ParentNav';
 import CheckJwt from '../../CheckJwt';
 import MainView from './MainView';
 import {UserConsumer} from '../UserContext';
@@ -65,7 +65,7 @@ class Home extends Component {
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
-        <InnerNav mainLoaded={this.checkMainViewIsLoaded()} />
+        <ParentNav mainLoaded={this.checkMainViewIsLoaded()} />
         <UserConsumer>
           { context =>
             <CreateCompanyMenu 

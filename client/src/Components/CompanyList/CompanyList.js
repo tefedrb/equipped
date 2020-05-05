@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import CompanyListItem from './CompanyListItem';
-import GetCompanyList from '../FetchData/GetCompanyList';
+import GetCompanyList from '../FetchData/UsersApi/GetCompanyList';
 
 class CompanyList extends Component {
   // This sets up a flag that stops setState from 

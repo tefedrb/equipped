@@ -45,10 +45,12 @@ const CompanyNav = (props) => {
         justify-content: center;
         align-items: center;
     `
+
+    console.log(userCompany , "USER COMPANY")
     const routes = {
         default: "/home/company",
         Equipment: "/home/company/equipment-view",
-        Inventory: "/home/company/inventory-view"
+        Inventory: "/home/company/inventory-view",
     }
     
     const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
