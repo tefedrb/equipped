@@ -4,10 +4,10 @@ import Home from './Components/Home/Home';
 import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccountAccess/AccessAccount';
 import Footer from './Components/Footer';
-import GetUser from './Components/FetchData/GetUser';
-import GetUserCompany from './Components/FetchData/GetUserCompany';
-import GetWaitList from './Components/FetchData/GetWaitList';
-import JoinWaitList from './Components/FetchData/JoinWaitList';
+import GetUser from './Components/FetchData/UsersApi/GetUser';
+import GetUserCompany from './Components/FetchData/UsersApi/GetUserCompany';
+import GetWaitList from './Components/FetchData/UsersApi/GetWaitList';
+import JoinWaitList from './Components/FetchData/UsersApi/JoinWaitList';
 import GetInventory from './Components/FetchData/InventoryApi/GetInventory';
 import {
   BrowserRouter as Router,

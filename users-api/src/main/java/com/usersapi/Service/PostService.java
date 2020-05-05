@@ -11,4 +11,5 @@ public interface PostService {
     HttpStatus deletePost(Long id);
     ResponseEntity<Post> editPost(Post post);
     List<Post> listAllPosts();
+    List<Post> listAllPostsByCompanyId(Long id);
 }

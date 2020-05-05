@@ -64,4 +64,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> listAllPosts(){
         return (List<Post>) postRepository.findAll();
     }
+
+    @Override
+    public List<Post> listAllPostsByCompanyId(Long id) throws IllegalArgumentException {
+        return postRepository.findPostsByCompanyId(id);
+    }
 }

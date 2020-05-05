@@ -11,7 +11,7 @@ const Div = styled.div `
     height: 40px;
     background-color: rgba(57, 57, 57, 0.8);
 `
-class InnerNav extends Component {
+class ParentNav extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -67,4 +67,4 @@ class InnerNav extends Component {
     }
 }
 
-export default InnerNav;
+export default ParentNav;

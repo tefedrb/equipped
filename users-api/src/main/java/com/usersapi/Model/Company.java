@@ -33,6 +33,28 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private WaitList waitList;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Post> posts;
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void addPost(Post post){
+        if(posts == null){
+            this.posts = new ArrayList<>();
+        }
+        posts.add(post);
+    }
+
+    public void removePost(Post post){
+        this.posts.removeIf(p -> p.getId().equals(post.getId()));
+    }
+
     public WaitList getWaitList(){
         return this.waitList;
     }

@@ -25,4 +25,8 @@ public class PostController {
         return postService.listAllPosts();
     }
 
+    @GetMapping("/list/{id}")
+    public List<Post> listAllPostsByCompanyId(@PathVariable Long id){
+        return postService.listAllPostsByCompanyId(id);
+    }
 }

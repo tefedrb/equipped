@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
-import GetUserCompany from '../FetchData/GetUserCompany';
+import GetUserCompany from '../FetchData/UsersApi/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
 import InventoryView from '../CompanyView/InventoryView/InventoryView';
 import { UserConsumer } from '../UserContext';
+import Forum from '../Forum/Forum';
 
 const CompanyViewContainer = styled.div`
   display: flex;
@@ -48,6 +49,10 @@ class CompanyView extends Component{
           {context => <CompanyNav userContext={context} />}
         </UserConsumer>
         <CompanyViewContainer>
+          <Route 
+            path={`${this.props.match.path}`}
+            render={() => <Forum />} 
+          />
           <Route 
             path={`${this.props.match.path}/equipment-view`} 
             render={() => <EquipmentView />}

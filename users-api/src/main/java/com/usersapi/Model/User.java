@@ -34,7 +34,6 @@ public class User {
     @JsonBackReference
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_company")
     private Company company;
 
     @JsonIgnore

@@ -15,10 +15,11 @@ import MiddleViewWrapper from '../../MiddleViewWrapper';
 /* Notes: 
     1. Might want to switch to a local look up of items for better performance.
     2. Need to all user to search for particular items via a search bar
-    3. (Done) Users should be able to click on the main category button and have subcategory items unchecked
+    3. (Done) Users should be able to click on the main category button and have 
+       subcategory items unchecked
 */ 
 class EquipmentView extends React.Component {
-    isCancelled = false 
+    _isCancelled = false 
     constructor(props){
         super(props);
         this.scrollRef = React.createRef();
@@ -38,11 +39,11 @@ class EquipmentView extends React.Component {
     }
 
     componentDidUpdate(){
-        this.scrollRef.current.scrollTop = this.state.listScroll
+        this.scrollRef.current.scrollTop = this.state.listScroll;
     }
     
     componentWillUnmount(){
-        this.isCancelled = true;
+        this._isCancelled = true;
     }
 
     setAllItems = async () => {
@@ -59,19 +60,19 @@ class EquipmentView extends React.Component {
     setMainCategories = async () => {
         try {
             const response = await GetEquipCategoryNames();
-            if(!this.isCancelled){
+            if(!this._isCancelled){
                 this.setState(prevState => {
                     return  {
-                                ...prevState,
-                                mainSelected: null,
-                                subSelected: null,
-                                itemSelected: null,
-                                mainCategories: response
-                            }
+                        ...prevState,
+                        mainSelected: null,
+                        subSelected: null,
+                        itemSelected: null,
+                        mainCategories: response
+                    }
                 });
             }
         } catch(e){
-            if(!this.isCancelled){
+            if(!this._isCancelled){
                 console.log("Error in EquipmentView useEffect: ", e);
             }
         }
@@ -81,13 +82,13 @@ class EquipmentView extends React.Component {
         if(name){
             await GetAllItemsByCategory(name).then(res => {
                 const allItemsByCat = res;
-                if(!this.isCancelled){
+                if(!this._isCancelled){
                     this.setState(prevState => {
                         return {    
-                                    ...prevState,
-                                    allItemsByCat: allItemsByCat,
-                                    itemsBySelectedCat: allItemsByCat 
-                            }
+                            ...prevState,
+                            allItemsByCat: allItemsByCat,
+                            itemsBySelectedCat: allItemsByCat 
+                        }
                     });
                     console.log(allItemsByCat, "< allItems")
                 }
@@ -117,12 +118,12 @@ class EquipmentView extends React.Component {
         await GetEquipBySubCategory(id).then(res => {
             const allItemsBySubCat = res;
             console.log(res, "< sub cat items RESPONSE")
-            if(!this.isCancelled){
+            if(!this._isCancelled){
                 this.setState(prevState => {
                     return {
-                                ...prevState,
-                                itemsBySelectedCat: allItemsBySubCat
-                            }
+                        ...prevState,
+                        itemsBySelectedCat: allItemsBySubCat
+                    }
                 })
             }
         })
@@ -130,7 +131,7 @@ class EquipmentView extends React.Component {
 
     getAllSubCategoryNames = async (id) => {
         await GetEquipSubCatNames(id).then(res => {
-            if(!this.isCancelled){
+            if(!this._isCancelled){
                 this.setState(prevState => {
                     return {
                                 ...prevState,
@@ -154,14 +155,11 @@ class EquipmentView extends React.Component {
     }
 
     render(){
-        const {itemsBySelectedCat, subCategories, mainCategories, itemSelected, mainSelected, subSelected} = this.state;
-        const Wrapper = styled.section`
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            background-color: rgba(255,255,255,0.4);
-            margin: 3%;
-        ` 
+        const {
+                itemsBySelectedCat, subCategories, mainCategories, 
+                itemSelected, mainSelected, subSelected
+                } = this.state;
+
         const MainCatContainer = styled.div`
             display: grid;
             overflow: auto;
