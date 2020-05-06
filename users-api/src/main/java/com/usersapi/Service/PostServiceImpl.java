@@ -30,6 +30,9 @@ public class PostServiceImpl implements PostService {
     @Autowired
     CompanyRepository companyRepository;
 
+    @Autowired
+    DateService dateService;
+
     @Override
     public ResponseEntity<Post> createPost(Post post){
         try {
@@ -48,7 +51,7 @@ public class PostServiceImpl implements PostService {
 
             post.setCompany(userCompany);
 
-            post.setPost_date(this.generateHistory());
+            post.setPost_date(dateService.currentDateString());
 
             return ResponseEntity.ok(postRepository.save(post));
 
@@ -56,15 +59,6 @@ public class PostServiceImpl implements PostService {
             System.err.println(e.getMessage());
         }
         return null;
-    }
-
-    @Override
-    public String generateHistory(){
-        SimpleDateFormat eastern = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
-        TimeZone etTimeZone = TimeZone.getTimeZone("America/New_York");
-        eastern.setTimeZone( etTimeZone );
-        Date currentDate = new Date();
-        return eastern.format(currentDate.getTime());
     }
 
     @Override

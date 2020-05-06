@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Interface from '../../pictures/interface.png'
 import Comment from '../Forum/Comment';
@@ -6,6 +6,14 @@ import Comment from '../Forum/Comment';
 // Icons made by https://www.flaticon.com/authors/freepik Freepik
 
 const Post = (props) => {
+    const [commentState, updateCommentState] = useState({ display: false, comments: [] });
+
+    useEffect(() => {
+        if(props.comments){
+            updateCommentState(props.comments);
+        }
+    }, [props.comments])
+
     const PostWrap = styled.div`
         display: flex;
         min-width: 30em;
@@ -75,9 +83,18 @@ const Post = (props) => {
         color: "white"
     }
 
+    const toggleCommentDisplay = () => {
+        updateCommentState(prevState => {
+            return {
+                ...prevState, 
+                display: !prevState.display
+            }
+        })
+    }
+
     const collectComments = props.comments ? props.comments.map((comment, idx) => 
         <Comment>
-            
+
         </Comment>
     ) : "No Comments"
 
@@ -99,8 +116,9 @@ const Post = (props) => {
                 <p>{props.post.post_txt}</p>
             </PostText>
             <CommentSelection>
-                <img src={Interface} />
+                <img src={Interface} onClick={toggleCommentDisplay}/>
             </CommentSelection>
+            {commentState.display ? collectComments : ""}
         </PostWrap> 
     )
 }

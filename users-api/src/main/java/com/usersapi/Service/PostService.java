@@ -12,5 +12,4 @@ public interface PostService {
     ResponseEntity<Post> editPost(Post post);
     List<Post> listAllPosts();
     List<Post> listAllPostsByCompanyId(Long id);
-    String generateHistory();
 }
