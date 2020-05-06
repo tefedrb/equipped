@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public interface CommentService {
-    ResponseEntity<?> createComment(Comment comment, Long postId);
+    ResponseEntity<Comment> createComment(Comment comment, Long postId);
     HttpStatus deleteComment(Long id);
 }
