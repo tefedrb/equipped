@@ -9,27 +9,25 @@ const Comment = (props) => {
         align-self: center;
         margin: .5em 0em;
     `
+    
     const CommentHeader = styled(PostHeader)`
         background-color: rgba(105, 203, 66, .5);
     `
-    
 
     return (
-        <>
-            <CommentBody>
-                <CommentHeader>
-                    <P>
-                        <span style={dataAtt}>{props.comment.comment_username}</span>
-                    </P>
-                    <P>
-                        <span style={dataAtt}>{props.comment.comment_date}</span>
-                    </P>
-                </CommentHeader>
-                <PostText>
-                    {props.comment.comment_txt} 
-                </PostText>
-            </CommentBody>
-        </>
+        <CommentBody>
+            <CommentHeader>
+                <P>
+                    <span style={dataAtt}>{props.comment.comment_username}</span>
+                </P>
+                <P>
+                    <span style={dataAtt}>{props.comment.comment_date}</span>
+                </P>
+            </CommentHeader>
+            <PostText>
+                {props.comment.comment_txt} 
+            </PostText>
+        </CommentBody>
     )
 }
 

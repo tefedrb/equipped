@@ -12,6 +12,7 @@ import GetCommentsByPostId from '../FetchData/UsersApi/GetCommentsByPostId';
         background-color: rgba(0,0,0,0.4);
         flex-direction: column;
         align-content: space-between;
+        margin: 1em;
     `
     export const PostHeader = styled.div`
         display: flex;
