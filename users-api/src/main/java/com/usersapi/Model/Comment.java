@@ -19,6 +19,9 @@ public class Comment {
     @Column(name = "comment_username")
     private String comment_username;
 
+    @Column(name = "comment_date")
+    private String comment_date;
+
     @JsonIgnore
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
                 CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -28,6 +31,14 @@ public class Comment {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Post post;
+
+    public String getComment_date() {
+        return comment_date;
+    }
+
+    public void setComment_date(String comment_date) {
+        this.comment_date = comment_date;
+    }
 
     public String getComment_username() {
         return comment_username;

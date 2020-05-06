@@ -116,30 +116,4 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
-
-//    @Override
-//    public User returnUser(long id, Object reqObj){
-//        User user = userRepository.findById(id).get();
-//        if(reqObj)
-//    }
-
-//    @Override
-//    public HttpStatus joinCompany(Long id, String password){
-//        // Checking for user authentication
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        // Getting the username associated with the jwt
-//        String userName = authentication.getName();
-//        //  Find user by username
-//        // I might need to recreate the company before I save it?
-//        User authUser = userRepository.findByUsername(userName);
-//
-//        Company targetCompany = companyRepository.findById(id).get();
-//
-//        if(password.equals(targetCompany.getPassword())){
-//            targetCompany.addToWaitList(authUser);
-//            companyRepository.save(targetCompany);
-//            return HttpStatus.OK;
-//        }
-//        return HttpStatus.NOT_ACCEPTABLE;
-//    }
 }

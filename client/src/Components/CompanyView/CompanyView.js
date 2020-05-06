@@ -44,34 +44,36 @@ class CompanyView extends Component{
 
   render(){
     return (
-      <>
         <UserConsumer>
-          {context => <CompanyNav userContext={context} />}
+          {context => 
+            <>
+              <CompanyNav userContext={context} />
+
+              <CompanyViewContainer>
+                <Route 
+                  exact path={`${this.props.match.path}`}
+                  render={() => <Forum userContext={context}/>} 
+                />
+
+                <Route 
+                  path={`${this.props.match.path}/equipment-view`} 
+                  render={() => <EquipmentView />}
+                />
+
+                <Route 
+                  path={"/home/company/inventory-view"} 
+                  render={({ match }) => 
+                    <InventoryView 
+                      match={match} 
+                      refreshInventory={context.refreshInventory} 
+                      userContext={context.state}
+                    />
+                  }
+                /> 
+              </CompanyViewContainer>
+            </>
+          }
         </UserConsumer>
-        <CompanyViewContainer>
-          <Route 
-            path={`${this.props.match.path}`}
-            render={() => <Forum />} 
-          />
-          <Route 
-            path={`${this.props.match.path}/equipment-view`} 
-            render={() => <EquipmentView />}
-          />
-          <Route 
-            path={"/home/company/inventory-view"} 
-            render={({match}) => 
-              <UserConsumer>
-                {context => <InventoryView 
-                                match={match} 
-                                refreshInventory={context.refreshInventory} 
-                                userContext={context.state}
-                              />
-                }
-              </UserConsumer>
-            } 
-          /> 
-        </CompanyViewContainer>
-      </>
     );
   }
 }

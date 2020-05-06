@@ -33,6 +33,7 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private WaitList waitList;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts;
 
