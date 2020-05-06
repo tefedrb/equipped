@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import Interface from '../../pictures/interface.png'
+import Comment from '../Forum/Comment';
+
+// Icons made by https://www.flaticon.com/authors/freepik Freepik
 
 const Post = (props) => {
     const PostWrap = styled.div`
@@ -42,7 +46,7 @@ const Post = (props) => {
         }
     `
     const PostText = styled.div`
-        border: .5px solid black;
+        border-top: .5px solid black;
         height: 100%;
         padding: 1em;
         display: flex;
@@ -53,27 +57,50 @@ const Post = (props) => {
         }
     `
 
+    const CommentSelection = styled.div`
+        display: flex;
+        justify-content: flex-end;
+        height: 100%;
+        width: 100%;
+        border-bottom: .5px solid black;
+
+        > img {
+            cursor: pointer;
+            width: 1em;
+            padding: .5em;
+        }
+    `
+
     const dataAtt = {
         color: "white"
     }
+
+    const collectComments = props.comments ? props.comments.map((comment, idx) => 
+        <Comment>
+            
+        </Comment>
+    ) : "No Comments"
 
     return (
         <PostWrap>
             <PostHeader>
                 <P>
-                <span>User:</span><span style={dataAtt}>{props.post.post_username}</span>
+                    <span>User:</span><span style={dataAtt}>{props.post.post_username}</span>
                 </P>
                 <P>
                     <span style={dataAtt}>{props.post.post_date}</span>
                 </P>
             </PostHeader>
             <PostTitle>
-            <span>Subject:</span>
-            <span style={dataAtt}>{props.post.title}</span>
+                <span>Subject:</span>
+                <span style={dataAtt}>{props.post.title}</span>
             </PostTitle>
             <PostText>
-            <p>{props.post.post_txt}</p>
+                <p>{props.post.post_txt}</p>
             </PostText>
+            <CommentSelection>
+                <img src={Interface} />
+            </CommentSelection>
         </PostWrap> 
     )
 }
