@@ -1,6 +1,7 @@
 package com.usersapi.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -41,9 +42,11 @@ public class User {
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private WaitList waitList;
 
+   @JsonManagedReference(value = "user-post")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
@@ -67,15 +70,15 @@ public class User {
         return posts;
     }
 
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
     public void addPost(Post post){
         if(posts == null){
             posts = new ArrayList<>();
         }
         posts.add(post);
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
     }
 
     public void setWaitList(WaitList waitList){

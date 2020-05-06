@@ -1,6 +1,6 @@
 package com.usersapi.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,6 +18,9 @@ public class Post {
     @Column(name="post_title", nullable = false)
     private String title;
 
+    @Column(name="post_date")
+    private String post_date;
+
     @Column(name="post_username")
     private String post_username;
 
@@ -29,14 +32,23 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
-    @JsonIgnore
+    @JsonBackReference(value = "user-post")
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private User user;
 
+    @JsonBackReference
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private Company company;
+
+    public String getPost_date() {
+        return post_date;
+    }
+
+    public void setPost_date(String post_date) {
+        this.post_date = post_date;
+    }
 
     public Company getCompany() {
         return company;

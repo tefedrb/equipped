@@ -1,7 +1,9 @@
 package com.usersapi.Service;
 
+import com.usersapi.Model.Company;
 import com.usersapi.Model.Post;
 import com.usersapi.Model.User;
+import com.usersapi.Repository.CompanyRepository;
 import com.usersapi.Repository.PostRepository;
 import com.usersapi.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -22,19 +27,44 @@ public class PostServiceImpl implements PostService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CompanyRepository companyRepository;
+
     @Override
     public ResponseEntity<Post> createPost(Post post){
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String userName = authentication.getName();
+
             User authorizedUser = userRepository.findByUsername(userName);
+
             post.setPost_username(userName);
+            post.setUser(authorizedUser);
             authorizedUser.addPost(post);
+
+            Company userCompany = authorizedUser.getCompany();
+
+            userCompany.addPost(post);
+
+            post.setCompany(userCompany);
+
+            post.setPost_date(this.generateHistory());
+
             return ResponseEntity.ok(postRepository.save(post));
+
         } catch (IllegalArgumentException e){
             System.err.println(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public String generateHistory(){
+        SimpleDateFormat eastern = new SimpleDateFormat("MM/dd/yyyy 'at' hh:mma 'ET'");
+        TimeZone etTimeZone = TimeZone.getTimeZone("America/New_York");
+        eastern.setTimeZone( etTimeZone );
+        Date currentDate = new Date();
+        return eastern.format(currentDate.getTime());
     }
 
     @Override
