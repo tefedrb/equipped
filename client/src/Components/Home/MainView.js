@@ -19,7 +19,7 @@ const MainView = (props) => {
                             <MainDisplay
                                 userContext={context}
                                 selectedCompany={props.selectedCompany}
-                                showCreateCompMenu={props.showCreateCompMenu} 
+                                parentForceMenuDisplay={props.parentForceMenuDisplay} 
                             />   
                         }
                     />
@@ -27,7 +27,7 @@ const MainView = (props) => {
                             <CompanyList
                                 userContext={context}
                                 getCompanyInfo={props.getCompanyInfo} 
-                                showCreateCompMenu={props.showCreateCompMenu}
+                                parentForceMenuDisplay={props.parentForceMenuDisplay}
                                 toggleCreateCompany={props.toggleCreateCompany}
                             />
                         }
