@@ -17,16 +17,13 @@ const NoStyleLink = styled.div`
     }
     cursor: pointer;
 `
-const NoItems = styled.div`
-    flex-grow: 1;
-    padding: 3em;
-`
 const InventoryListWrap = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 15em;
     margin: 0 .5em;
+    max-height: 30em;
 `
 
 const InventoryNavWrap = styled.div`
