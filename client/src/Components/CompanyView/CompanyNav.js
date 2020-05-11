@@ -53,7 +53,7 @@ const CompanyNav = (props) => {
         Inventory: "/home/company/inventory-view",
     }
     
-    const linkTypes = ["Inventory", "Equipment", "Users", "Wait List"];
+    const linkTypes = ["Inventory", "Equipment"];
 
     const saveStateForRefresh = (name) => {
         localStorage.setItem("companyViewSelectedLink", name);

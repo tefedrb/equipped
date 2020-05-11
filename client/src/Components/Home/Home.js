@@ -1,15 +1,13 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import CompanyView from '../CompanyView/CompanyView';
 import ParentNav from '../ParentNav/ParentNav';
 import CheckJwt from '../../CheckJwt';
 import MainView from './MainView';
-import {UserConsumer} from '../UserContext';
-import CreateCompanyMenu from '../DropDownMenu/CreateCompanyMenu';
-import TestCreateComp from '../DropDownMenu/TestCreateComp';
-
+import { UserConsumer } from '../UserContext';
+import CreateCompanyDropDown from '../DropDownMenu/CreateCompanyDropDown';
 
 class Home extends Component {
   _isMounted = false;
@@ -73,11 +71,11 @@ class Home extends Component {
             <DropDownMenu
               parentForceMenuDisplay={this.state.parentForceMenuDisplay}
               render={display => 
-              <TestCreateComp 
-                displayMenu={display} 
-                userContext={context}
-              />}
-              
+                <CreateCompanyDropDown 
+                  displayMenu={display} 
+                  userContext={context}
+                />
+              }
             />
           }
         </UserConsumer>
@@ -106,14 +104,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-
-
-
-
-// <CreateCompanyMenu
-//               userContext={context}
-//               toggleCreateCompany={this.toggleCreateCompany} 
-//               showDropDown={this.state.parentForceMenuDisplay}
-//               setUserCompany={this.props.setUserCompany}
-//             />

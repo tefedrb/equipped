@@ -13,14 +13,12 @@ const History = (props) => {
         max-height: 30em;
         scrollbar-width: thin;
     `
-
     const ItemsWrapper = styled.div`
         display: flex;
         flex-direction: column;
         overflow: auto;
         padding: 1em;
     `
-
     const HistoryHeader = styled.h4`
         background-color: black;
         color: white;
@@ -29,7 +27,6 @@ const History = (props) => {
         margin: 0;
         padding: .5em 0;
     `
-
     const historyIsNew = (prevHistory, returnedHistory) => {
         if(returnedHistory.length === 0){
             return false;
