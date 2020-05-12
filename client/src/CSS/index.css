@@ -24,6 +24,7 @@ body {
   text-align: center;
   flex-direction: column;
   align-content: space-between;
+  align-items: center;
   background-image: url('../pictures/gear-layout.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -101,6 +102,8 @@ footer img {
 }
 
 .home {
+  max-width: 1280px;
+  min-width: 1080px;
   display: flex;
   flex-grow: 1;
   flex-direction: column;

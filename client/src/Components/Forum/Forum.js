@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Wrapper } from '../MiddleViewWrapper';
 import GetPostsByCompany from '../FetchData/UsersApi/GetPostsByCompany';
 import styled from 'styled-components';
 import Post from './Post';
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
 import ForumPostDropDown from '../DropDownMenu/ForumPostDropDown';
+import UsersList from '../Forum/UsersList';
 import { UserConsumer } from '../UserContext';
 
 const AllPostsWrap = styled.div`
@@ -59,28 +60,29 @@ const Forum = (props) => {
 
     return (
         <CenterForum id={"forum"}>
-            <ForumWrap id={"forum-wrap"}>
-                <PostButton onClick={togglePostMenu}>Create Post</PostButton>
-                  
-                <UserConsumer>
-                    { context => 
-                        <DropDownMenu
-                            parentMenuDisplaySwitch={forumState.postMenuDisplay}
-                            toggleParentMenuSwitch={togglePostMenu}
-                            render={display => 
-                                <ForumPostDropDown
-                                    displayMenu={display}
-                                    userContext={context}
-                                />
-                            }    
-                        /> 
-                    }
-                </UserConsumer>
-
-                <AllPostsWrap id={"all-posts-wrap"}>
-                    {collectPosts}
-                </AllPostsWrap>
-            </ForumWrap>
+            <UserConsumer>
+            { context => 
+                <>
+                    <ForumWrap id={"forum-wrap"}>
+                        <PostButton onClick={togglePostMenu}>Create Post</PostButton>
+                            <DropDownMenu
+                                parentMenuDisplaySwitch={forumState.postMenuDisplay}
+                                toggleParentMenuSwitch={togglePostMenu}
+                                render={display => 
+                                    <ForumPostDropDown
+                                        displayMenu={display}
+                                        userContext={context}
+                                    />
+                                }    
+                            /> 
+                        <AllPostsWrap id={"all-posts-wrap"}>
+                            {collectPosts}
+                        </AllPostsWrap>
+                    </ForumWrap>
+                </>
+             }
+            </UserConsumer>
+            <UsersList />
         </CenterForum>
     )
 }
