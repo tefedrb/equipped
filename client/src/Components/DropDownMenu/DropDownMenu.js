@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const Div = styled.div `
@@ -34,27 +34,31 @@ const showMenu = {
 }
 
 const DropDownMenu = (props) => {
-    const [menuDisplay, toggleDisplay] = useState(false);
-    const { parentForceMenuDisplay } = props;
+    const { parentMenuDisplaySwitch, toggleParentMenuSwitch } = props;
     
     useEffect(() => {
-        console.log("yeah")
+        console.log(parentMenuDisplaySwitch, "PARENT SWITCH")
+        const listenForEscape = (e) => {
+            if(e.key === "Escape" && parentMenuDisplaySwitch){
+                toggleParentMenuSwitch();
+            }
+        } 
 
-        if(parentForceMenuDisplay && !menuDisplay){
-            toggleDisplay(true);
-            console.log("yeah in")
+        document.addEventListener("keydown", listenForEscape);
+
+        return () => {
+            console.log("here...")
+            document.removeEventListener("keydown", listenForEscape);
         }
-    }, [parentForceMenuDisplay])
+    }, [parentMenuDisplaySwitch, toggleParentMenuSwitch])
 
     return  (
-        <DropDown style={menuDisplay ? showMenu : null}>
+        <DropDown style={parentMenuDisplaySwitch ? showMenu : null}>
             <Div>
-                {props.render(toggleDisplay)}  
+                {props.render(toggleParentMenuSwitch)}
             </Div>
         </DropDown> 
     )
 };
 
 export default DropDownMenu;
-
-

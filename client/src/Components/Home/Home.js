@@ -24,6 +24,7 @@ class Home extends Component {
  
   toggleCreateCompany = () => {
     this.setState(prevState => ({
+      ...prevState,
       parentForceMenuDisplay: !prevState.parentForceMenuDisplay
     }))
   }
@@ -62,14 +63,17 @@ class Home extends Component {
 
   // Move create company menu into company list?
   render(){
+    console.log("home (parent) re-render")
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
         <ParentNav mainLoaded={this.checkMainViewIsLoaded()} />
+
         <UserConsumer>
           { context =>
             <DropDownMenu
-              parentForceMenuDisplay={this.state.parentForceMenuDisplay}
+              parentMenuDisplaySwitch={this.state.parentForceMenuDisplay}
+              toggleParentMenuSwitch={this.toggleCreateCompany}
               render={display => 
                 <CreateCompanyDropDown 
                   displayMenu={display} 

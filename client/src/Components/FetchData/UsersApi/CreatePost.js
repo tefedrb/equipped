@@ -1,11 +1,12 @@
 const CreatePost = async (post) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/posts/create-post/", {
-                method: 'get',
+            await fetch("http://localhost:8080/users-api/posts/create-post", {
+                method: 'post',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',
-                    'Content-Type' : 'application/json'
+                    'Content-Type' : 'application/json',
+                    'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
                 },
                 body: JSON.stringify(post)
             })

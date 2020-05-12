@@ -41,12 +41,12 @@ const NoItemsMsg = styled.p`
     height: 4em;
 `
 
-const Stats = styled.div`
-    flex-grow: 1;
-    align-items: center;
-    flex-direction: column;
-    padding: .2em;
-`
+// const Stats = styled.div`
+//     flex-grow: 1;
+//     align-items: center;
+//     flex-direction: column;
+//     padding: .2em;
+// `
 
 class InventoryView extends React.Component{
     isCancelled = false;

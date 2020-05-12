@@ -21,7 +21,7 @@ const ForumPostDropDown = (props) => {
     const [menuState, updateMenuState] = useState({title: "", content: ""});
 
     const handleChange = (event) => {
-        console.log(event.target.name)
+        event.persist();
         updateMenuState(prevState => {
             return {
                 ...prevState,
@@ -31,14 +31,10 @@ const ForumPostDropDown = (props) => {
     }
 
     const createPost = (event) => {
-        // Event - Title
-        // Content
         event.preventDefault();
-        // Check if user has company else continue
-        CreatePost(menuState.name, menuState.password, menuState.type)
+        CreatePost({title: menuState.title, post_username: null, post_txt: menuState.content})
         .then(() => {
             props.displayMenu(prev => !prev);
-            // Insert company information into user
             props.userContext.setUserCompany();
         })
     }
@@ -48,27 +44,27 @@ const ForumPostDropDown = (props) => {
             <Form id="create-post" onSubmit={createPost}>
                 <Label>Title
                     <input 
-                        value={menuState.name}
+                        value={menuState.title}
                         required 
                         type="text"
                         name="title" 
-                        placeholder="post title"
+                        placeholder="title"
                         onChange={handleChange}
                     />
                 </Label>
 
-                <Label>Password
+                <Label>Content
                     <input 
-                        required value={menuState.password} 
-                        type="password" 
+                        required value={menuState.content} 
+                        type="text" 
                         name="content"
-                        placeholder="create password"
+                        placeholder="content"
                         onChange={handleChange}
                     />
                 </Label>
             </Form>
             <Button form="create-post" type="submit">Post</Button>
-            <Button onClick={() => props.displayMenu(prev => !prev)}>Back</Button>
+            <Button onClick={() => props.displayMenu()}>Back</Button>
         </>
     )
 };

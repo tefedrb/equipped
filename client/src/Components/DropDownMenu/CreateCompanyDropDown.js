@@ -21,6 +21,7 @@ const CreateCompanyDropDown = (props) => {
     const [menuState, updateMenuState] = useState({name: "", password: "", type: 'media'});
 
     const handleChange = (event) => {
+        event.persist();
         updateMenuState(prevState => {
             return {
                 ...prevState,
@@ -31,11 +32,9 @@ const CreateCompanyDropDown = (props) => {
 
     const createCompany = (event) => {
         event.preventDefault();
-        // Check if user has company else continue
         CreateCompany(menuState.name, menuState.password, menuState.type)
         .then(() => {
             props.displayMenu(prev => !prev);
-            // Insert company information into user
             props.userContext.setUserCompany();
         })
     }
@@ -74,7 +73,7 @@ const CreateCompanyDropDown = (props) => {
                 
             </Form>
             <Button form="create-comp" type="submit">Create Company</Button>
-            <Button onClick={() => props.displayMenu(prev => !prev)}>Back</Button>
+            <Button onClick={() => props.displayMenu()}>Back</Button>
         </>
     )
 };

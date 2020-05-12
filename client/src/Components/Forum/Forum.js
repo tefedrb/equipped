@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Wrapper } from '../MiddleViewWrapper';
 import GetPostsByCompany from '../FetchData/UsersApi/GetPostsByCompany';
 import styled from 'styled-components';
@@ -7,44 +7,42 @@ import DropDownMenu from '../DropDownMenu/DropDownMenu';
 import ForumPostDropDown from '../DropDownMenu/ForumPostDropDown';
 import { UserConsumer } from '../UserContext';
 
+const AllPostsWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 30em;
+    overflow: auto;
+`
+const CenterForum = styled(Wrapper)`
+    justify-content: center;
+`
+const ForumWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+const PostButton = styled.button`
+    width: 8em;
+    margin-top: 1em;
+    cursor: pointer;
+`
 const Forum = (props) => {
     const [forumState, updateForumState] = useState({ posts: null, postMenuDisplay: false});
     const { userCompany } = props.userContext.state;
 
-    const AllPostsWrap = styled.div`
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-    `
-    const CenterForum = styled(Wrapper)`
-        justify-content: center;
-    `
-    const ForumWrap = styled.div`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-self: center;
-    `
-    const PostButton = styled.button`
-        width: 8em;
-        margin-top: 1em;
-        cursor: pointer;
-    `
-    const createPost = () => {
+    const togglePostMenu = () => {
         updateForumState(prevState => {
             return {
                 ...prevState,
-                postMenuDisplay: true
+                postMenuDisplay: !prevState.postMenuDisplay
             }
         })
     }
 
     useEffect(() => {
-        console.log(props.userContext.state, "STATE")
         if(userCompany && userCompany.id){
             GetPostsByCompany(userCompany.id).then(res => {
-                console.log(res, "POSTS")
                 updateForumState(prevState => { 
                     return { 
                             ...prevState, 
@@ -53,7 +51,7 @@ const Forum = (props) => {
                 });
             })
         }
-    }, [userCompany || forumState.posts]);
+    }, [userCompany]);
 
     const collectPosts = forumState.posts && forumState.posts.length >= 1 ? forumState.posts.map((post, idx) => 
         <Post post={post} key={idx} />   
@@ -62,19 +60,24 @@ const Forum = (props) => {
     return (
         <CenterForum id={"forum"}>
             <ForumWrap id={"forum-wrap"}>
-                <PostButton onClick={() => createPost()}>Create Post</PostButton>
-                <UserConsumer>{context => 
-                    <DropDownMenu
-                        parentForceMenuDisplay={forumState.postMenuDisplay} 
-                        render={display => 
-                            <ForumPostDropDown 
-                                displayMenu={display}
-                                userContext={context}
-                            />}    
-                    /> 
+                <PostButton onClick={togglePostMenu}>Create Post</PostButton>
+                  
+                <UserConsumer>
+                    { context => 
+                        <DropDownMenu
+                            parentMenuDisplaySwitch={forumState.postMenuDisplay}
+                            toggleParentMenuSwitch={togglePostMenu}
+                            render={display => 
+                                <ForumPostDropDown
+                                    displayMenu={display}
+                                    userContext={context}
+                                />
+                            }    
+                        /> 
                     }
                 </UserConsumer>
-                <AllPostsWrap>
+
+                <AllPostsWrap id={"all-posts-wrap"}>
                     {collectPosts}
                 </AllPostsWrap>
             </ForumWrap>
@@ -83,16 +86,3 @@ const Forum = (props) => {
 }
 
 export default Forum;
-
-// {
-
-//     <DropDownMenu
-//         parentForceMenuDisplay={forumState.postMenuDisplay} 
-//         render={display => 
-//             <ForumPostDropDown 
-//                 displayMenu={display}
-//                 userContext={context}
-//             />}    
-//     /> 
-
-// }
