@@ -1,7 +1,7 @@
 const CreateComment = async (comment, post_id) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/comments/create-comment" + post_id, {
+            await fetch("http://localhost:8080/users-api/comments/create-comment/" + post_id, {
                 method: 'post',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

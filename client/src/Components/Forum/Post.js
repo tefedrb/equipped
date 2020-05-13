@@ -1,9 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Interface from '../../pictures/interface.png'
-import addButton from '../../pictures/addButton.png';
-import Comment from '../Forum/Comment';
-import GetCommentsByPostId from '../FetchData/UsersApi/GetCommentsByPostId';
 import CommentSection from './CommentSection';
 // Icons made by https://www.flaticon.com/authors/freepik Freepik
 
@@ -112,6 +109,3 @@ const Post = (props) => {
 }
 
 export default Post;
-
-// <CommentSection postId={id} commentsDisplay={commentsDisplay} />
-// 
