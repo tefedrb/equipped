@@ -36,10 +36,16 @@ const UsersList = () => {
     const [users, updateUsers] = useState([]);
 
     useEffect(() => {
+        let isCancelled = false;
         if(users.length < 1){
             GetCompanyUsersList(localStorage.getItem("jwt"))
-                .then(res => updateUsers(res));
+                .then(res => {
+                    if(!isCancelled){
+                        updateUsers(res);
+                    }
+                });
         }
+        return () => isCancelled = true;
     }, [users])
 
     return (

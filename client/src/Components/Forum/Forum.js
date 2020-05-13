@@ -25,7 +25,7 @@ const ForumWrap = styled.div`
 `
 const PostButton = styled.button`
     width: 8em;
-    margin-top: 1em;
+    margin: 1em 0;
     cursor: pointer;
 `
 const Forum = (props) => {
@@ -56,13 +56,12 @@ const Forum = (props) => {
 
     const collectPosts = forumState.posts && forumState.posts.length >= 1 ? forumState.posts.map((post, idx) => 
         <Post post={post} key={idx} />   
-    ) : "";
+    ).reverse() : "";
 
     return (
         <CenterForum id={"forum"}>
             <UserConsumer>
-            { context => 
-                <>
+                { context => 
                     <ForumWrap id={"forum-wrap"}>
                         <PostButton onClick={togglePostMenu}>Create Post</PostButton>
                             <DropDownMenu
@@ -74,13 +73,12 @@ const Forum = (props) => {
                                         userContext={context}
                                     />
                                 }    
-                            /> 
+                            />
                         <AllPostsWrap id={"all-posts-wrap"}>
                             {collectPosts}
                         </AllPostsWrap>
                     </ForumWrap>
-                </>
-             }
+                }
             </UserConsumer>
             <UsersList />
         </CenterForum>

@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Interface from '../../pictures/interface.png'
+import addButton from '../../pictures/addButton.png';
 import Comment from '../Forum/Comment';
 import GetCommentsByPostId from '../FetchData/UsersApi/GetCommentsByPostId';
+import CommentSection from './CommentSection';
 // Icons made by https://www.flaticon.com/authors/freepik Freepik
 
 export const PostWrap = styled.div`
@@ -62,6 +64,7 @@ const CommentSelection = styled.div`
     justify-content: flex-end;
     height: 100%;
     width: 100%;
+    max-height: 20em;
     border-bottom: .5px solid black;
 
     > img {
@@ -70,36 +73,18 @@ const CommentSelection = styled.div`
         padding: .5em;
     }
 `
+
 export const dataAtt = {
     color: "white"
 }
 
-
 const Post = (props) => {
-    const [commentState, updateCommentState] = useState({ display: false, comments: [] });
+    const [commentsDisplay, updateCommentsDisplay] = useState(false);
 
-    useEffect(() => {
-        if(props.comments){
-            updateCommentState(props.comments);
-        }
-    }, [props.comments])
-
-    const toggleCommentDisplay = async () => {
-        // getcomments by postid const comments = Get
-        const getComments = !commentState.display ? await GetCommentsByPostId(props.post.id) : [];
-        updateCommentState(prevState => {
-            return {
-                ...prevState, 
-                display: !prevState.display,
-                comments: !prevState.display ? getComments : getComments
-            }
-        })
-        // Get comments by post id
+    const handleClick = () => {
+        console.log(commentsDisplay)
+        updateCommentsDisplay(prev => !prev);
     }
-
-    const collectComments = commentState.comments.length >= 1 ? commentState.comments.map((comment, idx) => 
-        <Comment comment={comment} key={idx} />
-    ) : "No Comments"
 
     return (
         <PostWrap>
@@ -119,11 +104,14 @@ const Post = (props) => {
                 <p>{props.post.post_txt}</p>
             </PostText>
             <CommentSelection>
-                <img alt={"toggle comments"} src={Interface} onClick={toggleCommentDisplay}/>
+                <img alt={"toggle comments"} src={Interface} onClick={handleClick}/>
             </CommentSelection>
-            {commentState.display ? collectComments : ""}
+            {commentsDisplay ? <CommentSection postId={props.post.id} commentsDisplay={commentsDisplay} /> : ""}
         </PostWrap> 
     )
 }
 
 export default Post;
+
+// <CommentSection postId={id} commentsDisplay={commentsDisplay} />
+// 
