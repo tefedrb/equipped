@@ -56,9 +56,18 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public HttpStatus deleteComment(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authUser = userRepository.findByUsername(userName);
         if (commentRepository.findById(id).isPresent()) {
-            commentRepository.deleteById(id);
-            return HttpStatus.OK;
+            Comment targetComment = commentRepository.findById(id).get();
+            if(targetComment.getUser().getUsername().equals(userName) || authUser.getUserRole().getRoleType().equals("ADMIN")) {
+                Post targetPost = postRepository.findById(targetComment.getPost().getId()).get();
+                targetPost.removeComment(id);
+                commentRepository.deleteById(id);
+                postRepository.save(targetPost);
+                return HttpStatus.OK;
+            }
         }
         return HttpStatus.FORBIDDEN;
     }

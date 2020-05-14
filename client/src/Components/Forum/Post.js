@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Interface from '../../pictures/interface.png'
 import CommentSection from './CommentSection';
+import { UserConsumer } from '../UserContext';
 // Icons made by https://www.flaticon.com/authors/freepik Freepik
 
 export const PostWrap = styled.div`
@@ -13,6 +14,7 @@ export const PostWrap = styled.div`
     align-content: space-between;
     margin: 1em;
 `
+
 export const PostHeader = styled.div`
     display: flex;
     -webkit-box-sizing: border-box;
@@ -24,6 +26,7 @@ export const PostHeader = styled.div`
     font-size: .80em;
     border: .5px solid black;
 `
+
 export const P = styled.p`
     margin: 0;
     padding: .5em;
@@ -31,6 +34,7 @@ export const P = styled.p`
         margin: .5em;
     }
 `
+
 export const PostTitle = styled.h4`
     display: flex;
     margin: 0;
@@ -44,6 +48,7 @@ export const PostTitle = styled.h4`
         margin: .2em;
     }
 `
+
 export const PostText = styled.div`
     border-top: .5px solid black;
     height: 100%;
@@ -56,6 +61,7 @@ export const PostText = styled.div`
         margin: 0;
     }
 `
+
 const CommentSelection = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -84,27 +90,38 @@ const Post = (props) => {
     }
 
     return (
-        <PostWrap>
-            <PostHeader>
-                <P>
-                    <span>User:</span><span style={dataAtt}>{props.post.post_username}</span>
-                </P>
-                <P>
-                    <span style={dataAtt}>{props.post.post_date}</span>
-                </P>
-            </PostHeader>
-            <PostTitle>
-                <span>Subject:</span>
-                <span style={dataAtt}>{props.post.title}</span>
-            </PostTitle>
-            <PostText>
-                <p>{props.post.post_txt}</p>
-            </PostText>
-            <CommentSelection>
-                <img alt={"toggle comments"} src={Interface} onClick={handleClick}/>
-            </CommentSelection>
-            {commentsDisplay ? <CommentSection postId={props.post.id} commentsDisplay={commentsDisplay} /> : ""}
-        </PostWrap> 
+        <UserConsumer>
+            {context =>
+                <PostWrap>
+                    <PostHeader>
+                        <P>
+                            <span>User:</span><span style={dataAtt}>{props.post.post_username}</span>
+                        </P>
+                        <P>
+                            <span style={dataAtt}>{props.post.post_date}</span>
+                        </P>
+                    </PostHeader>
+                    <PostTitle>
+                        <span>Subject:</span>
+                        <span style={dataAtt}>{props.post.title}</span>
+                    </PostTitle>
+                    <PostText>
+                        <p>{props.post.post_txt}</p>
+                    </PostText>
+                    <CommentSelection>
+                        <img alt={"toggle comments"} src={Interface} onClick={handleClick}/>
+                    </CommentSelection>
+                    {   
+                        commentsDisplay ? 
+                        <CommentSection 
+                            user={context.state.user} 
+                            postId={props.post.id} 
+                            commentsDisplay={commentsDisplay} 
+                        /> : ""
+                    }
+                </PostWrap> 
+            }
+        </UserConsumer>
     )
 }
 

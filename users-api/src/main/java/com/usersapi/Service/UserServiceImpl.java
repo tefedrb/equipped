@@ -77,11 +77,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getUser(username);
-        System.out.println("IN USERDETAILS !!!!!");
-        System.out.println(user.getUsername() + " <USER NAME HERE!!!!!");
         if(user==null)
             throw new UsernameNotFoundException("User null");
-        System.out.println("IN USERDETAILS PAST NULL CHECK...");
         return new org.springframework.security.core.userdetails.User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
                 true, true, true, true, getGrantedAuthorities(user));
     }
@@ -98,7 +95,6 @@ public class UserServiceImpl implements UserService {
 
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
-        System.out.println("IN GET GRANTED AUTHORITIES");
         authorities.add( new SimpleGrantedAuthority(user.getUserRole().getRoleType()));
         return authorities;
     }

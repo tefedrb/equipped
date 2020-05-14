@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import GetCommentsByPostId from '../FetchData/UsersApi/GetCommentsByPostId';
 import CreateComment from '../FetchData/UsersApi/CreateComment';
+import DeleteComment from '../FetchData/UsersApi/DeleteComment';
 import addButton from '../../pictures/addButton.png'
 import Comment from './Comment';
 import hideButton from '../../pictures/hideButton.png'
@@ -49,6 +50,7 @@ const TextArea = styled.textarea`
 const AddCommentBtn = styled.button`
     margin-top: 1px;
 `
+
 const CommentSection = (props) => {
     const [comments, updateComments] = useState([]);
     const [commentBox, updateCommentBox] = useState({ display: false, input: "" });
@@ -61,9 +63,9 @@ const CommentSection = (props) => {
         });
     }
 
-    const handleCommentSubmit = () => {
+    const handleCommentSubmit = async () => {
         if(commentBox.input.length > 2){
-            CreateComment({ comment_txt: commentBox.input }, props.postId);
+            await CreateComment({ comment_txt: commentBox.input }, props.postId);
             toggleCommentBoxDisplay();
         } else {
             alert("Add more characters to your comment!")
@@ -92,9 +94,13 @@ const CommentSection = (props) => {
         }
     }
 
+    const deleteComment = async (comment_id) => {
+        await DeleteComment(comment_id);
+        updateComments(prev => prev.push("refresh"));
+    }
+
     useEffect(() => {
         let _isCancelled = false;
-
         if(props.commentsDisplay){
            GetCommentsByPostId(props.postId)
                 .then(res => {
@@ -107,11 +113,12 @@ const CommentSection = (props) => {
         return () => {
             _isCancelled = true;
         }
-    }, [props.commentsDisplay, commentBox.display])
+    }, [props.commentsDisplay, commentBox.display, comments.length])
 
-    const collectComments = comments.length >= 1 ? comments.map((comment, idx) => 
-        <Comment comment={comment} key={idx} />
-    ).reverse() : "No Comments";
+    console.log(props.user.username, "USER CONTEXT")
+    const collectComments = comments.length >= 1 && props.user.username ? comments.map((comment, idx) => 
+        <Comment comment={comment} key={idx} user={props.user} delete={deleteComment} />
+    ).reverse() : <p>No Comments</p>;
 
     return (
         <CommentSectionWrap>

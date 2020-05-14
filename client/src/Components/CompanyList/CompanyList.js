@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import CompanyListItem from './CompanyListItem';
 import GetCompanyList from '../FetchData/UsersApi/GetCompanyList';
 

@@ -4,6 +4,7 @@ import com.usersapi.Model.Comment;
 import com.usersapi.Repository.CommentRepository;
 import com.usersapi.Service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +32,10 @@ public class CommentController {
         } else {
             return null;
         }
+    }
+
+    @DeleteMapping("/delete/{comment_id}")
+    public HttpStatus deleteCommentById(@PathVariable Long comment_id){
+        return commentService.deleteComment(comment_id);
     }
 }

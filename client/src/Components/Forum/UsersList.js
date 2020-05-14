@@ -32,7 +32,7 @@ const Ul = styled.ul`
 const UserData = styled.p`
     color: white;
 `
-const UsersList = () => {
+const UsersList = (props) => {
     const [users, updateUsers] = useState([]);
 
     useEffect(() => {
@@ -48,9 +48,11 @@ const UsersList = () => {
         return () => isCancelled = true;
     }, [users])
 
+    const waitList = props.userContext.state.user.userRole.type !== "ADMIN" ? <span>Wait List |</span> : "";
     return (
         <ComponentWrap>
-            <p>Company Users</p>
+            <p>| <span>Company Users</span> | {waitList}</p>
+            
             <UsersListWrap>
                 <Ul>
                     {users.map((user, idx) =>  

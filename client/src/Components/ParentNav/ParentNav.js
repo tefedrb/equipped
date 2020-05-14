@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import LinkBtns from './LinkBtns';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Div = styled.div `
     display: flex;
@@ -31,14 +31,14 @@ class ParentNav extends Component {
 
     componentDidMount(){
         this.setState({
-            activeLink: this.props.mainLoaded ? "Main" : "Company View"
+            activeLink: this.props.mainLoaded ? "Company List" : "Company View"
         })
     }
 
     componentDidUpdate(prevProps){
         if(this.props !== prevProps){
             this.setState({
-                activeLink: this.props.mainLoaded ? "Main" : "Company View"
+                activeLink: this.props.mainLoaded ? "Company List" : "Company View"
             })
         }
     }
@@ -48,9 +48,9 @@ class ParentNav extends Component {
             <Div>
                 <NavLink style={{textDecoration: 'none'}} to="/home">
                     <LinkBtns 
-                        activeLink={this.checkIfActive("Main")}
-                        linkName={"Main"}
-                        handleClick={() => this.activateLink("Main")} 
+                        activeLink={this.checkIfActive("Company List")}
+                        linkName={"Company List"}
+                        handleClick={() => this.activateLink("Company List")} 
                         activateLink={this.activateLink} 
                     />
                 </NavLink>

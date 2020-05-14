@@ -62,25 +62,27 @@ const Forum = (props) => {
         <CenterForum id={"forum"}>
             <UserConsumer>
                 { context => 
-                    <ForumWrap id={"forum-wrap"}>
-                        <PostButton onClick={togglePostMenu}>Create Post</PostButton>
-                            <DropDownMenu
-                                parentMenuDisplaySwitch={forumState.postMenuDisplay}
-                                toggleParentMenuSwitch={togglePostMenu}
-                                render={display => 
-                                    <ForumPostDropDown
-                                        displayMenu={display}
-                                        userContext={context}
-                                    />
-                                }    
-                            />
-                        <AllPostsWrap id={"all-posts-wrap"}>
-                            {collectPosts}
-                        </AllPostsWrap>
-                    </ForumWrap>
+                    <>
+                        <ForumWrap id={"forum-wrap"}>
+                            <PostButton onClick={togglePostMenu}>Create Post</PostButton>
+                                <DropDownMenu
+                                    parentMenuDisplaySwitch={forumState.postMenuDisplay}
+                                    toggleParentMenuSwitch={togglePostMenu}
+                                    render={display => 
+                                        <ForumPostDropDown
+                                            displayMenu={display}
+                                            userContext={context}
+                                        />
+                                    }    
+                                />
+                            <AllPostsWrap id={"all-posts-wrap"}>
+                                {collectPosts}
+                            </AllPostsWrap>
+                        </ForumWrap>
+                        <UsersList userContext={context}/>
+                    </>
                 }
-            </UserConsumer>
-            <UsersList />
+            </UserConsumer> 
         </CenterForum>
     )
 }

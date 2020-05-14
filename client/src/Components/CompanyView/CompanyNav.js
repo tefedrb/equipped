@@ -88,7 +88,7 @@ const CompanyNav = (props) => {
     return (
         <Nav id={"company-nav"}>
             <Ul> 
-                <Li>
+                <Li style={{width: "1em"}}>
                     <CompanyName>Company:</CompanyName> 
                     {
                         state.userCompany ? 

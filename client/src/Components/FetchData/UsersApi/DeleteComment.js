@@ -1,20 +1,19 @@
-const CreateComment = async (comment, post_id) => {
+const DeleteComment = async (comment_id) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/comments/create-comment/" + post_id, {
-                method: 'post',
+            await fetch("http://localhost:8080/users-api/comments/delete/" + comment_id, {
+                method: 'delete',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',
                     'Content-Type' : 'application/json',
                     'Authorization' : `Bearer ${localStorage.getItem('jwt')}`
-                },
-                body: JSON.stringify(comment)
+                }
             })
         const data = await response.json();
         return data    
     } catch (error) {
-        console.log("Error in CreateComment: ", error);
+        console.log("Error in DeleteComment: ", error);
     }
 }
 
-export default CreateComment;
+export default DeleteComment;

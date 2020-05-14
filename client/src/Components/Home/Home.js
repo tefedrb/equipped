@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 import CompanyView from '../CompanyView/CompanyView';
 import ParentNav from '../ParentNav/ParentNav';
 import CheckJwt from '../../CheckJwt';
-import MainView from './MainView';
+import CompanyListView from './CompanyListView';
 import { UserConsumer } from '../UserContext';
 import CreateCompanyDropDown from '../DropDownMenu/CreateCompanyDropDown';
 
@@ -87,7 +87,7 @@ class Home extends Component {
         <Route 
           exact path="/home" 
           render={() =>         
-            <MainView
+            <CompanyListView
               selectedCompany={this.state.selectedCompany}
               toggleCreateCompany={this.toggleCreateCompany} 
               parentForceMenuDisplay={this.state.parentForceMenuDisplay}
