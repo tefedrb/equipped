@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import MainDisplay from '../MainDisplay';
 import CompanyList from '../CompanyList/CompanyList'
-import {UserConsumer} from '../UserContext';
+import { UserConsumer } from '../UserContext';
 
 const Main = styled.main`
     display: flex;
     flex-grow: 1;
     align-items: center;
 `
-const MainView = (props) => {
+const CompanyListView = (props) => {
     return (
         <UserConsumer>
             {context => 
@@ -38,4 +38,4 @@ const MainView = (props) => {
     )
 }
 
-export default MainView;
+export default CompanyListView;

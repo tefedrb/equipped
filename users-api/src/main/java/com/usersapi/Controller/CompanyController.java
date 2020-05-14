@@ -1,12 +1,15 @@
 package com.usersapi.Controller;
 
 import com.usersapi.Model.Company;
+import com.usersapi.Model.User;
 import com.usersapi.Repository.CompanyRepository;
 import com.usersapi.Repository.UserRepository;
 import com.usersapi.Service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/company")
@@ -64,5 +67,10 @@ public class CompanyController {
     @GetMapping("/{company_id}")
     public Company getCompanyById(@PathVariable Long company_id){
         return companyService.getCompanyById(company_id);
+    }
+
+    @GetMapping("/list-users")
+    public ArrayList<String[]> getCompanyUsersByUser(){
+        return companyService.findAllUsersOfUserCompany();
     }
 }

@@ -1,63 +1,88 @@
-import React, {useState, useEffect} from 'react';
-import {Wrapper} from '../MiddleViewWrapper';
+import React, { useState, useEffect} from 'react';
+import { Wrapper } from '../MiddleViewWrapper';
 import GetPostsByCompany from '../FetchData/UsersApi/GetPostsByCompany';
 import styled from 'styled-components';
 import Post from './Post';
+import DropDownMenu from '../DropDownMenu/DropDownMenu';
+import ForumPostDropDown from '../DropDownMenu/ForumPostDropDown';
+import UsersList from '../Forum/UsersList';
+import { UserConsumer } from '../UserContext';
 
+const AllPostsWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 30em;
+    overflow: auto;
+`
+const CenterForum = styled(Wrapper)`
+    justify-content: center;
+`
+const ForumWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+const PostButton = styled.button`
+    width: 8em;
+    margin: 1em 0;
+    cursor: pointer;
+`
 const Forum = (props) => {
-    const [posts, updatePostsAndComments] = useState();
+    const [forumState, updateForumState] = useState({ posts: null, postMenuDisplay: false});
     const { userCompany } = props.userContext.state;
 
-    const AllPostsWrap = styled.div`
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-    `
-    const CenterForum = styled(Wrapper)`
-        justify-content: center;
-    `
-    const ForumWrap = styled.div`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        align-self: center;
-    `
-
-    const PostButton = styled.button`
-        width: 8em;
-        margin-top: 1em;
-        cursor: pointer;
-    `
-
-    const createPost = () => {
-        
+    const togglePostMenu = () => {
+        updateForumState(prevState => {
+            return {
+                ...prevState,
+                postMenuDisplay: !prevState.postMenuDisplay
+            }
+        })
     }
 
     useEffect(() => {
-        console.log(props.userContext.state, "STATE")
         if(userCompany && userCompany.id){
-
             GetPostsByCompany(userCompany.id).then(res => {
-                console.log(res, "POSTS")
-                updatePostsAndComments(res);
+                updateForumState(prevState => { 
+                    return { 
+                            ...prevState, 
+                            posts: res
+                        }
+                });
             })
-
         }
-    }, [userCompany || posts]);
+    }, [userCompany]);
 
-    const collectPosts = posts && posts.length >= 1 ? posts.map((post, idx) => 
+    const collectPosts = forumState.posts && forumState.posts.length >= 1 ? forumState.posts.map((post, idx) => 
         <Post post={post} key={idx} />   
-    ) : "";
+    ).reverse() : "";
 
     return (
         <CenterForum id={"forum"}>
-            <ForumWrap id={"forum-wrap"}>
-                <PostButton>Create Post</PostButton>
-                <AllPostsWrap>
-                    {collectPosts}
-                </AllPostsWrap>
-            </ForumWrap>
+            <UserConsumer>
+                { context => 
+                    <>
+                        <ForumWrap id={"forum-wrap"}>
+                            <PostButton onClick={togglePostMenu}>Create Post</PostButton>
+                                <DropDownMenu
+                                    parentMenuDisplaySwitch={forumState.postMenuDisplay}
+                                    toggleParentMenuSwitch={togglePostMenu}
+                                    render={display => 
+                                        <ForumPostDropDown
+                                            displayMenu={display}
+                                            userContext={context}
+                                        />
+                                    }    
+                                />
+                            <AllPostsWrap id={"all-posts-wrap"}>
+                                {collectPosts}
+                            </AllPostsWrap>
+                        </ForumWrap>
+                        <UsersList userContext={context}/>
+                    </>
+                }
+            </UserConsumer> 
         </CenterForum>
     )
 }

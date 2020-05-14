@@ -29,7 +29,7 @@ public class Post {
     private String post_txt;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     @JsonBackReference(value = "user-post")
@@ -111,5 +111,8 @@ public class Post {
             comments = new ArrayList<>();
         }
         comments.add(comment);
+    }
+    public void removeComment(Long comment_id){
+        this.comments.removeIf(comment -> (comment.getId().equals(comment_id)));
     }
 }

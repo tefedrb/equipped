@@ -110,4 +110,5 @@ public class UserController {
         String userName = authentication.getName();
         return userRepository.findByUsername(userName);
     }
+
 }

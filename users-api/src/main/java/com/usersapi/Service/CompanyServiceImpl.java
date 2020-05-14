@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -98,39 +99,10 @@ public class CompanyServiceImpl implements CompanyService {
         return HttpStatus.OK;
     }
 
-    // Set up query in repository
     @Override
     public Iterable<Company> getAllCompanies() {
         return companyRepository.findAll();
     }
-
-//    @Override
-//    public Iterable<Company> findCompanyByPerson(long id) {
-//        return null;
-//    }
-//    @Override
-//    public HttpStatus verifyUser(Integer userId, Company company){
-//        // Get authorization (from alleged admin)
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = authentication.getName();
-//        User authUser = userRepository.findByUsername(userName);
-//        // Check userRole if admin continue, otherwise return bad request
-//        if(authUser.getUserRole().equals("ADMIN")){
-//            // Find user from company waitList (trying from repository first)
-//            User targetUser = userRepository.findById(userId);
-//            // Add user to company
-//            company.addUsers(targetUser);
-//            company.getWaitList().remove(targetUser);
-//            return HttpStatus.OK;
-//        }
-//        return HttpStatus.FORBIDDEN;
-//    }
-
-//    @Override
-//    public HttpStatus findCompany(Long id){
-//        Company targetCompany = companyRepository.findById(id).get();
-//
-//    }
 
     @Override
     public Company getCompanyById(Long id){
@@ -161,5 +133,17 @@ public class CompanyServiceImpl implements CompanyService {
         company.setUsers(null);
         company.setPassword(null);
         return company;
+    }
+
+    @Override
+    public ArrayList<String[]> findAllUsersOfUserCompany() throws IllegalArgumentException{
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authorizedUser = userRepository.findByUsername(userName);
+        Company userCompany = authorizedUser.getCompany();
+//        Company userCompany = companyRepository.findById(companyId).get();
+        ArrayList<String[]> users = new ArrayList<>();
+        userCompany.getUsers().forEach(user -> users.add(new String[] {user.getUsername(), user.getTitle()}));
+        return users;
     }
 }

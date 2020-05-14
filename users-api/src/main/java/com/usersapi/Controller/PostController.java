@@ -29,4 +29,5 @@ public class PostController {
     public List<Post> listAllPostsByCompanyId(@PathVariable Long id){
         return postService.listAllPostsByCompanyId(id);
     }
+
 }

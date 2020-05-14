@@ -1,15 +1,13 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
-import {Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import CompanyView from '../CompanyView/CompanyView';
 import ParentNav from '../ParentNav/ParentNav';
 import CheckJwt from '../../CheckJwt';
-import MainView from './MainView';
-import {UserConsumer} from '../UserContext';
-import CreateCompanyMenu from '../DropDownMenu/CreateCompanyMenu';
-import TestCreateComp from '../DropDownMenu/TestCreateComp';
-
+import CompanyListView from './CompanyListView';
+import { UserConsumer } from '../UserContext';
+import CreateCompanyDropDown from '../DropDownMenu/CreateCompanyDropDown';
 
 class Home extends Component {
   _isMounted = false;
@@ -26,6 +24,7 @@ class Home extends Component {
  
   toggleCreateCompany = () => {
     this.setState(prevState => ({
+      ...prevState,
       parentForceMenuDisplay: !prevState.parentForceMenuDisplay
     }))
   }
@@ -64,20 +63,23 @@ class Home extends Component {
 
   // Move create company menu into company list?
   render(){
+    console.log("home (parent) re-render")
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
         <ParentNav mainLoaded={this.checkMainViewIsLoaded()} />
+
         <UserConsumer>
           { context =>
             <DropDownMenu
-              parentForceMenuDisplay={this.state.parentForceMenuDisplay}
+              parentMenuDisplaySwitch={this.state.parentForceMenuDisplay}
+              toggleParentMenuSwitch={this.toggleCreateCompany}
               render={display => 
-              <TestCreateComp 
-                displayMenu={display} 
-                userContext={context}
-              />}
-              
+                <CreateCompanyDropDown 
+                  displayMenu={display} 
+                  userContext={context}
+                />
+              }
             />
           }
         </UserConsumer>
@@ -85,7 +87,7 @@ class Home extends Component {
         <Route 
           exact path="/home" 
           render={() =>         
-            <MainView
+            <CompanyListView
               selectedCompany={this.state.selectedCompany}
               toggleCreateCompany={this.toggleCreateCompany} 
               parentForceMenuDisplay={this.state.parentForceMenuDisplay}
@@ -106,14 +108,3 @@ class Home extends Component {
 }
 
 export default Home;
-
-
-
-
-
-// <CreateCompanyMenu
-//               userContext={context}
-//               toggleCreateCompany={this.toggleCreateCompany} 
-//               showDropDown={this.state.parentForceMenuDisplay}
-//               setUserCompany={this.props.setUserCompany}
-//             />
