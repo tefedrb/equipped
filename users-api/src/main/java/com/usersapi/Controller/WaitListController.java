@@ -32,12 +32,7 @@ public class WaitListController {
      // Need to add admin privileges
     @GetMapping("/{companyId}")
     public WaitList getCompanyWaitList(@PathVariable Long companyId){
-        // Get company
-        Company targetCompany = companyRepository.findById(companyId).get();
-        // Get waitList id from company
-        Long targetListId = targetCompany.getWaitList().getId();
-        // Search WaitList repo
-        return waitListRepository.findById(targetListId).get();
+       return waitListService.getCompanyWaitList(companyId);
     }
 
     @GetMapping("/list")
@@ -66,7 +61,7 @@ public class WaitListController {
     }
 
     @GetMapping("/by-user")
-    public WaitList getByUserName(){
+    public WaitList getWaitListByUser(){
         Authentication authentication = SecurityContextHolder
                 .getContext()
                 .getAuthentication();

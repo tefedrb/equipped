@@ -110,10 +110,4 @@ public class UserController {
         String userName = authentication.getName();
         return userRepository.findByUsername(userName);
     }
-
-    @GetMapping("/retrieve/{username}")
-    public User retrieveUserOnWaitList(@PathVariable String username){
-        return userService.adminRetrieveUserOnWaitList(username);
-    }
-
 }

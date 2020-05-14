@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole'
 import CreateCompany from '../FetchData/UsersApi/CreateCompany';
 
 const Button = styled.button `
@@ -32,10 +33,18 @@ const CreateCompanyDropDown = (props) => {
 
     const createCompany = (event) => {
         event.preventDefault();
-        CreateCompany(menuState.name, menuState.password, menuState.type)
-        .then(() => {
+        console.log(menuState.name, menuState.password, menuState.type);
+        CreateCompany(menuState.name, menuState.password, menuState.type, localStorage.getItem("jwt"))
+        .then(res => {
+            if(res === 500) return 500;
             props.displayMenu(prev => !prev);
             props.userContext.setUserCompany();
+            
+        }).then(res => {
+            if(res === 500) return;
+            UpdateUserRole({roleType: "ADMIN"}).then(() => {
+                props.userContext.refreshUser(localStorage.getItem("jwt"));
+            });
         })
     }
  

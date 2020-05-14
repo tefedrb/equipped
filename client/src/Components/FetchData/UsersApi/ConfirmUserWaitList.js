@@ -8,6 +8,7 @@ const ConfirmUserWaitList = async (waitListId, userId) => {
             }
         })
     const data = await response.json();
+    console.log(data, "DATA IN CONFIRM USER WAITLIST")
     return data;
 }
 

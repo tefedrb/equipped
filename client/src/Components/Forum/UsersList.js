@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import GetCompanyUsersList from '../FetchData/UsersApi/GetCompanyUsersList';
 import GetWaitList from '../FetchData/UsersApi/GetWaitList';
+import GetCompanyWaitList from '../FetchData/UsersApi/GetCompanyWaitList'
 import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole';
+import GetUserOnWaitList from '../FetchData/UsersApi/GetUserOnWaitList';
 import ConfirmUserWaitList from '../FetchData/UsersApi/ConfirmUserWaitList';
 import styled from 'styled-components';
 
@@ -45,7 +47,8 @@ const ListChoiceBtn = styled.button`
 const UsersList = (props) => {
     const [lists, updateLists] = useState({ waitList: [], usersList: [] });
 
-    const { user, waitList } = props.userContext.state;
+    const { user, userCompany } = props.userContext.state;
+    console.log(props.userContext.state, "STATE!")
     const userIsAdmin = user && user.userRole.roleType === "ADMIN" ? true : false;
 
     useEffect(() => {
@@ -55,8 +58,8 @@ const UsersList = (props) => {
             if(lists.usersList.length < 1){
                 usersListRes = await GetCompanyUsersList(localStorage.getItem("jwt"))
             } 
-            if(userIsAdmin){
-                waitListRes = await GetWaitList(localStorage.getItem("jwt"));
+            if(userCompany && userIsAdmin){
+                waitListRes = await GetCompanyWaitList(userCompany.id, localStorage.getItem("jwt"));
             }
             if(!isCancelled){
                 updateLists(prev => {   
@@ -71,53 +74,63 @@ const UsersList = (props) => {
         getData();
 
         return () => isCancelled = true;
-    }, [lists.waitList, user, waitList, userIsAdmin])
+    }, [lists.waitList.length, userIsAdmin])
 
 
     // const waitList = props.userContext.state.user.userRole.type === "ADMIN" ? <span>Wait List |</span> : "";
 
-    const handleApprove = async () => {
-        await ConfirmUserWaitList(waitListId, userId);
+    const handleApprove = async (waitListId, username) => {
+        // If return is successful remove user - force refresh
+        // GET USER BY USERNAME
+        const targetUser = await GetUserOnWaitList(username);
+        await ConfirmUserWaitList(waitListId, targetUser.id);
+        
     }
 
-    const handleRemove = () => {
-
+    const handleRemove = (waitListId, username) => {
+        console.log(waitListId, username)
     }
 
     const handlePromoteToAdmin = (userId) => {
-
+        console.log(userId);
     }
 
-    const promoteToAdmin = <button onClick={() => handlePromoteToAdmin(userId)}>Promote To Admin</button>;
+    const promoteToAdmin = <button onClick={() => handlePromoteToAdmin(1)}>Promote To Admin</button>;
+
+    const waitListBtns = (waitListId, username) => {
+        return (
+            <div>
+                <button onClick={() => handleApprove(waitListId, username)}>Approve</button>
+                <button onClick={() => handleRemove(waitListId, username)}>Remove</button>
+            </div>
+        )
+    }
 
     const displayWaitOrUsersList = (choice, promoteToAdmin) => {
         let list;
         let waitListBtns = "";
-        
-        if(user.id && userIsAdmin){
-            waitListBtns = (
-                <div>
-                    <button onClick={handleApprove}>Approve</button>
-                    <button onClick={handleRemove}>Remove</button>
-                </div>
-            )
-        }
+
 
         if(choice === "usersList"){
             list = [...lists.usersList];
         } else if(choice === "waitList"){
-            list = [...lists.waitList];
+            list = [...lists.waitList.users];
         }
 
-        return list.map((user, idx) => 
-            <li key={idx}>
-                <p>Username:</p>
-                <UserData>{user[0]}</UserData>
-                <p>Title:</p>
-                <UserData>{user[1]}</UserData>
-                {choice === "usersList" && userIsAdmin ? promoteToAdmin : ""}
-                {choice === "usersList" ? "" : waitListBtns}
-            </li>
+        return list.map((user, idx) => {
+                const username = user[0];
+                const title = user[1];
+                return (
+                    <li key={idx}>
+                        <p>Username:</p>
+                        <UserData>{username}</UserData>
+                        <p>Title:</p>
+                        <UserData>{title}</UserData>
+                        {choice === "usersList" && userIsAdmin ? promoteToAdmin : ""}
+                        {choice === "usersList" ? "" : waitListBtns(lists.waitList.id, username)}
+                    </li>
+                )
+            }
         )  
     }
 

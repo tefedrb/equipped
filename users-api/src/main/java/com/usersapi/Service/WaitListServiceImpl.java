@@ -81,4 +81,19 @@ public class WaitListServiceImpl implements WaitListService {
             return null;
         }
     }
+
+    @Override
+    public WaitList getCompanyWaitList(Long company_id){
+        // Get company
+        if(companyRepository.findById(company_id).isPresent()) {
+            Company targetCompany = companyRepository.findById(company_id).get();
+            // Get waitList id from company
+            Long targetListId = targetCompany.getWaitList().getId();
+            // Search WaitList repo
+            if(waitListRepository.findById(targetListId).isPresent()) {
+                return waitListRepository.findById(targetListId).get();
+            }
+        }
+        return null;
+    }
 }
