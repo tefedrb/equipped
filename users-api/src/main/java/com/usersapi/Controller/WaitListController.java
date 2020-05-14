@@ -82,4 +82,9 @@ public class WaitListController {
         }
         return nullValue;
     }
+
+    @GetMapping("/retrieve/{username}")
+    public User retrieveUserOnWaitList(@PathVariable String username){
+        return waitListService.adminRetrieveUserOnWaitList(username);
+    }
 }

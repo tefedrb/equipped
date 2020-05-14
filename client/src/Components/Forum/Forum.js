@@ -79,7 +79,7 @@ const Forum = (props) => {
                                 {collectPosts}
                             </AllPostsWrap>
                         </ForumWrap>
-                        <UsersList userContext={context}/>
+                        <UsersList userContext={context} />
                     </>
                 }
             </UserConsumer> 

@@ -66,4 +66,19 @@ public class WaitListServiceImpl implements WaitListService {
         }
         return HttpStatus.FORBIDDEN;
     }
+
+    @Override
+    public User adminRetrieveUserOnWaitList(String username) throws IllegalArgumentException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authorizedUser = userRepository.findByUsername(userName);
+        User targetUser = userRepository.findByUsername(username);
+
+        if(authorizedUser.getUserRole().getRoleType().equals("ADMIN") &&
+                targetUser.getWaitList().getCompanyName().equals(authorizedUser.getCompany().getName())) {
+            return targetUser;
+        } else {
+            return null;
+        }
+    }
 }

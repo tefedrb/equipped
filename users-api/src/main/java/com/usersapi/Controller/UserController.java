@@ -111,4 +111,9 @@ public class UserController {
         return userRepository.findByUsername(userName);
     }
 
+    @GetMapping("/retrieve/{username}")
+    public User retrieveUserOnWaitList(@PathVariable String username){
+        return userService.adminRetrieveUserOnWaitList(username);
+    }
+
 }

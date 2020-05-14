@@ -1,4 +1,3 @@
-
 const JoinWaitList = async (id, jwt) => {
     const response =
         await fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
