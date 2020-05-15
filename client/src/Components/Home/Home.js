@@ -71,34 +71,30 @@ class Home extends Component {
 
         <UserConsumer>
           { context =>
-            <>
-              <DropDownMenu
-                parentMenuDisplaySwitch={this.state.parentForceMenuDisplay}
-                toggleParentMenuSwitch={this.toggleCreateCompany}
-                render={display => 
-                  <CreateCompanyDropDown 
-                    displayMenu={display} 
-                    userContext={context}
-                  />
-                }
-              />
-            
-
-              <Route 
-                exact path="/home" 
-                render={() =>         
-                  <CompanyListView
-                    refreshUser={context.refreshUser}
-                    selectedCompany={this.state.selectedCompany}
-                    toggleCreateCompany={this.toggleCreateCompany} 
-                    parentForceMenuDisplay={this.state.parentForceMenuDisplay}
-                    getCompanyInfo={this.getCompanyInfo}  
-                  />
-                }
-              />
-            </>
+            <DropDownMenu
+              parentMenuDisplaySwitch={this.state.parentForceMenuDisplay}
+              toggleParentMenuSwitch={this.toggleCreateCompany}
+              render={display => 
+                <CreateCompanyDropDown 
+                  displayMenu={display} 
+                  userContext={context}
+                />
+              }
+            />
           }
-      </UserConsumer>
+        </UserConsumer>
+
+        <Route 
+          exact path="/home" 
+          render={() =>         
+            <CompanyListView
+              selectedCompany={this.state.selectedCompany}
+              toggleCreateCompany={this.toggleCreateCompany} 
+              parentForceMenuDisplay={this.state.parentForceMenuDisplay}
+              getCompanyInfo={this.getCompanyInfo}  
+            />
+          }
+        />
 
         <Route 
           path="/home/company" 

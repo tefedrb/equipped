@@ -43,7 +43,7 @@ const CreateCompanyDropDown = (props) => {
         }).then(res => {
             if(res === 500) return;
             UpdateUserRole({roleType: "ADMIN"}).then(() => {
-                props.userContext.refreshUser(localStorage.getItem("jwt"));
+                props.userContext.login(localStorage.getItem("jwt"));
             });
         })
     }

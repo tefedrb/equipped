@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../CSS/App.css';
 import styled from 'styled-components';
 
@@ -26,23 +26,40 @@ const Button = styled.button`
   `
 
 function MainDisplay(props) {
-  const companyWaitList = props.selectedCompany ? props.selectedCompany.waitList.id : null;
-  const companySelect = props.selectedCompany;
+  const [userHasCompany, updateUserHasCompany] = useState(false);
   const { userCompany, waitList } = props.userContext.state;
-  const { joinWaitList, refreshUser } = props.userContext;
+  const { joinWaitList, login } = props.userContext;
+  const companySelect = props.selectedCompany;
+  const companySelectWaitListId = props.selectedCompany ? props.selectedCompany.waitList.id : null;
+  const userWaitListId = waitList ? waitList.id : null;
+
+  console.log(userCompany, "USER COMPANY");
+  console.log(userWaitListId);
+
+  useEffect(() => {
+    if(userCompany || userWaitListId){
+      updateUserHasCompany(waitList.id);
+    }
+  }, [userHasCompany])
 
   const joinWaitListThenRefresh = async () => {
-    await joinWaitList(companySelect.id);
-    await refreshUser(localStorage.getItem('jwt'));
+    await joinWaitList(companySelect.id).then(res => {
+      if(res === "OK"){
+        login(localStorage.getItem('jwt')).then(res => {
+          updateUserHasCompany(true);
+        }); 
+      }
+    });
   }
 
-  const buttonOption = (waitList, companyWaitList, userCompany) => {
-    const btnText = userCompany || waitList !== companyWaitList ? "Join Company" : "On Wait List";
+  const buttonOption = (id, otherWaitListId, userCompany) => {
+
+    const btnText = userCompany || id !== otherWaitListId ? "Join Company" : "On Wait List";
     return (
       <Button 
         userCompany={userCompany}
-        waitList={waitList}
-        onClick={waitList !== companyWaitList ? joinWaitListThenRefresh : null}
+        waitList={id ? id : false} 
+        onClick={id !== otherWaitListId ? joinWaitListThenRefresh : null}
       >
         {btnText}
       </Button>
@@ -53,7 +70,7 @@ function MainDisplay(props) {
     <div className={`main-display`}>
       <h1>{companySelect ? companySelect.name : ""}</h1>
       <h2>{companySelect ? companySelect.type : ""}</h2>
-      {companySelect ? buttonOption(waitList, companyWaitList, userCompany) : ""}
+      {companySelect ? buttonOption(userWaitListId, companySelectWaitListId, userCompany) : ""}
     </div>
   );
 }
