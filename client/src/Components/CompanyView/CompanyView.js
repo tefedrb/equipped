@@ -52,7 +52,7 @@ class CompanyView extends Component{
               <CompanyViewContainer>
                 <Route 
                   exact path={`${this.props.match.path}`}
-                  render={() => <Forum userContext={context} />} 
+                  render={() => this.state.userCompany && this.state.userCompany.id ? <Forum userContext={context} /> : ""} 
                 />
 
                 <Route 

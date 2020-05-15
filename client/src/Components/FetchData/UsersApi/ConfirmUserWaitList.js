@@ -1,6 +1,6 @@
-const JoinWaitList = async (id, jwt) => {
+const ConfirmUserWaitList = async (waitListId, userId, jwt) => {
     const response =
-        await fetch("http://localhost:8080/users-api/wait-list/join/" + id, {
+        await fetch(`http://localhost:8080/users-api/wait-list/verify/${waitListId}/${userId}`, {
             method: 'put',
             headers: {
                 'Content-Type' : 'application/json',
@@ -8,7 +8,8 @@ const JoinWaitList = async (id, jwt) => {
             }
         })
     const data = await response.json();
+    console.log(data, "DATA IN CONFIRM USER WAITLIST")
     return data;
 }
 
-export default JoinWaitList;
+export default ConfirmUserWaitList;

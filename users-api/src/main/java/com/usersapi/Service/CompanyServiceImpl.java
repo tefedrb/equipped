@@ -143,7 +143,8 @@ public class CompanyServiceImpl implements CompanyService {
         Company userCompany = authorizedUser.getCompany();
 //        Company userCompany = companyRepository.findById(companyId).get();
         ArrayList<String[]> users = new ArrayList<>();
-        userCompany.getUsers().forEach(user -> users.add(new String[] {user.getUsername(), user.getTitle()}));
+        userCompany.getUsers()
+                .forEach(user -> users.add(new String[] { user.getUsername(), user.getTitle(), user.getUserRole().getRoleType() }));
         return users;
     }
 }

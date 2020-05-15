@@ -1,9 +1,13 @@
 package com.usersapi.Service;
 
+import com.usersapi.Model.User;
 import com.usersapi.Model.UserRole;
+import com.usersapi.Repository.UserRepository;
 import com.usersapi.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +15,9 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Autowired
     UserRoleRepository userRoleRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public Iterable<UserRole> listRoles() {
@@ -31,5 +38,16 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRole getRole(String roleName){
         return userRoleRepository.findByRoleType(roleName);
+    }
+
+    @Override
+    public HttpStatus updateUserRole(UserRole userRole) throws IllegalArgumentException{
+        UserRole userrole = userRoleRepository.findByRoleType(userRole.getRoleType());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authorizedUser = userRepository.findByUsername(userName);
+        authorizedUser.setUserRole(userrole);
+        userRepository.save(authorizedUser);
+        return HttpStatus.OK;
     }
 }

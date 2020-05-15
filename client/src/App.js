@@ -149,6 +149,17 @@ class App extends Component {
     return response;
   }
 
+  refreshUser = (jwt) => {
+    GetUser(jwt).then(res => {
+        this.setState(prevState => {
+          return {
+            ...prevState,
+            user: res
+          }
+        })
+    })
+  }
+
   render(){
     // const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
@@ -157,7 +168,8 @@ class App extends Component {
           refreshInventory: this.refreshInventory,
           logOut: this.logOut,
           setUserCompany: this.setUserCompany,
-          joinWaitList: this.joinWaitList
+          joinWaitList: this.joinWaitList,
+          refreshUser: this.refreshUser
         }}>
         <Router>  
           <div className="main-container">

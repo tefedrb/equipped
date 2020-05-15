@@ -23,4 +23,9 @@ public class UserRoleController {
    public Iterable<UserRole> listRoles(){
        return userRoleService.listRoles();
    }
+
+   @PutMapping("/update")
+    public HttpStatus updateRole(@RequestBody UserRole userRole){
+        return userRoleService.updateUserRole(userRole);
+   }
 }

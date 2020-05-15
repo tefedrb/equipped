@@ -44,7 +44,6 @@ public class CommentServiceImpl implements CommentService {
                 comment.setComment_date(dateservice.currentDateString());
 
                 retrievedPost.addComment(comment);
-//                postRepository.save(retrievedPost);
 
                 return ResponseEntity.ok(commentRepository.save(comment));
             }
