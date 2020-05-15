@@ -1,10 +1,10 @@
-const ConfirmUserWaitList = async (waitListId, userId) => {
+const ConfirmUserWaitList = async (waitListId, userId, jwt) => {
     const response =
-        await fetch(`http://localhost:8080/users-api/wait-list/${waitListId}/${userId}`, {
+        await fetch(`http://localhost:8080/users-api/wait-list/verify/${waitListId}/${userId}`, {
             method: 'put',
             headers: {
                 'Content-Type' : 'application/json',
-                'Authorization' : 'Bearer ' + localStorage.getItem("jwt")
+                'Authorization' : 'Bearer ' + jwt
             }
         })
     const data = await response.json();

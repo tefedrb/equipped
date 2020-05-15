@@ -48,18 +48,25 @@ public class WaitListServiceImpl implements WaitListService {
         WaitList targetWaitList = waitListRepository.findById(waitListId).get();
         Company targetCompany = companyRepository.findById(waitListId).get();
         // Get target user
-        User targetUser = targetWaitList
+        User findUser = targetWaitList
                 .getUsers()
                 .stream()
                 .filter(user -> user.getId().equals(userId))
                 .reduce((a,b) -> b)
                 .get();
+        // Here we should test if these two (findUser and target user reference the same object)
+        User targetUser = userRepository.findById(findUser.getId()).get();
 
         if(targetCompany.getUsers().contains(authUser) && authUser.getUserRole().getRoleType().equals("ADMIN")){
             // Add a "remove user to wait list" function to WaitListModel
             targetWaitList.removeUser(targetUser);
             // Add user to company user list
             targetCompany.addUsers(targetUser);
+
+            // Add company from user
+            targetUser.setCompany(targetCompany);
+            targetUser.setWaitList(null);
+            userRepository.save(targetUser);
             companyRepository.save(targetCompany);
             waitListRepository.save(targetWaitList);
             return HttpStatus.OK;

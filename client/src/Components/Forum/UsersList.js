@@ -41,15 +41,17 @@ export const UserData = styled.p`
 `
 
 const ListChoiceBtn = styled.button`
-    background-color: rgba(105,203,66,.5);
+    background-color: ${props => props.listDisplayed ? "rgba(105,203,66,.5)" : "rgba(105,203,66,.8)"};
+    box-shadow: ${props => props.listDisplayed ? "0px 1px 2px" : "2px 5px 10px"};
     padding: 1em;
+    outline: none;
 `
 
 const UsersList = (props) => {
-    const [lists, updateLists] = useState({ waitList: [], usersList: [] });
+    const [lists, updateLists] = useState({ waitList: {users: []}, usersList: [] });
+    const [listDisplay, toggleDisplay] = useState("Company Users");
 
     const { user, userCompany } = props.userContext.state;
-    console.log(props.userContext.state, "STATE!")
     const userIsAdmin = user && user.userRole.roleType === "ADMIN" ? true : false;
 
     useEffect(() => {
@@ -75,17 +77,12 @@ const UsersList = (props) => {
         getData();
 
         return () => isCancelled = true;
-    }, [lists.waitList.length, userIsAdmin])
-
-
-    // const waitList = props.userContext.state.user.userRole.type === "ADMIN" ? <span>Wait List |</span> : "";
+    }, [lists.waitList.length, userIsAdmin, listDisplay])
 
     const handleApprove = async (waitListId, username) => {
-        // If return is successful remove user - force refresh
-        // GET USER BY USERNAME
-        const targetUser = await GetUserOnWaitList(username);
-        await ConfirmUserWaitList(waitListId, targetUser.id);
+        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt"));
         
+        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));  
     }
 
     const handleRemove = (waitListId, username) => {
@@ -110,37 +107,43 @@ const UsersList = (props) => {
     const displayWaitOrUsersList = (choice, promoteToAdmin) => {
         let list;
 
-        if(choice === "usersList"){
+        if(choice === "Company Users"){
             list = [...lists.usersList];
-        } else if(choice === "waitList"){
+        } else if(choice === "Wait List" && lists.waitList){
             list = [...lists.waitList.users];
         }
 
         return list.map((user, idx) => {
-                const username = user[0];
-                const title = user[1];
-                const roleType = user[2];
+                const username = user[0] ? user[0] : user.username
+                console.log(user, "USERNAME@#$")
+                
+                const title = user[1] ? user[1] : user.title
+                const roleType = user[2] ? user[2] : user.userRole.roleType
                 return (
                     <li key={idx}>
                         <p>Username:</p>
                         <UserData>{username}</UserData>
                         <p>Title:</p>
                         <UserData>{title}</UserData>
-                        {choice === "usersList" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin : ""}
-                        {choice === "waitList" && userIsAdmin && roleType !== "ADMIN" ? waitListBtns(lists.waitList.id, username) : ""}
+                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin : ""}
+                        {choice === "Wait List" && userIsAdmin && roleType !== "ADMIN" ? waitListBtns(lists.waitList.id, username) : ""}
                     </li>
                 )
             }
         )  
     }
 
+    const toggleListDisp = (e) => {
+        toggleDisplay(e.target.innerText); 
+    }
+
     return (
         <ComponentWrap>
-            <p>| <ListChoiceBtn>Company Users</ListChoiceBtn> | {userIsAdmin ? <ListChoiceBtn>Wait List</ListChoiceBtn> : ""}</p>
+            <p>| <ListChoiceBtn listDisplayed={listDisplay === "Company Users"} onClick={toggleListDisp}>Company Users</ListChoiceBtn> | {userIsAdmin ? <ListChoiceBtn listDisplayed={listDisplay === "Wait List"} onClick={toggleListDisp}>Wait List</ListChoiceBtn> : ""} |</p>
             
             <UsersListWrap>
                 <Ul>
-                    {displayWaitOrUsersList("usersList", promoteToAdmin)}
+                    {displayWaitOrUsersList(listDisplay, promoteToAdmin)}
                 </Ul>
             </UsersListWrap>
         </ComponentWrap>
