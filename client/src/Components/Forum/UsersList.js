@@ -16,6 +16,7 @@ export const ComponentWrap = styled.div`
 `
 export const UsersListWrap = styled.div`
     border: 2px solid black;
+    margin: 1em;
 `
 export const Ul = styled.ul`
     padding: .5em;
@@ -108,8 +109,6 @@ const UsersList = (props) => {
 
     const displayWaitOrUsersList = (choice, promoteToAdmin) => {
         let list;
-        let waitListBtns = "";
-
 
         if(choice === "usersList"){
             list = [...lists.usersList];
@@ -120,14 +119,15 @@ const UsersList = (props) => {
         return list.map((user, idx) => {
                 const username = user[0];
                 const title = user[1];
+                const roleType = user[2];
                 return (
                     <li key={idx}>
                         <p>Username:</p>
                         <UserData>{username}</UserData>
                         <p>Title:</p>
                         <UserData>{title}</UserData>
-                        {choice === "usersList" && userIsAdmin ? promoteToAdmin : ""}
-                        {choice === "usersList" ? "" : waitListBtns(lists.waitList.id, username)}
+                        {choice === "usersList" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin : ""}
+                        {choice === "waitList" && userIsAdmin && roleType !== "ADMIN" ? waitListBtns(lists.waitList.id, username) : ""}
                     </li>
                 )
             }
