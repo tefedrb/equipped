@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../CSS/App.css';
 import styled from 'styled-components';
 
@@ -26,28 +26,16 @@ const Button = styled.button`
   `
 
 function MainDisplay(props) {
-  const [userHasCompany, updateUserHasCompany] = useState(false);
   const { userCompany, waitList } = props.userContext.state;
   const { joinWaitList, login } = props.userContext;
   const companySelect = props.selectedCompany;
   const companySelectWaitListId = props.selectedCompany ? props.selectedCompany.waitList.id : null;
   const userWaitListId = waitList ? waitList.id : null;
 
-  console.log(userCompany, "USER COMPANY");
-  console.log(userWaitListId);
-
-  useEffect(() => {
-    if(userCompany || userWaitListId){
-      updateUserHasCompany(waitList.id);
-    }
-  }, [userHasCompany])
-
   const joinWaitListThenRefresh = async () => {
     await joinWaitList(companySelect.id).then(res => {
       if(res === "OK"){
-        login(localStorage.getItem('jwt')).then(res => {
-          updateUserHasCompany(true);
-        }); 
+        login(localStorage.getItem('jwt'))   
       }
     });
   }

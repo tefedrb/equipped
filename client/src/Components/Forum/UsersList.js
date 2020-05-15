@@ -23,9 +23,10 @@ export const Ul = styled.ul`
     list-style-type: none;
     background-color: rgba(0,0,0,0.4);
     margin: 0;
-    min-width: 10em;
+    min-width: 11em;
     max-height: 30em;
     font-size: .8em;
+    overflow: auto;
 
     > li {
         border: 2px solid #69cb42;
@@ -48,7 +49,7 @@ const ListChoiceBtn = styled.button`
 `
 
 const UsersList = (props) => {
-    const [lists, updateLists] = useState({ waitList: {users: []}, usersList: [] });
+    const [lists, updateLists] = useState({ switch: false, waitList: { users: [] }, usersList: [] });
     const [listDisplay, toggleDisplay] = useState("Company Users");
 
     const { user, userCompany } = props.userContext.state;
@@ -56,9 +57,9 @@ const UsersList = (props) => {
 
     useEffect(() => {
         let isCancelled = false;
-        let usersListRes, waitListRes;
         async function getData(){  
-            if(lists.usersList.length < 1){
+            let usersListRes, waitListRes
+            if(lists.usersList.length < 1 || lists.switch){
                 usersListRes = await GetCompanyUsersList(localStorage.getItem("jwt"))
             } 
             if(userCompany && userIsAdmin){
@@ -68,7 +69,8 @@ const UsersList = (props) => {
                 updateLists(prev => {   
                     return {
                         waitList: waitListRes ? waitListRes : prev.waitList,
-                        usersList: usersListRes ? usersListRes : prev.usersList
+                        usersList: usersListRes ? usersListRes : prev.usersList,
+                        switch: false
                     }
                 })
             }
@@ -77,12 +79,18 @@ const UsersList = (props) => {
         getData();
 
         return () => isCancelled = true;
-    }, [lists.waitList.length, userIsAdmin, listDisplay])
+    }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch])
 
     const handleApprove = async (waitListId, username) => {
-        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt"));
-        
-        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));  
+        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 
+        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));
+        updateLists(prev => {
+            return ({
+                    ...prev,
+                    switch: true
+                }
+            )
+        });
     }
 
     const handleRemove = (waitListId, username) => {
