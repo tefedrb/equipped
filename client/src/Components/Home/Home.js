@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import DropDownMenu from '../DropDownMenu/DropDownMenu';
-import { Route } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import CompanyView from '../CompanyView/CompanyView';
 import ParentNav from '../ParentNav/ParentNav';
 import CheckJwt from '../../CheckJwt';
@@ -9,38 +9,39 @@ import CompanyListView from './CompanyListView';
 import { UserConsumer } from '../UserContext';
 import CreateCompanyDropDown from '../DropDownMenu/CreateCompanyDropDown';
 
-class Home extends Component {
-  _isMounted = false;
-  constructor(props){
-    super(props);
-    this.state = {
-      parentForceMenuDisplay: false,
-      selectedCompany: null,
-      companyViewLoaded: false,
-      sectionLoaded: null,
-      mainView: this.props.match.isExact
-    }
-  }
+const Home = (props) => {
+
+  const [homeState, updateHomeState] = useState({
+    parentForceMenuDisplay: false,
+    selectedCompany: null,
+    companyViewLoaded: false,
+    mainView: props.match.isExact
+  })
  
-  toggleCreateCompany = () => {
+  const toggleCreateCompany = () => {
     this.setState(prevState => ({
       ...prevState,
       parentForceMenuDisplay: !prevState.parentForceMenuDisplay
     }))
   }
 
-  componentDidMount(){
-    this._isMounted = true;
+  useEffect(() => {
     if(localStorage.getItem('jwt')){
       CheckJwt(localStorage.getItem('jwt'));
     }
-  }
+  }, [homeState.selectedCompany])
+  // componentDidMount(){
+  //   this._isMounted = true;
+  //   if(localStorage.getItem('jwt')){
+  //     CheckJwt(localStorage.getItem('jwt'));
+  //   }
+  // }
 
-  componentWillUnmount(){
-    this._isMounted = false;
-  }
+  // componentWillUnmount(){
+  //   this._isMounted = false;
+  // }
 
-  getCompanyInfo = (id) => {
+  const getCompanyInfo = (id) => {
     fetch("http://localhost:8080/users-api/company/" + id, {
       method: 'get',
       headers: {
@@ -49,66 +50,64 @@ class Home extends Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log(res);
-      this.setState({
-        selectedCompany: res
+      updateHomeState(prev => {
+        return {
+          ...prev,
+          selectedCompany: res
+        }
       })
     })
   }
 
-  checkMainViewIsLoaded = () => {
-    const { isExact } = this.props.match;
+  const checkMainViewIsLoaded = () => {
+    const { isExact } = props.match;
     return isExact ? true : false;
   }
 
   // Move create company menu into company list?
-  render(){
-    console.log("home (parent) re-render")
     return (
       <div className="home">
         {!localStorage.getItem('jwt') && <Redirect to="/"/>}
-        <ParentNav mainLoaded={this.checkMainViewIsLoaded()} />
+        <ParentNav mainLoaded={checkMainViewIsLoaded()} />
 
         <UserConsumer>
           { context =>
-            <>
-              <DropDownMenu
-                parentMenuDisplaySwitch={this.state.parentForceMenuDisplay}
-                toggleParentMenuSwitch={this.toggleCreateCompany}
-                render={display => 
-                  <CreateCompanyDropDown 
-                    displayMenu={display} 
-                    userContext={context}
-                  />
-                }
-              />
-            
+          <>
+            <DropDownMenu
+              parentMenuDisplaySwitch={homeState.parentForceMenuDisplay}
+              toggleParentMenuSwitch={toggleCreateCompany}
+              render={display => 
+                <CreateCompanyDropDown 
+                  displayMenu={display} 
+                  userContext={context}
+                />
+              }
+            />
+          
 
-              <Route 
-                exact path="/home" 
-                render={() =>         
-                  <CompanyListView
-                    refreshUser={context.refreshUser}
-                    selectedCompany={this.state.selectedCompany}
-                    toggleCreateCompany={this.toggleCreateCompany} 
-                    parentForceMenuDisplay={this.state.parentForceMenuDisplay}
-                    getCompanyInfo={this.getCompanyInfo}  
-                  />
-                }
-              />
-            </>
-          }
-      </UserConsumer>
+            <Route 
+              exact path="/home" 
+              render={() =>         
+                <CompanyListView
+                  selectedCompany={homeState.selectedCompany}
+                  toggleCreateCompany={homeState.toggleCreateCompany} 
+                  parentForceMenuDisplay={homeState.parentForceMenuDisplay}
+                  getCompanyInfo={getCompanyInfo}  
+                />
+              }
+            />
 
-        <Route 
-          path="/home/company" 
-          render={({ match }) => 
-            <CompanyView match={match} loaded={this.sectionLoaded} />
+            <Route 
+              path="/home/company" 
+              render={({ match, location }) => 
+                <CompanyView location={location} userCompany={context.state.userCompany} match={match} />
+              }
+            />
+          </>
           }
-        />
+        </UserConsumer>
       </div>
     )
-  }
 }
 
 export default Home;

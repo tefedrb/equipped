@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 const FlexWrap = styled.section `
@@ -8,7 +8,13 @@ const FlexWrap = styled.section `
 `
 
 const UserDisplay = (props) => {
+    // const [propsArrived, updatePropsArrived] = useState(false);
     const {user, userCompany, waitList} = props.userContext.state;
+
+    // useEffect(() => {
+    //     updatePropsArrived(true);
+    // }, [userCompany && userCompany.id, waitList && waitList.id])
+
     return (
         <FlexWrap>
             <div>
@@ -21,7 +27,7 @@ const UserDisplay = (props) => {
                 <span style={{color: "white"}}>
                     {waitList && waitList.id ? "On Wait List: " : "Company: "}
                 </span>
-                {userCompany && userCompany.id ? userCompany.name : waitList ? waitList.name : ""}
+                {userCompany && userCompany.id ? userCompany.name : waitList && waitList.companyName ? waitList.companyName : ""}
             </div>
         </FlexWrap>
     )

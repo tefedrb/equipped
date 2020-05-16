@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
 import GetUserCompany from '../FetchData/UsersApi/GetUserCompany';
@@ -27,15 +27,7 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
-    if(localStorage.getItem("jwt")){
-      GetUserCompany(localStorage.getItem("jwt")).then(res => {
-          if(this._isMounted){
-            this.setState({
-              userCompany: res
-            }) 
-          }
-        })
-    }
+    console.log(this.props.location, "location?!?!")
   }
   
   componentWillUnmount(){
@@ -43,6 +35,7 @@ class CompanyView extends Component{
   }
 
   render(){
+    console.log(this.props.match, "MATCH IN COMPANY VIEW FROM HOME")
     return (
         <UserConsumer>
           {context => 
@@ -52,7 +45,7 @@ class CompanyView extends Component{
               <CompanyViewContainer>
                 <Route 
                   exact path={`${this.props.match.path}`}
-                  render={() => this.state.userCompany && this.state.userCompany.id ? <Forum userContext={context} /> : ""} 
+                  render={() => this.props.userCompany && this.props.userCompany.id ? <Forum userContext={context} /> : ""} 
                 />
 
                 <Route 

@@ -31,14 +31,8 @@ const CompanyName = styled.span`
     background-color: black;
 `
 
-const CompanyNav = (props) => {
-    const storageSelectedLink = localStorage.getItem("companyViewSelectedLink");
-    const { state } = props.userContext;
-    const { userCompany } = props.userContext.state;
-    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : userCompany ? userCompany.name : null);
-    // Here we can iterate over a list of Li's
-    const Li = styled.li`
-        background-color: ${props.userCompany ? "none" : "black"};
+const Li = styled.li`
+        background-color: ${props => props.userCompany ? "none" : "black"};
         margin: 0;
         flex-grow: 1;
         display: flex;
@@ -46,7 +40,13 @@ const CompanyNav = (props) => {
         align-items: center;
     `
 
-    console.log(userCompany , "USER COMPANY")
+const CompanyNav = (props) => {
+    const storageSelectedLink = localStorage.getItem("companyViewSelectedLink");
+    const { state } = props.userContext;
+    const { userCompany } = props.userContext.state;
+    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : userCompany ? userCompany.name : null);
+    // Here we can iterate over a list of Li's
+
     const routes = {
         default: "/home/company",
         Equipment: "/home/company/equipment-view",
@@ -69,10 +69,9 @@ const CompanyNav = (props) => {
         changeSelected(cache ? cache : userCompany ? userCompany.name : null);
     },[userCompany])
 
-    
     const CompLinks = state.userCompany ? linkTypes.map((name, id) => {
         return (
-            <Li key={id}>
+            <Li userCompany={props.userCompany} key={id}>
                 <CompLink
                     userContext={props.userContext}
                     key={id}
@@ -88,7 +87,7 @@ const CompanyNav = (props) => {
     return (
         <Nav id={"company-nav"}>
             <Ul> 
-                <Li style={{width: "1em"}}>
+                <Li userCompany={props.userCompany} style={{width: "1em"}}>
                     <CompanyName>Company:</CompanyName> 
                     {
                         state.userCompany ? 

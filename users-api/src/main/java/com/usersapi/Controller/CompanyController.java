@@ -70,7 +70,7 @@ public class CompanyController {
     }
 
     @GetMapping("/list-users")
-    public ArrayList<String[]> getCompanyUsersByUser(){
+    public ArrayList<User> getCompanyUsersByUser(){
         return companyService.findAllUsersOfUserCompany();
     }
 }

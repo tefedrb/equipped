@@ -135,16 +135,22 @@ public class CompanyServiceImpl implements CompanyService {
         return company;
     }
 
+    public void removeUserDetails(User user){
+        user.setPassword(null);
+        user.setCompany(null);
+        user.setPosts(null);
+        user.setWaitList(null);
+        user.setComments(null);
+    }
+
     @Override
-    public ArrayList<String[]> findAllUsersOfUserCompany() throws IllegalArgumentException{
+    public ArrayList<User> findAllUsersOfUserCompany() throws IllegalArgumentException{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authorizedUser = userRepository.findByUsername(userName);
         Company userCompany = authorizedUser.getCompany();
-//        Company userCompany = companyRepository.findById(companyId).get();
-        ArrayList<String[]> users = new ArrayList<>();
-        userCompany.getUsers()
-                .forEach(user -> users.add(new String[] { user.getUsername(), user.getTitle(), user.getUserRole().getRoleType() }));
+        ArrayList<User> users = (ArrayList<User>)userRepository.findAllUsersByCompanyId(userCompany.getId());
+        users.forEach(this::removeUserDetails);
         return users;
     }
 }

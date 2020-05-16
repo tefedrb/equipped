@@ -1,6 +1,7 @@
 package com.usersapi.Service;
 
 import com.usersapi.Model.Company;
+import com.usersapi.Model.User;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -16,5 +17,5 @@ public interface CompanyService {
     Company findByUser();
     Company findByWaitListId(Long id);
     HttpStatus deleteCompanyById2(Long companyId);
-    ArrayList<String[]> findAllUsersOfUserCompany();
+    ArrayList<User> findAllUsersOfUserCompany();
 }

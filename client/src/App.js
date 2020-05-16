@@ -120,9 +120,7 @@ class App extends Component {
   }
 
   joinWaitList = async (id) => {
-    await JoinWaitList(id, localStorage.getItem('jwt')).then(res => {
-      console.log(res, " Joined Waitlist")
-    })
+    return await JoinWaitList(id, localStorage.getItem('jwt'));
   }
 
   userCompanyLocal = (res) => {
@@ -149,17 +147,6 @@ class App extends Component {
     return response;
   }
 
-  refreshUser = (jwt) => {
-    GetUser(jwt).then(res => {
-        this.setState(prevState => {
-          return {
-            ...prevState,
-            user: res
-          }
-        })
-    })
-  }
-
   render(){
     // const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
     return (
@@ -169,7 +156,7 @@ class App extends Component {
           logOut: this.logOut,
           setUserCompany: this.setUserCompany,
           joinWaitList: this.joinWaitList,
-          refreshUser: this.refreshUser
+          login: this.login
         }}>
         <Router>  
           <div className="main-container">

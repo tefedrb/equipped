@@ -23,9 +23,10 @@ export const Ul = styled.ul`
     list-style-type: none;
     background-color: rgba(0,0,0,0.4);
     margin: 0;
-    min-width: 10em;
+    min-width: 11em;
     max-height: 30em;
     font-size: .8em;
+    overflow: auto;
 
     > li {
         border: 2px solid #69cb42;
@@ -41,14 +42,14 @@ export const UserData = styled.p`
 `
 
 const ListChoiceBtn = styled.button`
-    background-color: ${props => props.listDisplayed ? "rgba(105,203,66,.5)" : "rgba(105,203,66,.8)"};
+    background-color: ${props => props.listDisplayed ? "rgba(105,203,66,.2)" : "rgba(105,203,66,.8)"};
     box-shadow: ${props => props.listDisplayed ? "0px 1px 2px" : "2px 5px 10px"};
     padding: 1em;
     outline: none;
 `
 
 const UsersList = (props) => {
-    const [lists, updateLists] = useState({ waitList: {users: []}, usersList: [] });
+    const [lists, updateLists] = useState({ switch: false, waitList: { users: [] }, usersList: [] });
     const [listDisplay, toggleDisplay] = useState("Company Users");
 
     const { user, userCompany } = props.userContext.state;
@@ -56,9 +57,9 @@ const UsersList = (props) => {
 
     useEffect(() => {
         let isCancelled = false;
-        let usersListRes, waitListRes;
         async function getData(){  
-            if(lists.usersList.length < 1){
+            let usersListRes, waitListRes
+            if(lists.usersList.length < 1 || lists.switch){
                 usersListRes = await GetCompanyUsersList(localStorage.getItem("jwt"))
             } 
             if(userCompany && userIsAdmin){
@@ -68,7 +69,8 @@ const UsersList = (props) => {
                 updateLists(prev => {   
                     return {
                         waitList: waitListRes ? waitListRes : prev.waitList,
-                        usersList: usersListRes ? usersListRes : prev.usersList
+                        usersList: usersListRes ? usersListRes : prev.usersList,
+                        switch: false
                     }
                 })
             }
@@ -77,12 +79,18 @@ const UsersList = (props) => {
         getData();
 
         return () => isCancelled = true;
-    }, [lists.waitList.length, userIsAdmin, listDisplay])
+    }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch])
 
     const handleApprove = async (waitListId, username) => {
-        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt"));
-        
-        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));  
+        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 
+        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));
+        updateLists(prev => {
+            return ({
+                    ...prev,
+                    switch: true
+                }
+            )
+        });
     }
 
     const handleRemove = (waitListId, username) => {
@@ -93,7 +101,9 @@ const UsersList = (props) => {
         console.log(userId);
     }
 
-    const promoteToAdmin = <button onClick={() => handlePromoteToAdmin(1)}>Promote To Admin</button>;
+    const promoteToAdmin = (userId) => {
+        return <button onClick={() => handlePromoteToAdmin(userId)}>Promote To Admin</button>
+    };
 
     const waitListBtns = (waitListId, username) => {
         return (
@@ -114,18 +124,16 @@ const UsersList = (props) => {
         }
 
         return list.map((user, idx) => {
-                const username = user[0] ? user[0] : user.username
-                console.log(user, "USERNAME@#$")
-                
-                const title = user[1] ? user[1] : user.title
-                const roleType = user[2] ? user[2] : user.userRole.roleType
+                const username = user.username                
+                const title = user.title
+                const roleType = user.userRole.roleType
                 return (
                     <li key={idx}>
                         <p>Username:</p>
                         <UserData>{username}</UserData>
                         <p>Title:</p>
                         <UserData>{title}</UserData>
-                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin : ""}
+                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin(user.id) : ""}
                         {choice === "Wait List" && userIsAdmin && roleType !== "ADMIN" ? waitListBtns(lists.waitList.id, username) : ""}
                     </li>
                 )

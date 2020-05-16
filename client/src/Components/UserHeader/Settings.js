@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import UserDisplay from '../UserHeader/UserDisplay';
-import {UserConsumer} from '../UserContext';
+import { UserConsumer } from '../UserContext';
 
-const Settings = (props) => {
     const Cover = styled.div `
-        display: ${props.display ? "flex" : "none"};
+        display: ${props => props.displayed ? "flex" : "none"};
         position: absolute;
         justify-content: flex-end;
         top: 40px;
@@ -15,7 +14,7 @@ const Settings = (props) => {
         background-color: transparent;
     `
     const SettingsStyle = styled.div `
-        display: ${props.display ? "flex" : "none"};
+        display: ${props => props.displayed ? "flex" : "none"};
         justify-content: space-around;
         align-items: center;
         flex-direction: column;
@@ -26,9 +25,10 @@ const Settings = (props) => {
         z-index: 2;
     `
 
+const Settings = (props) => {
     return (
-        <Cover onClick={() => props.toggleSettingsDisplay()}>
-            <SettingsStyle onClick={e => e.stopPropagation()}>
+        <Cover displayed={props.display} onClick={() => props.toggleSettingsDisplay()}>
+            <SettingsStyle displayed={props.display} onClick={e => e.stopPropagation()}>
                 <UserConsumer>
                     {context =>
                         <UserDisplay userContext={context} />
