@@ -35,13 +35,12 @@ class CompanyView extends Component{
   }
 
   render(){
-    console.log(this.props.match, "MATCH IN COMPANY VIEW FROM HOME")
     return (
         <UserConsumer>
           {context => 
             <>
-              <CompanyNav userContext={context} />
-
+              <CompanyNav userContext={context} userCompany={context.state.userCompany} />
+            
               <CompanyViewContainer>
                 <Route 
                   exact path={`${this.props.match.path}`}

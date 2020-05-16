@@ -211,7 +211,7 @@ class EquipmentView extends React.Component {
                     />
         }) : null;
 
-        return (
+        return (    
             <MiddleViewWrapper id={"equipment-wrapper"}>
                 <MainCatContainer>
                     {mainCategory}
@@ -231,7 +231,7 @@ class EquipmentView extends React.Component {
                         />
                     }
                 </UserConsumer>
-            </MiddleViewWrapper>
+            </MiddleViewWrapper>     
         );
     }
 }
