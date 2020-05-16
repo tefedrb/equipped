@@ -31,7 +31,7 @@ class LogIn extends Component {
       console.log(res);
           if(res.token){
             localStorage.setItem('jwt', res.token);
-            localStorage.setItem('jwtTime', new Date().getMinutes)
+            // localStorage.setItem('jwtTime', new Date().getMinutes)
             /* 
               This is a method created in App.js updates parent 
               state in order for UserHeader to work properly 
