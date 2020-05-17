@@ -3,30 +3,31 @@ import HistoryItem from './HistoryItem';
 import styled from 'styled-components';
 import GetOrderedHistory from '../../FetchData/InventoryApi/GetOrderedHistory';
 
+const HistoryWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    max-height: 30em;
+    scrollbar-width: thin;
+`
+const ItemsWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: 1em;
+`
+const HistoryHeader = styled.h4`
+    background-color: black;
+    color: white;
+    padding: .5em 0;
+    font-weight: 400;
+    margin: 0;
+    padding: .5em 0;
+`
+
 const History = (props) => {
     const [ history, updateHistory ] = useState([]);
     const { companyInventory } = props.userContext.state;
 
-    const HistoryWrap = styled.div`
-        display: flex;
-        flex-direction: column;
-        max-height: 30em;
-        scrollbar-width: thin;
-    `
-    const ItemsWrapper = styled.div`
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        padding: 1em;
-    `
-    const HistoryHeader = styled.h4`
-        background-color: black;
-        color: white;
-        padding: .5em 0;
-        font-weight: 400;
-        margin: 0;
-        padding: .5em 0;
-    `
     const historyIsNew = (prevHistory, returnedHistory) => {
         if(returnedHistory.length === 0){
             return false;
@@ -57,7 +58,7 @@ const History = (props) => {
         return () => {
             _isCancelled = true;
         }
-    }, [companyInventory, history]);
+    });
 
     const historyItems = history.length >= 1 ? history.map((item, key) => {
         return <HistoryItem item={item} key={key} />

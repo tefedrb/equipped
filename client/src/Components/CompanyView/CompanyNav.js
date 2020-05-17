@@ -42,16 +42,13 @@ const Li = styled.li`
 
 const CompanyNav = (props) => {
     const storageSelectedLink = localStorage.getItem("companyViewSelectedLink");
-    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : userCompany ? userCompany.name : null);
-
-    // const { state } = props.userContext;
     const { userCompany } = props;
-    // Here we can iterate over a list of Li's
+    const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : userCompany ? userCompany.name : null);
 
     const routes = {
         default: "/home/company",
         Equipment: "/home/company/equipment-view",
-        Inventory: "/home/company/inventory-view",
+        Inventory: "/home/company/inventory-view"
     }
     
     const linkTypes = ["Inventory", "Equipment"];
@@ -68,13 +65,8 @@ const CompanyNav = (props) => {
     useEffect(() => {
         const cache = localStorage.getItem("companyViewSelectedLink");
         changeSelected(cache ? cache : userCompany ? userCompany.name : null);
-        return () => {
-            console.log("uh?!");
-            saveStateForRefresh(userCompany ? userCompany.name : null);
-        }
-    },[userCompany])
+    }, [userCompany])
 
-    console.log(userCompany, "????")
     const CompLinks = userCompany ? linkTypes.map((name, id) => {
         return (
             <Li userCompany={userCompany} key={id}>

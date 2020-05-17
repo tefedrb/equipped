@@ -13,7 +13,7 @@ import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
-import {UserProvider} from './Components/UserContext';
+import { UserProvider } from './Components/UserContext';
 
 class App extends Component {
   _isMounted = false;
@@ -70,7 +70,6 @@ class App extends Component {
             waitList: responses[2]
           })
         }
-        console.log(responses, "< -!!!!!!!!!!!!!!!!!");
       })
       .catch(err => {
         console.log("Error in login ", err);

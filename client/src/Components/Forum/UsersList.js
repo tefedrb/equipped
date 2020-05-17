@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import GetCompanyUsersList from '../FetchData/UsersApi/GetCompanyUsersList';
-import GetWaitList from '../FetchData/UsersApi/GetWaitList';
+// import GetWaitList from '../FetchData/UsersApi/GetWaitList';
 import GetCompanyWaitList from '../FetchData/UsersApi/GetCompanyWaitList'
-import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole';
+// import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole';
 import GetUserOnWaitList from '../FetchData/UsersApi/GetUserOnWaitList';
 import ConfirmUserWaitList from '../FetchData/UsersApi/ConfirmUserWaitList';
 import styled from 'styled-components';
@@ -79,7 +79,7 @@ const UsersList = (props) => {
         getData();
 
         return () => isCancelled = true;
-    }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch])
+    }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch, userCompany])
 
     const handleApprove = async (waitListId, username) => {
         const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 

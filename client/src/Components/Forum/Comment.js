@@ -34,7 +34,7 @@ const Comment = (props) => {
         if(user.username === comment_username || user.userRole.roleType === "ADMIN"){
             return (
                 <DeleteComment>
-                    <img src={rubbishCan} onClick={() => props.delete(id)} />
+                    <img alt={"garbage-can"} src={rubbishCan} onClick={() => props.delete(id)} />
                 </DeleteComment>
             )
         }

@@ -91,7 +91,7 @@ class InventoryView extends React.Component{
                 }
             }
              // Filling in userReservedItems
-             if(item.itemUser == user.username){
+             if(item.itemUser === user.username){
                  userReservedItems.push(item.id);
              }
             return itemTable;

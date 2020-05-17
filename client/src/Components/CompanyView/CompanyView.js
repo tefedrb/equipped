@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
-import GetUserCompany from '../FetchData/UsersApi/GetUserCompany';
+// import GetUserCompany from '../FetchData/UsersApi/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
 import InventoryView from '../CompanyView/InventoryView/InventoryView';
 import { UserConsumer } from '../UserContext';
@@ -27,7 +27,6 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
-    console.log(this.props.location, "location?!?!")
   }
   
   componentWillUnmount(){

@@ -85,8 +85,8 @@ const Home = (props) => {
 
           <Route 
             path="/home/company" 
-            render={({ match, location }) => 
-              <CompanyView location={location} userCompany={context.state.userCompany} match={match} />
+            render={({ match }) => 
+              <CompanyView userCompany={context.state.userCompany} match={match} />
             }
           />
         </>

@@ -37,7 +37,6 @@ const DropDownMenu = (props) => {
     const { parentMenuDisplaySwitch, toggleParentMenuSwitch } = props;
     
     useEffect(() => {
-        console.log(parentMenuDisplaySwitch, "PARENT SWITCH")
         const listenForEscape = (e) => {
             if(e.key === "Escape" && parentMenuDisplaySwitch){
                 toggleParentMenuSwitch();
@@ -47,7 +46,6 @@ const DropDownMenu = (props) => {
         document.addEventListener("keydown", listenForEscape);
 
         return () => {
-            console.log("here...")
             document.removeEventListener("keydown", listenForEscape);
         }
     }, [parentMenuDisplaySwitch, toggleParentMenuSwitch])

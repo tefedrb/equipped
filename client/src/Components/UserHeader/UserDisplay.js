@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const FlexWrap = styled.section `
@@ -8,12 +8,7 @@ const FlexWrap = styled.section `
 `
 
 const UserDisplay = (props) => {
-    // const [propsArrived, updatePropsArrived] = useState(false);
-    const {user, userCompany, waitList} = props.userContext.state;
-
-    // useEffect(() => {
-    //     updatePropsArrived(true);
-    // }, [userCompany && userCompany.id, waitList && waitList.id])
+    const { user, userCompany, waitList } = props.userContext.state;
 
     return (
         <FlexWrap>
