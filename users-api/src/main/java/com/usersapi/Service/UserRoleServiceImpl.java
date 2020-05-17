@@ -43,10 +43,13 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public HttpStatus updateUserRole(UserRole userRole) throws IllegalArgumentException{
         UserRole userrole = userRoleRepository.findByRoleType(userRole.getRoleType());
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User authorizedUser = userRepository.findByUsername(userName);
+
         authorizedUser.setUserRole(userrole);
+
         userRepository.save(authorizedUser);
         return HttpStatus.OK;
     }

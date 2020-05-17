@@ -84,9 +84,7 @@ const UsersList = (props) => {
         return () => isCancelled = true;
     }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch, userCompany])
 
-    const handleApprove = async (waitListId, username) => {
-        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 
-        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));
+    const refreshList = () => {
         updateLists(prev => {
             return ({
                     ...prev,
@@ -96,21 +94,40 @@ const UsersList = (props) => {
         });
     }
 
+    const handleApprove = async (waitListId, username) => {
+        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 
+        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));
+        refreshList();
+    }
+
     const removeFromWaitList = async (userId, jwt) => {
         await RemoveUserFromWaitList(userId, jwt);
+        refreshList();
     }
 
-    const removeFromCompany = async () => {
-        await RemoveUserFromCompany();
+    const removeFromCompany = async (userId, jwt) => {
+        await RemoveUserFromCompany(userId, jwt);
+        refreshList();
     }
 
-    const handlePromoteToAdmin = async (userId) => {
-        console.log(userId);
+    const promoteToAdmin = async (userId, jwt) => {
+        await PromoteUserToAdmin(userId, jwt);
+        refreshList();
     }
 
-    const promoteToAdmin = (userId) => {
-        return <button onClick={() => handlePromoteToAdmin(userId)}>Promote To Admin</button>
-    };
+    // const createPromoteToAdminBtn = (userId) => {
+    //     return <button onClick={() => handlePromoteToAdmin(userId)}>Promote To Admin</button>
+    // };
+
+    const adminBtns = (userId, jwt) => {
+        return (
+            <div>
+                <button onClick={() => removeFromCompany(userId, jwt)}>Remove User</button>
+                <button onClick={() => promoteToAdmin(userId)}>Promote To Admin</button>
+
+            </div>
+        )
+    } 
 
     const waitListBtns = (waitListId, username) => {
         return (
@@ -121,7 +138,7 @@ const UsersList = (props) => {
         )
     }
 
-    const displayWaitOrUsersList = (choice, promoteToAdmin) => {
+    const displayWaitOrUsersList = (choice, waitListBtns, adminBtns) => {
         let list;
 
         if(choice === "Company Users"){
@@ -140,7 +157,7 @@ const UsersList = (props) => {
                         <UserData>{username}</UserData>
                         <p>Title:</p>
                         <UserData>{title}</UserData>
-                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin(user.id) : ""}
+                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? adminBtns(user.id, localStorage.getItem('jwt')) : ""}
                         {choice === "Wait List" && userIsAdmin && roleType !== "ADMIN" ? waitListBtns(lists.waitList.id, username) : ""}
                     </li>
                 )
@@ -158,7 +175,7 @@ const UsersList = (props) => {
             
             <UsersListWrap>
                 <Ul>
-                    {displayWaitOrUsersList(listDisplay, promoteToAdmin)}
+                    {displayWaitOrUsersList(listDisplay, waitListBtns, adminBtns)}
                 </Ul>
             </UsersListWrap>
         </ComponentWrap>
