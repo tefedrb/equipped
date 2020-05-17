@@ -144,6 +144,23 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public HttpStatus removeUserFromCompany(Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authorizedUser = userRepository.findByUsername(userName);
+        User targetUser = userRepository.findById(id).get();
+        String authUserComp = authorizedUser.getCompany().getName();
+        String targetUserComp = authorizedUser.getCompany().getName();
+        if(authorizedUser.getUserRole().getRoleType().equals("ADMIN") && authUserComp.equals(targetUserComp)){
+            targetUser.setCompany(null);
+            targetUser.setWaitList(null);
+            userRepository.save(targetUser);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.FORBIDDEN;
+    }
+
+    @Override
     public ArrayList<User> findAllUsersOfUserCompany() throws IllegalArgumentException{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();

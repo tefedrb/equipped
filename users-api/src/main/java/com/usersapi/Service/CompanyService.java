@@ -18,4 +18,5 @@ public interface CompanyService {
     Company findByWaitListId(Long id);
     HttpStatus deleteCompanyById2(Long companyId);
     ArrayList<User> findAllUsersOfUserCompany();
+    HttpStatus removeUserFromCompany(Long id);
 }
