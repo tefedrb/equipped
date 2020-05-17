@@ -50,4 +50,20 @@ public class UserRoleServiceImpl implements UserRoleService {
         userRepository.save(authorizedUser);
         return HttpStatus.OK;
     }
+
+    @Override
+    public HttpStatus promoteToAdmin(Long userId) throws IllegalArgumentException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authorizedUser = userRepository.findByUsername(userName);
+        User targetUser = userRepository.findById(userId).get();
+        UserRole admin = userRoleRepository.findByRoleType("ADMIN");
+
+        if(authorizedUser.getUserRole().getRoleType().equals("ADMIN")){
+            targetUser.setUserRole(admin);
+            userRepository.save(targetUser);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.FORBIDDEN;
+    }
 }

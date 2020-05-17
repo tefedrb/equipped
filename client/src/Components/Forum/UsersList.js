@@ -3,6 +3,9 @@ import GetCompanyUsersList from '../FetchData/UsersApi/GetCompanyUsersList';
 // import GetWaitList from '../FetchData/UsersApi/GetWaitList';
 import GetCompanyWaitList from '../FetchData/UsersApi/GetCompanyWaitList'
 // import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole';
+import RemoveUserFromCompany from '../FetchData/UsersApi/RemoveUserFromCompany';
+import RemoveUserFromWaitList from '../FetchData/UsersApi/RemoveUserFromWaitList';
+import PromoteUserToAdmin from '../FetchData/UsersApi/PromoteUserToAdmin';
 import GetUserOnWaitList from '../FetchData/UsersApi/GetUserOnWaitList';
 import ConfirmUserWaitList from '../FetchData/UsersApi/ConfirmUserWaitList';
 import styled from 'styled-components';
@@ -93,11 +96,15 @@ const UsersList = (props) => {
         });
     }
 
-    const handleRemove = (waitListId, username) => {
-        console.log(waitListId, username)
+    const removeFromWaitList = async (userId, jwt) => {
+        await RemoveUserFromWaitList(userId, jwt);
     }
 
-    const handlePromoteToAdmin = (userId) => {
+    const removeFromCompany = async () => {
+        await RemoveUserFromCompany();
+    }
+
+    const handlePromoteToAdmin = async (userId) => {
         console.log(userId);
     }
 
@@ -109,7 +116,7 @@ const UsersList = (props) => {
         return (
             <div>
                 <button onClick={() => handleApprove(waitListId, username)}>Approve</button>
-                <button onClick={() => handleRemove(waitListId, username)}>Remove</button>
+                <button onClick={() => removeFromWaitList(waitListId, username)}>Remove</button>
             </div>
         )
     }

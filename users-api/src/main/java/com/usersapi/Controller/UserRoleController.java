@@ -28,4 +28,9 @@ public class UserRoleController {
     public HttpStatus updateRole(@RequestBody UserRole userRole){
         return userRoleService.updateUserRole(userRole);
    }
+
+   @PutMapping("/create-admin/{userId}")
+    public HttpStatus promoteUserToAdminById(@PathVariable Long userId){
+        return userRoleService.promoteToAdmin(userId);
+   }
 }

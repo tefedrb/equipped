@@ -9,4 +9,5 @@ public interface UserRoleService {
     HttpStatus deleteRoleById(long id);
     UserRole getRole(String roleName);
     HttpStatus updateUserRole(UserRole userrole);
+    HttpStatus promoteToAdmin(Long userId);
 }
