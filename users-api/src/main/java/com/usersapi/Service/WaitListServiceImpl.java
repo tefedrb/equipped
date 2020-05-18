@@ -103,4 +103,20 @@ public class WaitListServiceImpl implements WaitListService {
         }
         return null;
     }
+
+    @Override
+    public HttpStatus removeUserFromWaitList(Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User authorizedUser = userRepository.findByUsername(userName);
+        User targetUser = userRepository.findById(id).get();
+        if(targetUser.getWaitList().getCompanyName().equals(authorizedUser.getCompany().getName()) &&
+            authorizedUser.getUserRole().getRoleType().equals("ADMIN"))
+        {
+            targetUser.setWaitList(null);
+            userRepository.save(targetUser);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.FORBIDDEN;
+    }
 }

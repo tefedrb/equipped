@@ -43,6 +43,7 @@ const Forum = (props) => {
 
     useEffect(() => {
         if(userCompany && userCompany.id){
+
             GetPostsByCompany(userCompany.id).then(res => {
                 updateForumState(prevState => { 
                     return { 

@@ -82,4 +82,9 @@ public class WaitListController {
     public User retrieveUserOnWaitList(@PathVariable String username){
         return waitListService.adminRetrieveUserOnWaitList(username);
     }
+
+    @PutMapping("/remove-user/{userId}")
+    public HttpStatus removeUserFromWaitListById(@PathVariable Long userId){
+        return waitListService.removeUserFromWaitList(userId);
+    }
 }

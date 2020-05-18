@@ -25,7 +25,12 @@ public class UserRoleController {
    }
 
    @PutMapping("/update")
-    public HttpStatus updateRole(@RequestBody UserRole userRole){
+    public HttpStatus updateRole(@RequestBody UserRole userRole) throws Exception {
         return userRoleService.updateUserRole(userRole);
+   }
+
+   @PutMapping("/create-admin/{userId}")
+    public HttpStatus promoteUserToAdminById(@PathVariable Long userId) throws Exception {
+        return userRoleService.promoteToAdmin(userId);
    }
 }

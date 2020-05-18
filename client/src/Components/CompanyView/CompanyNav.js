@@ -32,25 +32,23 @@ const CompanyName = styled.span`
 `
 
 const Li = styled.li`
-        background-color: ${props => props.userCompany ? "none" : "black"};
-        margin: 0;
-        flex-grow: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    `
+    background-color: ${props => props.userCompany ? "none" : "black"};
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 const CompanyNav = (props) => {
     const storageSelectedLink = localStorage.getItem("companyViewSelectedLink");
-    const { state } = props.userContext;
-    const { userCompany } = props.userContext.state;
+    const { userCompany } = props;
     const [selectedLink, changeSelected] = useState(storageSelectedLink ? storageSelectedLink : userCompany ? userCompany.name : null);
-    // Here we can iterate over a list of Li's
 
     const routes = {
         default: "/home/company",
         Equipment: "/home/company/equipment-view",
-        Inventory: "/home/company/inventory-view",
+        Inventory: "/home/company/inventory-view"
     }
     
     const linkTypes = ["Inventory", "Equipment"];
@@ -67,11 +65,11 @@ const CompanyNav = (props) => {
     useEffect(() => {
         const cache = localStorage.getItem("companyViewSelectedLink");
         changeSelected(cache ? cache : userCompany ? userCompany.name : null);
-    },[userCompany])
+    }, [userCompany])
 
-    const CompLinks = state.userCompany ? linkTypes.map((name, id) => {
+    const CompLinks = userCompany ? linkTypes.map((name, id) => {
         return (
-            <Li userCompany={props.userCompany} key={id}>
+            <Li userCompany={userCompany} key={id}>
                 <CompLink
                     userContext={props.userContext}
                     key={id}
@@ -87,14 +85,14 @@ const CompanyNav = (props) => {
     return (
         <Nav id={"company-nav"}>
             <Ul> 
-                <Li userCompany={props.userCompany} style={{width: "1em"}}>
+                <Li userCompany={userCompany} style={{width: "1em"}}>
                     <CompanyName>Company:</CompanyName> 
                     {
-                        state.userCompany ? 
+                        userCompany ? 
                             <CompLink
                                 route={routes.default} 
                                 compName={true} 
-                                myName={state.userCompany.name} 
+                                myName={userCompany.name} 
                                 selectedLink={selectedLink} 
                                 changeSelected={changeSelectedOnClick}
                             /> 

@@ -9,7 +9,6 @@ const GetOrderedHistory = async (inventoryId) => {
                 } 
             })
         const data = await response.json();
-        console.log(data, "data from GetOrderedHistory")
         return data;
     } catch (error) {
         console.log("Error in AddToInventory: ", error);

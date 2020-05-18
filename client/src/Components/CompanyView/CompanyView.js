@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import styled from 'styled-components';
 import CompanyNav from './CompanyNav';
-import GetUserCompany from '../FetchData/UsersApi/GetUserCompany';
+// import GetUserCompany from '../FetchData/UsersApi/GetUserCompany';
 import EquipmentView from './EquipmentView/EquipmentView';
 import InventoryView from '../CompanyView/InventoryView/InventoryView';
 import { UserConsumer } from '../UserContext';
@@ -27,7 +27,6 @@ class CompanyView extends Component{
 
   componentDidMount(){
     this._isMounted = true;
-    console.log(this.props.location, "location?!?!")
   }
   
   componentWillUnmount(){
@@ -35,13 +34,12 @@ class CompanyView extends Component{
   }
 
   render(){
-    console.log(this.props.match, "MATCH IN COMPANY VIEW FROM HOME")
     return (
         <UserConsumer>
           {context => 
             <>
-              <CompanyNav userContext={context} />
-
+              <CompanyNav userContext={context} userCompany={context.state.userCompany} />
+            
               <CompanyViewContainer>
                 <Route 
                   exact path={`${this.props.match.path}`}

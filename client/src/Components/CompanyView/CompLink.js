@@ -27,6 +27,7 @@ const CompLink = (props) => {
         myName,
         compName,
         userContext,
+        addToHistory
     */
 
     // Used to refresh company inventory
@@ -38,9 +39,11 @@ const CompLink = (props) => {
             return null;
         }
     }
+
+
     
     return (
-        <Button selectedLink={props.selectedLink} myName={props.myName} compName={props.compName} className={"testing"}>
+        <Button selectedLink={props.selectedLink} myName={props.myName} compName={props.compName}>
             <NavLink onClick={() => inventoryRefresh(props.myName)} style={{textDecoration: 'none'}} to={props.route}>
                 <SectionLabel selectedLink={props.selectedLink} myName={props.myName} onClick={() => props.changeSelected(props.myName)}>{props.myName}</SectionLabel>
             </NavLink>

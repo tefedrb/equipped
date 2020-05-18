@@ -3,28 +3,27 @@ import GearItemButton from '../GearItemButton';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const InventoryList = (props) => {
-    // const [currentProps, updateProps] = useState({...props});
-    const { userReservedItems, itemTable, companyInventory, selectedItem, userInventory, inventoryLink } = props.inventoryViewState;
-
-    const [currentState, updateState] = useState([userReservedItems, 0]);
-    const scrollRef = useRef();
-    const previousProps = useRef(currentState);
-
-    const NoStyleLink = styled(Link)`
+const NoStyleLink = styled(Link)`
         text-decoration: none;
         &:focus, &hover, &:visited, &:link, &:active {
             text-decoration: none;
         }
     `
-    const Inventory = styled.div`
-        display: grid;
-        overflow: auto;
-        padding: 1em;
-        max-height: 30em;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(0, 3em);
-    `
+const Inventory = styled.div`
+    display: grid;
+    overflow: auto;
+    padding: 1em;
+    max-height: 30em;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(0, 3em);
+`
+
+const InventoryList = (props) => {
+    const { userReservedItems, itemTable, companyInventory, selectedItem, userInventory, inventoryLink } = props.inventoryViewState;
+
+    const [currentState, updateState] = useState([userReservedItems, 0]);
+    const scrollRef = useRef();
+    const previousProps = useRef(currentState);
 
     // I need to be able to pass companyItems through this function, and userReservedItems,
     // And have the route match (react-router-dom)
@@ -73,13 +72,14 @@ const InventoryList = (props) => {
     const listExport = userInventory && companyInventory && companyInventory.items && !inventoryLink ? 
         filterItems(collectUserItems()) : companyInventory && companyInventory.items ? 
         filterItems(companyInventory.items) : <p>You don't have any equipment!</p>;
-
+    
+    const previousPropsLength = previousProps.current ? previousProps.current.length : previousProps.current;
         // On click we need a way of storing the scrollTop variable in useRef
         // Look into reducing the calls to updateState here
     useEffect(() => {
         previousProps.current = userReservedItems;
-        updateState([userReservedItems, currentState[1]]);
-    }, [previousProps.current ? previousProps.current.length : previousProps.current, currentState[1]])
+        updateState(prev => [userReservedItems, prev[1]]);
+    }, [previousPropsLength, userReservedItems])
 
     useLayoutEffect(() => {
         scrollRef.current.scrollTop = currentState[1];

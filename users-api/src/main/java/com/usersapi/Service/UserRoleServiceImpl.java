@@ -4,6 +4,7 @@ import com.usersapi.Model.User;
 import com.usersapi.Model.UserRole;
 import com.usersapi.Repository.UserRepository;
 import com.usersapi.Repository.UserRoleRepository;
+import com.usersapi.helperClasses.AuthorizedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,9 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AuthorizedUser authorizedUser;
 
     @Override
     public Iterable<UserRole> listRoles() {
@@ -41,13 +45,25 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public HttpStatus updateUserRole(UserRole userRole) throws IllegalArgumentException{
+    public HttpStatus updateUserRole(UserRole userRole) throws Exception {
         UserRole userrole = userRoleRepository.findByRoleType(userRole.getRoleType());
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = authentication.getName();
-        User authorizedUser = userRepository.findByUsername(userName);
-        authorizedUser.setUserRole(userrole);
-        userRepository.save(authorizedUser);
+        User authUser = authorizedUser.getUser();
+        authUser.setUserRole(userrole);
+        userRepository.save(authUser);
         return HttpStatus.OK;
+    }
+
+    @Override
+    public HttpStatus promoteToAdmin(Long userId) throws Exception {
+        User authUser = authorizedUser.getUser();
+        User targetUser = userRepository.findById(userId).get();
+        UserRole admin = userRoleRepository.findByRoleType("ADMIN");
+
+        if(authUser.getUserRole().getRoleType().equals("ADMIN")){
+            targetUser.setUserRole(admin);
+            userRepository.save(targetUser);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.FORBIDDEN;
     }
 }

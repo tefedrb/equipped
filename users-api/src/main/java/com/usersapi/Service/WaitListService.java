@@ -9,4 +9,5 @@ public interface WaitListService {
     HttpStatus confirmUser(Long waitListId, Long userId);
     User adminRetrieveUserOnWaitList(String username);
     WaitList getCompanyWaitList(Long company_id);
+    HttpStatus removeUserFromWaitList(Long id);
 }

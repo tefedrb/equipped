@@ -73,4 +73,9 @@ public class CompanyController {
     public ArrayList<User> getCompanyUsersByUser(){
         return companyService.findAllUsersOfUserCompany();
     }
+
+    @PutMapping("/remove-user/{user_id}")
+    public HttpStatus removeUserFromCompany(@PathVariable Long user_id){
+        return companyService.removeUserFromCompany(user_id);
+    }
 }

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import GetCompanyUsersList from '../FetchData/UsersApi/GetCompanyUsersList';
-import GetWaitList from '../FetchData/UsersApi/GetWaitList';
+// import GetWaitList from '../FetchData/UsersApi/GetWaitList';
 import GetCompanyWaitList from '../FetchData/UsersApi/GetCompanyWaitList'
-import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole';
+// import UpdateUserRole from '../FetchData/UsersApi/UpdateUserRole';
+import RemoveUserFromCompany from '../FetchData/UsersApi/RemoveUserFromCompany';
+import RemoveUserFromWaitList from '../FetchData/UsersApi/RemoveUserFromWaitList';
+import PromoteUserToAdmin from '../FetchData/UsersApi/PromoteUserToAdmin';
 import GetUserOnWaitList from '../FetchData/UsersApi/GetUserOnWaitList';
 import ConfirmUserWaitList from '../FetchData/UsersApi/ConfirmUserWaitList';
 import styled from 'styled-components';
@@ -79,11 +82,9 @@ const UsersList = (props) => {
         getData();
 
         return () => isCancelled = true;
-    }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch])
+    }, [lists.waitList.length, userIsAdmin, lists.usersList.length, lists.switch, userCompany])
 
-    const handleApprove = async (waitListId, username) => {
-        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 
-        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));
+    const refreshList = () => {
         updateLists(prev => {
             return ({
                     ...prev,
@@ -93,28 +94,51 @@ const UsersList = (props) => {
         });
     }
 
-    const handleRemove = (waitListId, username) => {
-        console.log(waitListId, username)
+    const handleApprove = async (waitListId, username) => {
+        const targetUser = await GetUserOnWaitList(username, localStorage.getItem("jwt")); 
+        await ConfirmUserWaitList(waitListId, targetUser.id, localStorage.getItem("jwt"));
+        refreshList();
     }
 
-    const handlePromoteToAdmin = (userId) => {
-        console.log(userId);
+    const removeFromWaitList = async (userId, jwt) => {
+        await RemoveUserFromWaitList(userId, jwt);
+        refreshList();
     }
 
-    const promoteToAdmin = (userId) => {
-        return <button onClick={() => handlePromoteToAdmin(userId)}>Promote To Admin</button>
-    };
+    const removeFromCompany = async (userId, jwt) => {
+        await RemoveUserFromCompany(userId, jwt);
+        refreshList();
+    }
+
+    const promoteToAdmin = async (userId, jwt) => {
+        await PromoteUserToAdmin(userId, jwt);
+        refreshList();
+    }
+
+    // const createPromoteToAdminBtn = (userId) => {
+    //     return <button onClick={() => handlePromoteToAdmin(userId)}>Promote To Admin</button>
+    // };
+
+    const adminBtns = (userId, jwt) => {
+        return (
+            <div>
+                <button onClick={() => removeFromCompany(userId, jwt)}>Remove User</button>
+                <button onClick={() => promoteToAdmin(userId)}>Promote To Admin</button>
+
+            </div>
+        )
+    } 
 
     const waitListBtns = (waitListId, username) => {
         return (
             <div>
                 <button onClick={() => handleApprove(waitListId, username)}>Approve</button>
-                <button onClick={() => handleRemove(waitListId, username)}>Remove</button>
+                <button onClick={() => removeFromWaitList(waitListId, username)}>Remove</button>
             </div>
         )
     }
 
-    const displayWaitOrUsersList = (choice, promoteToAdmin) => {
+    const displayWaitOrUsersList = (choice, waitListBtns, adminBtns) => {
         let list;
 
         if(choice === "Company Users"){
@@ -133,7 +157,7 @@ const UsersList = (props) => {
                         <UserData>{username}</UserData>
                         <p>Title:</p>
                         <UserData>{title}</UserData>
-                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? promoteToAdmin(user.id) : ""}
+                        {choice === "Company Users" && userIsAdmin && roleType !== "ADMIN" ? adminBtns(user.id, localStorage.getItem('jwt')) : ""}
                         {choice === "Wait List" && userIsAdmin && roleType !== "ADMIN" ? waitListBtns(lists.waitList.id, username) : ""}
                     </li>
                 )
@@ -151,7 +175,7 @@ const UsersList = (props) => {
             
             <UsersListWrap>
                 <Ul>
-                    {displayWaitOrUsersList(listDisplay, promoteToAdmin)}
+                    {displayWaitOrUsersList(listDisplay, waitListBtns, adminBtns)}
                 </Ul>
             </UsersListWrap>
         </ComponentWrap>

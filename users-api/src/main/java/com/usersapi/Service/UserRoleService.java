@@ -8,5 +8,6 @@ public interface UserRoleService {
     UserRole createRole(UserRole newRole);
     HttpStatus deleteRoleById(long id);
     UserRole getRole(String roleName);
-    HttpStatus updateUserRole(UserRole userrole);
+    HttpStatus updateUserRole(UserRole userrole) throws Exception;
+    HttpStatus promoteToAdmin(Long userId) throws Exception;
 }
