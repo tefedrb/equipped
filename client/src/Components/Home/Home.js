@@ -59,37 +59,38 @@ const Home = (props) => {
 
       <UserConsumer>
         { context =>
-        <>
-          <DropDownMenu
-            parentMenuDisplaySwitch={homeState.parentForceMenuDisplay}
-            toggleParentMenuSwitch={toggleCreateCompany}
-            render={display => 
-              <CreateCompanyDropDown 
-                displayMenu={display} 
-                userContext={context}
-              />
-            }
-          /> 
+          <>
+            {homeState.parentForceMenuDisplay ? 
+              <DropDownMenu
+                parentMenuDisplaySwitch={homeState.parentForceMenuDisplay}
+                toggleParentMenuSwitch={toggleCreateCompany}
+                render={display => 
+                  <CreateCompanyDropDown 
+                    displayMenu={display} 
+                    userContext={context}
+                  />
+                }
+              /> : ""}
 
-          <Route 
-            exact path="/home" 
-            render={() =>         
-              <CompanyListView
-                selectedCompany={homeState.selectedCompany}
-                toggleCreateCompany={toggleCreateCompany} 
-                parentForceMenuDisplay={homeState.parentForceMenuDisplay}
-                getCompanyInfo={getCompanyInfo}  
-              />
-            }
-          />
+            <Route 
+              exact path="/home" 
+              render={() =>         
+                <CompanyListView
+                  selectedCompany={homeState.selectedCompany}
+                  toggleCreateCompany={toggleCreateCompany} 
+                  parentForceMenuDisplay={homeState.parentForceMenuDisplay}
+                  getCompanyInfo={getCompanyInfo}  
+                />
+              }
+            />
 
-          <Route 
-            path="/home/company" 
-            render={({ match }) => 
-              <CompanyView userCompany={context.state.userCompany} match={match} />
-            }
-          />
-        </>
+            <Route 
+              path="/home/company" 
+              render={({ match }) => 
+                <CompanyView userCompany={context.state.userCompany} match={match} />
+              }
+            />
+          </>
         }
       </UserConsumer>
     </div>

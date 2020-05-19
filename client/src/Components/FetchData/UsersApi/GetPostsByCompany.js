@@ -9,7 +9,6 @@ const GetCompanyList = async (id) => {
                 }
             })
         const data = await response.json();
-        console.log(data, "data in GetPostsByCompany")
         return data;
     } catch (error){
         console.log("Error in GetCompanyList ", error);

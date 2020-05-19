@@ -115,7 +115,6 @@ const CommentSection = (props) => {
         }
     }, [props.commentsDisplay, commentBox.display, comments.length, props.postId])
 
-    console.log(props.user.username, "USER CONTEXT")
     const collectComments = comments.length >= 1 && props.user.username ? comments.map((comment, idx) => 
         <Comment comment={comment} key={idx} user={props.user} delete={deleteComment} />
     ).reverse() : <p>No Comments</p>;

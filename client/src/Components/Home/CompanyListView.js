@@ -15,14 +15,6 @@ const CompanyListView = (props) => {
         <UserConsumer>
             {context => 
                 <Main>
-                    <Route exact path="/home" render={() =>         
-                            <MainDisplay
-                                userContext={context}
-                                selectedCompany={props.selectedCompany}
-                                parentForceMenuDisplay={props.parentForceMenuDisplay} 
-                            />   
-                        }
-                    />
                     <Route exact path="/home" render={() => 
                             <CompanyList
                                 userContext={context}
@@ -31,7 +23,15 @@ const CompanyListView = (props) => {
                                 toggleCreateCompany={props.toggleCreateCompany}
                             />
                         }
-                    />  
+                    /> 
+                    <Route exact path="/home" render={() =>         
+                            <MainDisplay
+                                userContext={context}
+                                selectedCompany={props.selectedCompany}
+                                parentForceMenuDisplay={props.parentForceMenuDisplay} 
+                            />   
+                        }
+                    /> 
                 </Main>
             }
         </UserConsumer>
