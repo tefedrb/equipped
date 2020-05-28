@@ -33,6 +33,24 @@ body {
   background-position: center;
 }
 
+.drop-down-enter {
+  opacity: 0
+}
+
+.drop-down-enter-active {
+  opacity: 1;
+  transition: all .5s ease;
+}
+
+.drop-down-exit {
+  opacity: 1;
+}
+
+.drop-down-exit-active {
+  opacity: 0;
+  transition: all .5s ease;
+}
+
 .enterApp {
   margin-top: .5em;
   height: 150px;
@@ -141,9 +159,9 @@ footer img {
 }
 
 .company-list button {
-  width: 75px;
+  width: 105px;
   height: 25px;
-  font-size: .2em;
+  font-size: 11px;
   margin: 5px auto;
 }
 

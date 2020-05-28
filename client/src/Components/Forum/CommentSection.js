@@ -44,7 +44,7 @@ const TextArea = styled.textarea`
     height: 100%;
     max-height: 4em;
     width: 100%;
-    max-width: 500px;
+    max-width: 430px;
 `
 
 const AddCommentBtn = styled.button`

@@ -92,6 +92,7 @@ public class UserController {
     }
 
 
+    @GetMapping("/retrieve")
     public User getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();

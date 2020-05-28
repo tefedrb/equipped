@@ -9,19 +9,23 @@ import CompanyListView from './CompanyListView';
 import { UserConsumer } from '../UserContext';
 import CreateCompanyDropDown from '../DropDownMenu/CreateCompanyDropDown';
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import '../../CSS/index.css';
+
 const Home = (props) => {
   const [homeState, updateHomeState] = useState({
     parentForceMenuDisplay: false,
     selectedCompany: null,
     companyViewLoaded: false
   })
+  const [dropDownMenuState, toggleDropDownMenu] = useState(false);
  
-  const toggleCreateCompany = () => {
-    updateHomeState(prevState => ({
-      ...prevState,
-      parentForceMenuDisplay: !prevState.parentForceMenuDisplay
-    }))
-  }
+  // const toggleCreateCompany = () => {
+  //   updateHomeState(prevState => ({
+  //     ...prevState,
+  //     parentForceMenuDisplay: !prevState.parentForceMenuDisplay
+  //   }))
+  // }
 
   useEffect(() => {
     if(localStorage.getItem('jwt')){
@@ -51,6 +55,7 @@ const Home = (props) => {
     const { isExact } = props.match;
     return isExact ? true : false;
   }
+  // parentMenuDisplaySwitch={homeState.parentForceMenuDisplay}
 
   return (
     <div className="home">
@@ -60,24 +65,26 @@ const Home = (props) => {
       <UserConsumer>
         { context =>
           <>
-            {homeState.parentForceMenuDisplay ? 
-              <DropDownMenu
-                parentMenuDisplaySwitch={homeState.parentForceMenuDisplay}
-                toggleParentMenuSwitch={toggleCreateCompany}
-                render={display => 
-                  <CreateCompanyDropDown 
-                    displayMenu={display} 
-                    userContext={context}
-                  />
-                }
-              /> : ""}
+            {
+              dropDownMenuState &&
+                <DropDownMenu
+                  dropDownMenuState={dropDownMenuState}
+                  toggleDropDownMenu={toggleDropDownMenu}
+                  render={toggle => 
+                    <CreateCompanyDropDown
+                      userContext={context} 
+                      toggleDropDownMenu={toggle} 
+                    />
+                  }
+                />
+            }
 
             <Route 
               exact path="/home" 
               render={() =>         
                 <CompanyListView
                   selectedCompany={homeState.selectedCompany}
-                  toggleCreateCompany={toggleCreateCompany} 
+                  toggleDropDownMenu={toggleDropDownMenu} 
                   parentForceMenuDisplay={homeState.parentForceMenuDisplay}
                   getCompanyInfo={getCompanyInfo}  
                 />

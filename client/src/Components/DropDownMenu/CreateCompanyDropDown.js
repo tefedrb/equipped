@@ -33,17 +33,15 @@ const CreateCompanyDropDown = (props) => {
 
     const createCompany = (event) => {
         event.preventDefault();
-        console.log(menuState.name, menuState.password, menuState.type);
         CreateCompany(menuState.name, menuState.password, menuState.type, localStorage.getItem("jwt"))
         .then(res => {
-            if(res === 500) return 500;
-            props.displayMenu(prev => !prev);
+            if(res === 500) return 500;            
             props.userContext.setUserCompany();
-            
         }).then(res => {
             if(res === 500) return;
             UpdateUserRole({roleType: "ADMIN"}).then(() => {
                 props.userContext.login(localStorage.getItem("jwt"));
+                props.toggleDropDownMenu(false);
             });
         })
     }
@@ -82,7 +80,7 @@ const CreateCompanyDropDown = (props) => {
                 
             </Form>
             <Button form="create-comp" type="submit">Create Company</Button>
-            <Button onClick={() => props.displayMenu()}>Back</Button>
+            <Button onClick={() => props.toggleDropDownMenu(prev => !prev)}>Back</Button>
         </>
     )
 };

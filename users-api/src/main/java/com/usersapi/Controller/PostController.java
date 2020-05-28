@@ -20,6 +20,9 @@ public class PostController {
         return postService.createPost(post);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deletePost(){};
+
     @GetMapping("/list")
     public List<Post> listAllPosts(){
         return postService.listAllPosts();

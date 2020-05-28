@@ -20,7 +20,7 @@ const CompanyListView = (props) => {
                                 userContext={context}
                                 getCompanyInfo={props.getCompanyInfo} 
                                 parentForceMenuDisplay={props.parentForceMenuDisplay}
-                                toggleCreateCompany={props.toggleCreateCompany}
+                                toggleDropDownMenu={props.toggleDropDownMenu}
                             />
                         }
                     /> 

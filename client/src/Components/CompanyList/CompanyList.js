@@ -47,23 +47,22 @@ class CompanyList extends Component {
   }
 
   render(){
-      const buttonStyle = {opacity: .5}
-
+      const buttonStyle = {opacity: .5};
       const companies = this.state.companies ?
         this.state.companies.map((company, index) => {
           return (
             <CompanyListItem
               getCompanyInfo={this.props.getCompanyInfo} 
               company={company} 
-              key={index} 
+              key={index}
             />
           )
         }) : "Loading...";
 
     const showDropDownMenu = 
       <button 
-        style={buttonStyle} 
-        onClick={this.props.toggleCreateCompany}>
+        style={this.props.userContext.state.userCompany && buttonStyle} 
+        onClick={() => this.props.toggleDropDownMenu(prev => !prev)}>
         Create Company
       </button>
 

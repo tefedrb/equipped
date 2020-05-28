@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import '../../CSS/index.css';
 
 const Div = styled.div `
@@ -28,19 +29,19 @@ const DropDown = styled.div `
     opacity: 1;
     z-index: 1;
     transition: all .2s ease-in-out;
-    height: 100%;
+    height: 0;
 `
-// const showMenu = {
-//     height: "100%"
-// }
+const showMenu = {
+    height: "100%"
+}
 
 const DropDownMenu = (props) => {
-    const { dropDownMenuState, toggleDropDownMenu } = props;
+    const { parentMenuDisplaySwitch, toggleParentMenuSwitch } = props;
     
     useEffect(() => {
         const listenForEscape = (e) => {
-            if(e.key === "Escape" && dropDownMenuState){
-                toggleDropDownMenu(prev => !prev);
+            if(e.key === "Escape" && parentMenuDisplaySwitch){
+                toggleParentMenuSwitch();
             }
         } 
 
@@ -49,12 +50,12 @@ const DropDownMenu = (props) => {
         return () => {
             document.removeEventListener("keydown", listenForEscape);
         }
-    }, [dropDownMenuState, toggleDropDownMenu])
+    }, [parentMenuDisplaySwitch, toggleParentMenuSwitch])
 
     return  (
-        <DropDown>
+        <DropDown style={showMenu}>
             <Div>
-                {props.render(toggleDropDownMenu)}
+                {props.render(toggleParentMenuSwitch)}
             </Div>
         </DropDown>
     )
