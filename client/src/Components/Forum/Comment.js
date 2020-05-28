@@ -39,14 +39,19 @@ const Comment = (props) => {
             )
         }
     }
+
     return (
         <CommentBody>
             <CommentHeader>
                 <P>
-                    <span style={dataAtt}>{comment_username}</span>
+                    <span style={dataAtt}>
+                        {comment_username}
+                    </span>
                 </P>
                 <P>
-                    <span style={dataAtt}>{comment_date}</span>
+                    <span style={dataAtt}>
+                        {comment_date}
+                    </span>
                 </P>
             </CommentHeader>
             <PostText>

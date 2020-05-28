@@ -1,4 +1,4 @@
-package com.usersapi.helperClasses;
+package com.usersapi.Service;
 
 import com.usersapi.Model.User;
 import org.springframework.security.core.Authentication;

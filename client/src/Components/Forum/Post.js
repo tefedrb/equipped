@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Interface from '../../pictures/interface.png'
+import Interface from '../../pictures/interface.png';
+import rubbishCan from '../../pictures/rubbishCan.png';
 import CommentSection from './CommentSection';
 import { UserConsumer } from '../UserContext';
 // Icons made by https://www.flaticon.com/authors/freepik Freepik
+import DeletePost from '../FetchData/UsersApi/DeletePost';
 
 export const PostWrap = styled.div`
     display: flex;
@@ -64,7 +66,7 @@ export const PostText = styled.div`
 
 const CommentSelection = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     height: 100%;
     width: 100%;
     max-height: 20em;
@@ -89,6 +91,14 @@ const Post = (props) => {
         updateCommentsDisplay(prev => !prev);
     }
 
+    const deletePost = () => {
+        console.log("clicked");
+        if(window.confirm("Are you sure you want to delete this post?")){
+            DeletePost(props.post, localStorage.getItem("jwt")).then(() => props.refreshForum())
+        }
+    }
+
+    console.log(props.post, "POST HERE")
     return (
         <UserConsumer>
             {context =>
@@ -109,13 +119,14 @@ const Post = (props) => {
                         <p>{props.post.post_txt}</p>
                     </PostText>
                     <CommentSelection>
+                        {props.post.post_username === context.state.user.username && <img alt={"delete post"} src={rubbishCan} onClick={deletePost} />}
                         <img alt={"toggle comments"} src={Interface} onClick={handleClick}/>
                     </CommentSelection>
                     {   
                         commentsDisplay ? 
                         <CommentSection 
                             user={context.state.user} 
-                            postId={props.post.id} 
+                            postId={props.post.id}
                             commentsDisplay={commentsDisplay} 
                         /> : ""
                     }

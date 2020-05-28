@@ -33,6 +33,9 @@ public class PostServiceImpl implements PostService {
     @Autowired
     DateService dateService;
 
+    @Autowired
+    AuthorizedUser authorizedUser;
+
     @Override
     public ResponseEntity<Post> createPost(Post post){
         try {
@@ -74,14 +77,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public HttpStatus deletePost(Long postId){
+    public ResponseEntity<?> deletePost(Post post) throws Exception {
         // Add functionality for users with an ADMIN UserRole
-        if(postRepository.findById(postId).isPresent()){
-            postRepository.deleteById(postId);
-            return HttpStatus.OK;
-        } else {
-            return HttpStatus.FORBIDDEN;
+        // Get UserAuthorized user
+        User authUser = authorizedUser.getUser();
+        // With the authUser check if user exists and is an admin
+        if(authUser.getUserRole().getRoleType().equals("ADMIN")) {
+            if (postRepository.findById(post.getId()).isPresent()) {
+                Post targetPost = postRepository.findById(post.getId()).get();
+                // Get target company
+                Company postCompany = companyRepository.findById(targetPost.getCompany().getId()).get();
+                // Remove post from post's company entity
+                postCompany.removePost(targetPost);
+                // Remove post from user
+                authUser.removePost(targetPost);
+                userRepository.save(authUser);
+                companyRepository.save(postCompany);
+                postRepository.deleteById(post.getId());
+                return ResponseEntity.ok(HttpStatus.OK);
+            }
         }
+        return ResponseEntity.badRequest().build();
     }
 
     @Override

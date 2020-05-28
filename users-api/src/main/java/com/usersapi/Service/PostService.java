@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PostService {
     ResponseEntity<Post> createPost(Post post);
-    HttpStatus deletePost(Long id);
+    ResponseEntity<?> deletePost(Post post) throws Exception;
     ResponseEntity<Post> editPost(Post post);
     List<Post> listAllPosts();
     List<Post> listAllPostsByCompanyId(Long id);

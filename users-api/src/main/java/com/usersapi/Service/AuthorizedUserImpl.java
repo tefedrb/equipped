@@ -1,4 +1,4 @@
-package com.usersapi.helperClasses;
+package com.usersapi.Service;
 
 import com.usersapi.Model.User;
 import com.usersapi.Repository.UserRepository;
@@ -28,3 +28,4 @@ public class AuthorizedUserImpl implements AuthorizedUser {
         return userRepository.findByUsername(this.getUserAuthentication().getName());
     }
 }
+

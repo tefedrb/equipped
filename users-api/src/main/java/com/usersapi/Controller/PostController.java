@@ -21,7 +21,9 @@ public class PostController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deletePost(){};
+    public ResponseEntity<?> deletePost(@RequestBody Post post) throws Exception {
+        return postService.deletePost(post);
+    };
 
     @GetMapping("/list")
     public List<Post> listAllPosts(){
