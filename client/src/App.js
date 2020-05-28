@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import './CSS/index.css';
+import React, { Component } from 'react';
+import { ThemeProvider } from 'styled-components'; 
 import Home from './Components/Home/Home';
 import UserHeader from './Components/UserHeader/UserHeader';
 import AccessAccount from './Components/AccountAccess/AccessAccount';
@@ -148,6 +148,11 @@ class App extends Component {
 
   render(){
     // const loggedIn = this.state.userLoggedIn ? <Redirect to="/home" /> : null;
+    const theme = {
+      fontFam: "Lato",
+      color: "white"
+    }
+
     return (
       <UserProvider value={{
           state: this.state,
@@ -168,7 +173,7 @@ class App extends Component {
               />
               <Route 
                 exact path="/" 
-                render={() => 
+                render={() =>  
                   <AccessAccount 
                     login={this.login}
                     setUserCompany={this.setUserCompany}
@@ -177,10 +182,12 @@ class App extends Component {
                   />
                 }
               />   
-              <Route
-                path="/home"
-                render={({ match }) => <Home match={match}/>}
-              /> 
+              <ThemeProvider theme={theme}>
+                <Route
+                  path="/home"
+                  render={({ match }) => <Home match={match} />}
+                /> 
+              </ThemeProvider>
               <Footer />  
           </div>
         </Router>

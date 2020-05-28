@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CompanyListItem from './CompanyListItem';
 import GetCompanyList from '../FetchData/UsersApi/GetCompanyList';
+import {Link} from 'react-router-dom';
 
 class CompanyList extends Component {
   // This sets up a flag that stops setState from 
@@ -46,25 +47,24 @@ class CompanyList extends Component {
   }
 
   render(){
-      const buttonStyle = {opacity: .5}
-
+      const buttonStyle = {opacity: .5};
       const companies = this.state.companies ?
         this.state.companies.map((company, index) => {
           return (
             <CompanyListItem
               getCompanyInfo={this.props.getCompanyInfo} 
               company={company} 
-              key={index} 
+              key={index}
             />
           )
         }) : "Loading...";
 
-    const buttonDisplay = 
-    <button 
-      style={this.props.userHasCompany ? buttonStyle : null} 
-      onClick={this.props.userHasCompany ? null : this.props.toggleCreateCompany}>
-      Create Company
-    </button>
+    const showDropDownMenu = 
+      <button 
+        style={this.props.userContext.state.userCompany && buttonStyle} 
+        onClick={() => this.props.toggleDropDownMenu(prev => !prev)}>
+        Create Company
+      </button>
 
     return (
       <div className={`company-list`}>
@@ -72,7 +72,7 @@ class CompanyList extends Component {
         <div className='company-list-container'>
           {companies}
         </div>
-        {buttonDisplay}
+        {showDropDownMenu}
       </div>
     );
 

@@ -17,6 +17,11 @@ const Label = styled.label `
     flex-direction: column;
     align-items: center;
 `
+
+const ContentInput = styled.textarea`
+    min-width: 30em;
+    min-height: 10em;
+`
 const ForumPostDropDown = (props) => {
     const [menuState, updateMenuState] = useState({title: "", content: ""});
 
@@ -54,7 +59,7 @@ const ForumPostDropDown = (props) => {
                 </Label>
 
                 <Label>Content
-                    <input 
+                    <ContentInput
                         required value={menuState.content} 
                         type="text" 
                         name="content"

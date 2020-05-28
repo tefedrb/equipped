@@ -66,16 +66,18 @@ const Forum = (props) => {
                     <>
                         <ForumWrap id={"forum-wrap"}>
                             <PostButton onClick={togglePostMenu}>Create Post</PostButton>
-                                <DropDownMenu
-                                    parentMenuDisplaySwitch={forumState.postMenuDisplay}
-                                    toggleParentMenuSwitch={togglePostMenu}
-                                    render={display => 
-                                        <ForumPostDropDown
-                                            displayMenu={display}
-                                            userContext={context}
-                                        />
-                                    }    
-                                />
+                                {
+                                    forumState.postMenuDisplay && <DropDownMenu
+                                        dropDownMenuState={forumState.postMenuDisplay}
+                                        toggleDropDownMenu={togglePostMenu}
+                                        render={display => 
+                                            <ForumPostDropDown
+                                                displayMenu={display}
+                                                userContext={context}
+                                            />
+                                        }    
+                                    />
+                                }
                             <AllPostsWrap id={"all-posts-wrap"}>
                                 {collectPosts}
                             </AllPostsWrap>

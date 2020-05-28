@@ -53,6 +53,8 @@ public class UserRoleServiceImpl implements UserRoleService {
         return HttpStatus.OK;
     }
 
+
+
     @Override
     public HttpStatus promoteToAdmin(Long userId) throws Exception {
         User authUser = authorizedUser.getUser();

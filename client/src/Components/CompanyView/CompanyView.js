@@ -15,6 +15,7 @@ const CompanyViewContainer = styled.div`
   margin: 0;
   transition: all .1s ease-in-out;
   justify-content: center;
+  font-family: ${props => props.theme.fontFam};
 `
 class CompanyView extends Component{
   _isMounted = false;

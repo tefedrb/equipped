@@ -123,7 +123,7 @@ const UsersList = (props) => {
         return (
             <div>
                 <button onClick={() => removeFromCompany(userId, jwt)}>Remove User</button>
-                <button onClick={() => promoteToAdmin(userId)}>Promote To Admin</button>
+                <button onClick={() => promoteToAdmin(userId, jwt)}>Promote To Admin</button>
 
             </div>
         )

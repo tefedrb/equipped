@@ -12,7 +12,6 @@ const Div = styled.div `
 `
 
 function AccessAccount(props){
-    console.log("Access Account?")
     return (
         <Div>
             <SignUp 

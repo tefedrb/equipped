@@ -63,7 +63,6 @@ public class UserController {
         return response;
     }
 
-
     @GetMapping("/zuul-test3")
     public String zuulTest3() {return "Test 3...";}
 
@@ -72,12 +71,6 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody User user){
-//        JwtResponse jwt = new JwtResponse(userService.login(user));
-//        return ResponseEntity.ok(new JwtResponse(userService.login(user)));
-//    }
-//
     @GetMapping("/list-all")
     public Iterable<User> listUsers(){
 //        for(User u: allUsers){
@@ -98,12 +91,7 @@ public class UserController {
         return userService.updateUser(userId, userReq);
     }
 
-//    @PutMapping("/user/joinCompany/{companyId}")
-//    public HttpStatus joinCompany(@PathVariable Long companyId, @RequestBody String password){
-////        JSONObject passwordObj = new JSONObject(password);
-//        companyRepository.findById(companyId);
-//        return userService.joinCompany(companyId, password);
-//    }
+
     @GetMapping("/retrieve")
     public User getUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
