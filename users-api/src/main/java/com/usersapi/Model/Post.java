@@ -115,4 +115,5 @@ public class Post {
     public void removeComment(Long comment_id){
         this.comments.removeIf(comment -> (comment.getId().equals(comment_id)));
     }
+
 }

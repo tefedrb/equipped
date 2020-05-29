@@ -42,7 +42,7 @@ public class User {
             CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private WaitList waitList;
 
-   @JsonManagedReference(value = "user-post")
+    @JsonManagedReference(value = "user-post")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts;
 
@@ -79,6 +79,10 @@ public class User {
             posts = new ArrayList<>();
         }
         posts.add(post);
+    }
+
+    public void removePost(Post post){
+        this.posts.removeIf(p -> p.getId().equals(post.getId()));
     }
 
     public void setWaitList(WaitList waitList){

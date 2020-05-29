@@ -41,22 +41,25 @@ const Forum = (props) => {
         })
     }
 
+    const refreshCompanyPosts = () => {
+        GetPostsByCompany(userCompany.id).then(res => {
+            updateForumState(prevState => { 
+                return { 
+                        ...prevState, 
+                        posts: res
+                    }
+            });
+        })
+    }
+
     useEffect(() => {
         if(userCompany && userCompany.id){
-
-            GetPostsByCompany(userCompany.id).then(res => {
-                updateForumState(prevState => { 
-                    return { 
-                            ...prevState, 
-                            posts: res
-                        }
-                });
-            })
+            refreshCompanyPosts();
         }
     }, [userCompany]);
 
     const collectPosts = forumState.posts && forumState.posts.length >= 1 ? forumState.posts.map((post, idx) => 
-        <Post post={post} key={idx} />   
+        <Post post={post} key={idx} refreshForum={refreshCompanyPosts} />   
     ).reverse() : "";
 
     return (
