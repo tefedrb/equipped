@@ -40,6 +40,11 @@ public class UserController {
     @Autowired
     JwtUtil jwtUtil;
 
+    @GetMapping("/test")
+    public String returnTest(){
+        return "Testing userController";
+    }
+
     @PostMapping("/sign-up")
     public ResponseEntity<?> createUser(@RequestBody User newUser) {
         return ResponseEntity.ok(new JwtResponse(userService.createUser(newUser)));

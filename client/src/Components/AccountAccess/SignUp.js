@@ -1,12 +1,34 @@
-import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+
+
+const Button = styled.button`
+  outline: none;
+  background: rgba(37, 208, 125, 0.52);
+  border-radius: 2px;
+  border: 1px solid white;
+  color: white;
+  font-size: calc(10px + 2vmin);
+  margin: 0 1em;
+  padding: 0.25em 1em;
+  &:hover{
+    background-color: rgba(37, 208, 125, 1)
+  }
+`;
+
+const TitleLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-shadow: 2px 2px #000000;
+`;
 
 class SignUp extends Component {
   constructor(props){
     super(props);
     this.state = {
-      title: '',
+      title: "Editor",
       username: '',
       password: '',
       isFormVisible: false
@@ -44,10 +66,6 @@ class SignUp extends Component {
     )
   }
 
-  componentDidMount(){
-    console.log("SignUp Mount");
-  }
-
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
@@ -66,43 +84,38 @@ class SignUp extends Component {
       return <Redirect to="/home" />
     }
 
-    const Button = styled.button`
-      outline: none;
-      background: rgba(37, 208, 125, 0.52);
-      border-radius: 2px;
-      border: 1px solid white;
-      color: white;
-      font-size: calc(10px + 2vmin);
-      margin: 0 1em;
-      padding: 0.25em 1em;
-      &:hover{
-        background-color: rgba(37, 208, 125, 1)
-      }
-    `;
-
     return (
       <div>
         <Button onClick={this.toggleForm}>Sign Up</Button>
         <form 
           className={`enterApp ${this.state.isFormVisible ? "" : "hide"}`} 
-          onSubmit={this.handleSubmit}>
-            <input name="title"
-              type="text" value={this.state.title}
-              placeholder="title..."
-              onChange={this.handleChange}
-            />
-            <input name="username"
-              type="text"
-              value={this.state.username}
-              placeholder="username..."
-              onChange={this.handleChange}
-            />
-            <input name="password"
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-              placeholder="password..."
-            />
+          onSubmit={this.handleSubmit}
+        >
+          <TitleLabel>Choose a title:
+            <select name="title" onChange={this.handleChange}>
+              <option value="Editor">Editor</option>
+              <option value="Grip">Grip</option>
+              <option value="Audio Professional">Audio Professional</option>
+              <option value="Producer">Producer</option>
+              <option value="Director">Director</option>
+              <option value="Cinematographer">Cinematographer</option>
+              <option value="Photographer">Photographer</option>
+              <option value="Intern">Intern</option>
+              <option value="Other">Other</option>
+            </select> 
+          </TitleLabel>
+          <input name="username"
+            type="text"
+            value={this.state.username}
+            placeholder="username..."
+            onChange={this.handleChange}
+          />
+          <input name="password"
+            type="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            placeholder="password..."
+          />
           <input type="submit" value="Submit" />
         </form>
       </div>
