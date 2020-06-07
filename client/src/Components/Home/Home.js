@@ -8,8 +8,6 @@ import CheckJwt from '../../CheckJwt';
 import CompanyListView from './CompanyListView';
 import { UserConsumer } from '../UserContext';
 import CreateCompanyDropDown from '../DropDownMenu/CreateCompanyDropDown';
-
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import '../../CSS/index.css';
 
 const Home = (props) => {

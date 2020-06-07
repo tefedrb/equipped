@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import CompanyListItem from './CompanyListItem';
 import GetCompanyList from '../FetchData/UsersApi/GetCompanyList';
-import {Link} from 'react-router-dom';
 
 class CompanyList extends Component {
   // This sets up a flag that stops setState from 

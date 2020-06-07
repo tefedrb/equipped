@@ -92,13 +92,11 @@ const Post = (props) => {
     }
 
     const deletePost = () => {
-        console.log("clicked");
         if(window.confirm("Are you sure you want to delete this post?")){
             DeletePost(props.post, localStorage.getItem("jwt")).then(() => props.refreshForum())
         }
     }
 
-    console.log(props.post, "POST HERE")
     return (
         <UserConsumer>
             {context =>
