@@ -1,7 +1,7 @@
 const CreatePost = async (post) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/posts/create-post", {
+            await fetch("http://3.235.182.140:8080/users-api/posts/create-post", {
                 method: 'post',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

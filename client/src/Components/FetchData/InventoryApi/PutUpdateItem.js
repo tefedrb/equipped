@@ -1,7 +1,7 @@
 const PutUpdateItem = async (user, availability, id) => {
     try {
         const response =
-            await fetch("http://localhost:8080/inventory-api/items/update-item", {
+            await fetch("http://3.235.182.140:8080/inventory-api/items/update-item", {
                 method: 'put',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

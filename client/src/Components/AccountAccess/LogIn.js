@@ -15,7 +15,7 @@ class LogIn extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8080/users-api/user/login", {
+    fetch("http://3.235.182.140:8080/users-api/user/login", {
       method: 'post',
       headers: {
         'Accept' : 'application/json, text/plain, */*',

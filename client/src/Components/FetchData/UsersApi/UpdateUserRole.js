@@ -1,6 +1,6 @@
 const UpdateUserRole = async (userRole) => {
     const response =
-        await fetch("http://localhost:8080/users-api/user-role/update", {
+        await fetch("http://3.235.182.140:8080/users-api/user-role/update", {
             method: 'put',
             headers: {
                 'Content-Type' : 'application/json',

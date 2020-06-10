@@ -1,7 +1,7 @@
 const GetHistory = async (inventory_id) => {
     try {
         const response =
-            await fetch("http://localhost:8080/inventory-api/item-history/list/" + inventory_id, {
+            await fetch("http://3.235.182.140:8080/inventory-api/item-history/list/" + inventory_id, {
                 method: 'get',
                 headers: {
                     'Content-Type' : 'application/json'

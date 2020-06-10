@@ -1,7 +1,7 @@
 const GetCompanyList = async (id) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/posts/list/" + id, {
+            await fetch("http://3.235.182.140:8080/users-api/posts/list/" + id, {
                 method: 'get',
                 headers: {
                 'Content-Type' : 'application/json',

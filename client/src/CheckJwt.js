@@ -1,5 +1,5 @@
 const CheckJwt = (jwt) => {
-    fetch("http://localhost:8080/users-api/user/check-jwt", {
+    fetch("http://3.235.182.140:8080/users-api/user/check-jwt", {
       method: 'post',
       headers: {
           'Content-Type' : 'application/json',
