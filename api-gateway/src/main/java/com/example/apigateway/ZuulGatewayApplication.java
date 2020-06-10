@@ -46,7 +46,7 @@ public class ZuulGatewayApplication {
 		return new WebMvcConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("https://allowed-origin.com")
+						.allowedOrigins("http://equipped1990.s3-website-us-east-1.amazonaws.com")
 						.allowedMethods("GET", "POST", "PUT", "DELETE");
 			}
 		};

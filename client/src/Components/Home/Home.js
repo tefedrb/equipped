@@ -32,7 +32,7 @@ const Home = (props) => {
   }, [homeState.selectedCompany])
 
   const getCompanyInfo = (id) => {
-    fetch("http://localhost:8080/users-api/company/" + id, {
+    fetch("http://3.235.182.140:8080/users-api/company/" + id, {
       method: 'get',
       headers: {
         'Content-Type' : 'application/json',

@@ -1,7 +1,7 @@
 const DeleteComment = async (comment_id) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/comments/delete/" + comment_id, {
+            await fetch("http://3.235.182.140:8080/users-api/comments/delete/" + comment_id, {
                 method: 'delete',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

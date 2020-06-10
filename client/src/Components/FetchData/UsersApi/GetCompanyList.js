@@ -1,7 +1,7 @@
 const GetCompanyList = async (jwt) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/company/list", {
+            await fetch("http://3.235.182.140:8080/users-api/company/list", {
                 method: 'get',
                 headers: {
                 'Content-Type' : 'application/json',

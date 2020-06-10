@@ -1,7 +1,7 @@
 const DeletePost = async (post, jwt) => {
     try {
         const response = 
-            await fetch("http://localhost:8080/users-api/posts/delete", {
+            await fetch("http://3.235.182.140:8080/users-api/posts/delete", {
                 method: 'delete',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

@@ -1,6 +1,6 @@
 const ConfirmUserWaitList = async (waitListId, userId, jwt) => {
     const response =
-        await fetch(`http://localhost:8080/users-api/wait-list/verify/${waitListId}/${userId}`, {
+        await fetch(`http://3.235.182.140:8080/users-api/wait-list/verify/${waitListId}/${userId}`, {
             method: 'put',
             headers: {
                 'Content-Type' : 'application/json',
