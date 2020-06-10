@@ -42,11 +42,12 @@ public class ZuulGatewayApplication {
 //	}
 
 	@Bean
-	public WebMvcConfigurer corsConfigurer(){
+	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry){
-				registry.addMapping("/").allowedOrigins("http://equipped1990.s3-website-us-east-1.amazonaws.com");
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+						.allowedOrigins("https://allowed-origin.com")
+						.allowedMethods("GET", "POST", "PUT", "DELETE");
 			}
 		};
 	}
