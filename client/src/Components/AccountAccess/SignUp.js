@@ -37,7 +37,7 @@ class SignUp extends Component {
   
   handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://3.235.182.140:8080/users-api/user/sign-up", {
+    fetch("http://localhost:8080/users-api/user/sign-up", {
       method: 'post',
       headers: {
         "Accept" : 'application/json, text/plain, */*',

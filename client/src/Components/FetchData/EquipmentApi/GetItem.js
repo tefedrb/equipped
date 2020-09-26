@@ -1,7 +1,7 @@
 const GetItem = async () => {
     try {
         const response =
-            await fetch("http://3.235.182.140:8080/equipment-api/item/" + 1, {
+            await fetch("http://localhost:8080/equipment-api/item/" + 1, {
                 method: 'get',
                 headers: {
                     'Content-Type' : 'application/json'
