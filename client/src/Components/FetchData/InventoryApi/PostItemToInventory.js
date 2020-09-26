@@ -3,7 +3,7 @@ const PostItemToInventory = async (itemId, inventoryId) => {
         console.log(typeof inventoryId, "< INVENTORY ID TYPE");
         console.log(typeof itemId, " < type of itemID");
         const response =
-            await fetch("http://3.235.182.140:8080/inventory-api/inventory/add", {
+            await fetch("http://localhost:8080/inventory-api/inventory/add", {
                 method: 'post',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

@@ -1,7 +1,7 @@
 const GetWaitList = async (jwt) => {
     try {
         const response =
-            await fetch("http://3.235.182.140:8080/users-api/wait-list/by-user", {
+            await fetch("http://localhost:8080/users-api/wait-list/by-user", {
                 method: 'get',
                 headers:{
                 'Content-Type' : 'application/json',

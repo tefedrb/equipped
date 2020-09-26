@@ -1,7 +1,7 @@
 const CreateCompany = async (name, password, type, jwt) => {
     try {
         const response = 
-            await fetch("http://3.235.182.140:8080/users-api/company/create", {
+            await fetch("http://localhost:8080/users-api/company/create", {
                 method: 'post',
                 headers: {
                     'Accept' : 'application/json, text/plain, */*',

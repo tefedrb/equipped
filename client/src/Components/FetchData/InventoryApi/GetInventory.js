@@ -1,7 +1,7 @@
 const GetInventory = async (company_id) => {
     try {
         const response =
-            await fetch("http://3.235.182.140:8080/inventory-api/inventory/retrieve/" + company_id, {
+            await fetch("http://localhost:8080/inventory-api/inventory/retrieve/" + company_id, {
                 method: 'get',
                 headers: {
                     'Content-Type' : 'application/json'
