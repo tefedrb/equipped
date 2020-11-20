@@ -68,4 +68,4 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_MULTIPLE_DATABASES=users,equipment,inventory
+      # - POSTGRES_MULTIPLE_DATABASES=users,equipment,inventory
