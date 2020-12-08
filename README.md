@@ -1,5 +1,5 @@
 # Equipped
-Equipped is a video & photography equipment management application, meant to help film collectives, media companies, or rental houses keep track of all their equipment. A user can browse a catalog of items and stash the ones they own into their company inventory. There is a feature that allows you to see who has what piece of equipment checked out, along with a history of the usage. There is also a message board that can utilized.
+Equipped is a video & photography equipment management application, meant to help film collectives, media companies, or rental houses keep track of their equipment. A user can browse a catalog of items and stash the ones they own into their company inventory. There is a feature that allows you to see who has what piece of equipment checked out, along with a history of the usage. There is also a message board that can utilized.
 
 I made this app after thinking about my time working for a small media company that could have used an equipment manager. This application would have been a good aid for keeping track of who was using what and when.
 
@@ -29,7 +29,7 @@ Mockup (created in Photoshop)
      ```sh
     docker ps -a
     ```
-6. If everything is up and running, you should see:
+6. If everything is up and running, you should see something like:
 ```
 d270ac45dc34        maven:3.6.2-jdk-8   "/usr/local/bin/mvn-…"   3 days ago          Up 3 minutes              0.0.0.0:8182->8182/tcp   equipped_inventory-api_1
 7d6689e86753        maven:3.6.1-jdk-8   "/usr/local/bin/mvn-…"   3 days ago          Up 3 minutes              0.0.0.0:8080->8080/tcp   equipped_api-gateway_1
