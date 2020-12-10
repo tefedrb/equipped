@@ -9,6 +9,8 @@ services:
     volumes:
       - ./eureka-server:/app
     command: 'mvn spring-boot:run'
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=dev
   api-gateway:
     image: maven:3.6.1-jdk-8
     ports:
@@ -19,6 +21,8 @@ services:
     depends_on:
       - eureka
     command: 'mvn spring-boot:run'
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=dev
   users-api:
     image: maven:3.6.1-jdk-8
     ports:
@@ -29,6 +33,8 @@ services:
     depends_on:
       - eureka
     command: 'mvn spring-boot:run'
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=dev
   equipment-api:
     image: maven:3.6.1-jdk-8
     ports:
@@ -39,6 +45,8 @@ services:
     depends_on:
       - eureka
     command: 'mvn spring-boot:run'
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=dev
   inventory-api:
     image: maven:3.6.2-jdk-8
     ports:
@@ -49,6 +57,8 @@ services:
     depends_on:
       - eureka
     command: 'mvn spring-boot:run'
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=dev
   postgresdev:
     image: postgres
     ports:
