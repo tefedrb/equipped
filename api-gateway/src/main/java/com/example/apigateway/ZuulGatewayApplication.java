@@ -40,7 +40,7 @@ public class ZuulGatewayApplication {
 //		source.registerCorsConfiguration("/**", config);
 //		return new CorsFilter(source);
 //	}
-//.allowedOrigins("http://equipped1990.s3-website-us-east-1.amazonaws.com")
+//.allowedOrigins("")
 //
 
 	@Bean
@@ -48,7 +48,10 @@ public class ZuulGatewayApplication {
 		return new WebMvcConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
+						// UNCOMMENT FOR LOCAL USE
 						.allowedOrigins("http://localhost:3000")
+						// BELOW IS USED FOR DEPLOYMENT
+//						.allowedOrigins()
 						.allowedMethods("GET", "POST", "PUT", "DELETE");
 			}
 		};
