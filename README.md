@@ -6,6 +6,9 @@ I made this app after thinking about my time working for a small media company t
 ### What kind of application is this?
 Equipped is a dockerized full-stack application with a microservice architecture backend built with Spring Boot, and a React.js frontend.
 
+Note:
+I built a web scraper (my "yoink" repository) with Puppeteer that programatically collects links and details about equipment from a particular rental house and stores it in a JSON file, which is then saved to your computer. I inserted this file into this project such that when you start up this application, the equipment-api populates a database with all the information from that JSON file, which is then used in the view (React), allowing a user to browse for and add equipment to their companies inventory.
+
 Mockup (created in Photoshop)
 ![Schedule](/readmeImgs/Equipped_GUI_MockUp_v1.png)
 
