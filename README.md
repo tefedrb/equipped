@@ -1,5 +1,5 @@
 # Equipped
-Equipped is a video & photography equipment management application, meant to help film collectives, media companies, or rental houses keep track of their equipment. A user can browse a catalog of items and stash the ones they own into their company inventory. There is a feature that allows you to see who has what piece of equipment checked out, along with a history of the usage. Included in the application is a forum feature that allows a company to communicate.
+Equipped is a video & photography equipment management application, meant to help film collectives, media companies, or rental houses keep track of their equipment. A user can browse a catalog of items and stash the ones they own into their company inventory. There is a feature that allows you to see who has what piece of equipment checked out, along with a history of the usage. Included in the application is a forum feature that allows users of a company to communicate with each other.
 
 I made this app after thinking about my time working for a small media company that could have used an equipment manager. This application would have been a good aid for keeping track of who was using what and when.
 
